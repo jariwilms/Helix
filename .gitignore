@@ -31,3 +31,6 @@
 *.out
 *.app
 /.vs/Helix/v17
+/bin/Debug
+/bin_obj/Debug
+/.vs

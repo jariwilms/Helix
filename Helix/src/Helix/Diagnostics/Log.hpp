@@ -3,8 +3,8 @@
 #include "Helix/Core/Core.hpp"
 
 #pragma warning(disable: 26495 26800 26498 26437 26451 6285)
-#include "SPDLOG/spdlog.h"
-#include "SPDLOG/sinks/stdout_color_sinks.h"
+#include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 #pragma warning(default: 26495 26800 26498 26437 26451 6285)
 
 namespace hlx
