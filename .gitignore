@@ -34,3 +34,5 @@
 /bin/Debug
 /bin_obj/Debug
 /.vs
+/bin/Release/windows
+/bin_obj/Release/windows

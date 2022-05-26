@@ -1,87 +1,91 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Helix">
+      <UniqueIdentifier>{1F204F0D-8B34-77BE-54B6-1A1EC08973EF}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Helix\Core">
+      <UniqueIdentifier>{D72F8CA7-C3E7-CDF4-2CEF-A65018C668E5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Helix\Diagnostics">
+      <UniqueIdentifier>{A6B19D5B-12C8-9BF1-5B3F-2713C7946C79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helix\Event">
+      <UniqueIdentifier>{B0FC3999-1CB2-B28E-A5A6-AC65115BA992}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\Event\Base">
+      <UniqueIdentifier>{3AC7DBB6-26C0-FA08-4FF2-DF8D3B4ADA14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\Input">
+      <UniqueIdentifier>{5E2B7E99-CAE0-F68E-53D5-F065BF89ED92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\Rendering">
+      <UniqueIdentifier>{2CDCE440-9867-5205-A178-D5F90D83AE05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\Window">
+      <UniqueIdentifier>{26F48FE9-1257-1F8E-BBDC-5744A71EEB10}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Helix.hpp" />
+    <ClInclude Include="src\Helix\Core\Application.hpp">
+      <Filter>Helix\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Core\Core.hpp">
+      <Filter>Helix\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Diagnostics\Log.hpp">
+      <Filter>Helix\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Event\ApplicationEvent.hpp">
+      <Filter>Helix\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Event\Base\Event.hpp">
+      <Filter>Helix\Event\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Event\Base\EventDispatcher.hpp">
+      <Filter>Helix\Event\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Event\KeyEvent.hpp">
+      <Filter>Helix\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Event\WindowEvent.hpp">
+      <Filter>Helix\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Input\InputHandler.hpp">
+      <Filter>Helix\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Shader.hpp">
+      <Filter>Helix\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Window\Window.hpp">
+      <Filter>Helix\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main.hpp" />
+    <ClInclude Include="src\stdafx.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Helix\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Helix\Diagnostics</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Event\Base\Event.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Helix\Event\Base</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Event\Base\EventDispatcher.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Helix\Event\Base</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Input\InputHandler.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Helix\Input</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Rendering\Shader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Helix\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Window\Window.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Helix\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Helix\Core\Application.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Core\Core.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Diagnostics\Log.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Event\Base\Event.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Event\Base\EventDispatcher.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Event\ApplicationEvent.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Event\KeyEvent.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Event\WindowEvent.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Input\InputHandler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Shader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Window\Window.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\main.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\stdafx.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="src\stdafx.cpp" />
   </ItemGroup>
 </Project>
