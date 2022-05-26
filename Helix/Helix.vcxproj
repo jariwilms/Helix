@@ -66,9 +66,6 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
-    <CustomBuildStep>
-      <Message>Compiling %(Identity)</Message>
-    </CustomBuildStep>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -91,9 +88,6 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
-    <CustomBuildStep>
-      <Message>Compiling %(Identity)</Message>
-    </CustomBuildStep>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
