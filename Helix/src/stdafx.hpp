@@ -7,6 +7,7 @@
 #include <chrono>
 #include <memory>
 #include <utility>
+#include <functional>
 #include <algorithm>
 #include <functional>
 #include <unordered_map>
@@ -15,3 +16,5 @@
 #ifdef HLX_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif // HLX_PLATFORM_WINDOWS
+
+#include "Helix/Diagnostics/Log.hpp"

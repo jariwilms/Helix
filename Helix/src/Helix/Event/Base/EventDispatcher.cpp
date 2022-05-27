@@ -2,7 +2,7 @@
 #include "EventDispatcher.hpp"
 
 hlx::EventDispatcher::EventDispatcher(Event& event)
-	: m_event{event}
+	: event{ event }
 {
 
 }
@@ -10,9 +10,9 @@ hlx::EventDispatcher::EventDispatcher(Event& event)
 template<typename T, typename F>
 inline bool hlx::EventDispatcher::dispatch(const F& func)
 {
-	if (m_event.type() == T::static_type())
+	if (this->event.getEventType() == T::getStaticType)
 	{
-		m_event.handled |= func(static_cast<T&>(m_event));
+		this->event.handled |= func(static_cast<T&>(this->event));
 		return true;
 	}
 

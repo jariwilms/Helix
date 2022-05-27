@@ -37,6 +37,7 @@ project "Helix"
 	{
 		"%{prj.name}/src", 
 		"%{includedir.GLFW}", 
+		"%{prj.name}/vendor/glm/include", 
 		"%{prj.name}/vendor/spdlog/include"
 	}
 	
@@ -89,6 +90,7 @@ project "Sandbox"
 	{ 
 		"Helix/src", 
 		"%{includedir.GLFW}", 
+		"Helix/vendor/glm/include", 
 		"Helix/vendor/spdlog/include"
 	}
 	

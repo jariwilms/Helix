@@ -1,7 +1,7 @@
 #include "stdafx.hpp"
 #include "Event.hpp"
 
-bool hlx::Event::mask(Event::Class eventClass)
+bool hlx::Event::isInCategory(Event::Class eventClass)
 {
-	return flags() & static_cast<int>(eventClass);
+	return  static_cast<int>(getEventClass()) & static_cast<int>(eventClass);
 }

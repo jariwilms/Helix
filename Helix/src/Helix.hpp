@@ -8,6 +8,6 @@
 
 // !!! ENTRYPOINT !!! //
 
-#include "main.hpp"
+#include "main.cpp"
 
 // ### ENTRYPOINT ### //

@@ -25,6 +25,9 @@
     <Filter Include="Helix\Window">
       <UniqueIdentifier>{26F48FE9-1257-1F8E-BBDC-5744A71EEB10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helix\Window\Base">
+      <UniqueIdentifier>{70D8C4C1-DCEE-C257-2566-4E7991BB93DF}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Helix.hpp" />
@@ -58,11 +61,23 @@
     <ClInclude Include="src\Helix\Rendering\Shader.hpp">
       <Filter>Helix\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Window\Window.hpp">
+    <ClInclude Include="src\Helix\Window\Base\Window.hpp">
+      <Filter>Helix\Window\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Window\WindowsWindow.hpp">
       <Filter>Helix\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\main.hpp" />
+    <ClInclude Include="src\main.cpp" />
     <ClInclude Include="src\stdafx.hpp" />
+    <ClInclude Include="src\Helix\Event\MouseEvent.hpp">
+      <Filter>Helix\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Input\KeyCode.hpp">
+      <Filter>Helix\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Input\MouseCode.hpp">
+      <Filter>Helix\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -83,7 +98,10 @@
     <ClCompile Include="src\Helix\Rendering\Shader.cpp">
       <Filter>Helix\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Window\Window.cpp">
+    <ClCompile Include="src\Helix\Window\Base\Window.cpp">
+      <Filter>Helix\Window\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Window\WindowsWindow.cpp">
       <Filter>Helix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp" />

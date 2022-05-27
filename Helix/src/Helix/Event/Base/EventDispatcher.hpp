@@ -13,8 +13,6 @@ namespace hlx
 		bool dispatch(const F& func);
 
 	private:
-		Event& m_event;
+		Event& event;
 	};
-
-
 }

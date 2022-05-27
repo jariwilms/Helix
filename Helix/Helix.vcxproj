@@ -60,7 +60,7 @@
       <PrecompiledHeaderFile>stdafx.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HLX_PLATFORM_WINDOWS;HLX_BUILD_DLL;HLX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\glfw\include;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\glfw\include;vendor\glm\include;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -71,6 +71,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\bin\Debug\windows\Helix\Helix.lib</ImportLibrary>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d $(TargetDir) $(TargetDir)..\Sandbox</Command>
@@ -82,7 +83,7 @@
       <PrecompiledHeaderFile>stdafx.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HLX_PLATFORM_WINDOWS;HLX_BUILD_DLL;HLX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\glfw\include;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\glfw\include;vendor\glm\include;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -99,6 +100,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Helix\Input\KeyCode.hpp" />
+    <ClInclude Include="src\Helix\Event\MouseEvent.hpp" />
     <ClInclude Include="src\Helix.hpp" />
     <ClInclude Include="src\Helix\Core\Application.hpp" />
     <ClInclude Include="src\Helix\Core\Core.hpp" />
@@ -109,9 +112,11 @@
     <ClInclude Include="src\Helix\Event\KeyEvent.hpp" />
     <ClInclude Include="src\Helix\Event\WindowEvent.hpp" />
     <ClInclude Include="src\Helix\Input\InputHandler.hpp" />
+    <ClInclude Include="src\Helix\Input\MouseCode.hpp" />
     <ClInclude Include="src\Helix\Rendering\Shader.hpp" />
-    <ClInclude Include="src\Helix\Window\Window.hpp" />
-    <ClInclude Include="src\main.hpp" />
+    <ClInclude Include="src\Helix\Window\Base\Window.hpp" />
+    <ClInclude Include="src\Helix\Window\WindowsWindow.hpp" />
+    <ClInclude Include="src\main.cpp" />
     <ClInclude Include="src\stdafx.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -121,7 +126,8 @@
     <ClCompile Include="src\Helix\Event\Base\EventDispatcher.cpp" />
     <ClCompile Include="src\Helix\Input\InputHandler.cpp" />
     <ClCompile Include="src\Helix\Rendering\Shader.cpp" />
-    <ClCompile Include="src\Helix\Window\Window.cpp" />
+    <ClCompile Include="src\Helix\Window\Base\Window.cpp" />
+    <ClCompile Include="src\Helix\Window\WindowsWindow.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

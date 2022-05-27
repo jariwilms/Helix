@@ -9,8 +9,8 @@ namespace hlx
 	public:
 		ApplicationUpdateEvent() = default;
 
-		EVENT_CLASS_TYPE(EventType::ApplicationUpdate)
-		EVENT_CLASS_CATEGORY(EventClass::Application)
+		EVENT_TYPE(Event::Type::ApplicationUpdate)
+		EVENT_CLASS(Event::Class::Application)
 	};
 
 	class ApplicationRenderEvent : public Event
@@ -18,7 +18,7 @@ namespace hlx
 	public:
 		ApplicationRenderEvent() = default;
 
-		EVENT_CLASS_TYPE(EventType::ApplicationRender)
-		EVENT_CLASS_CATEGORY(EventClass::Application)
+		EVENT_TYPE(Event::Type::ApplicationRender)
+		EVENT_CLASS(Event::Class::Application)
 	};
 }
