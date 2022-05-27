@@ -5,6 +5,8 @@
 [submodule "Helix/vendor/glfw"]
 	path = Helix/vendor/glfw
 	url = https://github.com/glfw/glfw
+	ignore = dirty
 [submodule "Helix/vendor/glm"]
 	path = Helix/vendor/glm
 	url = https://github.com/g-truc/glm
+	ignore = dirty
