@@ -25,16 +25,12 @@ namespace hlx
 		void run();
 		void close();
 
-		//std::unique_ptr<hlx::Window> hlx::Application::getWindow();
-
 		void onEvent(Event& event);
 
 	private:
 		static Application* instance;
-		std::unique_ptr<Window> window;
+		Window* window;
 		bool running;
-
-		//bool onWindowClose(WindowCloseEvent& e);
 	};
 
 	Application* createApplication();

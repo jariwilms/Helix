@@ -11,8 +11,10 @@ workspace "Helix"
 	outputdir = "%{cfg.buildcfg}/%{cfg.system}"
 	
 	includedir = {}
+	includedir["GLAD"] = "Helix/vendor/glad/include"
 	includedir["GLFW"] = "Helix/vendor/glfw/include"
 	
+	include "Helix/vendor/glad"
 	include "Helix/vendor/glfw"
 	
 project "Helix"
@@ -36,6 +38,7 @@ project "Helix"
 	includedirs
 	{
 		"%{prj.name}/src", 
+		"%{includedir.GLAD}", 
 		"%{includedir.GLFW}", 
 		"%{prj.name}/vendor/glm/include", 
 		"%{prj.name}/vendor/spdlog/include"
@@ -43,6 +46,7 @@ project "Helix"
 	
 	links
 	{
+		"GLAD", 
 		"GLFW", 
 		"opengl32.lib"
 	}
@@ -89,7 +93,6 @@ project "Sandbox"
 	includedirs
 	{ 
 		"Helix/src", 
-		"%{includedir.GLFW}", 
 		"Helix/vendor/glm/include", 
 		"Helix/vendor/spdlog/include"
 	}
