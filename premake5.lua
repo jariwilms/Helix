@@ -96,9 +96,7 @@ project "Sandbox"
 	
 	links
 	{
-		"Helix", 
-		"GLFW", 
-		"opengl32.lib"
+		"Helix"
 	}
 	
 	filter "system:windows"

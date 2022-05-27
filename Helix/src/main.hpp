@@ -1,13 +1,13 @@
 #pragma once
 
 #include "stdafx.hpp"
-#include "Helix.hpp"
-
-#include "GLFW/glfw3.h"
+#include "Helix/Core/Application.hpp"
 
 #ifdef HLX_PLATFORM_WINDOWS
 
-int main(int argc, char** argv)
+extern hlx::Application* hlx::createApplication();
+
+int main(int argc, char* argv[])
 {
 	hlx::Log::init();
 	HLX_CORE_INFO("initializing");
@@ -16,6 +16,8 @@ int main(int argc, char** argv)
 	application->run();
 
 	delete application;
+
+	return 0;
 }
 
 #endif // HLX_PLATFORM_WINDOWS

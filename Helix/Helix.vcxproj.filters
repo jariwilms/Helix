@@ -52,10 +52,19 @@
     <ClInclude Include="src\Helix\Event\KeyEvent.hpp">
       <Filter>Helix\Event</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Event\MouseEvent.hpp">
+      <Filter>Helix\Event</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Event\WindowEvent.hpp">
       <Filter>Helix\Event</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Input\InputHandler.hpp">
+      <Filter>Helix\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Input\KeyCode.hpp">
+      <Filter>Helix\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Input\MouseCode.hpp">
       <Filter>Helix\Input</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Shader.hpp">
@@ -67,17 +76,8 @@
     <ClInclude Include="src\Helix\Window\WindowsWindow.hpp">
       <Filter>Helix\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\main.cpp" />
+    <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
-    <ClInclude Include="src\Helix\Event\MouseEvent.hpp">
-      <Filter>Helix\Event</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Input\KeyCode.hpp">
-      <Filter>Helix\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Input\MouseCode.hpp">
-      <Filter>Helix\Input</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">

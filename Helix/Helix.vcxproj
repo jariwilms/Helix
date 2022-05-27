@@ -71,7 +71,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\bin\Debug\windows\Helix\Helix.lib</ImportLibrary>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d $(TargetDir) $(TargetDir)..\Sandbox</Command>
@@ -100,8 +99,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Helix\Input\KeyCode.hpp" />
-    <ClInclude Include="src\Helix\Event\MouseEvent.hpp" />
     <ClInclude Include="src\Helix.hpp" />
     <ClInclude Include="src\Helix\Core\Application.hpp" />
     <ClInclude Include="src\Helix\Core\Core.hpp" />
@@ -110,13 +107,15 @@
     <ClInclude Include="src\Helix\Event\Base\Event.hpp" />
     <ClInclude Include="src\Helix\Event\Base\EventDispatcher.hpp" />
     <ClInclude Include="src\Helix\Event\KeyEvent.hpp" />
+    <ClInclude Include="src\Helix\Event\MouseEvent.hpp" />
     <ClInclude Include="src\Helix\Event\WindowEvent.hpp" />
     <ClInclude Include="src\Helix\Input\InputHandler.hpp" />
+    <ClInclude Include="src\Helix\Input\KeyCode.hpp" />
     <ClInclude Include="src\Helix\Input\MouseCode.hpp" />
     <ClInclude Include="src\Helix\Rendering\Shader.hpp" />
     <ClInclude Include="src\Helix\Window\Base\Window.hpp" />
     <ClInclude Include="src\Helix\Window\WindowsWindow.hpp" />
-    <ClInclude Include="src\main.cpp" />
+    <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
   </ItemGroup>
   <ItemGroup>
