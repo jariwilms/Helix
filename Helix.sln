@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLFW", "Helix\vendor\glfw\G
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Helix", "Helix\Helix.vcxproj", "{1F204F0D-8B34-77BE-54B6-1A1EC08973EF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IMGUI", "Helix\vendor\imgui\IMGUI.vcxproj", "{606F530D-CC83-7BBE-9505-1F1E01D977EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,10 @@ Global
 		{1F204F0D-8B34-77BE-54B6-1A1EC08973EF}.Debug|x64.Build.0 = Debug|x64
 		{1F204F0D-8B34-77BE-54B6-1A1EC08973EF}.Release|x64.ActiveCfg = Release|x64
 		{1F204F0D-8B34-77BE-54B6-1A1EC08973EF}.Release|x64.Build.0 = Release|x64
+		{606F530D-CC83-7BBE-9505-1F1E01D977EF}.Debug|x64.ActiveCfg = Debug|x64
+		{606F530D-CC83-7BBE-9505-1F1E01D977EF}.Debug|x64.Build.0 = Debug|x64
+		{606F530D-CC83-7BBE-9505-1F1E01D977EF}.Release|x64.ActiveCfg = Release|x64
+		{606F530D-CC83-7BBE-9505-1F1E01D977EF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

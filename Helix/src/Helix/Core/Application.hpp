@@ -2,6 +2,10 @@
 
 #include <iostream>
 
+#include "stdafx.hpp"
+
+#include "glad/glad.h"
+
 #include "Helix/Core/Core.hpp"
 #include "Helix/Window/Base/Window.hpp"
 
@@ -14,7 +18,7 @@ namespace hlx
 		bool glfwInitialized;
 	};
 
-	class HLX_API Application
+	class Application
 	{
 	public:
 		Application(const std::string& name);

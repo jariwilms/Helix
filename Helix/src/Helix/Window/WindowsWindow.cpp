@@ -8,8 +8,9 @@ hlx::WindowsWindow::WindowsWindow(const WindowProperties& properties)
 {
 	this->properties = properties;
 
-	bool success = glfwInit();
-	HLX_CORE_ASSERT(success, "Could not initialize GLFW");
+	int success = 0;
+	success = glfwInit();
+	HLX_CORE_ASSERT(success, "Failed to initialize GLFW");
 
 	//glfwWindowHint(GLFW_VERSION_MAJOR, 4);
 	//glfwWindowHint(GLFW_VERSION_MINOR, 6);
@@ -25,8 +26,6 @@ hlx::WindowsWindow::WindowsWindow(const WindowProperties& properties)
 	};
 	glfwSetErrorCallback(error_lambda);
 
-
-
 	this->window = glfwCreateWindow(
 		this->properties.dimensions.x,
 		this->properties.dimensions.y,
@@ -34,8 +33,11 @@ hlx::WindowsWindow::WindowsWindow(const WindowProperties& properties)
 		nullptr, nullptr);
 
 	HLX_CORE_ASSERT(window, "Could not create OpenGL window");
-
 	glfwMakeContextCurrent(window);
+
+	success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+	HLX_CORE_ASSERT(success, "Failed to initialize GLAD");
+
 	glfwSetWindowUserPointer(this->window, reinterpret_cast<void*>(&this->properties));
 
 

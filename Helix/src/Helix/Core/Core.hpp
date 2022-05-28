@@ -1,13 +1,5 @@
 #pragma once
 
-#ifdef HLX_PLATFORM_WINDOWS
-	#ifdef HLX_BUILD_DLL
-		#define HLX_API __declspec(dllexport)
-	#else
-		#define HLX_API __declspec(dllimport)
-	#endif // HLX_BUILD_DLL
-#endif // HLX_PLATFORM_WINDOWS
-
 #define BIT(ls) 1 << ls
 #define BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 
@@ -17,4 +9,14 @@
 #else
 	#define HLX_ASSERT(x, ...)
 #define HLX_CORE_ASSERT(x, ...)
+#endif
+
+#if 0
+	#ifdef HLX_PLATFORM_WINDOWS
+		#ifdef HLX_BUILD_DLL
+			#define HLX_API __declspec(dllexport)
+		#else
+			#define HLX_API __declspec(dllimport)
+		#endif // HLX_BUILD_DLL
+	#endif // HLX_PLATFORM_WINDOWS
 #endif

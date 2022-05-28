@@ -10,10 +10,10 @@ namespace hlx
 	{
 		spdlog::set_pattern("%^[%T] %n: %v%$");
 
-		core_logger() = spdlog::stdout_color_mt("HELIX");
-		core_logger()->set_level(spdlog::level::trace);
+		coreLogger() = spdlog::stdout_color_mt("HELIX");
+		coreLogger()->set_level(spdlog::level::trace);
 		
-		client_logger() = spdlog::stdout_color_mt("App");
-		client_logger()->set_level(spdlog::level::trace);
+		clientLogger() = spdlog::stdout_color_mt("App");
+		clientLogger()->set_level(spdlog::level::trace);
 	}
 }

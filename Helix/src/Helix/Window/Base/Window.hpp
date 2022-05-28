@@ -1,8 +1,11 @@
 #pragma once
 
+#include "stdafx.hpp"
+
+#include "glad/glad.h"
+#include "glfw/glfw3.h"
 #include "glm/glm.hpp"
 
-#include "stdafx.hpp"
 #include "Helix/Core/Core.hpp"
 #include "Helix/Event/Base/Event.hpp"
 
@@ -13,15 +16,15 @@ namespace hlx
 	using WindowProperties = struct WindowProperties;
 	struct WindowProperties
 	{
-		HLX_API WindowProperties();
-		HLX_API WindowProperties(const std::string& title, glm::uvec2 dimensions = glm::uvec2(), bool vSync = false);
+		WindowProperties();
+		WindowProperties(const std::string& title, glm::uvec2 dimensions = glm::uvec2(), bool vSync = false);
 
 		std::string title;
 		glm::uvec2 dimensions;
 		bool vSync;
 	};
 
-	class HLX_API Window
+	class Window
 	{
 	public:
 		virtual ~Window() = default;

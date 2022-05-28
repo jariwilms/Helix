@@ -13,14 +13,18 @@ workspace "Helix"
 	includedir = {}
 	includedir["GLAD"] = "Helix/vendor/glad/include"
 	includedir["GLFW"] = "Helix/vendor/glfw/include"
+	includedir["IMGUI"] = "Helix/vendor/imgui"
 	
 	include "Helix/vendor/glad"
 	include "Helix/vendor/glfw"
+	include "Helix/vendor/imgui"
 	
 project "Helix"
 	location "Helix"
-	kind "SharedLib"
 	language "C++"
+	cppdialect "C++17"
+	kind "StaticLib"
+	staticruntime "On"
 	
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin_obj/" .. outputdir .. "/%{prj.name}")
@@ -40,6 +44,7 @@ project "Helix"
 		"%{prj.name}/src", 
 		"%{includedir.GLAD}", 
 		"%{includedir.GLFW}", 
+		"%{includedir.IMGUI}", 
 		"%{prj.name}/vendor/glm/include", 
 		"%{prj.name}/vendor/spdlog/include"
 	}
@@ -48,37 +53,36 @@ project "Helix"
 	{
 		"GLAD", 
 		"GLFW", 
+		"IMGUI", 
 		"opengl32.lib"
 	}
 	
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
-	
+
 		defines
 		{
 			"HLX_PLATFORM_WINDOWS", 
-			"HLX_BUILD_DLL"
-		}
-	
-		postbuildcommands
-		{
-			("xcopy /y /d $(TargetDir) $(TargetDir)..\\Sandbox")
+			"HLX_BUILD_DLL", 
+			"GLFW_INCLUDE_NONE"
 		}
 		
 	filter "configurations:Debug"
 		defines "HLX_DEBUG"
+		runtime "Debug"
 		symbols "On"
 		
 	filter "configurations:Release"
 		defines "HLX_RELEASE"
-		symbols "On"
+		runtime "Release"
+		optimize "On"
 
 project "Sandbox"
 	location "Sandbox"
-	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++17"
+	kind "ConsoleApp"
+	staticruntime "On"
 	
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin_obj/" .. outputdir .. "/%{prj.name}")
@@ -93,6 +97,8 @@ project "Sandbox"
 	includedirs
 	{ 
 		"Helix/src", 
+		"%{includedir.GLAD}", 
+		"%{includedir.GLFW}", 
 		"Helix/vendor/glm/include", 
 		"Helix/vendor/spdlog/include"
 	}
@@ -103,8 +109,6 @@ project "Sandbox"
 	}
 	
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 	
 		defines
@@ -114,8 +118,10 @@ project "Sandbox"
 		
 	filter "configurations:Debug"
 		defines "HLX_DEBUG"
+		runtime "Debug"
 		symbols "On"
 		
 	filter "configurations:Release"
 		defines "HLX_RELEASE"
-		symbols "On"
+		runtime "Release"
+		optimize "On"

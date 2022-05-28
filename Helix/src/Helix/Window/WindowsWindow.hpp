@@ -1,9 +1,7 @@
 #pragma once
 
-#include "GLFW/glfw3.h"
-#include "glm/glm.hpp"
-
 #include "stdafx.hpp"
+
 #include "Helix/Core/Application.hpp"
 #include "Helix/Event/ApplicationEvent.hpp"
 #include "Helix/Event/KeyEvent.hpp"
@@ -35,16 +33,16 @@ namespace hlx
 	class WindowsWindow : public Window
 	{
 	public:
-		HLX_API WindowsWindow(const WindowProperties& properties);
-		HLX_API virtual ~WindowsWindow();
+		WindowsWindow(const WindowProperties& properties);
+		virtual ~WindowsWindow();
 
-		HLX_API void update() override;
+		void update() override;
 
-		HLX_API void setEventCallback(const EventCallbackFunction& callback) override;
+		void setEventCallback(const EventCallbackFunction& callback) override;
 
-		HLX_API WindowsWindowProperties& getProperties() override;
+		WindowsWindowProperties& getProperties() override;
 
-		HLX_API virtual void* getNativeWindow() const;
+		virtual void* getNativeWindow() const;
 
 	private:
 		GLFWwindow* window;

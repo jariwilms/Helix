@@ -12,10 +12,10 @@ namespace hlx
 	class  Log
 	{
 	public:
-		HLX_API static void init();
+		static void init();
 		
-		HLX_API static std::shared_ptr<spdlog::logger>& core_logger() { return s_coreLogger; }
-		HLX_API static std::shared_ptr<spdlog::logger>& client_logger() { return s_clientLogger; }
+		static std::shared_ptr<spdlog::logger>& coreLogger() { return s_coreLogger; }
+		static std::shared_ptr<spdlog::logger>& clientLogger() { return s_clientLogger; }
 
 	private:
 		static std::shared_ptr<spdlog::logger> s_coreLogger;
@@ -23,14 +23,14 @@ namespace hlx
 	};
 }
 
-#define HLX_CORE_TRACE(...)		::hlx::Log::core_logger()->trace(__VA_ARGS__)
-#define HLX_CORE_INFO(...)		::hlx::Log::core_logger()->info(__VA_ARGS__)
-#define HLX_CORE_WARN(...)		::hlx::Log::core_logger()->warn(__VA_ARGS__)
-#define HLX_CORE_ERROR(...)		::hlx::Log::core_logger()->error(__VA_ARGS__)
-#define HLX_CORE_CRITICAL(...)	::hlx::Log::core_logger()->critical(__VA_ARGS__)
+#define HLX_CORE_TRACE(...)		::hlx::Log::coreLogger()->trace(__VA_ARGS__)
+#define HLX_CORE_INFO(...)		::hlx::Log::coreLogger()->info(__VA_ARGS__)
+#define HLX_CORE_WARN(...)		::hlx::Log::coreLogger()->warn(__VA_ARGS__)
+#define HLX_CORE_ERROR(...)		::hlx::Log::coreLogger()->error(__VA_ARGS__)
+#define HLX_CORE_CRITICAL(...)	::hlx::Log::coreLogger()->critical(__VA_ARGS__)
 
-#define HLX_TRACE(...)			::hlx::Log::client_logger()->trace(__VA_ARGS__)
-#define HLX_INFO(...)			::hlx::Log::client_logger()->info(__VA_ARGS__)
-#define HLX_WARN(...)			::hlx::Log::client_logger()->warn(__VA_ARGS__)
-#define HLX_ERROR(...)			::hlx::Log::client_logger()->error(__VA_ARGS__)
-#define HLX_CRITICAL(...)		::hlx::Log::client_logger()->critical(__VA_ARGS__)
+#define HLX_TRACE(...)			::hlx::Log::clientLogger()->trace(__VA_ARGS__)
+#define HLX_INFO(...)			::hlx::Log::clientLogger()->info(__VA_ARGS__)
+#define HLX_WARN(...)			::hlx::Log::clientLogger()->warn(__VA_ARGS__)
+#define HLX_ERROR(...)			::hlx::Log::clientLogger()->error(__VA_ARGS__)
+#define HLX_CRITICAL(...)		::hlx::Log::clientLogger()->critical(__VA_ARGS__)

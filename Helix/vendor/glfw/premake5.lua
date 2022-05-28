@@ -1,14 +1,16 @@
 project "GLFW"
 	kind "StaticLib"
 	language "C"
+	cppdialect "C++17"
+	staticruntime "On"
 
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin_obj/" .. outputdir .. "/%{prj.name}")
 
 	files
 	{
-		"include/GLFW/glfw3.h",
-		"include/GLFW/glfw3native.h",
+		"include/glfw/glfw3.h",
+		"include/glfw/glfw3native.h",
 		"src/internal.h",
 		"src/platform.h",
 		"src/mappings.h",
@@ -32,7 +34,6 @@ project "GLFW"
 
 	filter "system:windows"
 		systemversion "latest"
-		staticruntime "On"
 
 		files
 		{
@@ -59,8 +60,7 @@ project "GLFW"
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "On"
-
+		
 	filter "configurations:Release"
 		runtime "Release"
-		buildoptions "/MT"
 		optimize "On"
