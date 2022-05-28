@@ -15,5 +15,7 @@ namespace hlx
 		
 		clientLogger() = spdlog::stdout_color_mt("App");
 		clientLogger()->set_level(spdlog::level::trace);
+
+		HLX_CORE_INFO("HLX::LOG::INIT");
 	}
 }

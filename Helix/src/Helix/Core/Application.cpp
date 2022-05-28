@@ -42,7 +42,7 @@ void hlx::Application::run()
 
 	const char* vertexprogram =
 	{
-		"#version 330 core\n"
+		"#version 460 core\n"
 
 		"layout (location = 0) in vec3 position;"
 
@@ -54,7 +54,7 @@ void hlx::Application::run()
 
 	const char* fragmentprogram =
 	{
-		"#version 330 core\n"
+		"#version 460 core\n"
 
 		"out vec4 fragColor;"
 

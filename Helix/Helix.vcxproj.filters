@@ -67,7 +67,7 @@
     <ClInclude Include="src\Helix\Input\MouseCode.hpp">
       <Filter>Helix\Input</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Shader.hpp">
+    <ClInclude Include="src\Helix\Rendering\Program.hpp">
       <Filter>Helix\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Window\Base\Window.hpp">
@@ -78,6 +78,9 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
+    <ClInclude Include="src\Helix\Core\IO.hpp">
+      <Filter>Helix\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -95,7 +98,7 @@
     <ClCompile Include="src\Helix\Input\InputHandler.cpp">
       <Filter>Helix\Input</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\Shader.cpp">
+    <ClCompile Include="src\Helix\Rendering\Program.cpp">
       <Filter>Helix\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Window\Base\Window.cpp">
@@ -105,5 +108,8 @@
       <Filter>Helix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\Helix\Core\IO.cpp">
+      <Filter>Helix\Core</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

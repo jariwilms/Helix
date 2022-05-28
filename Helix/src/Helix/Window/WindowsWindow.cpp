@@ -12,13 +12,14 @@ hlx::WindowsWindow::WindowsWindow(const WindowProperties& properties)
 	success = glfwInit();
 	HLX_CORE_ASSERT(success, "Failed to initialize GLFW");
 
-	//glfwWindowHint(GLFW_VERSION_MAJOR, 4);
-	//glfwWindowHint(GLFW_VERSION_MINOR, 6);
-	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	//glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #ifdef HLX_DEBUG
-	//glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
 	auto error_lambda = [](int error, const char* description)
 	{
@@ -32,7 +33,7 @@ hlx::WindowsWindow::WindowsWindow(const WindowProperties& properties)
 		this->properties.title.c_str(),
 		nullptr, nullptr);
 
-	HLX_CORE_ASSERT(window, "Could not create OpenGL window");
+	HLX_CORE_ASSERT(window, "Failed to create OpenGL window");
 	glfwMakeContextCurrent(window);
 
 	success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -42,7 +43,7 @@ hlx::WindowsWindow::WindowsWindow(const WindowProperties& properties)
 
 
 
-	auto window_size_lambda = [](GLFWwindow* window, int width, int height)
+	auto window_size_lambda		= [](GLFWwindow* window, int width, int height)
 	{
 		WindowsWindowProperties& properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(window);
 		properties.dimensions = glm::uvec2(width, height);
@@ -50,14 +51,14 @@ hlx::WindowsWindow::WindowsWindow(const WindowProperties& properties)
 		WindowResizeEvent event(width, height);
 		properties.callback(event);
 	};
-	auto window_close_lambda = [](GLFWwindow* window)
+	auto window_close_lambda	= [](GLFWwindow* window)
 	{
 		WindowsWindowProperties& properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(window);
 
 		WindowCloseEvent event;
 		properties.callback(event);
 	};
-	auto key_lambda = [](GLFWwindow* window, int key, int scancode, int action, int mods)
+	auto key_lambda				= [](GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
 		WindowsWindowProperties& properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(window);
 
@@ -83,7 +84,7 @@ hlx::WindowsWindow::WindowsWindow(const WindowProperties& properties)
 			}
 		}
 	};
-	auto button_lambda = [](GLFWwindow* window, int button, int action, int mods)
+	auto button_lambda			= [](GLFWwindow* window, int button, int action, int mods)
 	{
 		WindowsWindowProperties& properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(window);
 
@@ -103,14 +104,14 @@ hlx::WindowsWindow::WindowsWindow(const WindowProperties& properties)
 			}
 		}
 	};
-	auto scroll_lambda = [](GLFWwindow* window, double x, double y)
+	auto scroll_lambda			= [](GLFWwindow* window, double x, double y)
 	{
 		WindowsWindowProperties& properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(window);
 
 		WheelScrollEvent event(x, y);
 		properties.callback(event);
 	};
-	auto cursor_lambda = [](GLFWwindow* window, double x, double y)
+	auto cursor_lambda			= [](GLFWwindow* window, double x, double y)
 	{
 		WindowsWindowProperties& properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(window);
 

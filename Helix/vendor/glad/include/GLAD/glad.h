@@ -3253,10 +3253,10 @@ GLAPI PFNGLPUSHDEBUGGROUPPROC glad_glPushDebugGroup;
 typedef void (APIENTRYP PFNGLPOPDEBUGGROUPPROC)(void);
 GLAPI PFNGLPOPDEBUGGROUPPROC glad_glPopDebugGroup;
 #define glPopDebugGroup glad_glPopDebugGroup
-typedef void (APIENTRYP PFNGLOBJECTLABELPROC)(GLenum identifier, GLuint name, GLsizei length, const GLchar *label);
+typedef void (APIENTRYP PFNGLOBJECTLABELPROC)(GLenum id, GLuint name, GLsizei length, const GLchar *label);
 GLAPI PFNGLOBJECTLABELPROC glad_glObjectLabel;
 #define glObjectLabel glad_glObjectLabel
-typedef void (APIENTRYP PFNGLGETOBJECTLABELPROC)(GLenum identifier, GLuint name, GLsizei bufSize, GLsizei *length, GLchar *label);
+typedef void (APIENTRYP PFNGLGETOBJECTLABELPROC)(GLenum id, GLuint name, GLsizei bufSize, GLsizei *length, GLchar *label);
 GLAPI PFNGLGETOBJECTLABELPROC glad_glGetObjectLabel;
 #define glGetObjectLabel glad_glGetObjectLabel
 typedef void (APIENTRYP PFNGLOBJECTPTRLABELPROC)(const void *ptr, GLsizei length, const GLchar *label);

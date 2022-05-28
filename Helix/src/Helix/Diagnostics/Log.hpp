@@ -25,12 +25,12 @@ namespace hlx
 
 #define HLX_CORE_TRACE(...)		::hlx::Log::coreLogger()->trace(__VA_ARGS__)
 #define HLX_CORE_INFO(...)		::hlx::Log::coreLogger()->info(__VA_ARGS__)
-#define HLX_CORE_WARN(...)		::hlx::Log::coreLogger()->warn(__VA_ARGS__)
+#define HLX_CORE_WARNING(...)	::hlx::Log::coreLogger()->warn(__VA_ARGS__)
 #define HLX_CORE_ERROR(...)		::hlx::Log::coreLogger()->error(__VA_ARGS__)
 #define HLX_CORE_CRITICAL(...)	::hlx::Log::coreLogger()->critical(__VA_ARGS__)
 
 #define HLX_TRACE(...)			::hlx::Log::clientLogger()->trace(__VA_ARGS__)
 #define HLX_INFO(...)			::hlx::Log::clientLogger()->info(__VA_ARGS__)
-#define HLX_WARN(...)			::hlx::Log::clientLogger()->warn(__VA_ARGS__)
+#define HLX_WARNING(...)		::hlx::Log::clientLogger()->warn(__VA_ARGS__)
 #define HLX_ERROR(...)			::hlx::Log::clientLogger()->error(__VA_ARGS__)
 #define HLX_CRITICAL(...)		::hlx::Log::clientLogger()->critical(__VA_ARGS__)

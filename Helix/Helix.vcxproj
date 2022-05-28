@@ -56,7 +56,7 @@
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.hpp</PrecompiledHeaderFile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HLX_PLATFORM_WINDOWS;HLX_BUILD_DLL;GLFW_INCLUDE_NONE;HLX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\glad\include;vendor\glfw\include;vendor\imgui;vendor\glm\include;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -97,6 +97,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Helix\Core\IO.hpp" />
     <ClInclude Include="src\Helix.hpp" />
     <ClInclude Include="src\Helix\Core\Application.hpp" />
     <ClInclude Include="src\Helix\Core\Core.hpp" />
@@ -110,19 +111,20 @@
     <ClInclude Include="src\Helix\Input\InputHandler.hpp" />
     <ClInclude Include="src\Helix\Input\KeyCode.hpp" />
     <ClInclude Include="src\Helix\Input\MouseCode.hpp" />
-    <ClInclude Include="src\Helix\Rendering\Shader.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Program.hpp" />
     <ClInclude Include="src\Helix\Window\Base\Window.hpp" />
     <ClInclude Include="src\Helix\Window\WindowsWindow.hpp" />
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Helix\Core\IO.cpp" />
     <ClCompile Include="src\Helix\Core\Application.cpp" />
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp" />
     <ClCompile Include="src\Helix\Event\Base\Event.cpp" />
     <ClCompile Include="src\Helix\Event\Base\EventDispatcher.cpp" />
     <ClCompile Include="src\Helix\Input\InputHandler.cpp" />
-    <ClCompile Include="src\Helix\Rendering\Shader.cpp" />
+    <ClCompile Include="src\Helix\Rendering\Program.cpp" />
     <ClCompile Include="src\Helix\Window\Base\Window.cpp" />
     <ClCompile Include="src\Helix\Window\WindowsWindow.cpp" />
     <ClCompile Include="src\stdafx.cpp">
