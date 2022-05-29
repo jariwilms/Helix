@@ -13,7 +13,7 @@ workspace "Helix"
 	includedir = {}
 	includedir["GLAD"] = "Helix/vendor/glad/include"
 	includedir["GLFW"] = "Helix/vendor/glfw/include"
-	includedir["IMGUI"] = "Helix/vendor/imgui/include"
+	includedir["IMGUI"] = "Helix/vendor/imgui"
 	
 	include "Helix/vendor/glad"
 	include "Helix/vendor/glfw"
@@ -44,7 +44,6 @@ project "Helix"
 		"%{prj.name}/src", 
 		"%{includedir.GLAD}", 
 		"%{includedir.GLFW}", 
-		"%{includedir.IMGUI}", 
 		"%{prj.name}/vendor/glm/include", 
 		"%{prj.name}/vendor/spdlog/include"
 	}

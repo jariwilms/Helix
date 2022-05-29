@@ -4,7 +4,6 @@
 
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
-#include "imgui/imgui.h"
 
 #include "Helix/Core/Core.hpp"
 #include "Helix/Rendering/Shader.hpp"
