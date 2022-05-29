@@ -6,6 +6,7 @@
 
 #include "Helix/Core/Core.hpp"
 #include "Helix/Rendering/Shader.hpp"
+#include "Helix/Rendering/Objects/BufferLayout.hpp"
 #include "Helix/Rendering/Objects/VertexArray.hpp"
 #include "Helix/Rendering/Objects/VertexBuffer.hpp"
 #include "Helix/Rendering/Objects/ElementBuffer.hpp"

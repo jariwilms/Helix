@@ -93,6 +93,10 @@
     <ClInclude Include="src\Helix\Rendering\Objects\ElementBuffer.hpp">
       <Filter>Helix\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Objects\BufferLayout.hpp">
+      <Filter>Helix\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\GL.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">

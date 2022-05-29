@@ -27,21 +27,27 @@ namespace hlx
 	{
 		float vertices[] =
 		{
-			1.0f, -1.0f, 0.0f,
-			0.0f, 1.0f, 0.0f,
-			-1.0f, -1.0f, 0.0f,
+			-0.5f, 0.5f, 0.0f, 
+			-0.5f, -0.5f, 0.0f, 
+			0.5f, -0.5f, 0.0f, 
+			0.5f, 0.5f, 0.0f, 
 		};
 
-		VertexArray vao;
-		vao.bind();
+		unsigned int indices[] =
+		{
+			0, 1, 2, 
+			0, 2, 3
+		};
 
-		VertexBuffer vbo(vertices, sizeof(vertices));
-		vbo.bind();
+		VertexArray vao{};
+		VertexBuffer vbo{ vertices, sizeof(vertices) };
+		ElementBuffer ebo{ indices, sizeof(indices) };
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)nullptr);
-		glEnableVertexAttribArray(0);
+		BufferLayout layout{};
+		layout.addAttribute<float>(3);
+		vao.setLayout(vbo, layout);
 
-		Shader shader("files/default.vert", "files/default.frag");
+		Shader shader{ "files/default.vert", "files/default.frag" };
 		shader.bind();
 
 		while (m_running)
@@ -49,7 +55,10 @@ namespace hlx
 			glClear(GL_COLOR_BUFFER_BIT);
 			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-			glDrawArrays(GL_TRIANGLES, 0, 3);
+			vao.bind();
+			ebo.bind();
+
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 			m_window->update();
 		}

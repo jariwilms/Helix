@@ -42,7 +42,7 @@ namespace hlx
 
 		WindowsWindowProperties& getProperties() override;
 
-		virtual void* getNativeWindow() const;
+		void* getNativeWindow() const override;
 
 	private:
 		GLFWwindow* m_window;

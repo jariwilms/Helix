@@ -97,6 +97,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Helix\Rendering\GL.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Objects\BufferLayout.hpp" />
     <ClInclude Include="src\Helix\Rendering\Objects\ElementBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\Objects\BufferObject.hpp" />
     <ClInclude Include="src\Helix\Core\IO.hpp" />
