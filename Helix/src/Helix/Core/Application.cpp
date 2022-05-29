@@ -47,7 +47,7 @@ namespace hlx
 		layout.addAttribute<float>(3);
 		vao.setLayout(vbo, layout);
 
-		Shader shader{ "files/default.vert", "files/default.frag" };
+		Shader shader{ "Sandbox/default.vert", "Sandbox/default.frag" };
 		shader.bind();
 
 		while (m_running)
@@ -74,7 +74,6 @@ namespace hlx
 #ifdef HLX_DEBUG
 		HLX_CORE_INFO(event.toString());
 #endif // HLX_DEBUG
-
 	}
 
 	Application* Application::s_instance;

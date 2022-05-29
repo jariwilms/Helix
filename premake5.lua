@@ -13,7 +13,7 @@ workspace "Helix"
 	includedir = {}
 	includedir["GLAD"] = "Helix/vendor/glad/include"
 	includedir["GLFW"] = "Helix/vendor/glfw/include"
-	includedir["IMGUI"] = "Helix/vendor/imgui"
+	includedir["IMGUI"] = "Helix/vendor/imgui/include"
 	
 	include "Helix/vendor/glad"
 	include "Helix/vendor/glfw"

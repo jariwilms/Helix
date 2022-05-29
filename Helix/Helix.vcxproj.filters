@@ -22,6 +22,9 @@
     <Filter Include="Helix\Rendering">
       <UniqueIdentifier>{2CDCE440-9867-5205-A178-D5F90D83AE05}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helix\Rendering\Objects">
+      <UniqueIdentifier>{E5E603E9-511E-4C80-5A28-B0A3C6DE7279}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Helix\Window">
       <UniqueIdentifier>{26F48FE9-1257-1F8E-BBDC-5744A71EEB10}</UniqueIdentifier>
     </Filter>
@@ -35,6 +38,9 @@
       <Filter>Helix\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Core\Core.hpp">
+      <Filter>Helix\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Core\IO.hpp">
       <Filter>Helix\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Diagnostics\Log.hpp">
@@ -67,6 +73,24 @@
     <ClInclude Include="src\Helix\Input\MouseCode.hpp">
       <Filter>Helix\Input</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\GL.hpp">
+      <Filter>Helix\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Objects\BufferLayout.hpp">
+      <Filter>Helix\Rendering\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Objects\BufferObject.hpp">
+      <Filter>Helix\Rendering\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Objects\ElementBuffer.hpp">
+      <Filter>Helix\Rendering\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Objects\VertexArray.hpp">
+      <Filter>Helix\Rendering\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Objects\VertexBuffer.hpp">
+      <Filter>Helix\Rendering\Objects</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Shader.hpp">
       <Filter>Helix\Rendering</Filter>
     </ClInclude>
@@ -78,28 +102,12 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
-    <ClInclude Include="src\Helix\Core\IO.hpp">
-      <Filter>Helix\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Objects\VertexArray.hpp">
-      <Filter>Helix\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Objects\VertexBuffer.hpp">
-      <Filter>Helix\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Objects\BufferObject.hpp">
-      <Filter>Helix\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Objects\ElementBuffer.hpp">
-      <Filter>Helix\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Objects\BufferLayout.hpp">
-      <Filter>Helix\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\GL.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
+      <Filter>Helix\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Core\IO.cpp">
       <Filter>Helix\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp">
@@ -114,6 +122,15 @@
     <ClCompile Include="src\Helix\Input\InputHandler.cpp">
       <Filter>Helix\Input</Filter>
     </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Objects\ElementBuffer.cpp">
+      <Filter>Helix\Rendering\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Objects\VertexArray.cpp">
+      <Filter>Helix\Rendering\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Objects\VertexBuffer.cpp">
+      <Filter>Helix\Rendering\Objects</Filter>
+    </ClCompile>
     <ClCompile Include="src\Helix\Rendering\Shader.cpp">
       <Filter>Helix\Rendering</Filter>
     </ClCompile>
@@ -124,17 +141,5 @@
       <Filter>Helix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\Helix\Core\IO.cpp">
-      <Filter>Helix\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\Objects\VertexArray.cpp">
-      <Filter>Helix\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\Objects\VertexBuffer.cpp">
-      <Filter>Helix\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\Objects\ElementBuffer.cpp">
-      <Filter>Helix\Rendering</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

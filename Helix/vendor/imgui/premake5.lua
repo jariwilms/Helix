@@ -9,16 +9,16 @@ project "IMGUI"
 
 	files
 	{
-		"imconfig.h",
-		"imgui.h",
-		"imgui.cpp",
-		"imgui_draw.cpp",
-		"imgui_internal.h",
-		"imgui_widgets.cpp",
-		"imstb_rectpack.h",
-		"imstb_textedit.h",
-		"imstb_truetype.h",
-		"imgui_demo.cpp"
+		"include/imgui/imconfig.h",
+		"include/imgui/imgui.h",
+		"include/imgui/imgui.cpp",
+		"include/imgui/imgui_draw.cpp",
+		"include/imgui/imgui_internal.h",
+		"include/imgui/imgui_widgets.cpp",
+		"include/imgui/imstb_rectpack.h",
+		"include/imgui/imstb_textedit.h",
+		"include/imgui/imstb_truetype.h",
+		"include/imgui/imgui_demo.cpp"
 	}
 
 	filter "system:windows"
