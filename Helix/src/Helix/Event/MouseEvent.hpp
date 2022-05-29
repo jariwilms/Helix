@@ -30,7 +30,7 @@ namespace hlx
 		const std::string toString() const override
 		{
 			std::stringstream ss;
-			ss << "Button Pressed: " << button << '\n';
+			ss << "Button Pressed: " << button;
 			return ss.str();
 		}
 
@@ -46,7 +46,7 @@ namespace hlx
 		const std::string toString() const override
 		{
 			std::stringstream ss;
-			ss << "Button Released: " << button << '\n';
+			ss << "Button Released: " << button;
 			return ss.str();
 		}
 
@@ -65,7 +65,7 @@ namespace hlx
 		const std::string toString() const override
 		{
 			std::stringstream ss;
-			ss << "Wheel scrolled: " << "[" << x << ", " << y << "]\n";
+			ss << "Wheel scrolled: " << '[' << x << ", " << y << ']';
 			return ss.str();
 		}
 
@@ -89,7 +89,7 @@ namespace hlx
 		const std::string toString() const override
 		{
 			std::stringstream ss;
-			ss << "Cursor Moved: " << "[" << x << ", " << y << "]\n";
+			ss << "Cursor Moved: " << '[' << x << ", " << y << ']';
 			return ss.str();
 		}
 

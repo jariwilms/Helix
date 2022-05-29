@@ -44,6 +44,6 @@ namespace hlx
 		void compile(unsigned int shader, const std::string& source);
 
 		unsigned int m_programId;
-		std::unordered_map<std::string, int> m_uniformLocationMap;
+		std::unordered_map<std::string, int> m_uniformLocationCache;
 	};
 }

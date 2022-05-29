@@ -12,7 +12,7 @@ namespace hlx
 		const std::string toString() const override
 		{
 			std::stringstream ss;
-			ss << "Window Focused\n";
+			ss << "Window Focused";
 			return ss.str();
 		}
 
@@ -28,7 +28,7 @@ namespace hlx
 		const std::string toString() const override
 		{
 			std::stringstream ss;
-			ss << "Window Lost Focus\n";
+			ss << "Window Lost Focus";
 			return ss.str();
 		}
 
@@ -44,7 +44,7 @@ namespace hlx
 		const std::string toString() const override
 		{
 			std::stringstream ss;
-			ss << "Window moved\n";
+			ss << "Window moved";
 			return ss.str();
 		}
 
@@ -64,7 +64,7 @@ namespace hlx
 		const std::string toString() const override
 		{
 			std::stringstream ss;
-			ss << "Window Resized: " << "[" << width << ", " << height << "]\n";
+			ss << "Window Resized: " << '[' << width << ", " << height << ']';
 			return ss.str();
 		}
 
@@ -84,7 +84,7 @@ namespace hlx
 		const std::string toString() const override
 		{
 			std::stringstream ss;
-			ss << "Window Closed\n";
+			ss << "Window Closed";
 			return ss.str();
 		}
 

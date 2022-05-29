@@ -32,7 +32,7 @@ namespace hlx
 		const std::string toString() const override
 		{
 			std::stringstream ss;
-			ss << "Key Pressed: " << keyCode << '\n';
+			ss << "Key Pressed: " << keyCode;
 			return ss.str();
 		}
 
@@ -51,7 +51,7 @@ namespace hlx
 		const std::string toString() const override
 		{
 			std::stringstream ss;
-			ss << "Key Released: " << keyCode << '\n';
+			ss << "Key Released: " << keyCode;
 			return ss.str();
 		}
 

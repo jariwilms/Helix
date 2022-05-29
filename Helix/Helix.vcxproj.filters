@@ -81,6 +81,18 @@
     <ClInclude Include="src\Helix\Core\IO.hpp">
       <Filter>Helix\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Objects\VertexArray.hpp">
+      <Filter>Helix\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Objects\VertexBuffer.hpp">
+      <Filter>Helix\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Objects\BufferObject.hpp">
+      <Filter>Helix\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Objects\ElementBuffer.hpp">
+      <Filter>Helix\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -110,6 +122,15 @@
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\Helix\Core\IO.cpp">
       <Filter>Helix\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Objects\VertexArray.cpp">
+      <Filter>Helix\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Objects\VertexBuffer.cpp">
+      <Filter>Helix\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Objects\ElementBuffer.cpp">
+      <Filter>Helix\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

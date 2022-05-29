@@ -66,11 +66,11 @@ namespace hlx
 
 	int Shader::getUniformLocation(const std::string& identifier)
 	{
-		if (m_uniformLocationMap.find(identifier) != m_uniformLocationMap.end()) return m_uniformLocationMap[identifier];
+		if (m_uniformLocationCache.find(identifier) != m_uniformLocationCache.end()) return m_uniformLocationCache[identifier];
 
 		int location = glGetUniformLocation(m_programId, identifier.c_str());
 		if (location == -1) HLX_CORE_ERROR("Failed to get uniform location. Identifier: {0}", identifier);
-		else m_uniformLocationMap[identifier] = location;
+		else m_uniformLocationCache[identifier] = location;
 
 		return location;
 	}

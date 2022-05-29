@@ -97,6 +97,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Helix\Rendering\Objects\ElementBuffer.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Objects\BufferObject.hpp" />
     <ClInclude Include="src\Helix\Core\IO.hpp" />
     <ClInclude Include="src\Helix.hpp" />
     <ClInclude Include="src\Helix\Core\Application.hpp" />
@@ -116,8 +118,11 @@
     <ClInclude Include="src\Helix\Window\WindowsWindow.hpp" />
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Objects\VertexArray.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Objects\VertexBuffer.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Helix\Rendering\Objects\ElementBuffer.cpp" />
     <ClCompile Include="src\Helix\Core\IO.cpp" />
     <ClCompile Include="src\Helix\Core\Application.cpp" />
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp" />
@@ -130,6 +135,8 @@
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Objects\VertexArray.cpp" />
+    <ClCompile Include="src\Helix\Rendering\Objects\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\glad\GLAD.vcxproj">

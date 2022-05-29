@@ -6,6 +6,9 @@
 
 #include "Helix/Core/Core.hpp"
 #include "Helix/Rendering/Shader.hpp"
+#include "Helix/Rendering/Objects/VertexArray.hpp"
+#include "Helix/Rendering/Objects/VertexBuffer.hpp"
+#include "Helix/Rendering/Objects/ElementBuffer.hpp"
 #include "Helix/Window/Base/Window.hpp"
 
 namespace hlx
