@@ -9,8 +9,10 @@ namespace hlx
 
 	protected:
 		BufferObject() : m_objectId{} {}
-		virtual ~BufferObject() {};
+		virtual ~BufferObject() = 0;
 
 		unsigned int m_objectId;
 	};
+
+	inline BufferObject::~BufferObject() {}
 }
