@@ -1,155 +1,166 @@
 #include "stdafx.hpp"
 #include "WindowsWindow.hpp"
 
-hlx::WindowsWindowProperties::WindowsWindowProperties(const char* title, glm::uvec2 dimensions, bool vSync)
-	: WindowProperties{ title, dimensions, vSync } {}
-
-hlx::WindowsWindow::WindowsWindow(const WindowProperties& properties)
+namespace hlx
 {
-	this->properties = properties;
+	WindowsWindowProperties::WindowsWindowProperties(const char* title, glm::uvec2 dimensions, bool vSync)
+		: WindowProperties{ title, dimensions, vSync } {}
 
-	int success = 0;
-	success = glfwInit();
-	HLX_CORE_ASSERT(success, "Failed to initialize GLFW");
+	WindowsWindow::WindowsWindow(const WindowProperties& properties)
+	{
+		m_properties = properties;
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+		int success = 0;
+		success = glfwInit();
+		HLX_CORE_ASSERT(success, "Failed to initialize GLFW");
+
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 #ifdef HLX_DEBUG
-	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-	auto error_lambda = [](int error, const char* description)
-	{
-		HLX_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
-	};
-	glfwSetErrorCallback(error_lambda);
+		m_window = glfwCreateWindow(
+			m_properties.dimensions.x, m_properties.dimensions.y,
+			m_properties.title.c_str(), nullptr, nullptr);
 
-	this->window = glfwCreateWindow(
-		this->properties.dimensions.x,
-		this->properties.dimensions.y,
-		this->properties.title.c_str(),
-		nullptr, nullptr);
+		HLX_CORE_ASSERT(m_window, "Failed to create OpenGL window");
+		glfwMakeContextCurrent(m_window);
 
-	HLX_CORE_ASSERT(window, "Failed to create OpenGL window");
-	glfwMakeContextCurrent(window);
-
-	success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-	HLX_CORE_ASSERT(success, "Failed to initialize GLAD");
-
-	glfwSetWindowUserPointer(this->window, reinterpret_cast<void*>(&this->properties));
+		success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		HLX_CORE_ASSERT(success, "Failed to initialize GLAD");
 
 
 
-	auto window_size_lambda		= [](GLFWwindow* window, int width, int height)
-	{
-		WindowsWindowProperties& properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(window);
-		properties.dimensions = glm::uvec2(width, height);
-
-		WindowResizeEvent event(width, height);
-		properties.callback(event);
-	};
-	auto window_close_lambda	= [](GLFWwindow* window)
-	{
-		WindowsWindowProperties& properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(window);
-
-		WindowCloseEvent event;
-		properties.callback(event);
-	};
-	auto key_lambda				= [](GLFWwindow* window, int key, int scancode, int action, int mods)
-	{
-		WindowsWindowProperties& properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(window);
-
-		switch (action)
+		auto gl_error_lamda = [](GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char* message, const void* userParam)
 		{
-			case GLFW_PRESS:
-			{
-				KeyPressEvent event(key, 0);
-				properties.callback(event);
-				break;
-			}
-			case GLFW_RELEASE:
-			{
-				KeyReleaseEvent event(key);
-				properties.callback(event);
-				break;
-			}
-			case GLFW_REPEAT:
-			{
-				KeyPressEvent event(key, 1);
-				properties.callback(event);
-				break;
-			}
-		}
-	};
-	auto button_lambda			= [](GLFWwindow* window, int button, int action, int mods)
-	{
-		WindowsWindowProperties& properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(window);
-
-		switch (action)
+			if (type == GL_DEBUG_TYPE_OTHER) return;
+			HLX_CORE_ERROR("GL Error: {0}", message);
+		};
+		auto glfw_error_lambda = [](int error, const char* description)
 		{
-			case GLFW_PRESS:
+			HLX_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
+		};
+
+		glDebugMessageCallback(gl_error_lamda, nullptr);
+		glfwSetErrorCallback(glfw_error_lambda);
+
+
+
+		glfwSetWindowUserPointer(m_window, reinterpret_cast<void*>(&m_properties));
+
+		auto window_size_lambda = [](GLFWwindow* m_window, int width, int height)
+		{
+			WindowsWindowProperties& m_properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(m_window);
+			m_properties.dimensions = glm::uvec2(width, height);
+
+			WindowResizeEvent event(width, height);
+			m_properties.callback(event);
+		};
+		auto window_close_lambda = [](GLFWwindow* m_window)
+		{
+			WindowsWindowProperties& m_properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(m_window);
+
+			WindowCloseEvent event;
+			m_properties.callback(event);
+		};
+
+		auto key_lambda = [](GLFWwindow* m_window, int key, int scancode, int action, int mods)
+		{
+			WindowsWindowProperties& m_properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(m_window);
+
+			switch (action)
 			{
-				ButtonPressEvent event(button);
-				properties.callback(event);
-				break;
+				case GLFW_PRESS:
+				{
+					KeyPressEvent event(key, 0);
+					m_properties.callback(event);
+					break;
+				}
+				case GLFW_RELEASE:
+				{
+					KeyReleaseEvent event(key);
+					m_properties.callback(event);
+					break;
+				}
+				case GLFW_REPEAT:
+				{
+					KeyPressEvent event(key, 1);
+					m_properties.callback(event);
+					break;
+				}
 			}
-			case GLFW_RELEASE:
+		};
+		auto button_lambda = [](GLFWwindow* m_window, int button, int action, int mods)
+		{
+			WindowsWindowProperties& m_properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(m_window);
+
+			switch (action)
 			{
-				ButtonReleaseEvent event(button);
-				properties.callback(event);
-				break;
+				case GLFW_PRESS:
+				{
+					ButtonPressEvent event(button);
+					m_properties.callback(event);
+					break;
+				}
+				case GLFW_RELEASE:
+				{
+					ButtonReleaseEvent event(button);
+					m_properties.callback(event);
+					break;
+				}
 			}
-		}
-	};
-	auto scroll_lambda			= [](GLFWwindow* window, double x, double y)
+		};
+		auto scroll_lambda = [](GLFWwindow* m_window, double x, double y)
+		{
+			WindowsWindowProperties& m_properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(m_window);
+
+			WheelScrollEvent event(x, y);
+			m_properties.callback(event);
+		};
+		auto cursor_lambda = [](GLFWwindow* m_window, double x, double y)
+		{
+			WindowsWindowProperties& m_properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(m_window);
+
+			CursorMoveEvent event(x, y);
+			m_properties.callback(event);
+		};
+
+		glfwSetWindowSizeCallback(m_window, window_size_lambda);
+		glfwSetWindowCloseCallback(m_window, window_close_lambda);
+
+		glfwSetKeyCallback(m_window, key_lambda);
+		glfwSetMouseButtonCallback(m_window, button_lambda);
+		glfwSetScrollCallback(m_window, scroll_lambda);
+		glfwSetCursorPosCallback(m_window, cursor_lambda);
+	}
+
+	WindowsWindow::~WindowsWindow()
 	{
-		WindowsWindowProperties& properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(window);
+		glfwDestroyWindow(m_window);
+	}
 
-		WheelScrollEvent event(x, y);
-		properties.callback(event);
-	};
-	auto cursor_lambda			= [](GLFWwindow* window, double x, double y)
+	void WindowsWindow::update()
 	{
-		WindowsWindowProperties& properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(window);
+		glfwSwapBuffers(m_window);
+		glfwPollEvents();
+	}
 
-		CursorMoveEvent event(x, y);
-		properties.callback(event);
-	};
+	void WindowsWindow::setEventCallback(const EventCallbackFunction& callback)
+	{
+		m_properties.callback = callback;
+	}
 
-	glfwSetWindowSizeCallback(this->window, window_size_lambda);
-	glfwSetWindowCloseCallback(this->window, window_close_lambda);
+	WindowsWindowProperties& WindowsWindow::getProperties()
+	{
+		return m_properties;
+	}
 
-	glfwSetKeyCallback(this->window, key_lambda);
-	glfwSetMouseButtonCallback(this->window, button_lambda);
-	glfwSetScrollCallback(this->window, scroll_lambda);
-	glfwSetCursorPosCallback(this->window, cursor_lambda);
-}
-
-hlx::WindowsWindow::~WindowsWindow()
-{
-	glfwDestroyWindow(this->window);
-}
-
-void hlx::WindowsWindow::update()
-{
-	glfwSwapBuffers(this->window);
-	glfwPollEvents();
-}
-
-void hlx::WindowsWindow::setEventCallback(const EventCallbackFunction& callback)
-{
-	this->properties.callback = callback;
-}
-
-hlx::WindowsWindowProperties& hlx::WindowsWindow::getProperties()
-{
-	return this->properties;
-}
-
-void* hlx::WindowsWindow::getNativeWindow() const
-{
-	return this->window;
+	void* WindowsWindow::getNativeWindow() const
+	{
+		return m_window;
+	}
 }

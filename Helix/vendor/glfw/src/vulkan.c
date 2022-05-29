@@ -245,7 +245,7 @@ GLFWAPI const char** glfwGetRequiredInstanceExtensions(uint32_t* count)
     return (const char**) _glfw.vk.extensions;
 }
 
-GLFWAPI GLFWvkproc glfwGetInstanceProcAddress(VkInstance instance,
+GLFWAPI GLFWvkproc glfwGetInstanceProcAddress(VkInstance s_instance,
                                               const char* procname)
 {
     GLFWvkproc proc;
@@ -260,7 +260,7 @@ GLFWAPI GLFWvkproc glfwGetInstanceProcAddress(VkInstance instance,
     if (strcmp(procname, "vkGetInstanceProcAddr") == 0)
         return (GLFWvkproc) vkGetInstanceProcAddr;
 
-    proc = (GLFWvkproc) vkGetInstanceProcAddr(instance, procname);
+    proc = (GLFWvkproc) vkGetInstanceProcAddr(s_instance, procname);
     if (!proc)
     {
         if (_glfw.vk.handle)
@@ -270,11 +270,11 @@ GLFWAPI GLFWvkproc glfwGetInstanceProcAddress(VkInstance instance,
     return proc;
 }
 
-GLFWAPI int glfwGetPhysicalDevicePresentationSupport(VkInstance instance,
+GLFWAPI int glfwGetPhysicalDevicePresentationSupport(VkInstance s_instance,
                                                      VkPhysicalDevice device,
                                                      uint32_t queuefamily)
 {
-    assert(instance != VK_NULL_HANDLE);
+    assert(s_instance != VK_NULL_HANDLE);
     assert(device != VK_NULL_HANDLE);
 
     _GLFW_REQUIRE_INIT_OR_RETURN(GLFW_FALSE);
@@ -289,19 +289,19 @@ GLFWAPI int glfwGetPhysicalDevicePresentationSupport(VkInstance instance,
         return GLFW_FALSE;
     }
 
-    return _glfw.platform.getPhysicalDevicePresentationSupport(instance,
+    return _glfw.platform.getPhysicalDevicePresentationSupport(s_instance,
                                                                device,
                                                                queuefamily);
 }
 
-GLFWAPI VkResult glfwCreateWindowSurface(VkInstance instance,
+GLFWAPI VkResult glfwCreateWindowSurface(VkInstance s_instance,
                                          GLFWwindow* handle,
                                          const VkAllocationCallbacks* allocator,
                                          VkSurfaceKHR* surface)
 {
-    _GLFWwindow* window = (_GLFWwindow*) handle;
-    assert(instance != VK_NULL_HANDLE);
-    assert(window != NULL);
+    _GLFWwindow* m_window = (_GLFWwindow*) handle;
+    assert(s_instance != VK_NULL_HANDLE);
+    assert(m_window != NULL);
     assert(surface != NULL);
 
     *surface = VK_NULL_HANDLE;
@@ -318,13 +318,13 @@ GLFWAPI VkResult glfwCreateWindowSurface(VkInstance instance,
         return VK_ERROR_EXTENSION_NOT_PRESENT;
     }
 
-    if (window->context.client != GLFW_NO_API)
+    if (m_window->context.client != GLFW_NO_API)
     {
         _glfwInputError(GLFW_INVALID_VALUE,
                         "Vulkan: Window surface creation requires the window to have the client API set to GLFW_NO_API");
         return VK_ERROR_NATIVE_WINDOW_IN_USE_KHR;
     }
 
-    return _glfw.platform.createWindowSurface(instance, window, allocator, surface);
+    return _glfw.platform.createWindowSurface(s_instance, m_window, allocator, surface);
 }
 

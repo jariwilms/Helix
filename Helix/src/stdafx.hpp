@@ -25,3 +25,4 @@
 #endif // HLX_PLATFORM_WINDOWS
 
 #include "Helix/Diagnostics/Log.hpp"
+#include "Helix/Core/IO.hpp"

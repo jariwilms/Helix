@@ -35,7 +35,7 @@ namespace hlx
 
 		virtual WindowProperties& getProperties() = 0;
 
-		static Window* create(const WindowProperties& properties);
+		static Window* create(const WindowProperties& m_properties);
 
 	protected:
 		Window() {}

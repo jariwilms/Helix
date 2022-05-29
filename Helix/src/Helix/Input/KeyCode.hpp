@@ -2,7 +2,7 @@
 
 namespace hlx::input
 {
-	enum KeyCode : int
+	enum KeyCode : uint16_t
 	{
 		Space = 32,
 		Apostrophe = 39,		// '

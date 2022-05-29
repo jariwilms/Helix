@@ -1,12 +1,11 @@
 #pragma once
 
-#include <iostream>
-
 #include "stdafx.hpp"
 
 #include "glad/glad.h"
 
 #include "Helix/Core/Core.hpp"
+#include "Helix/Rendering/Shader.hpp"
 #include "Helix/Window/Base/Window.hpp"
 
 namespace hlx
@@ -32,9 +31,11 @@ namespace hlx
 		void onEvent(Event& event);
 
 	private:
-		static Application* instance;
-		Window* window;
-		bool running;
+		static Application* s_instance;
+		ApplicationSettings settings;
+
+		Window* m_window;
+		bool m_running;
 	};
 
 	Application* createApplication();

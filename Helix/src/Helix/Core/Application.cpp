@@ -7,16 +7,18 @@ hlx::ApplicationSettings::ApplicationSettings()
 }
 
 hlx::Application::Application(const std::string& name)
-	: running{ true }
+	: m_running{ true }
 {
-	instance = this; //add check if instance alr exists
-	this->window = Window::create(WindowProperties("Helix", glm::uvec2(800, 600)));
-	this->window->setEventCallback(BIND_EVENT_FN(onEvent));
+	if (!s_instance) s_instance = this;
+	else HLX_CORE_ERROR("An instance of HLX::APPLICATION already exists");
+
+	m_window = Window::create(WindowProperties("Helix", glm::uvec2(800, 600)));
+	m_window->setEventCallback(BIND_EVENT_FN(onEvent));
 }
 
 hlx::Application& hlx::Application::getInstance()
 {
-	return *instance;
+	return *s_instance;
 }
 
 void hlx::Application::run()
@@ -40,69 +42,23 @@ void hlx::Application::run()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)nullptr);
 	glEnableVertexAttribArray(0);
 
-	const char* vertexprogram =
-	{
-		"#version 460 core\n"
+	hlx::Shader shader("files/default.vert", "files/default.frag");
+	shader.bind();
 
-		"layout (location = 0) in vec3 position;"
-
-		"void main()"
-		"{"
-			"gl_Position = vec4(position, 1.0);"
-		"}"
-	};
-
-	const char* fragmentprogram =
-	{
-		"#version 460 core\n"
-
-		"out vec4 fragColor;"
-
-		"void main()"
-		"{"
-			"fragColor = vec4(1.0, 0.0, 1.0, 1.0);"
-		"}"
-	};
-
-	unsigned int program;
-	program = glCreateProgram();
-	HLX_CORE_ASSERT(program, "Failed to create program");
-
-	unsigned int vertexshader;
-	vertexshader = glCreateShader(GL_VERTEX_SHADER);
-	HLX_CORE_ASSERT(vertexshader, "Failed to create vertex shader");
-	glShaderSource(vertexshader, 1, &vertexprogram, nullptr);
-	glCompileShader(vertexshader);
-
-	unsigned int fragmentshader;
-	fragmentshader = glCreateShader(GL_FRAGMENT_SHADER);
-	HLX_CORE_ASSERT(vertexshader, "Failed to create fragment shader");
-	glShaderSource(fragmentshader, 1, &fragmentprogram, nullptr);
-	glCompileShader(fragmentshader);
-
-	glAttachShader(program, vertexshader);
-	glAttachShader(program, fragmentshader);
-	glLinkProgram(program);
-
-	glDeleteShader(vertexshader);
-	glDeleteShader(fragmentshader);
-
-	glUseProgram(program);
-
-	while (this->running)
+	while (m_running)
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		this->window->update();
+		m_window->update();
 	}
 }
 
 void hlx::Application::close()
 {
-
+	delete m_window;
 }
 
 void hlx::Application::onEvent(Event& event)
@@ -113,4 +69,4 @@ void hlx::Application::onEvent(Event& event)
 
 }
 
-hlx::Application* hlx::Application::instance;
+hlx::Application* hlx::Application::s_instance;

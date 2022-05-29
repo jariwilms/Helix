@@ -33,7 +33,7 @@ namespace hlx
 	class WindowsWindow : public Window
 	{
 	public:
-		WindowsWindow(const WindowProperties& properties);
+		WindowsWindow(const WindowProperties& m_properties);
 		virtual ~WindowsWindow();
 
 		void update() override;
@@ -45,7 +45,7 @@ namespace hlx
 		virtual void* getNativeWindow() const;
 
 	private:
-		GLFWwindow* window;
-		WindowsWindowProperties properties;
+		GLFWwindow* m_window;
+		WindowsWindowProperties m_properties;
 	};
 }

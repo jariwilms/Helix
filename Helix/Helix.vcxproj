@@ -111,7 +111,7 @@
     <ClInclude Include="src\Helix\Input\InputHandler.hpp" />
     <ClInclude Include="src\Helix\Input\KeyCode.hpp" />
     <ClInclude Include="src\Helix\Input\MouseCode.hpp" />
-    <ClInclude Include="src\Helix\Rendering\Program.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Shader.hpp" />
     <ClInclude Include="src\Helix\Window\Base\Window.hpp" />
     <ClInclude Include="src\Helix\Window\WindowsWindow.hpp" />
     <ClInclude Include="src\main.hpp" />
@@ -124,7 +124,7 @@
     <ClCompile Include="src\Helix\Event\Base\Event.cpp" />
     <ClCompile Include="src\Helix\Event\Base\EventDispatcher.cpp" />
     <ClCompile Include="src\Helix\Input\InputHandler.cpp" />
-    <ClCompile Include="src\Helix\Rendering\Program.cpp" />
+    <ClCompile Include="src\Helix\Rendering\Shader.cpp" />
     <ClCompile Include="src\Helix\Window\Base\Window.cpp" />
     <ClCompile Include="src\Helix\Window\WindowsWindow.cpp" />
     <ClCompile Include="src\stdafx.cpp">

@@ -13,7 +13,7 @@ namespace hlx
 		coreLogger() = spdlog::stdout_color_mt("HELIX");
 		coreLogger()->set_level(spdlog::level::trace);
 		
-		clientLogger() = spdlog::stdout_color_mt("App");
+		clientLogger() = spdlog::stdout_color_mt("Application");
 		clientLogger()->set_level(spdlog::level::trace);
 
 		HLX_CORE_INFO("HLX::LOG::INIT");

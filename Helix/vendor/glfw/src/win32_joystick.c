@@ -495,7 +495,7 @@ static BOOL CALLBACK deviceCallback(const DIDEVICEINSTANCE* di, void* user)
 //
 void _glfwDetectJoystickConnectionWin32(void)
 {
-    if (_glfw.win32.xinput.instance)
+    if (_glfw.win32.xinput.s_instance)
     {
         DWORD index;
 
@@ -572,9 +572,9 @@ void _glfwDetectJoystickDisconnectionWin32(void)
 
 GLFWbool _glfwInitJoysticksWin32(void)
 {
-    if (_glfw.win32.dinput8.instance)
+    if (_glfw.win32.dinput8.s_instance)
     {
-        if (FAILED(DirectInput8Create(_glfw.win32.instance,
+        if (FAILED(DirectInput8Create(_glfw.win32.s_instance,
                                       DIRECTINPUT_VERSION,
                                       &IID_IDirectInput8W,
                                       (void**) &_glfw.win32.dinput8.api,

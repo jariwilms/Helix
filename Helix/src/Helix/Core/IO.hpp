@@ -9,16 +9,16 @@ namespace hlx
 	public:
 		static void init();
 
-		static bool fileExists(const std::filesystem::path path);
+		static bool checkFileExists(const std::filesystem::path path);
 
-		static const std::filesystem::path getCurrentRoot();
+		static const std::filesystem::path getCurrentRootDirectory();
 		static const std::filesystem::path getCurrentWorkingDirectory();
-		static const std::filesystem::path getCompoundPath(const std::string& path);
+		static const std::filesystem::path getCompoundPath(const std::filesystem::path& path);
 
 		static void setRootDirectory(const std::filesystem::path& directory);
-		static void appendToRootDirectory(const std::string& directory);
+		static void appendRootDirectory(const std::filesystem::path& directory);
 
-		static const std::string readFileToString(const std::string& path);
+		static const std::string readFileToString(const std::filesystem::path& path);
 
 	private:
 		static std::filesystem::path m_root;

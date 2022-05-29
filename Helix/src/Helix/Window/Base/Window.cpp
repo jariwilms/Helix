@@ -5,15 +5,18 @@
 	#include "Helix/Window/WindowsWindow.hpp"
 #endif
 
-hlx::WindowProperties::WindowProperties()
-	: title{}, dimensions{}, vSync{} {}
-
-hlx::WindowProperties::WindowProperties(const std::string& title, glm::uvec2 dimensions, bool vSync)
-	: title{ title }, dimensions{ dimensions }, vSync{ vSync } {}
-
-hlx::Window* hlx::Window::create(const WindowProperties& properties)
+namespace hlx
 {
+	WindowProperties::WindowProperties()
+		: title{}, dimensions{}, vSync{} {}
+
+	WindowProperties::WindowProperties(const std::string& title, glm::uvec2 dimensions, bool vSync)
+		: title{ title }, dimensions{ dimensions }, vSync{ vSync } {}
+
+	Window* Window::create(const WindowProperties& m_properties)
+	{
 #ifdef HLX_PLATFORM_WINDOWS
-	return new WindowsWindow(properties);
+		return new WindowsWindow(m_properties);
 #endif
+	}
 }

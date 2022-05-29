@@ -588,7 +588,7 @@ struct _GLFWmonitor
     int             widthMM, heightMM;
 
     // The window whose video mode is current on this monitor
-    _GLFWwindow*    window;
+    _GLFWwindow*    m_window;
 
     GLFWvidmode*    modes;
     int             modeCount;
@@ -762,7 +762,7 @@ struct _GLFWlibrary
     struct {
         _GLFWinitconfig init;
         _GLFWfbconfig   framebuffer;
-        _GLFWwndconfig  window;
+        _GLFWwndconfig  m_window;
         _GLFWctxconfig  context;
         int             refreshRate;
     } hints;
@@ -904,34 +904,34 @@ GLFWproc _glfwPlatformGetModuleSymbol(void* module, const char* name);
 //////                         GLFW event API                       //////
 //////////////////////////////////////////////////////////////////////////
 
-void _glfwInputWindowFocus(_GLFWwindow* window, GLFWbool focused);
-void _glfwInputWindowPos(_GLFWwindow* window, int xpos, int ypos);
-void _glfwInputWindowSize(_GLFWwindow* window, int width, int height);
-void _glfwInputFramebufferSize(_GLFWwindow* window, int width, int height);
-void _glfwInputWindowContentScale(_GLFWwindow* window,
+void _glfwInputWindowFocus(_GLFWwindow* m_window, GLFWbool focused);
+void _glfwInputWindowPos(_GLFWwindow* m_window, int xpos, int ypos);
+void _glfwInputWindowSize(_GLFWwindow* m_window, int width, int height);
+void _glfwInputFramebufferSize(_GLFWwindow* m_window, int width, int height);
+void _glfwInputWindowContentScale(_GLFWwindow* m_window,
                                   float xscale, float yscale);
-void _glfwInputWindowIconify(_GLFWwindow* window, GLFWbool iconified);
-void _glfwInputWindowMaximize(_GLFWwindow* window, GLFWbool maximized);
-void _glfwInputWindowDamage(_GLFWwindow* window);
-void _glfwInputWindowCloseRequest(_GLFWwindow* window);
-void _glfwInputWindowMonitor(_GLFWwindow* window, _GLFWmonitor* monitor);
+void _glfwInputWindowIconify(_GLFWwindow* m_window, GLFWbool iconified);
+void _glfwInputWindowMaximize(_GLFWwindow* m_window, GLFWbool maximized);
+void _glfwInputWindowDamage(_GLFWwindow* m_window);
+void _glfwInputWindowCloseRequest(_GLFWwindow* m_window);
+void _glfwInputWindowMonitor(_GLFWwindow* m_window, _GLFWmonitor* monitor);
 
-void _glfwInputKey(_GLFWwindow* window,
+void _glfwInputKey(_GLFWwindow* m_window,
                    int key, int scancode, int action, int mods);
-void _glfwInputChar(_GLFWwindow* window,
+void _glfwInputChar(_GLFWwindow* m_window,
                     uint32_t codepoint, int mods, GLFWbool plain);
-void _glfwInputScroll(_GLFWwindow* window, double xoffset, double yoffset);
-void _glfwInputMouseClick(_GLFWwindow* window, int button, int action, int mods);
-void _glfwInputCursorPos(_GLFWwindow* window, double xpos, double ypos);
-void _glfwInputCursorEnter(_GLFWwindow* window, GLFWbool entered);
-void _glfwInputDrop(_GLFWwindow* window, int count, const char** names);
+void _glfwInputScroll(_GLFWwindow* m_window, double xoffset, double yoffset);
+void _glfwInputMouseClick(_GLFWwindow* m_window, int button, int action, int mods);
+void _glfwInputCursorPos(_GLFWwindow* m_window, double xpos, double ypos);
+void _glfwInputCursorEnter(_GLFWwindow* m_window, GLFWbool entered);
+void _glfwInputDrop(_GLFWwindow* m_window, int count, const char** names);
 void _glfwInputJoystick(_GLFWjoystick* js, int event);
 void _glfwInputJoystickAxis(_GLFWjoystick* js, int axis, float value);
 void _glfwInputJoystickButton(_GLFWjoystick* js, int button, char value);
 void _glfwInputJoystickHat(_GLFWjoystick* js, int hat, char value);
 
 void _glfwInputMonitor(_GLFWmonitor* monitor, int action, int placement);
-void _glfwInputMonitorWindow(_GLFWmonitor* monitor, _GLFWwindow* window);
+void _glfwInputMonitorWindow(_GLFWmonitor* monitor, _GLFWwindow* m_window);
 
 #if defined(__GNUC__)
 void _glfwInputError(int code, const char* format, ...)
@@ -951,7 +951,7 @@ GLFWbool _glfwStringInExtensionString(const char* string, const char* extensions
 const _GLFWfbconfig* _glfwChooseFBConfig(const _GLFWfbconfig* desired,
                                          const _GLFWfbconfig* alternatives,
                                          unsigned int count);
-GLFWbool _glfwRefreshContextAttribs(_GLFWwindow* window,
+GLFWbool _glfwRefreshContextAttribs(_GLFWwindow* m_window,
                                     const _GLFWctxconfig* ctxconfig);
 GLFWbool _glfwIsValidContextConfig(const _GLFWctxconfig* ctxconfig);
 
@@ -971,11 +971,11 @@ _GLFWjoystick* _glfwAllocJoystick(const char* name,
                                   int buttonCount,
                                   int hatCount);
 void _glfwFreeJoystick(_GLFWjoystick* js);
-void _glfwCenterCursorInContentArea(_GLFWwindow* window);
+void _glfwCenterCursorInContentArea(_GLFWwindow* m_window);
 
 GLFWbool _glfwInitEGL(void);
 void _glfwTerminateEGL(void);
-GLFWbool _glfwCreateContextEGL(_GLFWwindow* window,
+GLFWbool _glfwCreateContextEGL(_GLFWwindow* m_window,
                                const _GLFWctxconfig* ctxconfig,
                                const _GLFWfbconfig* fbconfig);
 #if defined(_GLFW_X11)
@@ -987,7 +987,7 @@ GLFWbool _glfwChooseVisualEGL(const _GLFWwndconfig* wndconfig,
 
 GLFWbool _glfwInitOSMesa(void);
 void _glfwTerminateOSMesa(void);
-GLFWbool _glfwCreateContextOSMesa(_GLFWwindow* window,
+GLFWbool _glfwCreateContextOSMesa(_GLFWwindow* m_window,
                                   const _GLFWctxconfig* ctxconfig,
                                   const _GLFWfbconfig* fbconfig);
 

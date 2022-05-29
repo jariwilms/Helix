@@ -384,7 +384,7 @@ typedef struct _GLFWcontextWGL
 //
 typedef struct _GLFWlibraryWGL
 {
-    HINSTANCE                           instance;
+    HINSTANCE                           s_instance;
     PFN_wglCreateContext                CreateContext;
     PFN_wglDeleteContext                DeleteContext;
     PFN_wglGetProcAddress               GetProcAddress;
@@ -442,7 +442,7 @@ typedef struct _GLFWwindowWin32
 //
 typedef struct _GLFWlibraryWin32
 {
-    HINSTANCE           instance;
+    HINSTANCE           s_instance;
     HWND                helperWindowHandle;
     HDEVNOTIFY          deviceNotificationHandle;
     int                 acquiredMonitorCount;
@@ -459,19 +459,19 @@ typedef struct _GLFWlibraryWin32
     UINT                mouseTrailSize;
 
     struct {
-        HINSTANCE                       instance;
+        HINSTANCE                       s_instance;
         PFN_DirectInput8Create          Create;
         IDirectInput8W*                 api;
     } dinput8;
 
     struct {
-        HINSTANCE                       instance;
+        HINSTANCE                       s_instance;
         PFN_XInputGetCapabilities       GetCapabilities;
         PFN_XInputGetState              GetState;
     } xinput;
 
     struct {
-        HINSTANCE                       instance;
+        HINSTANCE                       s_instance;
         PFN_SetProcessDPIAware          SetProcessDPIAware_;
         PFN_ChangeWindowMessageFilterEx ChangeWindowMessageFilterEx_;
         PFN_EnableNonClientDpiScaling   EnableNonClientDpiScaling_;
@@ -482,7 +482,7 @@ typedef struct _GLFWlibraryWin32
     } user32;
 
     struct {
-        HINSTANCE                       instance;
+        HINSTANCE                       s_instance;
         PFN_DwmIsCompositionEnabled     IsCompositionEnabled;
         PFN_DwmFlush                    Flush;
         PFN_DwmEnableBlurBehindWindow   EnableBlurBehindWindow;
@@ -490,13 +490,13 @@ typedef struct _GLFWlibraryWin32
     } dwmapi;
 
     struct {
-        HINSTANCE                       instance;
+        HINSTANCE                       s_instance;
         PFN_SetProcessDpiAwareness      SetProcessDpiAwareness_;
         PFN_GetDpiForMonitor            GetDpiForMonitor_;
     } shcore;
 
     struct {
-        HINSTANCE                       instance;
+        HINSTANCE                       s_instance;
         PFN_RtlVerifyVersionInfo        RtlVerifyVersionInfo_;
     } ntdll;
 } _GLFWlibraryWin32;
@@ -542,41 +542,41 @@ void _glfwSetVideoModeWin32(_GLFWmonitor* monitor, const GLFWvidmode* desired);
 void _glfwRestoreVideoModeWin32(_GLFWmonitor* monitor);
 void _glfwGetHMONITORContentScaleWin32(HMONITOR handle, float* xscale, float* yscale);
 
-int _glfwCreateWindowWin32(_GLFWwindow* window, const _GLFWwndconfig* wndconfig, const _GLFWctxconfig* ctxconfig, const _GLFWfbconfig* fbconfig);
-void _glfwDestroyWindowWin32(_GLFWwindow* window);
-void _glfwSetWindowTitleWin32(_GLFWwindow* window, const char* title);
-void _glfwSetWindowIconWin32(_GLFWwindow* window, int count, const GLFWimage* images);
-void _glfwGetWindowPosWin32(_GLFWwindow* window, int* xpos, int* ypos);
-void _glfwSetWindowPosWin32(_GLFWwindow* window, int xpos, int ypos);
-void _glfwGetWindowSizeWin32(_GLFWwindow* window, int* width, int* height);
-void _glfwSetWindowSizeWin32(_GLFWwindow* window, int width, int height);
-void _glfwSetWindowSizeLimitsWin32(_GLFWwindow* window, int minwidth, int minheight, int maxwidth, int maxheight);
-void _glfwSetWindowAspectRatioWin32(_GLFWwindow* window, int numer, int denom);
-void _glfwGetFramebufferSizeWin32(_GLFWwindow* window, int* width, int* height);
-void _glfwGetWindowFrameSizeWin32(_GLFWwindow* window, int* left, int* top, int* right, int* bottom);
-void _glfwGetWindowContentScaleWin32(_GLFWwindow* window, float* xscale, float* yscale);
-void _glfwIconifyWindowWin32(_GLFWwindow* window);
-void _glfwRestoreWindowWin32(_GLFWwindow* window);
-void _glfwMaximizeWindowWin32(_GLFWwindow* window);
-void _glfwShowWindowWin32(_GLFWwindow* window);
-void _glfwHideWindowWin32(_GLFWwindow* window);
-void _glfwRequestWindowAttentionWin32(_GLFWwindow* window);
-void _glfwFocusWindowWin32(_GLFWwindow* window);
-void _glfwSetWindowMonitorWin32(_GLFWwindow* window, _GLFWmonitor* monitor, int xpos, int ypos, int width, int height, int refreshRate);
-int _glfwWindowFocusedWin32(_GLFWwindow* window);
-int _glfwWindowIconifiedWin32(_GLFWwindow* window);
-int _glfwWindowVisibleWin32(_GLFWwindow* window);
-int _glfwWindowMaximizedWin32(_GLFWwindow* window);
-int _glfwWindowHoveredWin32(_GLFWwindow* window);
-int _glfwFramebufferTransparentWin32(_GLFWwindow* window);
-void _glfwSetWindowResizableWin32(_GLFWwindow* window, GLFWbool enabled);
-void _glfwSetWindowDecoratedWin32(_GLFWwindow* window, GLFWbool enabled);
-void _glfwSetWindowFloatingWin32(_GLFWwindow* window, GLFWbool enabled);
-void _glfwSetWindowMousePassthroughWin32(_GLFWwindow* window, GLFWbool enabled);
-float _glfwGetWindowOpacityWin32(_GLFWwindow* window);
-void _glfwSetWindowOpacityWin32(_GLFWwindow* window, float opacity);
+int _glfwCreateWindowWin32(_GLFWwindow* m_window, const _GLFWwndconfig* wndconfig, const _GLFWctxconfig* ctxconfig, const _GLFWfbconfig* fbconfig);
+void _glfwDestroyWindowWin32(_GLFWwindow* m_window);
+void _glfwSetWindowTitleWin32(_GLFWwindow* m_window, const char* title);
+void _glfwSetWindowIconWin32(_GLFWwindow* m_window, int count, const GLFWimage* images);
+void _glfwGetWindowPosWin32(_GLFWwindow* m_window, int* xpos, int* ypos);
+void _glfwSetWindowPosWin32(_GLFWwindow* m_window, int xpos, int ypos);
+void _glfwGetWindowSizeWin32(_GLFWwindow* m_window, int* width, int* height);
+void _glfwSetWindowSizeWin32(_GLFWwindow* m_window, int width, int height);
+void _glfwSetWindowSizeLimitsWin32(_GLFWwindow* m_window, int minwidth, int minheight, int maxwidth, int maxheight);
+void _glfwSetWindowAspectRatioWin32(_GLFWwindow* m_window, int numer, int denom);
+void _glfwGetFramebufferSizeWin32(_GLFWwindow* m_window, int* width, int* height);
+void _glfwGetWindowFrameSizeWin32(_GLFWwindow* m_window, int* left, int* top, int* right, int* bottom);
+void _glfwGetWindowContentScaleWin32(_GLFWwindow* m_window, float* xscale, float* yscale);
+void _glfwIconifyWindowWin32(_GLFWwindow* m_window);
+void _glfwRestoreWindowWin32(_GLFWwindow* m_window);
+void _glfwMaximizeWindowWin32(_GLFWwindow* m_window);
+void _glfwShowWindowWin32(_GLFWwindow* m_window);
+void _glfwHideWindowWin32(_GLFWwindow* m_window);
+void _glfwRequestWindowAttentionWin32(_GLFWwindow* m_window);
+void _glfwFocusWindowWin32(_GLFWwindow* m_window);
+void _glfwSetWindowMonitorWin32(_GLFWwindow* m_window, _GLFWmonitor* monitor, int xpos, int ypos, int width, int height, int refreshRate);
+int _glfwWindowFocusedWin32(_GLFWwindow* m_window);
+int _glfwWindowIconifiedWin32(_GLFWwindow* m_window);
+int _glfwWindowVisibleWin32(_GLFWwindow* m_window);
+int _glfwWindowMaximizedWin32(_GLFWwindow* m_window);
+int _glfwWindowHoveredWin32(_GLFWwindow* m_window);
+int _glfwFramebufferTransparentWin32(_GLFWwindow* m_window);
+void _glfwSetWindowResizableWin32(_GLFWwindow* m_window, GLFWbool enabled);
+void _glfwSetWindowDecoratedWin32(_GLFWwindow* m_window, GLFWbool enabled);
+void _glfwSetWindowFloatingWin32(_GLFWwindow* m_window, GLFWbool enabled);
+void _glfwSetWindowMousePassthroughWin32(_GLFWwindow* m_window, GLFWbool enabled);
+float _glfwGetWindowOpacityWin32(_GLFWwindow* m_window);
+void _glfwSetWindowOpacityWin32(_GLFWwindow* m_window, float opacity);
 
-void _glfwSetRawMouseMotionWin32(_GLFWwindow *window, GLFWbool enabled);
+void _glfwSetRawMouseMotionWin32(_GLFWwindow *m_window, GLFWbool enabled);
 GLFWbool _glfwRawMouseMotionSupportedWin32(void);
 
 void _glfwPollEventsWin32(void);
@@ -584,25 +584,25 @@ void _glfwWaitEventsWin32(void);
 void _glfwWaitEventsTimeoutWin32(double timeout);
 void _glfwPostEmptyEventWin32(void);
 
-void _glfwGetCursorPosWin32(_GLFWwindow* window, double* xpos, double* ypos);
-void _glfwSetCursorPosWin32(_GLFWwindow* window, double xpos, double ypos);
-void _glfwSetCursorModeWin32(_GLFWwindow* window, int mode);
+void _glfwGetCursorPosWin32(_GLFWwindow* m_window, double* xpos, double* ypos);
+void _glfwSetCursorPosWin32(_GLFWwindow* m_window, double xpos, double ypos);
+void _glfwSetCursorModeWin32(_GLFWwindow* m_window, int mode);
 const char* _glfwGetScancodeNameWin32(int scancode);
 int _glfwGetKeyScancodeWin32(int key);
 int _glfwCreateCursorWin32(_GLFWcursor* cursor, const GLFWimage* image, int xhot, int yhot);
 int _glfwCreateStandardCursorWin32(_GLFWcursor* cursor, int shape);
 void _glfwDestroyCursorWin32(_GLFWcursor* cursor);
-void _glfwSetCursorWin32(_GLFWwindow* window, _GLFWcursor* cursor);
+void _glfwSetCursorWin32(_GLFWwindow* m_window, _GLFWcursor* cursor);
 void _glfwSetClipboardStringWin32(const char* string);
 const char* _glfwGetClipboardStringWin32(void);
 
 EGLenum _glfwGetEGLPlatformWin32(EGLint** attribs);
 EGLNativeDisplayType _glfwGetEGLNativeDisplayWin32(void);
-EGLNativeWindowType _glfwGetEGLNativeWindowWin32(_GLFWwindow* window);
+EGLNativeWindowType _glfwGetEGLNativeWindowWin32(_GLFWwindow* m_window);
 
 void _glfwGetRequiredInstanceExtensionsWin32(char** extensions);
-int _glfwGetPhysicalDevicePresentationSupportWin32(VkInstance instance, VkPhysicalDevice device, uint32_t queuefamily);
-VkResult _glfwCreateWindowSurfaceWin32(VkInstance instance, _GLFWwindow* window, const VkAllocationCallbacks* allocator, VkSurfaceKHR* surface);
+int _glfwGetPhysicalDevicePresentationSupportWin32(VkInstance s_instance, VkPhysicalDevice device, uint32_t queuefamily);
+VkResult _glfwCreateWindowSurfaceWin32(VkInstance s_instance, _GLFWwindow* m_window, const VkAllocationCallbacks* allocator, VkSurfaceKHR* surface);
 
 void _glfwFreeMonitorWin32(_GLFWmonitor* monitor);
 void _glfwGetMonitorPosWin32(_GLFWmonitor* monitor, int* xpos, int* ypos);
@@ -621,7 +621,7 @@ void _glfwUpdateGamepadGUIDWin32(char* guid);
 
 GLFWbool _glfwInitWGL(void);
 void _glfwTerminateWGL(void);
-GLFWbool _glfwCreateContextWGL(_GLFWwindow* window,
+GLFWbool _glfwCreateContextWGL(_GLFWwindow* m_window,
                                const _GLFWctxconfig* ctxconfig,
                                const _GLFWfbconfig* fbconfig);
 

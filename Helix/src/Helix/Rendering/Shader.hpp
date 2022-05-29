@@ -12,7 +12,8 @@ namespace hlx
 	class Shader
 	{
 	public:
-		Shader(const std::string& vertex, const std::string& geometry, const std::string& fragment);
+		Shader(const std::filesystem::path& vertex, const std::filesystem::path& fragment);
+		Shader(const std::filesystem::path& vertex, const std::filesystem::path& geometry, const std::filesystem::path& fragment);
 		~Shader();
 
 		void bind() const;
@@ -33,7 +34,16 @@ namespace hlx
 		void setMat(const std::string& identifier, const glm::mat4& value);
 
 	private:
-		unsigned int programId;
-		std::unordered_map<std::string, int> uniformLocationMap;
+		static void checkProgramStatus(unsigned int programId, GLenum flag = GL_LINK_STATUS);
+		static void checkShaderStatus(unsigned int shaderId, GLenum flag = GL_COMPILE_STATUS);
+
+		static void logProgramError(unsigned int programId);
+		static void logShaderError(unsigned int shaderId);
+
+		unsigned int create(GLenum type, const std::string& source);
+		void compile(unsigned int shader, const std::string& source);
+
+		unsigned int m_programId;
+		std::unordered_map<std::string, int> m_uniformLocationMap;
 	};
 }

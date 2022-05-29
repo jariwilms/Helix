@@ -116,17 +116,17 @@ void _glfwInputMonitor(_GLFWmonitor* monitor, int action, int placement)
     else if (action == GLFW_DISCONNECTED)
     {
         int i;
-        _GLFWwindow* window;
+        _GLFWwindow* m_window;
 
-        for (window = _glfw.windowListHead;  window;  window = window->next)
+        for (m_window = _glfw.windowListHead;  m_window;  m_window = m_window->next)
         {
-            if (window->monitor == monitor)
+            if (m_window->monitor == monitor)
             {
                 int width, height, xoff, yoff;
-                _glfw.platform.getWindowSize(window, &width, &height);
-                _glfw.platform.setWindowMonitor(window, NULL, 0, 0, width, height, 0);
-                _glfw.platform.getWindowFrameSize(window, &xoff, &yoff, NULL, NULL);
-                _glfw.platform.setWindowPos(window, xoff, yoff);
+                _glfw.platform.getWindowSize(m_window, &width, &height);
+                _glfw.platform.setWindowMonitor(m_window, NULL, 0, 0, width, height, 0);
+                _glfw.platform.getWindowFrameSize(m_window, &xoff, &yoff, NULL, NULL);
+                _glfw.platform.setWindowPos(m_window, xoff, yoff);
             }
         }
 
@@ -153,9 +153,9 @@ void _glfwInputMonitor(_GLFWmonitor* monitor, int action, int placement)
 // Notifies shared code that a full screen window has acquired or released
 // a monitor
 //
-void _glfwInputMonitorWindow(_GLFWmonitor* monitor, _GLFWwindow* window)
+void _glfwInputMonitorWindow(_GLFWmonitor* monitor, _GLFWwindow* m_window)
 {
-    monitor->window = window;
+    monitor->m_window = m_window;
 }
 
 
