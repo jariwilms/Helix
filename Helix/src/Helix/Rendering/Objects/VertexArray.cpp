@@ -22,22 +22,23 @@ namespace hlx
 	{
 		glBindVertexArray(0);
 	}
-	void VertexArray::setLayout(const VertexBuffer& buffer, BufferLayout layout)
+	void VertexArray::setLayout(const VertexBuffer& buffer, const BufferLayout& layout)
 	{
 		bind();
 		buffer.bind();
 
-		size_t offset{};
+		GLint64 offset{};
 		const auto& attributes = layout.getAttributes();
 
-		for (size_t i = 0; i < attributes.size(); ++i)
+		for (GLuint i = 0; i < attributes.size(); ++i)
 		{
 			const auto& attribute = attributes[i];
 
-			glEnableVertexAttribArray((GLuint)i);
-			glVertexAttribPointer((GLuint)i, attribute.size, attribute.type, attribute.normalized, (GLsizei)layout.getStride(), (void*)offset);
+			glEnableVertexAttribArray(i);
+			glVertexAttribPointer(i, attribute.size, attribute.type, attribute.normalized, layout.getStride(), (const void*)offset);
 
-			offset += static_cast<unsigned long long>(attribute.size) * GL::getSizeOfGLtype(attribute.type); //sub expression overflow gezever
+			auto result = attribute.size * GL::getSizeOfGLtype(attribute.type);
+			offset += result;
 		}
 
 		buffer.unbind();

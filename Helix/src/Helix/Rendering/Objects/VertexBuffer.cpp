@@ -3,7 +3,7 @@
 
 namespace hlx
 {
-	VertexBuffer::VertexBuffer(const void* data, size_t size, GLenum usage)
+	VertexBuffer::VertexBuffer(const float* data, GLsizei size, GLenum usage)
 	{
 		glGenBuffers(1, &m_objectId);
 		setBufferData(data, size, usage);
@@ -24,7 +24,7 @@ namespace hlx
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	void VertexBuffer::setBufferData(const void* data, size_t size, GLenum usage)
+	void VertexBuffer::setBufferData(const float* data, GLsizei size, GLenum usage)
 	{
 		bind();
 

@@ -49,42 +49,17 @@ namespace hlx
 
 		Shader shader{ "Sandbox/default.vert", "Sandbox/default.frag" };
 		HLX_CORE_ASSERT(shader.verify(), "Failed to create shader");
-		shader.bind();
-
-
-
-		//IMGUI_CHECKVERSION();
-		//ImGui::CreateContext();
-		//ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-		//ImGui::StyleColorsDark();
-
-		//ImGui_ImplGlfw_InitForOpenGL((GLFWwindow*)m_window->getNativeWindow(), true);
-		//ImGui_ImplOpenGL3_Init("#version 460");
-
-
 
 		while (m_running)
 		{
 			glClear(GL_COLOR_BUFFER_BIT);
 			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-			//ImGui_ImplOpenGL3_NewFrame();
-			//ImGui_ImplGlfw_NewFrame();
-			//ImGui::NewFrame();
-
 			shader.bind();
 			vao.bind();
 			ebo.bind();
 
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
-			//ImGui::Begin("window");
-			//ImGui::Text("text");
-			//ImGui::End();
-
-			//ImGui::Render();
-			//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+			glDrawElements(GL_TRIANGLES, ebo.getCount(), GL_UNSIGNED_INT, nullptr);
 
 			m_window->update();
 		}

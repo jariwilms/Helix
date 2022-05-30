@@ -3,7 +3,8 @@
 
 namespace hlx
 {
-	ElementBuffer::ElementBuffer(const void* data, size_t size, GLenum usage)
+	ElementBuffer::ElementBuffer(const unsigned int* data, GLsizei size, GLenum usage)
+		:m_count{ size / (GLsizei)sizeof(unsigned int) }
 	{
 		glGenBuffers(1, &m_objectId);
 		setBufferData(data, size, usage);
@@ -24,7 +25,12 @@ namespace hlx
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
-	void ElementBuffer::setBufferData(const void* data, size_t size, GLenum usage)
+	GLsizei ElementBuffer::getCount() const
+	{
+		return m_count;
+	}
+
+	void ElementBuffer::setBufferData(const unsigned int* data, GLsizei size, GLenum usage)
 	{
 		bind();
 

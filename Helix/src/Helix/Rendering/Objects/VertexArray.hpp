@@ -21,6 +21,6 @@ namespace hlx
 		void bind() const override;
 		void unbind() const override;
 
-		void setLayout(const VertexBuffer& buffer, BufferLayout layout);
+		void setLayout(const VertexBuffer& buffer, const BufferLayout& layout);
 	};
 }

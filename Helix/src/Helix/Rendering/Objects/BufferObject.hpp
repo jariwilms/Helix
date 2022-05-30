@@ -11,7 +11,7 @@ namespace hlx
 		BufferObject() : m_objectId{} {}
 		virtual ~BufferObject() = 0;
 
-		unsigned int m_objectId;
+		GLuint m_objectId;
 	};
 
 	inline BufferObject::~BufferObject() {}
