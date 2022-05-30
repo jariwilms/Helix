@@ -1,54 +1,121 @@
 #include "stdafx.hpp"
-
 #include "Shader.hpp"
 
 namespace hlx
 {
 	Shader::Shader(const std::filesystem::path& vertex, const std::filesystem::path& fragment)
+		: m_status{}
 	{
-		m_programId = glCreateProgram();
-		HLX_CORE_ASSERT(m_programId, "Failed to create program");
+		bool success{};
 
+		unsigned int vertexShader = Shader::create(GL_VERTEX_SHADER);
 		std::string vertexSource = IO::readFileToString(vertex);
-		std::string fragmentSource = IO::readFileToString(fragment);
+		success = compile(vertexShader, vertexSource);
+		if (!success)
+		{
+			logShaderError(vertexShader);
+			glDeleteShader(vertexShader);
 
-		unsigned int vertexShader = Shader::create(GL_VERTEX_SHADER, vertexSource);
-		unsigned int fragmentShader = Shader::create(GL_FRAGMENT_SHADER, fragmentSource);
+			return;
+		}
+
+		unsigned int fragmentShader = Shader::create(GL_FRAGMENT_SHADER);
+		std::string fragmentSource = IO::readFileToString(fragment);
+		success = compile(fragmentShader, fragmentSource);
+		if (!success)
+		{
+			logShaderError(fragmentShader);
+			glDeleteShader(fragmentShader);
+
+			return;
+		}
+
+		m_programId = glCreateProgram();
 
 		glAttachShader(m_programId, vertexShader);
 		glAttachShader(m_programId, fragmentShader);
 
 		glLinkProgram(m_programId);
+		success = checkProgramStatus(m_programId);
+		if (!success)
+		{
+			logProgramError(m_programId);
+			glDeleteProgram(m_programId);
 
+			glDeleteShader(vertexShader);
+			glDeleteShader(fragmentShader);
 
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
+			return;
+		}
 
-		glUseProgram(0);
+		glDetachShader(m_programId, vertexShader);
+		glDetachShader(m_programId, fragmentShader);
+
+		m_status = true;
 	}
 	Shader::Shader(const std::filesystem::path& vertex, const std::filesystem::path& geometry, const std::filesystem::path& fragment)
+		: m_status{}
 	{
-		m_programId = glCreateProgram();
-		HLX_CORE_ASSERT(m_programId, "Failed to create program");
+		bool success{};
 
-		std::string vertexSource = IO::readFileToString("files/default.vert");
+		unsigned int vertexShader = Shader::create(GL_VERTEX_SHADER);
+		std::string vertexSource = IO::readFileToString(vertex);
+		success = compile(vertexShader, vertexSource);
+		if (!success)
+		{
+			logShaderError(vertexShader);
+			glDeleteShader(vertexShader);
+
+			return;
+		}
+
+		unsigned int geometryShader = Shader::create(GL_GEOMETRY_SHADER);
 		std::string geometrySource = IO::readFileToString("files/default.geom");
-		std::string fragmentSource = IO::readFileToString("files/default.frag");
+		success = compile(geometryShader, geometrySource);
+		if (!success)
+		{
+			logShaderError(geometryShader);
+			glDeleteShader(geometryShader);
 
-		unsigned int vertexShader = Shader::create(GL_VERTEX_SHADER, vertexSource);
-		unsigned int geometryShader = Shader::create(GL_GEOMETRY_SHADER, geometrySource);
-		unsigned int fragmentShader = Shader::create(GL_FRAGMENT_SHADER, fragmentSource);
+			return;
+		}
+
+		unsigned int fragmentShader = Shader::create(GL_FRAGMENT_SHADER);
+		std::string fragmentSource = IO::readFileToString(fragment);
+		success = compile(fragmentShader, fragmentSource);
+		if (!success)
+		{
+			logShaderError(fragmentShader);
+			glDeleteShader(fragmentShader);
+
+			return;
+		}
+
+		m_programId = glCreateProgram();
 
 		glAttachShader(m_programId, vertexShader);
 		glAttachShader(m_programId, geometryShader);
 		glAttachShader(m_programId, fragmentShader);
 
 		glLinkProgram(m_programId);
-		checkProgramStatus(m_programId);
+		success = checkProgramStatus(m_programId);
+		if (!success)
+		{
+			logProgramError(m_programId);
+			glDeleteProgram(m_programId);
 
-		glDeleteShader(vertexShader);
-		glDeleteShader(geometryShader);
-		glDeleteShader(fragmentShader);
+			glDeleteShader(vertexShader);
+			glDeleteShader(geometryShader);
+			glDeleteShader(fragmentShader);
+
+			return;
+		}
+
+		glDetachShader(m_programId, vertexShader);
+		glDetachShader(m_programId, geometryShader);
+		glDetachShader(m_programId, fragmentShader);
+
+		m_status = true;
 	}
 	Shader::~Shader()
 	{
@@ -64,6 +131,10 @@ namespace hlx
 		glUseProgram(0);
 	}
 
+	bool Shader::verify() const
+	{
+		return m_status;
+	}
 	int Shader::getUniformLocation(const std::string& identifier)
 	{
 		if (m_uniformLocationCache.find(identifier) != m_uniformLocationCache.end()) return m_uniformLocationCache[identifier];
@@ -114,60 +185,58 @@ namespace hlx
 		glUniformMatrix4fv(getUniformLocation(identifier), 1, GL_FALSE, glm::value_ptr(value));
 	}
 
-	void Shader::checkProgramStatus(unsigned int programId, GLenum flag)
+	bool Shader::checkProgramStatus(unsigned int programId, GLenum flag)
 	{
 		int status{};
 		glGetProgramiv(programId, flag, &status);
-	
-		if (status != GL_TRUE) logProgramError(programId);
+
+		return status == GL_TRUE;
 	}
-	void Shader::checkShaderStatus(unsigned int shaderId, GLenum flag)
+	bool Shader::checkShaderStatus(unsigned int shaderId, GLenum flag)
 	{
 		int status{};
 		glGetShaderiv(shaderId, flag, &status);
 
-		if (status != GL_TRUE) logShaderError(shaderId);
+		return status == GL_TRUE;
 	}
 
 	void Shader::logProgramError(unsigned int programId)
 	{
-		int logLength{};
-		glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &logLength);
+		int length{};
+		glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &length);
 
-		std::string errorLog{};
-		errorLog.resize(logLength);
+		std::string log{};
+		log.reserve(++length);
 
-		glGetProgramInfoLog(programId, logLength, &logLength, errorLog.data());
-		HLX_CORE_ERROR(errorLog);
+		glGetProgramInfoLog(programId, length, &length, log.data());
+
+		HLX_CORE_ERROR(log.data());
 	}
 	void Shader::logShaderError(unsigned int shaderId)
 	{
-		int logLength{};
-		glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
+		int length{};
+		glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &length);
 
-		std::string errorLog{};
-		errorLog.resize(logLength);
+		std::string log{};
+		log.reserve(++length);
 
-		glGetShaderInfoLog(shaderId, logLength, &logLength, errorLog.data());
-		HLX_CORE_ERROR(errorLog);
+		glGetShaderInfoLog(shaderId, length, &length, log.data());
+
+		HLX_CORE_ERROR(log.data());
 	}
 
-	unsigned int Shader::create(GLenum type, const std::string& source)
+	unsigned int Shader::create(GLenum type)
 	{
-		unsigned int shader = glCreateShader(type);
-		HLX_ASSERT(shader != -1, "Failed to create shader");
-
-		Shader::compile(shader, source);
-
-		return shader;
+		return glCreateShader(type);
 	}
-	void Shader::compile(unsigned int shader, const std::string& source)
+	bool Shader::compile(unsigned int shader, const std::string& source)
 	{
+		if (source.empty()) return false;
 		const char* shaderSourcePtr = source.c_str();
 
 		glShaderSource(shader, 1, &shaderSourcePtr, nullptr);
 		glCompileShader(shader);
 
-		checkShaderStatus(shader);
+		return checkShaderStatus(shader);
 	}
 }

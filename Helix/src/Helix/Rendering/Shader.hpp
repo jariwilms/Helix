@@ -19,6 +19,7 @@ namespace hlx
 		void bind() const;
 		void unbind() const;
 
+		bool verify() const;
 		int getUniformLocation(const std::string& id);
 
 		void setBool(const std::string& identifier, bool value);
@@ -34,15 +35,16 @@ namespace hlx
 		void setMat(const std::string& identifier, const glm::mat4& value);
 
 	private:
-		static void checkProgramStatus(unsigned int programId, GLenum flag = GL_LINK_STATUS);
-		static void checkShaderStatus(unsigned int shaderId, GLenum flag = GL_COMPILE_STATUS);
+		static bool checkProgramStatus(unsigned int programId, GLenum flag = GL_LINK_STATUS);
+		static bool checkShaderStatus(unsigned int shaderId, GLenum flag = GL_COMPILE_STATUS);
 
 		static void logProgramError(unsigned int programId);
 		static void logShaderError(unsigned int shaderId);
 
-		unsigned int create(GLenum type, const std::string& source);
-		void compile(unsigned int shader, const std::string& source);
+		unsigned int create(GLenum type);
+		bool compile(unsigned int shader, const std::string& source);
 
+		bool m_status;;
 		unsigned int m_programId;
 		std::unordered_map<std::string, int> m_uniformLocationCache;
 	};

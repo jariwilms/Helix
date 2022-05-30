@@ -6,10 +6,6 @@
 #include "Helix/Core/IO.hpp"
 #include "Helix/Diagnostics/Log.hpp"
 
-//remove
-#include "Helix/Rendering/Shader.hpp"
-//
-
 #ifdef HLX_PLATFORM_WINDOWS
 
 extern hlx::Application* hlx::createApplication();

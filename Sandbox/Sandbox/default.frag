@@ -1,8 +1,10 @@
 #version 460 core
 
-out vec4 fragmentColor;
+in vec3 v_position;
+
+out vec4 f_color;
 
 void main()
 {
-	fragmentColor = vec4(1.0, 1.0, 1.0, 1.0);
+	f_color = vec4(v_position * 0.5 + 0.5, 1.0);
 }

@@ -13,7 +13,7 @@ workspace "Helix"
 	includedir = {}
 	includedir["GLAD"] = "Helix/vendor/glad/include"
 	includedir["GLFW"] = "Helix/vendor/glfw/include"
-	includedir["IMGUI"] = "Helix/vendor/imgui"
+	includedir["IMGUI"] = "Helix/vendor/imgui/include"
 	
 	include "Helix/vendor/glad"
 	include "Helix/vendor/glfw"
@@ -44,6 +44,7 @@ project "Helix"
 		"%{prj.name}/src", 
 		"%{includedir.GLAD}", 
 		"%{includedir.GLFW}", 
+		"%{includedir.IMGUI}", 
 		"%{prj.name}/vendor/glm/include", 
 		"%{prj.name}/vendor/spdlog/include"
 	}
@@ -98,13 +99,14 @@ project "Sandbox"
 		"Helix/src", 
 		"%{includedir.GLAD}", 
 		"%{includedir.GLFW}", 
+		"%{includedir.IMGUI}", 
 		"Helix/vendor/glm/include", 
 		"Helix/vendor/spdlog/include"
 	}
 	
 	links
 	{
-		"Helix"
+		"Helix", 
 	}
 	
 	filter "system:windows"
