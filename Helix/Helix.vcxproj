@@ -118,10 +118,12 @@
     <ClInclude Include="src\Helix\Rendering\Objects\ElementBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\Objects\VertexArray.hpp" />
     <ClInclude Include="src\Helix\Rendering\Objects\VertexBuffer.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Projection.hpp" />
     <ClInclude Include="src\Helix\Rendering\Renderers\Base\Renderer.hpp" />
     <ClInclude Include="src\Helix\Rendering\Renderers\OpenGlRenderer.hpp" />
     <ClInclude Include="src\Helix\Rendering\Shader.hpp" />
     <ClInclude Include="src\Helix\Scene\Scene.hpp" />
+    <ClInclude Include="src\Helix\Scene\Transform.hpp" />
     <ClInclude Include="src\Helix\Window\Base\Window.hpp" />
     <ClInclude Include="src\Helix\Window\WindowsWindow.hpp" />
     <ClInclude Include="src\main.hpp" />

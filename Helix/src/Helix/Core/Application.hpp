@@ -2,15 +2,16 @@
 
 #include "stdafx.hpp"
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
+//#include "imgui/imgui.h"
+//#include "imgui/imgui_impl_glfw.h"
+//#include "imgui/imgui_impl_opengl3.h"
 
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
 
 #include "Helix/Core/Core.hpp"
 #include "Helix/Rendering/Renderers/Base/Renderer.hpp"
+#include "Helix/Rendering/Camera.hpp"
 #include "Helix/Rendering/Objects/BufferLayout.hpp"
 #include "Helix/Rendering/Objects/VertexArray.hpp"
 #include "Helix/Rendering/Objects/VertexBuffer.hpp"

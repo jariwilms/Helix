@@ -7,34 +7,37 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "Helix/Scene/Transform.hpp"
+#include "Helix/Rendering/Projection.hpp"
+
 namespace hlx
 {
 	class Camera
 	{
 	public:
-		struct Axes
-		{
-			Axes();
-			Axes(double yaw, double pitch, double roll);
-
-			double yaw;
-			double pitch;
-			double roll;
-		};
 
 		Camera();
-		Camera(glm::vec3 position, glm::vec3 up = glm::vec3{ 0.0f, 1.0f, 0.0f }, Axes axes = Axes{});
+		Camera(Transform transform, glm::vec3 worldUp = glm::vec3{ 0.0f, 1.0f, 0.0f });
 		~Camera() = default;
 
 		void update();
+		void updateProjections();
 
-		glm::mat4 getViewMatrix() const;
+		Transform& getTransform();
+		void setTransform(const Transform& transform);
 
-		glm::vec3 getPosition() const;
-		Axes getAxes() const;
+		const glm::mat4& getViewMatrix() const;
+		const glm::mat4& getProjectionMatrix() const;
+		const glm::mat4 getViewProjectionMatrix() const;
+
+		ProjectionType getProjectionType() const;
+		void setProjectionType(ProjectionType type);
+
+		OrthographicProjection& getOrthographicProjection();
+		PerspectiveProjection& getPerspectiveProjection();
 
 	private:
-		glm::vec3 m_position;
+		Transform m_transform;
 
 		glm::vec3 m_up;
 		glm::vec3 m_forward;
@@ -42,6 +45,13 @@ namespace hlx
 
 		glm::vec3 m_worldUp;
 
-		Axes m_axes;
+		glm::mat4 m_viewMatrix;
+		glm::mat4 m_projectionMatrix;
+
+		ProjectionType m_projectionType;
+		OrthographicProjection m_orthographicProjection;
+		PerspectiveProjection m_perspectiveProjection;
+
+		bool m_hasTarget;
 	};
 }

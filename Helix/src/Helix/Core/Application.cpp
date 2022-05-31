@@ -27,78 +27,75 @@ namespace hlx
 	{
 		Renderer& renderer = Renderer::getInstance();
 
-		float triangleVertices[] =
+		float cubeVertices[] =
 		{
-			0.0f, 0.5f, 0.0f, 
-			-0.5f, -0.5f, 0.0f, 
-			0.5f, -0.5f, 0.0f, 
-		};
-		unsigned int triangleIndices[] =
-		{
-			0, 1, 2
+			-0.5f, 0.5f, 0.5f,
+			-0.5f, -0.5f, 0.5f,
+			0.5f, -0.5f, 0.5f,
+			0.5f, 0.5f, 0.5f,
+
+			-0.5f, 0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f, -0.5f,
+			0.5f, 0.5f, -0.5f,
 		};
 
-		float squareVertices[]
+		unsigned int cubeIndices[] =
 		{
-			-0.5f, 0.5f, 0.0f,
-			-0.5f, -0.5f, 0.0f,
-			0.5f, -0.5f, 0.0f,
-			0.5f, 0.5f, 0.0f,
-		};
-		unsigned int squareIndices[] =
-		{
+			3, 2, 6,
+			3, 6, 7,
+
+			4, 5, 1,
+			4, 1, 0,
+
+			4, 0, 3,
+			4, 3, 7,
+
+			5, 1, 2,
+			5, 2, 6,
+
 			0, 1, 2,
-			0, 2, 3, 
+			0, 2, 3,
+
+			4, 5, 6,
+			4, 6, 7
 		};
 
 		BufferLayout layout{};
 		layout.addAttribute<float>(3);
 
+		VertexArray vao{};
+		VertexBuffer vbo{ cubeVertices, sizeof(cubeVertices) };
+		ElementBuffer ebo{ cubeIndices, sizeof(cubeIndices) };
 
+		vbo.setLayout(layout);
+		vao.addVertexBuffer(vbo);
+		vao.setElementBuffer(ebo);
 
-		VertexArray triangleVAO{};
-		VertexBuffer triangleVBO{ triangleVertices, sizeof(triangleVertices) };
-		ElementBuffer triangleEBO{ triangleIndices, sizeof(triangleIndices) };
+		Shader shader{ "Sandbox/mvp.vert", "Sandbox/mvp.frag" };
+		HLX_CORE_ASSERT(shader.verify(), "Failed to create shader"); //TODO: move in shader?
 
-		triangleVBO.setLayout(layout);
-		triangleVAO.addVertexBuffer(triangleVBO);
-		triangleVAO.setElementBuffer(triangleEBO);
-
-
-
-		VertexArray squareVAO{};
-		VertexBuffer squareVBO{ squareVertices, sizeof(squareVertices) };
-		ElementBuffer squareEBO{ squareIndices, sizeof(squareIndices) };
-
-		squareVBO.setLayout(layout);
-		squareVAO.addVertexBuffer(squareVBO);
-		squareVAO.setElementBuffer(squareEBO);
-
-
-		Shader shader{ "Sandbox/default.vert", "Sandbox/default.frag" };
-		HLX_CORE_ASSERT(shader.verify(), "Failed to create shader");
-		Shader shader2{ "Sandbox/square.vert", "Sandbox/square.frag" };
-		HLX_CORE_ASSERT(shader.verify(), "Failed to create shader");
-
-
+		Transform cameraTransform;
+		Camera camera{ cameraTransform };
+		camera.update();
 
 		while (m_running)
 		{
 			renderer.clearBuffer();
 			renderer.clearBackground(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
-			shader2.bind();
-			renderer.drawIndexed(squareVAO);
-
 			shader.bind();
-			renderer.drawIndexed(triangleVAO);
+			shader.setMat("u_model", glm::mat4{ 1.0f });
+			shader.setMat("u_view", glm::mat4{ 1.0f });
+			shader.setMat("u_projection", glm::mat4{ 1.0f });
+
+			vao.bind();
+			ebo.bind();
+
+			renderer.drawIndexed(vao);
 
 			m_window->update();
 		}
-
-		ImGui_ImplOpenGL3_Shutdown();
-		ImGui_ImplGlfw_Shutdown();
-		ImGui::DestroyContext();
 	}
 
 	void Application::close()
