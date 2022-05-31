@@ -25,41 +25,73 @@ namespace hlx
 
 	void Application::run()
 	{
-		float vertices[] =
+		Renderer& renderer = Renderer::getInstance();
+
+		float triangleVertices[] =
 		{
-			-0.5f, 0.5f, 0.0f, 
+			0.0f, 0.5f, 0.0f, 
 			-0.5f, -0.5f, 0.0f, 
 			0.5f, -0.5f, 0.0f, 
-			0.5f, 0.5f, 0.0f, 
 		};
-
-		unsigned int indices[] =
+		unsigned int triangleIndices[] =
 		{
-			0, 1, 2, 
-			0, 2, 3
+			0, 1, 2
 		};
 
-		VertexArray vao{};
-		VertexBuffer vbo{ vertices, sizeof(vertices) };
-		ElementBuffer ebo{ indices, sizeof(indices) };
+		float squareVertices[]
+		{
+			-0.5f, 0.5f, 0.0f,
+			-0.5f, -0.5f, 0.0f,
+			0.5f, -0.5f, 0.0f,
+			0.5f, 0.5f, 0.0f,
+		};
+		unsigned int squareIndices[] =
+		{
+			0, 1, 2,
+			0, 2, 3, 
+		};
 
 		BufferLayout layout{};
 		layout.addAttribute<float>(3);
-		vao.setLayout(vbo, layout);
+
+
+
+		VertexArray triangleVAO{};
+		VertexBuffer triangleVBO{ triangleVertices, sizeof(triangleVertices) };
+		ElementBuffer triangleEBO{ triangleIndices, sizeof(triangleIndices) };
+
+		triangleVBO.setLayout(layout);
+		triangleVAO.addVertexBuffer(triangleVBO);
+		triangleVAO.setElementBuffer(triangleEBO);
+
+
+
+		VertexArray squareVAO{};
+		VertexBuffer squareVBO{ squareVertices, sizeof(squareVertices) };
+		ElementBuffer squareEBO{ squareIndices, sizeof(squareIndices) };
+
+		squareVBO.setLayout(layout);
+		squareVAO.addVertexBuffer(squareVBO);
+		squareVAO.setElementBuffer(squareEBO);
+
 
 		Shader shader{ "Sandbox/default.vert", "Sandbox/default.frag" };
 		HLX_CORE_ASSERT(shader.verify(), "Failed to create shader");
+		Shader shader2{ "Sandbox/square.vert", "Sandbox/square.frag" };
+		HLX_CORE_ASSERT(shader.verify(), "Failed to create shader");
+
+
 
 		while (m_running)
 		{
-			glClear(GL_COLOR_BUFFER_BIT);
-			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+			renderer.clearBuffer();
+			renderer.clearBackground(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
+
+			shader2.bind();
+			renderer.drawIndexed(squareVAO);
 
 			shader.bind();
-			vao.bind();
-			ebo.bind();
-
-			glDrawElements(GL_TRIANGLES, ebo.getCount(), GL_UNSIGNED_INT, nullptr);
+			renderer.drawIndexed(triangleVAO);
 
 			m_window->update();
 		}

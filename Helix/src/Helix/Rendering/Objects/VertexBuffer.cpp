@@ -3,9 +3,14 @@
 
 namespace hlx
 {
+	VertexBuffer::VertexBuffer()
+	{
+		glCreateBuffers(1, &m_objectId);
+	}
+
 	VertexBuffer::VertexBuffer(const float* data, GLsizei size, GLenum usage)
 	{
-		glGenBuffers(1, &m_objectId);
+		glCreateBuffers(1, &m_objectId);
 		setBufferData(data, size, usage);
 	}
 
@@ -22,6 +27,16 @@ namespace hlx
 	void VertexBuffer::unbind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	const hlx::BufferLayout& VertexBuffer::getLayout() const
+	{
+		return m_layout;
+	}
+
+	void VertexBuffer::setLayout(const BufferLayout& layout)
+	{
+		m_layout = layout;
 	}
 
 	void VertexBuffer::setBufferData(const float* data, GLsizei size, GLenum usage)

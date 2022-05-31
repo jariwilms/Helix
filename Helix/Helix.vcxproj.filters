@@ -25,6 +25,15 @@
     <Filter Include="Helix\Rendering\Objects">
       <UniqueIdentifier>{E5E603E9-511E-4C80-5A28-B0A3C6DE7279}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helix\Rendering\Renderers">
+      <UniqueIdentifier>{05BC8A8D-717E-BE17-BA2E-4DA4263097F5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\Rendering\Renderers\Base">
+      <UniqueIdentifier>{AF63C22C-9B89-8C93-84CF-115F7094B15F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\Scene">
+      <UniqueIdentifier>{7CE82C9A-E89D-A58F-7192-9F66DD469C93}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Helix\Window">
       <UniqueIdentifier>{26F48FE9-1257-1F8E-BBDC-5744A71EEB10}</UniqueIdentifier>
     </Filter>
@@ -73,6 +82,9 @@
     <ClInclude Include="src\Helix\Input\MouseCode.hpp">
       <Filter>Helix\Input</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Camera.hpp">
+      <Filter>Helix\Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Rendering\GL.hpp">
       <Filter>Helix\Rendering</Filter>
     </ClInclude>
@@ -91,8 +103,17 @@
     <ClInclude Include="src\Helix\Rendering\Objects\VertexBuffer.hpp">
       <Filter>Helix\Rendering\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Renderers\Base\Renderer.hpp">
+      <Filter>Helix\Rendering\Renderers\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Renderers\OpenGlRenderer.hpp">
+      <Filter>Helix\Rendering\Renderers</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Shader.hpp">
       <Filter>Helix\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Scene\Scene.hpp">
+      <Filter>Helix\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Window\Base\Window.hpp">
       <Filter>Helix\Window\Base</Filter>
@@ -122,6 +143,9 @@
     <ClCompile Include="src\Helix\Input\InputHandler.cpp">
       <Filter>Helix\Input</Filter>
     </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Camera.cpp">
+      <Filter>Helix\Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="src\Helix\Rendering\Objects\ElementBuffer.cpp">
       <Filter>Helix\Rendering\Objects</Filter>
     </ClCompile>
@@ -131,8 +155,17 @@
     <ClCompile Include="src\Helix\Rendering\Objects\VertexBuffer.cpp">
       <Filter>Helix\Rendering\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Renderers\Base\Renderer.cpp">
+      <Filter>Helix\Rendering\Renderers\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Renderers\OpenGlRenderer.cpp">
+      <Filter>Helix\Rendering\Renderers</Filter>
+    </ClCompile>
     <ClCompile Include="src\Helix\Rendering\Shader.cpp">
       <Filter>Helix\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Scene\Scene.cpp">
+      <Filter>Helix\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Window\Base\Window.cpp">
       <Filter>Helix\Window\Base</Filter>

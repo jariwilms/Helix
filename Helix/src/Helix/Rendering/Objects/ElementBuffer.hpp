@@ -12,8 +12,9 @@ namespace hlx
 	class ElementBuffer : public BufferObject
 	{
 	public:
+		ElementBuffer();
 		ElementBuffer(const unsigned int* data, GLsizei size, GLenum usage = GL_STATIC_DRAW);
-		virtual ~ElementBuffer();
+		~ElementBuffer() override;
 
 		void bind() const override;
 		void unbind() const override;

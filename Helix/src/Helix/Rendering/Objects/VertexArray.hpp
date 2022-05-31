@@ -9,6 +9,7 @@
 #include "Helix/Rendering/Objects/BufferObject.hpp"
 #include "Helix/Rendering/Objects/BufferLayout.hpp"
 #include "Helix/Rendering/Objects/VertexBuffer.hpp"
+#include "Helix/Rendering/Objects/ElementBuffer.hpp"
 
 namespace hlx
 {
@@ -16,11 +17,20 @@ namespace hlx
 	{
 	public:
 		VertexArray();
-		virtual ~VertexArray() override;
+		~VertexArray() override;
 
 		void bind() const override;
 		void unbind() const override;
 
-		void setLayout(const VertexBuffer& buffer, const BufferLayout& layout);
+		const std::vector<VertexBuffer>& getVertexBuffers() const;
+		void addVertexBuffer(const VertexBuffer& buffer);
+
+		const ElementBuffer& getElementBuffer() const;
+		void setElementBuffer(const ElementBuffer& buffer);
+
+	private:
+		std::vector<VertexBuffer> m_vertexBuffers;
+		ElementBuffer m_elementBuffer;
+		GLuint m_vertexBufferIndex;
 	};
 }

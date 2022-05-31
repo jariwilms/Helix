@@ -66,7 +66,7 @@ namespace hlx
 			m_stride += size * GL::getSizeOfGLtype(GL_UNSIGNED_BYTE);
 		}
 
-		std::vector<VertexAttribute> getAttributes() const { return m_attributes; }
+		const std::vector<VertexAttribute>& getAttributes() const { return m_attributes; }
 		GLsizei getStride() const { return m_stride; }
 
 	private:

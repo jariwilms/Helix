@@ -4,8 +4,9 @@
 namespace hlx
 {
 	VertexArray::VertexArray()
+		: m_vertexBufferIndex{}
 	{
-		glGenVertexArrays(1, &m_objectId);
+		glCreateVertexArrays(1, &m_objectId);
 	}
 
 	VertexArray::~VertexArray()
@@ -16,31 +17,50 @@ namespace hlx
 	void VertexArray::bind() const
 	{
 		glBindVertexArray(m_objectId);
+		m_elementBuffer.bind();
 	}
 
 	void VertexArray::unbind() const
 	{
 		glBindVertexArray(0);
 	}
-	void VertexArray::setLayout(const VertexBuffer& buffer, const BufferLayout& layout)
+
+	const std::vector<VertexBuffer>& VertexArray::getVertexBuffers() const
 	{
+		return m_vertexBuffers;
+	}
+
+	void VertexArray::addVertexBuffer(const VertexBuffer& buffer)
+	{
+		HLX_CORE_ASSERT(buffer.getLayout().getAttributes().size(), "");
+
 		bind();
 		buffer.bind();
 
 		GLint64 offset{};
-		const auto& attributes = layout.getAttributes();
+		auto& layout = buffer.getLayout();
 
-		for (GLuint i = 0; i < attributes.size(); ++i)
+		for (const auto& attribute : layout.getAttributes())
 		{
-			const auto& attribute = attributes[i];
-
-			glEnableVertexAttribArray(i);
-			glVertexAttribPointer(i, attribute.size, attribute.type, attribute.normalized, layout.getStride(), (const void*)offset);
+			glEnableVertexAttribArray(m_vertexBufferIndex);
+			glVertexAttribPointer(m_vertexBufferIndex, attribute.size, attribute.type, attribute.normalized, layout.getStride(), (const void*)offset);
+			++m_vertexBufferIndex;
 
 			auto result = attribute.size * GL::getSizeOfGLtype(attribute.type);
 			offset += result;
 		}
 
+		m_vertexBuffers.emplace_back(buffer);
 		buffer.unbind();
+	}
+
+	const hlx::ElementBuffer& VertexArray::getElementBuffer() const
+	{
+		return m_elementBuffer;
+	}
+
+	void VertexArray::setElementBuffer(const ElementBuffer& buffer)
+	{
+		m_elementBuffer = buffer;
 	}
 }

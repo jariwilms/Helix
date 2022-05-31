@@ -27,7 +27,7 @@ namespace hlx
 	class Window
 	{
 	public:
-		virtual ~Window() = default;
+		virtual ~Window() = 0;
 
 		virtual void update() = 0;
 
@@ -38,8 +38,7 @@ namespace hlx
 		virtual void* getNativeWindow() const = 0;
 
 		static Window* create(const WindowProperties& m_properties);
-
-	protected:
-		Window() {}
 	};
+
+	inline Window::~Window() {}
 }
