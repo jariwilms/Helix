@@ -5,41 +5,34 @@
 
 namespace hlx
 {
-	using KeyCode = int;
-
 	class KeyEvent : public Event
 	{
 	public:
-		KeyCode getKeyCode() const { return this->keyCode; }
+		KeyCode getKeyCode() const { return m_keyCode; }
 
 		EVENT_CLASS(Event::Class::Input | Event::Class::Keyboard)
 
 	protected:
 		KeyEvent(const KeyCode keyCode)
-			: keyCode{ keyCode } {}
+			: m_keyCode{ keyCode } {}
 
-		KeyCode keyCode;
+	private:
+		KeyCode m_keyCode;
 	};
 
 	class KeyPressEvent : public KeyEvent
 	{
 	public:
-		KeyPressEvent(const KeyCode keyCode, const uint16_t repeatCount)
-			: KeyEvent{ keyCode }, repeatCount{ repeatCount } {}
+		KeyPressEvent(const KeyCode keyCode, const unsigned int repeatCount)
+			: KeyEvent{ keyCode }, m_repeatCount{ repeatCount } {}
 
-		uint16_t getRepeatCount() const { return repeatCount; }
-
-		const std::string toString() const override
-		{
-			std::stringstream ss;
-			ss << "Key Pressed: " << keyCode;
-			return ss.str();
-		}
+		unsigned int getRepeatCount() const { return m_repeatCount; }
 
 		EVENT_TYPE(Event::Type::KeyPress)
+		EVENT_DEBUG("Key Pressed: " << getKeyCode())
 
 	private:
-		uint16_t repeatCount;
+		unsigned int m_repeatCount;
 	};
 
 	class KeyReleaseEvent : public KeyEvent
@@ -48,13 +41,7 @@ namespace hlx
 		KeyReleaseEvent(const KeyCode keyCode)
 			: KeyEvent{ keyCode } {}
 
-		const std::string toString() const override
-		{
-			std::stringstream ss;
-			ss << "Key Released: " << keyCode;
-			return ss.str();
-		}
-
 		EVENT_TYPE(Event::Type::KeyRelease)
+		EVENT_DEBUG("Key Released: " << getKeyCode())
 	};
 }

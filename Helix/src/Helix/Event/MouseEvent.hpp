@@ -5,20 +5,19 @@
 
 namespace hlx
 {
-	using MouseCode = int;
-
 	class ButtonEvent : public Event
 	{
 	public:
-		MouseCode GetMouseButton() const { return this->button; }
+		MouseCode getMouseButton() const { return m_button; }
 
 		EVENT_CLASS(Event::Class::Input | Event::Class::Mouse)
 
 	protected:
 		ButtonEvent(const MouseCode button)
-			: button{ button } {}
+			: m_button{ button } {}
 
-		MouseCode button;
+	private:
+		MouseCode m_button;
 	};
 
 	class ButtonPressEvent : public ButtonEvent
@@ -27,14 +26,8 @@ namespace hlx
 		ButtonPressEvent(const MouseCode button)
 			: ButtonEvent(button) {}
 
-		const std::string toString() const override
-		{
-			std::stringstream ss;
-			ss << "Button Pressed: " << button;
-			return ss.str();
-		}
-
 		EVENT_TYPE(Event::Type::ButtonPress)
+		EVENT_DEBUG("Button Pressed: " << getMouseButton())
 	};
 
 	class ButtonReleaseEvent : public ButtonEvent
@@ -43,61 +36,43 @@ namespace hlx
 		ButtonReleaseEvent(const MouseCode button)
 			: ButtonEvent(button) {}
 
-		const std::string toString() const override
-		{
-			std::stringstream ss;
-			ss << "Button Released: " << button;
-			return ss.str();
-		}
-
 		EVENT_TYPE(Event::Type::ButtonRelease)
-	};
-
-	class WheelScrollEvent : public Event
-	{
-	public:
-		WheelScrollEvent(const double x, const double y)
-			: x{ x }, y{ y } {}
-
-		double getX() const { return this->x; }
-		double getY() const { return this->y; }
-
-		const std::string toString() const override
-		{
-			std::stringstream ss;
-			ss << "Wheel scrolled: " << '[' << x << ", " << y << ']';
-			return ss.str();
-		}
-
-		EVENT_TYPE(Event::Type::WheelScroll)
-		EVENT_CLASS(Event::Class::Input | Event::Class::Mouse)
-
-	private:
-		double x;
-		double y;
+		EVENT_DEBUG("Button Released: " << getMouseButton())
 	};
 
 	class CursorMoveEvent : public Event
 	{
 	public:
 		CursorMoveEvent(const double x, const double y)
-			: x{ x }, y{ y } {}
+			: m_x{ x }, m_y{ y } {}
 
-		double getX() const { return this->x; }
-		double getY() const { return this->y; }
-
-		const std::string toString() const override
-		{
-			std::stringstream ss;
-			ss << "Cursor Moved: " << '[' << x << ", " << y << ']';
-			return ss.str();
-		}
+		double getX() const { return m_x; }
+		double getY() const { return m_y; }
 
 		EVENT_TYPE(Event::Type::CursorMove)
 		EVENT_CLASS(Event::Class::Input | Event::Class::Mouse)
+		EVENT_DEBUG("Cursor Moved: " << '[' << getX() << ", " << getY() << ']')
 
 	private:
-		double x;
-		double y;
+		double m_x;
+		double m_y;
+	};
+
+	class WheelScrollEvent : public Event
+	{
+	public:
+		WheelScrollEvent(const double x, const double y)
+			: m_x{ x }, m_y{ y } {}
+
+		double getX() const { return m_x; }
+		double getY() const { return m_y; }
+
+		EVENT_TYPE(Event::Type::WheelScroll)
+		EVENT_CLASS(Event::Class::Input | Event::Class::Mouse)
+		EVENT_DEBUG("Wheel scrolled: " << '[' << getX() << ", " << getY() << ']')
+
+	private:
+		double m_x;
+		double m_y;
 	};
 }

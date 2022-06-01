@@ -10,25 +10,10 @@ namespace hlx
 	class GL
 	{
 	public:
-		enum class Option //todo: rename
+		enum : int
 		{
 			Wireframe, 
 		};
-
-		static void getState()
-		{
-
-		}
-
-		static void setState(Option option, bool state)
-		{
-			switch (option)
-			{
-				case Option::Wireframe:
-					setWireFrame(true);
-					break;
-			}
-		}
 
 		static void setWireFrame(bool state)
 		{
@@ -54,8 +39,5 @@ namespace hlx
 				}
 			}
 		}
-
-	private:
-		bool wireframeEnabled;
 	};
 }

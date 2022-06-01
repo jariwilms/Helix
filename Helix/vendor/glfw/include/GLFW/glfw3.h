@@ -1920,7 +1920,7 @@ typedef void (* GLFWdropfun)(GLFWwindow* m_window, int path_count, const char* p
  *
  *  @ingroup monitor
  */
-typedef void (* GLFWmonitorfun)(GLFWmonitor* monitor, int event);
+typedef void (* GLFWmonitorfun)(GLFWmonitor* monitor, int m_event);
 
 /*! @brief The function pointer type for joystick configuration callbacks.
  *
@@ -1941,7 +1941,7 @@ typedef void (* GLFWmonitorfun)(GLFWmonitor* monitor, int event);
  *
  *  @ingroup input
  */
-typedef void (* GLFWjoystickfun)(int jid, int event);
+typedef void (* GLFWjoystickfun)(int jid, int m_event);
 
 /*! @brief Video mode type.
  *

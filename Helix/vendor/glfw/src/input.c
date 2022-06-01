@@ -373,12 +373,12 @@ void _glfwInputDrop(_GLFWwindow* m_window, int count, const char** paths)
 
 // Notifies shared code of a joystick connection or disconnection
 //
-void _glfwInputJoystick(_GLFWjoystick* js, int event)
+void _glfwInputJoystick(_GLFWjoystick* js, int m_event)
 {
     const int jid = (int) (js - _glfw.joysticks);
 
     if (_glfw.callbacks.joystick)
-        _glfw.callbacks.joystick(jid, event);
+        _glfw.callbacks.joystick(jid, m_event);
 }
 
 // Notifies shared code of the new value of a joystick axis

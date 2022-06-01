@@ -10,6 +10,14 @@
 #include "glfw/glfw3.h"
 
 #include "Helix/Core/Core.hpp"
+#include "Helix/Input/Input.hpp"
+#include "Helix/Event/Base/Event.hpp"
+#include "Helix/Event/Base/EventDispatcher.hpp"
+#include "Helix/Event/ApplicationEvent.hpp"
+#include "Helix/Event/KeyEvent.hpp"
+#include "Helix/Event/MouseEvent.hpp"
+#include "Helix/Event/WindowEvent.hpp"
+#include "Helix/Event/LayerStack.hpp"
 #include "Helix/Rendering/Renderers/Base/Renderer.hpp"
 #include "Helix/Rendering/Camera.hpp"
 #include "Helix/Rendering/Objects/BufferLayout.hpp"
@@ -32,18 +40,27 @@ namespace hlx
 	{
 	public:
 		Application(const std::string& name);
-		virtual ~Application() = default;
+		virtual ~Application();
 
 		static Application& getInstance();
 
 		void run();
 		void close();
 
-		void onEvent(Event& event);
+		void pushLayer(Layer* layer);
+		void pushOverlay(Layer* overlay);
+
+		void onEvent(Event& m_event);
+
+	protected:
+		bool onWindowResizeEvent(WindowResizeEvent& event);
+		bool onWindowCloseEvent(WindowCloseEvent& event);
 
 	private:
 		static Application* s_instance;
 		ApplicationSettings settings;
+
+		LayerStack m_layerStack;
 
 		Window* m_window;
 		bool m_running;

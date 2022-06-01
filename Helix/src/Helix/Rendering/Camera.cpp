@@ -3,88 +3,99 @@
 
 namespace hlx
 {
-	Camera::Camera()
-		: m_up{}, m_forward{}, m_right{}, m_worldUp{ 0.0f, 1.0f, 0.0f }, m_hasTarget{} 
+	Camera::Camera(Transform transform, glm::vec3 worldUp, Projection::Type projectionType)
+		: transform{ transform }, m_worldUp{ worldUp }, m_projectionType{ projectionType }, m_isLocked{}, m_hasTarget{}
 	{
+		this->transform.rotation.y -= 90.0f;
 		update();
-	}
-
-	Camera::Camera(Transform transform, glm::vec3 worldUp)
-		: m_transform{ transform }, m_worldUp{ worldUp }
-	{
-		m_transform.rotation.y += glm::radians(90.0f);
-		Camera();
 	}
 
 	void Camera::update()
 	{
-		m_forward.x = (float)(glm::cos(m_transform.rotation.y) * glm::cos(m_transform.rotation.x));
-		m_forward.y = (float)(glm::sin(m_transform.rotation.x));
-		m_forward.z = (float)(glm::sin(m_transform.rotation.y) * glm::cos(m_transform.rotation.x));
+		m_forward.x = (float)(glm::cos(glm::radians(transform.rotation.y)) * glm::cos(glm::radians(transform.rotation.x)));
+		m_forward.y = (float)(glm::sin(glm::radians(transform.rotation.x)));
+		m_forward.z = (float)(glm::sin(glm::radians(transform.rotation.y)) * glm::cos(glm::radians(transform.rotation.x)));
 		m_forward = glm::normalize(m_forward);
 
 		m_right = glm::normalize(glm::cross(m_forward, m_worldUp));
-		m_up = glm::normalize(glm::cross(m_right, m_up));
+		m_up = glm::normalize(glm::cross(m_right, m_forward));
+
+		updateTransform();
+		updateMatrices();
+	}
+	void Camera::updateTransform()
+	{
+		if (Input::isKeyPressed(Key::W))
+			transform.position.z -= 0.1f;
+
+		if (Input::isKeyPressed(Key::A))
+			transform.position.x -= 0.1f;
+
+		if (Input::isKeyPressed(Key::S))
+			transform.position.z += 0.1f;
+
+		if (Input::isKeyPressed(Key::D))
+			transform.position.x += 0.1f;
+
+		//auto& rotation = Input::getRelativeCursorPosition();
+		//transform.rotation.y += rotation.x / 10.0f; //TODO: fix met timestep
+		//transform.rotation.x += rotation.y;
+	}
+	void Camera::updateMatrices()
+	{
+		m_viewMatrix = glm::lookAt(transform.position, transform.position + m_forward, m_up);
+
+		switch (m_projectionType)
+		{
+			case Projection::Type::Orthographic:
+				m_projectionMatrix = Projection::createOrthographic(m_orthographicProjectionSettings);
+				break;
+			case Projection::Type::Perspective:
+				m_projectionMatrix = Projection::createPerspective(m_perspectiveProjectionSettings);
+				break;
+		}
+
+		m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
 	}
 
-	void Camera::updateProjections()
+	Projection::Type Camera::getProjectionType() const
 	{
-		setProjectionType(m_projectionType);
+		return m_projectionType;
+	}
+	void Camera::setProjectionType(Projection::Type type)
+	{
+		m_projectionType = type;
+		updateMatrices();
 	}
 
 	const glm::mat4& Camera::getViewMatrix() const
 	{
 		return m_viewMatrix;
 	}
-
 	const glm::mat4& Camera::getProjectionMatrix() const
 	{
 		return m_projectionMatrix;
 	}
-
-	const glm::mat4 Camera::getViewProjectionMatrix() const
+	const glm::mat4& Camera::getViewProjectionMatrix() const
 	{
-		return getProjectionMatrix() * getViewMatrix();
+		return m_viewProjectionMatrix;
 	}
 
-	Transform& Camera::getTransform()
+	Projection::OrthographicSettings Camera::getOrthographicProjectionSettings() const
 	{
-		return m_transform;
+		return m_orthographicProjectionSettings;
+	}
+	void Camera::setOrthographicSettings(const Projection::OrthographicSettings& settings)
+	{
+		m_orthographicProjectionSettings = settings;
 	}
 
-	void Camera::setTransform(const Transform& transform)
+	Projection::PerspectiveSettings Camera::getPerspectiveProjectionSettings() const
 	{
-		m_transform = transform;
+		return m_perspectiveProjectionSettings;
 	}
-
-	ProjectionType Camera::getProjectionType() const
+	void Camera::setPerspectiveSettings(const Projection::PerspectiveSettings& settings)
 	{
-		return m_projectionType;
+		m_perspectiveProjectionSettings = settings;
 	}
-
-	void Camera::setProjectionType(ProjectionType type)
-	{
-		m_projectionType = type;
-
-		switch (m_projectionType)
-		{
-			case ProjectionType::Orthographic:
-				m_viewMatrix = OrthographicProjection::create(m_orthographicProjection);
-				break;
-			case ProjectionType::Perspective:
-				m_projectionMatrix = PerspectiveProjection::create(m_perspectiveProjection);
-				break;
-		}
-	}
-
-	OrthographicProjection& Camera::getOrthographicProjection()
-	{
-		return m_orthographicProjection;
-	}
-
-	PerspectiveProjection& Camera::getPerspectiveProjection()
-	{
-		return m_perspectiveProjection;
-	}
-
 }

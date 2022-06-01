@@ -7,6 +7,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "Helix/Input/Input.hpp"
 #include "Helix/Scene/Transform.hpp"
 #include "Helix/Rendering/Projection.hpp"
 
@@ -16,28 +17,28 @@ namespace hlx
 	{
 	public:
 
-		Camera();
-		Camera(Transform transform, glm::vec3 worldUp = glm::vec3{ 0.0f, 1.0f, 0.0f });
+		Camera(Transform transform = Transform{}, glm::vec3 worldUp = glm::vec3{ 0.0f, 1.0f, 0.0f }, Projection::Type projectionType = Projection::Type::Orthographic);
 		~Camera() = default;
 
 		void update();
-		void updateProjections();
+		void updateTransform();
+		void updateMatrices();
 
-		Transform& getTransform();
-		void setTransform(const Transform& transform);
+		Projection::Type getProjectionType() const;
+		void setProjectionType(Projection::Type type);
 
 		const glm::mat4& getViewMatrix() const;
 		const glm::mat4& getProjectionMatrix() const;
-		const glm::mat4 getViewProjectionMatrix() const;
+		const glm::mat4& getViewProjectionMatrix() const;
 
-		ProjectionType getProjectionType() const;
-		void setProjectionType(ProjectionType type);
+		Projection::OrthographicSettings getOrthographicProjectionSettings() const;
+		void setOrthographicSettings(const Projection::OrthographicSettings& settings);
 
-		OrthographicProjection& getOrthographicProjection();
-		PerspectiveProjection& getPerspectiveProjection();
+		Projection::PerspectiveSettings getPerspectiveProjectionSettings() const;
+		void setPerspectiveSettings(const Projection::PerspectiveSettings& settings);
 
+		Transform transform;
 	private:
-		Transform m_transform;
 
 		glm::vec3 m_up;
 		glm::vec3 m_forward;
@@ -47,11 +48,13 @@ namespace hlx
 
 		glm::mat4 m_viewMatrix;
 		glm::mat4 m_projectionMatrix;
+		glm::mat4 m_viewProjectionMatrix;
 
-		ProjectionType m_projectionType;
-		OrthographicProjection m_orthographicProjection;
-		PerspectiveProjection m_perspectiveProjection;
+		Projection::Type m_projectionType;
+		Projection::OrthographicSettings m_orthographicProjectionSettings;
+		Projection::PerspectiveSettings m_perspectiveProjectionSettings;
 
+		bool m_isLocked;
 		bool m_hasTarget;
 	};
 }

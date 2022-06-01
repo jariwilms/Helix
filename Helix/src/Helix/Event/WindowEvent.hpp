@@ -9,15 +9,9 @@ namespace hlx
 	public:
 		WindowFocusEvent() = default;
 
-		const std::string toString() const override
-		{
-			std::stringstream ss;
-			ss << "Window Focused";
-			return ss.str();
-		}
-
 		EVENT_TYPE(Event::Type::WindowFocus)
 		EVENT_CLASS(Event::Class::Window)
+		EVENT_DEBUG("Window Focused")
 	};
 
 	class WindowLostFocusEvent : public Event
@@ -25,15 +19,9 @@ namespace hlx
 	public:
 		WindowLostFocusEvent() = default;
 
-		const std::string toString() const override
-		{
-			std::stringstream ss;
-			ss << "Window Lost Focus";
-			return ss.str();
-		}
-
 		EVENT_TYPE(Event::Type::WindowLostFocus)
 		EVENT_CLASS(Event::Class::Window)
+		EVENT_DEBUG("Window Lost Focus")
 	};
 
 	class WindowMoveEvent : public Event
@@ -41,39 +29,27 @@ namespace hlx
 	public:
 		WindowMoveEvent() = default;
 
-		const std::string toString() const override
-		{
-			std::stringstream ss;
-			ss << "Window moved";
-			return ss.str();
-		}
-
 		EVENT_TYPE(Event::Type::WindowMove)
 		EVENT_CLASS(Event::Class::Window)
+		EVENT_DEBUG("Window Moved")
 	};
 
 	class WindowResizeEvent : public Event
 	{
 	public:
 		WindowResizeEvent(unsigned int width, unsigned int height)
-			: width{ width }, height{ height } {}
+			: m_width{ width }, m_height{ height } {}
 
-		unsigned int getWidth() { return this->width; }
-		unsigned int getHeight() { return this->height; }
-
-		const std::string toString() const override
-		{
-			std::stringstream ss;
-			ss << "Window Resized: " << '[' << width << ", " << height << ']';
-			return ss.str();
-		}
+		unsigned int getWidth() const { return m_width; }
+		unsigned int getHeight() const { return m_height; }
 
 		EVENT_TYPE(Event::Type::WindowResize)
 		EVENT_CLASS(Event::Class::Window)
+		EVENT_DEBUG("Window Resized: " << '[' << getWidth() << ", " << getHeight() << ']')
 
 	private:
-		unsigned int width;
-		unsigned int height;
+		unsigned int m_width;
+		unsigned int m_height;
 	};
 
 	class WindowCloseEvent : public Event
@@ -81,14 +57,8 @@ namespace hlx
 	public:
 		WindowCloseEvent() = default;
 
-		const std::string toString() const override
-		{
-			std::stringstream ss;
-			ss << "Window Closed";
-			return ss.str();
-		}
-
 		EVENT_TYPE(Event::Type::WindowClose)
 		EVENT_CLASS(Event::Class::Window)
+		EVENT_DEBUG("Window Closed")
 	};
 }

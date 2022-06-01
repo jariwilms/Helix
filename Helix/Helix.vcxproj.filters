@@ -73,7 +73,7 @@
     <ClInclude Include="src\Helix\Event\WindowEvent.hpp">
       <Filter>Helix\Event</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Input\InputHandler.hpp">
+    <ClInclude Include="src\Helix\Input\Input.hpp">
       <Filter>Helix\Input</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Input\KeyCode.hpp">
@@ -125,6 +125,8 @@
     <ClInclude Include="src\stdafx.hpp" />
     <ClInclude Include="src\Helix\Scene\Transform.hpp" />
     <ClInclude Include="src\Helix\Rendering\Projection.hpp" />
+    <ClInclude Include="src\Helix\Event\Layer.hpp" />
+    <ClInclude Include="src\Helix\Event\LayerStack.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -136,13 +138,7 @@
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp">
       <Filter>Helix\Diagnostics</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Event\Base\Event.cpp">
-      <Filter>Helix\Event\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Helix\Event\Base\EventDispatcher.cpp">
-      <Filter>Helix\Event\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Helix\Input\InputHandler.cpp">
+    <ClCompile Include="src\Helix\Input\Input.cpp">
       <Filter>Helix\Input</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Rendering\Camera.cpp">

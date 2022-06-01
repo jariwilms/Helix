@@ -106,9 +106,11 @@
     <ClInclude Include="src\Helix\Event\Base\Event.hpp" />
     <ClInclude Include="src\Helix\Event\Base\EventDispatcher.hpp" />
     <ClInclude Include="src\Helix\Event\KeyEvent.hpp" />
+    <ClInclude Include="src\Helix\Event\Layer.hpp" />
+    <ClInclude Include="src\Helix\Event\LayerStack.hpp" />
     <ClInclude Include="src\Helix\Event\MouseEvent.hpp" />
     <ClInclude Include="src\Helix\Event\WindowEvent.hpp" />
-    <ClInclude Include="src\Helix\Input\InputHandler.hpp" />
+    <ClInclude Include="src\Helix\Input\Input.hpp" />
     <ClInclude Include="src\Helix\Input\KeyCode.hpp" />
     <ClInclude Include="src\Helix\Input\MouseCode.hpp" />
     <ClInclude Include="src\Helix\Rendering\Camera.hpp" />
@@ -133,9 +135,7 @@
     <ClCompile Include="src\Helix\Core\Application.cpp" />
     <ClCompile Include="src\Helix\Core\IO.cpp" />
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp" />
-    <ClCompile Include="src\Helix\Event\Base\Event.cpp" />
-    <ClCompile Include="src\Helix\Event\Base\EventDispatcher.cpp" />
-    <ClCompile Include="src\Helix\Input\InputHandler.cpp" />
+    <ClCompile Include="src\Helix\Input\Input.cpp" />
     <ClCompile Include="src\Helix\Rendering\Camera.cpp" />
     <ClCompile Include="src\Helix\Rendering\Objects\ElementBuffer.cpp" />
     <ClCompile Include="src\Helix\Rendering\Objects\VertexArray.cpp" />

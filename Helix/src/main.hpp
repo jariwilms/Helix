@@ -13,10 +13,6 @@ extern hlx::Application* hlx::createApplication();
 
 int main(int argc, char* argv[])
 {
-	hlx::Log::init(); 
-	hlx::IO::init();
-	hlx::Renderer::init();
-
 	hlx::Application* application = hlx::createApplication();
 	application->run();
 

@@ -35,17 +35,17 @@ namespace hlx
 
 
 
-		//auto gl_error_lamda = [](GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char* message, const void* userParam)
-		//{
-		//	if (type == GL_DEBUG_TYPE_OTHER) return;
-		//	HLX_CORE_ERROR("GL Error: {0}", message);
-		//};
+		auto gl_error_lamda = [](GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char* message, const void* userParam)
+		{
+			if (type == GL_DEBUG_TYPE_OTHER) return;
+			HLX_CORE_ERROR("GL Error {0}", message);
+		};
 		auto glfw_error_lambda = [](int error, const char* description)
 		{
 			HLX_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 		};
 
-		//glDebugMessageCallback(gl_error_lamda, nullptr);
+		glDebugMessageCallback(gl_error_lamda, nullptr);
 		glfwSetErrorCallback(glfw_error_lambda);
 
 
@@ -57,15 +57,15 @@ namespace hlx
 			WindowsWindowProperties& m_properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(m_window);
 			m_properties.dimensions = glm::uvec2(width, height);
 
-			WindowResizeEvent event(width, height);
-			m_properties.callback(event);
+			WindowResizeEvent m_event(width, height);
+			m_properties.callback(m_event);
 		};
 		auto window_close_lambda = [](GLFWwindow* m_window)
 		{
 			WindowsWindowProperties& m_properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(m_window);
 
-			WindowCloseEvent event;
-			m_properties.callback(event);
+			WindowCloseEvent m_event;
+			m_properties.callback(m_event);
 		};
 
 		auto key_lambda = [](GLFWwindow* m_window, int key, int scancode, int action, int mods)
@@ -76,23 +76,25 @@ namespace hlx
 			{
 				case GLFW_PRESS:
 				{
-					KeyPressEvent event(key, 0);
-					m_properties.callback(event);
+					KeyPressEvent m_event((KeyCode)key, 0);
+					m_properties.callback(m_event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
-					KeyReleaseEvent event(key);
-					m_properties.callback(event);
+					KeyReleaseEvent m_event((KeyCode)key);
+					m_properties.callback(m_event);
 					break;
 				}
 				case GLFW_REPEAT:
 				{
-					KeyPressEvent event(key, 1);
-					m_properties.callback(event);
+					KeyPressEvent m_event((KeyCode)key, 1);
+					m_properties.callback(m_event);
 					break;
 				}
 			}
+
+			Input::_inputKeyCallback(m_window, key, scancode, action, mods);
 		};
 		auto button_lambda = [](GLFWwindow* m_window, int button, int action, int mods)
 		{
@@ -102,31 +104,37 @@ namespace hlx
 			{
 				case GLFW_PRESS:
 				{
-					ButtonPressEvent event(button);
-					m_properties.callback(event);
+					ButtonPressEvent m_event((MouseCode)button);
+					m_properties.callback(m_event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
-					ButtonReleaseEvent event(button);
-					m_properties.callback(event);
+					ButtonReleaseEvent m_event((MouseCode)button);
+					m_properties.callback(m_event);
 					break;
 				}
 			}
-		};
-		auto scroll_lambda = [](GLFWwindow* m_window, double x, double y)
-		{
-			WindowsWindowProperties& m_properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(m_window);
 
-			WheelScrollEvent event(x, y);
-			m_properties.callback(event);
+			Input::_inputButtonCallback(m_window, button, action, mods);
 		};
 		auto cursor_lambda = [](GLFWwindow* m_window, double x, double y)
 		{
 			WindowsWindowProperties& m_properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(m_window);
 
-			CursorMoveEvent event(x, y);
-			m_properties.callback(event);
+			CursorMoveEvent m_event(x, y);
+			m_properties.callback(m_event);
+
+			Input::_inputCursorCallback(m_window, x, y);
+		};
+		auto scroll_lambda = [](GLFWwindow* m_window, double x, double y)
+		{
+			WindowsWindowProperties& m_properties = *(WindowsWindowProperties*)glfwGetWindowUserPointer(m_window);
+
+			WheelScrollEvent m_event(x, y);
+			m_properties.callback(m_event);
+
+			Input::_inputScrollCallback(m_window, x, y);
 		};
 
 		glfwSetWindowSizeCallback(m_window, window_size_lambda);
@@ -134,8 +142,8 @@ namespace hlx
 
 		glfwSetKeyCallback(m_window, key_lambda);
 		glfwSetMouseButtonCallback(m_window, button_lambda);
-		glfwSetScrollCallback(m_window, scroll_lambda);
 		glfwSetCursorPosCallback(m_window, cursor_lambda);
+		glfwSetScrollCallback(m_window, scroll_lambda);
 	}
 
 	WindowsWindow::~WindowsWindow()

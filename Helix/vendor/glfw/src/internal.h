@@ -925,7 +925,7 @@ void _glfwInputMouseClick(_GLFWwindow* m_window, int button, int action, int mod
 void _glfwInputCursorPos(_GLFWwindow* m_window, double xpos, double ypos);
 void _glfwInputCursorEnter(_GLFWwindow* m_window, GLFWbool entered);
 void _glfwInputDrop(_GLFWwindow* m_window, int count, const char** names);
-void _glfwInputJoystick(_GLFWjoystick* js, int event);
+void _glfwInputJoystick(_GLFWjoystick* js, int m_event);
 void _glfwInputJoystickAxis(_GLFWjoystick* js, int axis, float value);
 void _glfwInputJoystickButton(_GLFWjoystick* js, int button, char value);
 void _glfwInputJoystickHat(_GLFWjoystick* js, int hat, char value);
