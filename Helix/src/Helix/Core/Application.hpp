@@ -26,6 +26,7 @@
 #include "Helix/Rendering/Objects/ElementBuffer.hpp"
 #include "Helix/Rendering/Shader.hpp"
 #include "Helix/Window/Base/Window.hpp"
+#include "Helix/Format/Image.hpp"
 
 namespace hlx
 {

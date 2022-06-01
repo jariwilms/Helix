@@ -19,6 +19,9 @@
     <Filter Include="Helix\Input">
       <UniqueIdentifier>{5E2B7E99-CAE0-F68E-53D5-F065BF89ED92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helix\Math">
+      <UniqueIdentifier>{587091A7-4428-D3F4-AD2F-AC5099066EE5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Helix\Rendering">
       <UniqueIdentifier>{2CDCE440-9867-5205-A178-D5F90D83AE05}</UniqueIdentifier>
     </Filter>
@@ -52,6 +55,9 @@
     <ClInclude Include="src\Helix\Core\IO.hpp">
       <Filter>Helix\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Core\Transform.hpp">
+      <Filter>Helix\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Diagnostics\Log.hpp">
       <Filter>Helix\Diagnostics</Filter>
     </ClInclude>
@@ -65,6 +71,12 @@
       <Filter>Helix\Event\Base</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Event\KeyEvent.hpp">
+      <Filter>Helix\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Event\Layer.hpp">
+      <Filter>Helix\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Event\LayerStack.hpp">
       <Filter>Helix\Event</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Event\MouseEvent.hpp">
@@ -81,6 +93,9 @@
     </ClInclude>
     <ClInclude Include="src\Helix\Input\MouseCode.hpp">
       <Filter>Helix\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Math\Math.hpp">
+      <Filter>Helix\Math</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Camera.hpp">
       <Filter>Helix\Rendering</Filter>
@@ -103,6 +118,9 @@
     <ClInclude Include="src\Helix\Rendering\Objects\VertexBuffer.hpp">
       <Filter>Helix\Rendering\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Projection.hpp">
+      <Filter>Helix\Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Renderers\Base\Renderer.hpp">
       <Filter>Helix\Rendering\Renderers\Base</Filter>
     </ClInclude>
@@ -123,16 +141,17 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
-    <ClInclude Include="src\Helix\Scene\Transform.hpp" />
-    <ClInclude Include="src\Helix\Rendering\Projection.hpp" />
-    <ClInclude Include="src\Helix\Event\Layer.hpp" />
-    <ClInclude Include="src\Helix\Event\LayerStack.hpp" />
+    <ClInclude Include="src\Helix\Format\Image.hpp" />
+    <ClInclude Include="src\Helix\Format\Texture.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
       <Filter>Helix\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Core\IO.cpp">
+      <Filter>Helix\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Core\Transform.cpp">
       <Filter>Helix\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp">

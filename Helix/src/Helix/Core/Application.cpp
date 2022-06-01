@@ -9,15 +9,16 @@ namespace hlx
 	}
 
 	Application::Application(const std::string& name)
-		: m_layerStack{}, m_running { true }
+		: m_running { true }
 	{
 		if (!s_instance) s_instance = this;
 		else HLX_CORE_ERROR("An instance of HLX::APPLICATION already exists");
 
-		hlx::Log::init();
-		hlx::IO::init();
-		hlx::Input::init();
-		hlx::Renderer::init();
+		Log::init();
+		IO::init();
+		IO::appendRoot("resources");
+		Input::init();
+		Renderer::init();
 
 		m_window = Window::create(WindowProperties("Helix", glm::uvec2(800, 600)));
 		m_window->setEventCallback(BIND_EVENT_FN(onEvent));
@@ -36,6 +37,18 @@ namespace hlx
 	void Application::run()
 	{
 		Renderer& renderer = Renderer::getInstance();
+
+		float triangleVertices[] =
+		{
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 
+			0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 
+			0.0f, 0.5f, 0.0f, 0.5f, 1.0f, 
+		};
+
+		unsigned int triangleIndices[] =
+		{
+			0, 1, 2, 
+		};
 
 		float cubeVertices[] =
 		{
@@ -82,13 +95,41 @@ namespace hlx
 		vao.addVertexBuffer(vbo);
 		vao.setElementBuffer(ebo);
 
-		Shader shader{ "Sandbox/mvp.vert", "Sandbox/mvp.frag" };
+		Shader shader{ "mvp.vert", "mvp.frag" };
 		HLX_CORE_ASSERT(shader.verify(), "Failed to create shader"); //TODO: move in shader?
 
-		Transform cameraTransform;
-		Camera camera{ cameraTransform };
 
 
+		//BufferLayout layout{};
+		//layout.addAttribute<float>(3);
+		//layout.addAttribute<float>(2);
+
+		//VertexArray vao{};
+		//VertexBuffer vbo{ triangleVertices, sizeof(triangleVertices) };
+		//ElementBuffer ebo{ triangleIndices, sizeof(triangleIndices) };
+
+		//Shader shader{ "Sandbox/mvp.vert", "Sandbox/mvp.frag" };
+		//HLX_CORE_ASSERT(shader.verify(), "Failed to create shader"); //TODO: move in shader?
+
+		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
+
+
+
+
+
+
+
+
+		Camera camera{};
 
 		std::chrono::high_resolution_clock::time_point t0{};
 		std::chrono::high_resolution_clock::time_point t1{};
@@ -105,6 +146,9 @@ namespace hlx
 				layer->onUpdate();
 
 			camera.update();
+
+			auto& mat1 = camera.getViewMatrix();
+			auto& mat2 = camera.getProjectionMatrix();
 
 			shader.bind();
 			shader.setMat("u_model", glm::mat4{ 1.0f });

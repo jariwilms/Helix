@@ -59,7 +59,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HLX_PLATFORM_WINDOWS;HLX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Helix\src;..\Helix\vendor\glad\include;..\Helix\vendor\glfw\include;..\Helix\vendor\imgui\include;..\Helix\vendor\glm\include;..\Helix\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Helix\src;..\Helix\vendor\glad\include;..\Helix\vendor\glfw\include;..\Helix\vendor\imgui\include;..\Helix\vendor\stb\include;..\Helix\vendor\glm\include;..\Helix\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -75,7 +75,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HLX_PLATFORM_WINDOWS;HLX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Helix\src;..\Helix\vendor\glad\include;..\Helix\vendor\glfw\include;..\Helix\vendor\imgui\include;..\Helix\vendor\glm\include;..\Helix\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Helix\src;..\Helix\vendor\glad\include;..\Helix\vendor\glfw\include;..\Helix\vendor\imgui\include;..\Helix\vendor\stb\include;..\Helix\vendor\glm\include;..\Helix\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>

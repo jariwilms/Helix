@@ -14,6 +14,7 @@ workspace "Helix"
 	includedir["GLAD"] = "Helix/vendor/glad/include"
 	includedir["GLFW"] = "Helix/vendor/glfw/include"
 	includedir["IMGUI"] = "Helix/vendor/imgui/include"
+	includedir["STB"] = "Helix/vendor/stb/include"
 	
 	include "Helix/vendor/glad"
 	include "Helix/vendor/glfw"
@@ -45,6 +46,7 @@ project "Helix"
 		"%{includedir.GLAD}", 
 		"%{includedir.GLFW}", 
 		"%{includedir.IMGUI}", 
+		"%{includedir.STB}", 
 		"%{prj.name}/vendor/glm/include", 
 		"%{prj.name}/vendor/spdlog/include"
 	}
@@ -55,6 +57,12 @@ project "Helix"
 		"GLFW", 
 		"IMGUI", 
 		"opengl32.lib"
+	}
+	
+	defines
+	{
+		"STB_IMAGE_STATIC", 
+		"STB_IMAGE_IMPLEMENTATION"
 	}
 	
 	filter "system:windows"
@@ -100,6 +108,7 @@ project "Sandbox"
 		"%{includedir.GLAD}", 
 		"%{includedir.GLFW}", 
 		"%{includedir.IMGUI}", 
+		"%{includedir.STB}", 
 		"Helix/vendor/glm/include", 
 		"Helix/vendor/spdlog/include"
 	}

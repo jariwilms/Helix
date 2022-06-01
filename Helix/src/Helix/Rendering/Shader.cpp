@@ -4,13 +4,13 @@
 namespace hlx
 {
 	Shader::Shader(const std::filesystem::path& vertex, const std::filesystem::path& fragment)
-		: m_status{}
+		: m_programId{}, m_status {}
 	{
 		bool success{};
 
 		unsigned int vertexShader = Shader::create(GL_VERTEX_SHADER);
-		std::string vertexSource = IO::readFileToString(vertex);
-		success = compile(vertexShader, vertexSource);
+		auto vertexSource = IO::load<std::string>(vertex);
+		success = compile(vertexShader, *vertexSource);
 		if (!success)
 		{
 			logShaderError(vertexShader);
@@ -20,8 +20,8 @@ namespace hlx
 		}
 
 		unsigned int fragmentShader = Shader::create(GL_FRAGMENT_SHADER);
-		std::string fragmentSource = IO::readFileToString(fragment);
-		success = compile(fragmentShader, fragmentSource);
+		auto fragmentSource = IO::load<std::string>(fragment);
+		success = compile(fragmentShader, *fragmentSource);
 		if (!success)
 		{
 			logShaderError(fragmentShader);
@@ -54,13 +54,13 @@ namespace hlx
 		m_status = true;
 	}
 	Shader::Shader(const std::filesystem::path& vertex, const std::filesystem::path& geometry, const std::filesystem::path& fragment)
-		: m_status{}
+		: m_programId{}, m_status {}
 	{
 		bool success{};
 
 		unsigned int vertexShader = Shader::create(GL_VERTEX_SHADER);
-		std::string vertexSource = IO::readFileToString(vertex);
-		success = compile(vertexShader, vertexSource);
+		auto vertexSource = IO::load<std::string>(vertex);
+		success = compile(vertexShader, *vertexSource);
 		if (!success)
 		{
 			logShaderError(vertexShader);
@@ -70,8 +70,8 @@ namespace hlx
 		}
 
 		unsigned int geometryShader = Shader::create(GL_GEOMETRY_SHADER);
-		std::string geometrySource = IO::readFileToString("files/default.geom");
-		success = compile(geometryShader, geometrySource);
+		auto geometrySource = IO::load<std::string>(geometry);
+		success = compile(geometryShader, *geometrySource);
 		if (!success)
 		{
 			logShaderError(geometryShader);
@@ -81,8 +81,8 @@ namespace hlx
 		}
 
 		unsigned int fragmentShader = Shader::create(GL_FRAGMENT_SHADER);
-		std::string fragmentSource = IO::readFileToString(fragment);
-		success = compile(fragmentShader, fragmentSource);
+		auto fragmentSource = IO::load<std::string>(fragment);
+		success = compile(fragmentShader, *fragmentSource);
 		if (!success)
 		{
 			logShaderError(fragmentShader);
