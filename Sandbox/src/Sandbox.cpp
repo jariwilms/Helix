@@ -3,17 +3,21 @@
 class Sandbox : public hlx::Application
 {
 public:
-	Sandbox(const std::string& name);
-	~Sandbox() = default;
+	Sandbox();
+	~Sandbox() override;
 };
+
+Sandbox::Sandbox() 
+{
+
+}
+
+Sandbox::~Sandbox()
+{
+
+}
 
 hlx::Application* hlx::createApplication()
 {
-	return new Sandbox("");
-}
-
-Sandbox::Sandbox(const std::string& name)
-	: Application(name)
-{
-
+	return new Sandbox();
 }

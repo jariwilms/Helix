@@ -9,7 +9,7 @@ namespace hlx
 	class Layer
 	{
 	public:
-		Layer(const std::string& name)
+		Layer(const std::string& name = "Layer")
 			:m_name{ name }, enabled{ true } {}
 		virtual ~Layer() {}
 

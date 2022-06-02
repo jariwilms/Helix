@@ -8,7 +8,7 @@ namespace hlx
 		glfwInitialized = false;
 	}
 
-	Application::Application(const std::string& name)
+	Application::Application()
 		: m_running { true }
 	{
 		if (!s_instance) s_instance = this;

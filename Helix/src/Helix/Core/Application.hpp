@@ -41,7 +41,7 @@ namespace hlx
 	class Application
 	{
 	public:
-		Application(const std::string& name);
+		Application();
 		virtual ~Application();
 
 		static Application& getInstance();

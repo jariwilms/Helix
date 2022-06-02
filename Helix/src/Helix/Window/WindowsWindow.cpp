@@ -35,7 +35,7 @@ namespace hlx
 
 
 
-		auto gl_error_lamda = [](GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char* message, const void* userParam)
+		auto gl_error_lambda = [](GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char* message, const void* userParam)
 		{
 			if (type == GL_DEBUG_TYPE_OTHER) return;
 			HLX_CORE_ERROR("GL Error {0}", message);
@@ -45,7 +45,7 @@ namespace hlx
 			HLX_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 		};
 
-		glDebugMessageCallback(gl_error_lamda, nullptr);
+		glDebugMessageCallback(gl_error_lambda, nullptr);
 		glfwSetErrorCallback(glfw_error_lambda);
 
 

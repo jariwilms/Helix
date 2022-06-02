@@ -1,11 +1,6 @@
 #pragma once
 
-#include "stdafx.hpp"
-
 #include "Helix/Core/Application.hpp"
-#include "Helix/Core/IO.hpp"
-#include "Helix/Rendering/Renderers/Base/Renderer.hpp"
-#include "Helix/Diagnostics/Log.hpp"
 
 #ifdef HLX_PLATFORM_WINDOWS
 
