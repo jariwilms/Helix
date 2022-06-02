@@ -38,48 +38,10 @@ namespace hlx
 	{
 		Renderer& renderer = Renderer::getInstance();
 
-		float triangleVertices[] = {
-			// positions // colors // texture coords
-			0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
-			0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
-			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
-			-0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f // top left
-		};
-		unsigned int triangleIndices[] =
-		{
-			0, 1, 2, 
-			0, 2, 3, 
-		};
-
-
-
-		BufferLayout layout{};
-		layout.addAttribute<float>(3);
-		layout.addAttribute<float>(3);
-		layout.addAttribute<float>(2);
-
-		VertexArray vao{};
-		VertexBuffer vbo{ triangleVertices, sizeof(triangleVertices) };
-		ElementBuffer ebo{ triangleIndices, sizeof(triangleIndices) };
-
-		vbo.setLayout(layout);
-		vao.addVertexBuffer(vbo);
-		vao.setElementBuffer(ebo);
-
-		Shader shader{ "tex.vert", "tex.frag" };
-		HLX_CORE_ASSERT(shader.verify(), "Failed to create shader"); //TODO: move in shader?
-
-
-		Texture texture{ "kiryu.png" };
-		texture.bind();
-
-
-
-		Camera camera{};
-
 		std::chrono::high_resolution_clock::time_point t0{};
 		std::chrono::high_resolution_clock::time_point t1{};
-		std::chrono::duration<float> delta{};
+		std::chrono::duration<float> deltaTime{};
+		std::chrono::duration<float> totalTime{};
 
 		while (m_running)
 		{
@@ -91,43 +53,18 @@ namespace hlx
 			for (Layer* layer : m_layerStack)
 				layer->update();
 
-			camera.update();
-
-			auto& mat1 = camera.getViewMatrix();
-			auto& mat2 = camera.getProjectionMatrix();
-
-			shader.bind();
-			//shader.setMat("u_model", glm::mat4{ 1.0f });
-			//shader.setMat("u_view", glm::mat4{ 1.0f });
-			//shader.setMat("u_projection", glm::mat4{ 1.0f });
-			//shader.setMat("u_view", camera.getViewMatrix());
-			//shader.setMat("u_projection", camera.getProjectionMatrix());
-
-			vao.bind();
-			ebo.bind();
-
-			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-			renderer.drawIndexed(vao);
+			for (Layer* layer : m_layerStack)
+				layer->render();
 
 			Input::reset();
 			m_window->update();
 
 			t1 = std::chrono::high_resolution_clock::now();
-			delta = t1 - t0;
+			deltaTime = t1 - t0;
+			totalTime += deltaTime;
 		}
 
-		while (m_running)
-		{
-			for (auto* layer : m_layerStack)
-				layer->update(); //TODO: rename naar update? + add deltaTime param
-
-			//m_imGuiLayer->Begin();
-
-			//for (auto* layer : m_layerStack)
-				//layer->onImGuiRender; //TODO: generalize, geen imgui in name, gewoon render?
-
-			m_window->update(); //add deltatime
-		}
+		HLX_CORE_INFO("Total time elapsed: {0}s", totalTime.count());
 	}
 
 	void Application::close()

@@ -61,9 +61,3 @@
 // !!! WINDOW !!! //
 #include "Helix/Window/Base/Window.hpp"
 // ### WINDOW ### //
-
-
-
-// !!! ENTRY POINT !!! //
-#include "main.hpp"
-// ### ENTRY POINT ### //
