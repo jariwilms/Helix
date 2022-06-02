@@ -139,6 +139,7 @@
     <ClCompile Include="src\Helix\Core\IO.cpp" />
     <ClCompile Include="src\Helix\Core\Transform.cpp" />
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp" />
+    <ClCompile Include="src\Helix\Format\Texture.cpp" />
     <ClCompile Include="src\Helix\Input\Input.cpp" />
     <ClCompile Include="src\Helix\Rendering\Camera.cpp" />
     <ClCompile Include="src\Helix\Rendering\Objects\ElementBuffer.cpp" />

@@ -63,10 +63,8 @@ namespace hlx
 
 
 			auto image = std::make_shared<Image>();
+			stbi_set_flip_vertically_on_load(true);
 			image->data = stbi_load(getCompoundPath(path).generic_string().c_str(), &image->width, &image->height, &image->channels, 0);
-
-			//if (image->data == nullptr)
-			//	return std::make_shared<Image>(nullptr);
 
 			m_images.insert(std::make_pair(path, image));
 

@@ -38,94 +38,56 @@ namespace hlx
 	{
 		Renderer& renderer = Renderer::getInstance();
 
-		float triangleVertices[] =
-		{
-			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 
-			0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 
-			0.0f, 0.5f, 0.0f, 0.5f, 1.0f, 
+		float triangleVertices[] = {
+			// positions // colors // texture coords
+			0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
+			0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
+			-0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f // top left
 		};
-
 		unsigned int triangleIndices[] =
 		{
 			0, 1, 2, 
+			0, 2, 3, 
 		};
 
-		float cubeVertices[] =
-		{
-			-0.5f, 0.5f, 0.5f,
-			-0.5f, -0.5f, 0.5f,
-			0.5f, -0.5f, 0.5f,
-			0.5f, 0.5f, 0.5f,
 
-			-0.5f, 0.5f, -0.5f,
-			-0.5f, -0.5f, -0.5f,
-			0.5f, -0.5f, -0.5f,
-			0.5f, 0.5f, -0.5f,
-		};
-
-		unsigned int cubeIndices[] =
-		{
-			3, 2, 6,
-			3, 6, 7,
-
-			4, 5, 1,
-			4, 1, 0,
-
-			4, 0, 3,
-			4, 3, 7,
-
-			5, 1, 2,
-			5, 2, 6,
-
-			0, 1, 2,
-			0, 2, 3,
-
-			4, 5, 6,
-			4, 6, 7
-		};
 
 		BufferLayout layout{};
 		layout.addAttribute<float>(3);
+		layout.addAttribute<float>(3);
+		layout.addAttribute<float>(2);
 
 		VertexArray vao{};
-		VertexBuffer vbo{ cubeVertices, sizeof(cubeVertices) };
-		ElementBuffer ebo{ cubeIndices, sizeof(cubeIndices) };
+		VertexBuffer vbo{ triangleVertices, sizeof(triangleVertices) };
+		ElementBuffer ebo{ triangleIndices, sizeof(triangleIndices) };
 
 		vbo.setLayout(layout);
 		vao.addVertexBuffer(vbo);
 		vao.setElementBuffer(ebo);
 
-		Shader shader{ "mvp.vert", "mvp.frag" };
+		Shader shader{ "tex.vert", "tex.frag" };
 		HLX_CORE_ASSERT(shader.verify(), "Failed to create shader"); //TODO: move in shader?
 
 
+		Texture texture{ "kiryu.png" };
+		texture.bind();
 
-		//BufferLayout layout{};
-		//layout.addAttribute<float>(3);
-		//layout.addAttribute<float>(2);
+		//Image textureImage = *IO::load<Image>("kiryu.png"); //TODO: convert naar texture ipv image -> stb image free automatisch
 
-		//VertexArray vao{};
-		//VertexBuffer vbo{ triangleVertices, sizeof(triangleVertices) };
-		//ElementBuffer ebo{ triangleIndices, sizeof(triangleIndices) };
+		//unsigned int texture;
+		//glGenTextures(1, &texture);
+		//glBindTexture(GL_TEXTURE_2D, texture);
 
-		//Shader shader{ "Sandbox/mvp.vert", "Sandbox/mvp.frag" };
-		//HLX_CORE_ASSERT(shader.verify(), "Failed to create shader"); //TODO: move in shader?
-
-		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureImage.width, textureImage.height, 0, GL_RGB, GL_UNSIGNED_BYTE, textureImage.data);
+		//glGenerateMipmap(GL_TEXTURE_2D);
 
-
-
-
-
-
-
+		//glBindTexture(GL_TEXTURE_2D, texture);
 
 
 
@@ -151,13 +113,16 @@ namespace hlx
 			auto& mat2 = camera.getProjectionMatrix();
 
 			shader.bind();
-			shader.setMat("u_model", glm::mat4{ 1.0f });
-			shader.setMat("u_view", camera.getViewMatrix());
-			shader.setMat("u_projection", camera.getProjectionMatrix());
+			//shader.setMat("u_model", glm::mat4{ 1.0f });
+			//shader.setMat("u_view", glm::mat4{ 1.0f });
+			//shader.setMat("u_projection", glm::mat4{ 1.0f });
+			//shader.setMat("u_view", camera.getViewMatrix());
+			//shader.setMat("u_projection", camera.getProjectionMatrix());
 
 			vao.bind();
 			ebo.bind();
 
+			//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 			renderer.drawIndexed(vao);
 
 			Input::reset();

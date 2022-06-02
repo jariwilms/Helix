@@ -39,5 +39,22 @@ namespace hlx
 				}
 			}
 		}
+
+		static constexpr GLenum getImageFormat(int channels)
+		{
+			switch (channels)
+			{
+				case 1: 
+					return GL_RED;
+				case 2:
+					return GL_RG;
+				case 3:
+					return GL_RGB;
+				case 4:
+					return GL_RGBA;
+				default:
+					return GL_RGB;
+			}
+		}
 	};
 }
