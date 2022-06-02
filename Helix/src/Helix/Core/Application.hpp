@@ -10,6 +10,7 @@
 #include "glfw/glfw3.h"
 
 #include "Helix/Core/Core.hpp"
+#include "Helix/IO/IO.hpp"
 #include "Helix/Input/Input.hpp"
 #include "Helix/Event/Base/Event.hpp"
 #include "Helix/Event/Base/EventDispatcher.hpp"

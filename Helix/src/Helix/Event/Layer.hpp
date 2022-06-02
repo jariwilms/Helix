@@ -13,9 +13,11 @@ namespace hlx
 			:m_name{ name }, enabled{ true } {}
 		virtual ~Layer() {}
 
+		virtual void update() {} //TODO: deltaTime
+		virtual void render() {}
+
 		virtual void onAttach() {}
 		virtual void onDetach() {}
-		virtual void onUpdate() {} //TODO: deltaTime
 		virtual void onEvent(Event& m_event) {}
 
 		const std::string& getName()
@@ -27,7 +29,7 @@ namespace hlx
 			m_name = name;
 		}
 
-		bool enabled;
+		bool enabled; //TODO: -> private?
 
 	protected:
 		std::string m_name;

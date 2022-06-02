@@ -73,22 +73,6 @@ namespace hlx
 		Texture texture{ "kiryu.png" };
 		texture.bind();
 
-		//Image textureImage = *IO::load<Image>("kiryu.png"); //TODO: convert naar texture ipv image -> stb image free automatisch
-
-		//unsigned int texture;
-		//glGenTextures(1, &texture);
-		//glBindTexture(GL_TEXTURE_2D, texture);
-
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureImage.width, textureImage.height, 0, GL_RGB, GL_UNSIGNED_BYTE, textureImage.data);
-		//glGenerateMipmap(GL_TEXTURE_2D);
-
-		//glBindTexture(GL_TEXTURE_2D, texture);
-
 
 
 		Camera camera{};
@@ -105,7 +89,7 @@ namespace hlx
 			renderer.clearBackground(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
 			for (Layer* layer : m_layerStack)
-				layer->onUpdate();
+				layer->update();
 
 			camera.update();
 
@@ -130,6 +114,19 @@ namespace hlx
 
 			t1 = std::chrono::high_resolution_clock::now();
 			delta = t1 - t0;
+		}
+
+		while (m_running)
+		{
+			for (auto* layer : m_layerStack)
+				layer->update(); //TODO: rename naar update? + add deltaTime param
+
+			//m_imGuiLayer->Begin();
+
+			//for (auto* layer : m_layerStack)
+				//layer->onImGuiRender; //TODO: generalize, geen imgui in name, gewoon render?
+
+			m_window->update(); //add deltatime
 		}
 	}
 

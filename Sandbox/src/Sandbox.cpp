@@ -1,4 +1,4 @@
-#include "Helix.hpp"
+#include <Helix.hpp>
 
 class Sandbox : public hlx::Application
 {

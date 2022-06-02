@@ -100,7 +100,7 @@
     <ClInclude Include="src\Helix.hpp" />
     <ClInclude Include="src\Helix\Core\Application.hpp" />
     <ClInclude Include="src\Helix\Core\Core.hpp" />
-    <ClInclude Include="src\Helix\Core\IO.hpp" />
+    <ClInclude Include="src\Helix\IO\IO.hpp" />
     <ClInclude Include="src\Helix\Core\Transform.hpp" />
     <ClInclude Include="src\Helix\Diagnostics\Log.hpp" />
     <ClInclude Include="src\Helix\Event\ApplicationEvent.hpp" />
@@ -136,7 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp" />
-    <ClCompile Include="src\Helix\Core\IO.cpp" />
+    <ClCompile Include="src\Helix\IO\IO.cpp" />
     <ClCompile Include="src\Helix\Core\Transform.cpp" />
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp" />
     <ClCompile Include="src\Helix\Format\Texture.cpp" />

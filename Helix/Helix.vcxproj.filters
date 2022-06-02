@@ -52,7 +52,7 @@
     <ClInclude Include="src\Helix\Core\Core.hpp">
       <Filter>Helix\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Core\IO.hpp">
+    <ClInclude Include="src\Helix\IO\IO.hpp">
       <Filter>Helix\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Core\Transform.hpp">
@@ -148,7 +148,7 @@
     <ClCompile Include="src\Helix\Core\Application.cpp">
       <Filter>Helix\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Core\IO.cpp">
+    <ClCompile Include="src\Helix\IO\IO.cpp">
       <Filter>Helix\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Core\Transform.cpp">
