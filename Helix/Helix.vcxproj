@@ -103,6 +103,7 @@
     <ClInclude Include="src\API\OpenGL\Objects\OpenGLVertexArray.hpp" />
     <ClInclude Include="src\API\OpenGL\Objects\OpenGLVertexBuffer.hpp" />
     <ClInclude Include="src\API\OpenGL\OpenGLShader.hpp" />
+    <ClInclude Include="src\API\OpenGL\OpenGLTexture.hpp" />
     <ClInclude Include="src\Helix\Rendering\Renderer\RenderAPI.hpp" />
     <ClInclude Include="src\Helix\Rendering\Renderer.hpp" />
     <ClInclude Include="src\Helix.hpp" />
@@ -119,8 +120,7 @@
     <ClInclude Include="src\Helix\Event\LayerStack.hpp" />
     <ClInclude Include="src\Helix\Event\MouseEvent.hpp" />
     <ClInclude Include="src\Helix\Event\WindowEvent.hpp" />
-    <ClInclude Include="src\Helix\Format\Image.hpp" />
-    <ClInclude Include="src\Helix\Format\Texture.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Texture.hpp" />
     <ClInclude Include="src\Helix\Input\Input.hpp" />
     <ClInclude Include="src\Helix\Input\KeyCode.hpp" />
     <ClInclude Include="src\Helix\Input\MouseCode.hpp" />
@@ -146,13 +146,14 @@
     <ClCompile Include="src\API\OpenGL\Objects\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\API\OpenGL\Objects\OpenGLVertexBuffer.cpp" />
     <ClCompile Include="src\API\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\API\OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="src\Helix\Rendering\Renderer\RenderAPI.cpp" />
     <ClCompile Include="src\Helix\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Helix\Core\Application.cpp" />
     <ClCompile Include="src\Helix\IO\IO.cpp" />
     <ClCompile Include="src\Helix\Core\Transform.cpp" />
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp" />
-    <ClCompile Include="src\Helix\Format\Texture.cpp" />
+    <ClCompile Include="src\Helix\Rendering\Texture.cpp" />
     <ClCompile Include="src\Helix\Input\Input.cpp" />
     <ClCompile Include="src\Helix\Rendering\Camera.cpp" />
     <ClCompile Include="src\Helix\Rendering\Objects\ElementBuffer.cpp" />

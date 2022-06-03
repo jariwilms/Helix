@@ -135,8 +135,7 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
-    <ClInclude Include="src\Helix\Format\Image.hpp" />
-    <ClInclude Include="src\Helix\Format\Texture.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Texture.hpp" />
     <ClInclude Include="src\Helix\Rendering\Renderer.hpp" />
     <ClInclude Include="src\API\OpenGL\Renderer\OpenGLRenderer.hpp" />
     <ClInclude Include="src\Helix\Rendering\Renderer\RenderAPI.hpp" />
@@ -146,6 +145,7 @@
     <ClInclude Include="src\API\OpenGL\Objects\OpenGLVertexArray.hpp" />
     <ClInclude Include="src\API\OpenGL\Objects\OpenGLVertexBuffer.hpp" />
     <ClInclude Include="src\API\OpenGL\OpenGLShader.hpp" />
+    <ClInclude Include="src\API\OpenGL\OpenGLTexture.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -188,7 +188,7 @@
       <Filter>Helix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\Helix\Format\Texture.cpp" />
+    <ClCompile Include="src\Helix\Rendering\Texture.cpp" />
     <ClCompile Include="src\Helix\Rendering\Renderer.cpp" />
     <ClCompile Include="src\API\OpenGL\Renderer\OpenGLRenderer.cpp" />
     <ClCompile Include="src\Helix\Rendering\Renderer\RenderAPI.cpp" />
@@ -196,5 +196,6 @@
     <ClCompile Include="src\API\OpenGL\Objects\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\API\OpenGL\Objects\OpenGLVertexBuffer.cpp" />
     <ClCompile Include="src\API\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\API\OpenGL\OpenGLTexture.cpp" />
   </ItemGroup>
 </Project>

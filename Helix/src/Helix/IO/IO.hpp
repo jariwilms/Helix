@@ -6,8 +6,7 @@
 #include "stb/stb_image.h"
 #pragma warning(default: 26819 6262 26451)
 
-#include "Helix/Format/Image.hpp"
-#include "Helix/Format/Texture.hpp"
+#include "Helix/Rendering/Texture.hpp"
 
 namespace hlx
 {
@@ -51,10 +50,10 @@ namespace hlx
 
 			return m_strings[path];
 		}
-		template<> static std::shared_ptr<Image> load<Image>(const std::filesystem::path& path)
+		template<> static std::shared_ptr<Texture> load<Texture>(const std::filesystem::path& path)
 		{
-			if (m_images.find(path) != m_images.end())
-				return m_images[path];
+			if (m_textures.find(path) != m_textures.end())
+				return m_textures[path];
 
 			std::filesystem::path destination = getCompoundPath(path);
 			if (!checkFileExists(destination))
@@ -62,17 +61,16 @@ namespace hlx
 
 
 
-			auto image = std::make_shared<Image>();
+			int width, height, channels;
+			unsigned char* data;
+
 			stbi_set_flip_vertically_on_load(true);
-			image->data = stbi_load(getCompoundPath(path).generic_string().c_str(), &image->width, &image->height, &image->channels, 0);
+			data = stbi_load(getCompoundPath(path).generic_string().c_str(), &width, &height, &channels, 0);
 
-			m_images.insert(std::make_pair(path, image));
+			auto texture = Texture::create(width, height, channels, data);
+			m_textures.insert(std::make_pair(path, texture));
 
-			return m_images[path];
-		}
-		template<> static std::shared_ptr<Texture> load<Texture>(const std::filesystem::path& path)
-		{
-			HLX_CORE_ASSERT(false, "Not implemented");
+			return texture;
 		}
 
 	private:
@@ -81,20 +79,6 @@ namespace hlx
 		static std::filesystem::path m_root;
 
 		static std::unordered_map<std::filesystem::path, std::shared_ptr<std::string>> m_strings;
-		static std::unordered_map<std::filesystem::path, std::shared_ptr<Image>> m_images;
 		static std::unordered_map<std::filesystem::path, std::shared_ptr<Texture>> m_textures;
 	};
 }
-
-//template<typename T>
-//void addAttribute(GLsizei size, GLboolean normalized = false)
-//{
-//	HLX_CORE_ASSERT(false);
-//}
-//
-//template<>
-//void addAttribute<bool>(GLsizei size, GLboolean normalized)
-//{
-//	m_attributes.emplace_back(VertexAttribute{ GL_BOOL, size, true });
-//	m_stride += size * GL::getSizeOfGLtype(GL_BOOL);
-//}

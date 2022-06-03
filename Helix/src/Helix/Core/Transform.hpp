@@ -8,8 +8,7 @@ namespace hlx
 	class Transform
 	{
 	public:
-		Transform();
-		Transform(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
+		Transform(glm::vec3 position = glm::vec3{}, glm::vec3 rotation = glm::vec3{}, glm::vec3 scale = glm::vec3{});
 		~Transform() = default;
 
 		void translate(const glm::vec3& translation);

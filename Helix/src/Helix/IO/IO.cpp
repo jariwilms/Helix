@@ -50,6 +50,5 @@ namespace hlx
 	std::filesystem::path IO::m_root;
 
 	std::unordered_map<std::filesystem::path, std::shared_ptr<std::string>> IO::m_strings;
-	std::unordered_map<std::filesystem::path, std::shared_ptr<Image>> IO::m_images;
 	std::unordered_map<std::filesystem::path, std::shared_ptr<Texture>> IO::m_textures;
 }

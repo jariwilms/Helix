@@ -1,17 +1,16 @@
 #include "stdafx.hpp"
-#include "Texture.hpp"
+#include "OpenGLTexture.hpp"
 
 namespace hlx
 {
-	Texture::Texture(const std::filesystem::path& path)
-		: m_textureId{}, m_internalFormat{ GL_RGBA }, m_status{}
+	OpenGLTexture::OpenGLTexture(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data)
+		: Texture{ width, height, channels, data }
 	{
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_textureId);
 		glBindTexture(GL_TEXTURE_2D, m_textureId);
 
-		m_texture = IO::load<Image>(path);
-		m_dataFormat = OpenGL::getImageFormat(m_texture->channels);
-		glTexImage2D(GL_TEXTURE_2D, 0, m_internalFormat, m_texture->width, m_texture->height, 0, m_dataFormat, GL_UNSIGNED_BYTE, m_texture->data);
+		m_dataFormat = OpenGL::getImageFormat(channels);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, m_dataFormat, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -22,28 +21,18 @@ namespace hlx
 		m_status = true;
 	}
 
-	Texture::~Texture()
+	OpenGLTexture::~OpenGLTexture()
 	{
 		glDeleteTextures(1, &m_textureId);
 	}
 
-	void Texture::bind() const
+	void OpenGLTexture::bind() const
 	{
 		glBindTexture(GL_TEXTURE_2D, m_textureId);
 	}
 
-	void Texture::unbind() const
+	void OpenGLTexture::unbind() const
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-
-	const Image& Texture::getImage() const
-	{
-		return *m_texture;
-	}
-
-	bool Texture::verify() const
-	{
-		return m_status;
 	}
 }

@@ -34,8 +34,7 @@ public:
 		m_vao->addVertexBuffer(m_vbo);
 		
 		m_shader = hlx::Shader::create("tex.vert", "tex.frag");
-
-		m_texture = std::make_shared<hlx::Texture>("kiryu.png");
+		m_texture = hlx::Texture::create("kiryu.png");
 
 		auto transform = hlx::Transform{};
 		transform.translate({ 0.0f, 0.0f, 3.0f });

@@ -22,11 +22,6 @@
 #include "Helix/Event/MouseEvent.hpp"
 // ### EVENT ### //
 
-// !!! FORMAT !!! //
-#include "Helix/Format/Image.hpp"
-#include "Helix/Format/Texture.hpp"
-// ### FORMAT ### //
-
 // !!! INPUT !!! //
 #include "Helix/Input/Input.hpp"
 #include "Helix/Input/KeyCode.hpp"
@@ -43,9 +38,12 @@
 
 // !!! RENDERING !!! //
 #include "Helix/Rendering/Renderer.hpp"
-#include "Helix/Rendering/Camera.hpp"
+
 #include "Helix/Rendering/Projection.hpp"
+#include "Helix/Rendering/Camera.hpp"
+
 #include "Helix/Rendering/Shader.hpp"
+#include "Helix/Rendering/Texture.hpp"
 
 #include "Helix/Rendering/Objects/BufferObject.hpp"
 #include "Helix/Rendering/Objects/BufferLayout.hpp"
