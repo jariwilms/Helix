@@ -145,6 +145,7 @@
     <ClInclude Include="src\API\OpenGL\Objects\OpenGLElementBuffer.hpp" />
     <ClInclude Include="src\API\OpenGL\Objects\OpenGLVertexArray.hpp" />
     <ClInclude Include="src\API\OpenGL\Objects\OpenGLVertexBuffer.hpp" />
+    <ClInclude Include="src\API\OpenGL\OpenGLShader.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -194,5 +195,6 @@
     <ClCompile Include="src\API\OpenGL\Objects\OpenGLElementBuffer.cpp" />
     <ClCompile Include="src\API\OpenGL\Objects\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\API\OpenGL\Objects\OpenGLVertexBuffer.cpp" />
+    <ClCompile Include="src\API\OpenGL\OpenGLShader.cpp" />
   </ItemGroup>
 </Project>

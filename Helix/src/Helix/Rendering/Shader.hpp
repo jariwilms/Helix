@@ -12,37 +12,41 @@ namespace hlx
 	class Shader
 	{
 	public:
-		Shader(const std::filesystem::path& vertex, const std::filesystem::path& fragment);
-		Shader(const std::filesystem::path& vertex, const std::filesystem::path& geometry, const std::filesystem::path& fragment);
-		~Shader();
+		virtual ~Shader() = default;
 
-		void bind() const;
-		void unbind() const;
+		static std::shared_ptr<Shader> create(const std::filesystem::path& vertex, const std::filesystem::path& fragment);
+		static std::shared_ptr<Shader> create(const std::filesystem::path& vertex, const std::filesystem::path& geometry, const std::filesystem::path& fragment);
+
+		virtual void bind() const = 0;
+		virtual void unbind() const = 0;
 
 		bool verify() const;
-		int getUniformLocation(const std::string& id);
+		virtual int getUniformLocation(const std::string& id) = 0;
 
-		void setBool(const std::string& identifier, bool value);
-		void setInt(const std::string& identifier, int value);
-		void setFloat(const std::string& identifier, float value);
+		virtual void setBool(const std::string& identifier, bool value) = 0;
+		virtual void setInt(const std::string& identifier, int value) = 0;
+		virtual void setFloat(const std::string& identifier, float value) = 0;
 
-		void setVec(const std::string& identifier, const glm::vec2& value);
-		void setVec(const std::string& identifier, const glm::vec3& value);
-		void setVec(const std::string& identifier, const glm::vec4& value);
+		virtual void setVec(const std::string& identifier, const glm::vec2& value) = 0;
+		virtual void setVec(const std::string& identifier, const glm::vec3& value) = 0;
+		virtual void setVec(const std::string& identifier, const glm::vec4& value) = 0;
 
-		void setMat(const std::string& identifier, const glm::mat2& value);
-		void setMat(const std::string& identifier, const glm::mat3& value);
-		void setMat(const std::string& identifier, const glm::mat4& value);
+		virtual void setMat(const std::string& identifier, const glm::mat2& value) = 0;
+		virtual void setMat(const std::string& identifier, const glm::mat3& value) = 0;
+		virtual void setMat(const std::string& identifier, const glm::mat4& value) = 0;
 
-	private:
-		static bool checkProgramStatus(unsigned int programId, GLenum flag = GL_LINK_STATUS);
-		static bool checkShaderStatus(unsigned int shaderId, GLenum flag = GL_COMPILE_STATUS);
+	protected:
+		Shader()
+			: m_status{}, m_programId{} {}
 
-		static void logProgramError(unsigned int programId);
-		static void logShaderError(unsigned int shaderId);
+		virtual bool checkProgramStatus(unsigned int programId) = 0;
+		virtual bool checkShaderStatus(unsigned int shaderId) = 0;
 
-		unsigned int create(GLenum type);
-		bool compile(unsigned int shader, const std::string& source);
+		virtual void logProgramError(unsigned int programId) = 0;
+		virtual void logShaderError(unsigned int shaderId) = 0;
+
+		virtual unsigned int create(unsigned int type) = 0;
+		virtual bool compile(unsigned int shaderId, const std::string& source) = 0;
 
 		bool m_status;;
 		unsigned int m_programId;

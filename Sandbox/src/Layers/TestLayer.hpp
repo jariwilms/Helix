@@ -33,8 +33,7 @@ public:
 		m_vao->setElementBuffer(m_ebo);
 		m_vao->addVertexBuffer(m_vbo);
 		
-		m_shader = std::make_shared<hlx::Shader>("tex.vert", "tex.frag");
-		HLX_CORE_ASSERT(m_shader->verify(), "Failed to create shader"); //TODO: move in shader?
+		m_shader = hlx::Shader::create("tex.vert", "tex.frag");
 
 		m_texture = std::make_shared<hlx::Texture>("kiryu.png");
 
