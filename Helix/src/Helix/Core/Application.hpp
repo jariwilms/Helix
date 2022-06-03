@@ -6,27 +6,20 @@
 //#include "imgui/imgui_impl_glfw.h"
 //#include "imgui/imgui_impl_opengl3.h"
 
-#include "glad/glad.h"
-#include "glfw/glfw3.h"
-
 #include "Helix/Core/Core.hpp"
-#include "Helix/IO/IO.hpp"
 #include "Helix/Input/Input.hpp"
 #include "Helix/Event/Base/Event.hpp"
 #include "Helix/Event/Base/EventDispatcher.hpp"
+
 #include "Helix/Event/ApplicationEvent.hpp"
+#include "Helix/Event/WindowEvent.hpp"
 #include "Helix/Event/KeyEvent.hpp"
 #include "Helix/Event/MouseEvent.hpp"
-#include "Helix/Event/WindowEvent.hpp"
-#include "Helix/Event/LayerStack.hpp"
+
 #include "Helix/Rendering/Renderer.hpp"
-#include "Helix/Rendering/Camera.hpp"
-#include "Helix/Rendering/Objects/BufferLayout.hpp"
-#include "Helix/Rendering/Objects/VertexArray.hpp"
-#include "Helix/Rendering/Objects/VertexBuffer.hpp"
-#include "Helix/Rendering/Objects/ElementBuffer.hpp"
-#include "Helix/Rendering/Shader.hpp"
-#include "Helix/Window/Base/Window.hpp"
+
+#include "Helix/Window/LayerStack.hpp"
+#include "Helix/Window/Window.hpp"
 
 namespace hlx
 {
@@ -44,6 +37,7 @@ namespace hlx
 		virtual ~Application();
 
 		static Application& getInstance();
+		const std::unique_ptr<Window>& getWindow();
 
 		void run();
 		void close();
@@ -63,7 +57,7 @@ namespace hlx
 
 		LayerStack m_layerStack;
 
-		Window* m_window;
+		std::unique_ptr<Window> m_window;
 		bool m_running;
 	};
 

@@ -16,7 +16,7 @@ namespace hlx
 
 		struct OrthographicSettings
 		{
-			OrthographicSettings(float leftPlane = -1.0f, float rightPlane = 1.0f, float bottomPlane = -1.0f, float topPlane = 1.0f, float nearPlane = 0.1f, float farPlane = 10.0f)
+			OrthographicSettings(float leftPlane = -1.0f, float rightPlane = 1.0f, float bottomPlane = -1.0f, float topPlane = 1.0f, float nearPlane = 0.01f, float farPlane = 100.0f)
 				: leftPlane{ leftPlane }, rightPlane{ rightPlane }, bottomPlane{ bottomPlane }, topPlane{ topPlane }, nearPlane{ nearPlane }, farPlane{ farPlane } {}
 
 			float leftPlane;
@@ -29,7 +29,7 @@ namespace hlx
 
 		struct PerspectiveSettings
 		{
-			PerspectiveSettings(float fov = 45.0f, float aspectRatio = 16.0f / 9.0f, float nearPlane = 0.1f, float farPlane = 10.0f)
+			PerspectiveSettings(float fov = 45.0f, float aspectRatio = 16.0f / 9.0f, float nearPlane = 0.01f, float farPlane = 100.0f)
 				: fov{ fov }, aspectRatio{ aspectRatio }, nearPlane{ nearPlane }, farPlane{ farPlane } {}
 
 			float fov;

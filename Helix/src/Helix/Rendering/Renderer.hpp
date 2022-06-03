@@ -4,9 +4,8 @@
 
 #include "glm/glm.hpp"
 
-#include "Helix/Rendering/Renderer/RenderAPI.hpp"
-#include "API/OpenGL/Renderer/OpenGLRenderer.hpp"
-
+#include "Helix/Rendering/API/RenderAPI.hpp"
+#include "Helix/Rendering/API/OpenGL/Renderer/OpenGLRenderer.hpp"
 #include "Helix/Rendering/Objects/VertexArray.hpp"
 
 namespace hlx

@@ -2,9 +2,9 @@
 
 #include "stdafx.hpp"
 
-#include "GLAD/glad.h"
-#include "GLFW/glfw3.h"
-#include "GLM/glm.hpp"
+#include "glad/glad.h"
+#include "glfw/glfw3.h"
+#include "glm/glm.hpp"
 
 #include "Helix/Input/KeyCode.hpp"
 #include "Helix/Input/MouseCode.hpp"

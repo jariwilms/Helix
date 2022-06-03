@@ -2,13 +2,12 @@
 
 #include "stdafx.hpp"
 
-#include "glad/glad.h"
-#include "glfw/glfw3.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "Helix/Input/Input.hpp"
+#include "Helix/Core/Application.hpp"
 #include "Helix/Core/Transform.hpp"
+#include "Helix/Input/Input.hpp"
 #include "Helix/Rendering/Projection.hpp"
 
 namespace hlx

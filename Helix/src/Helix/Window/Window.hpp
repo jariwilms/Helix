@@ -37,7 +37,7 @@ namespace hlx
 
 		virtual void* getNativeWindow() const = 0;
 
-		static Window* create(const WindowProperties& m_properties);
+		static std::unique_ptr<Window> create(const WindowProperties& m_properties);
 	};
 
 	inline Window::~Window() {}

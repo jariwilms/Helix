@@ -11,7 +11,7 @@ namespace hlx
 		m_activeButtons.resize(GLFW_BUTTON_COUNT);
 		m_lastActiveButtons.resize(GLFW_BUTTON_COUNT);
 	}
-	void Input::reset()
+	void Input::reset() //TODO: move naar callbacks? moet niet per se in reset functie...wrs
 	{
 		m_lastActiveKeys = m_activeKeys;
 		m_lastActiveButtons = m_activeButtons;
@@ -97,31 +97,33 @@ namespace hlx
 
 	void Input::_inputKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		if (mods) return;
+		if (key < Key::MIN_VALUE || key > Key::MAX_VALUE)
+			return;
 
 		if (action == GLFW_PRESS)
 		{
-			m_activeKeys[key] = true;
+			m_activeKeys.at(key) = true;
 			++m_activeKeyCount;
 		}
 		if (action == GLFW_RELEASE)
 		{
-			m_activeKeys[key] = false;
+			m_activeKeys.at(key) = false;
 			--m_activeKeyCount;
 		}
 	}
 	void Input::_inputButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	{
-		if (mods) return;
+		if (button < Button::MIN_VALUE || button > Button::MAX_VALUE)
+			return;
 
 		if (action == GLFW_PRESS)
 		{
-			m_activeButtons[button] = true;
+			m_activeButtons.at(button) = true;
 			++m_activeButtonCount;
 		}
 		if (action == GLFW_RELEASE)
 		{
-			m_activeButtons[button] = false;
+			m_activeButtons.at(button) = false;
 			--m_activeButtonCount;
 		}
 	}

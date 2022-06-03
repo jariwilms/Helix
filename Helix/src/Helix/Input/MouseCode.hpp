@@ -6,6 +6,7 @@ namespace hlx
 
 	class Button
 	{
+	public:
 		static const int MIN_VALUE = 0;
 		static const int MAX_VALUE = 7;
 

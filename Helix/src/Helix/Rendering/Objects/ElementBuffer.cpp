@@ -1,7 +1,7 @@
 #include "stdafx.hpp"
 #include "ElementBuffer.hpp"
 
-#include "API/OpenGL/Objects/OpenGLElementBuffer.hpp"
+#include "Helix/Rendering/API/OpenGL/Objects/OpenGLElementBuffer.hpp"
 
 namespace hlx
 {

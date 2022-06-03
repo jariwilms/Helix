@@ -32,13 +32,12 @@ public:
 		m_vbo->setLayout(layout);
 		m_vao->setElementBuffer(m_ebo);
 		m_vao->addVertexBuffer(m_vbo);
-		
+
 		m_shader = hlx::Shader::create("tex.vert", "tex.frag");
 		m_texture = hlx::Texture::create("kiryu.png");
 
-		auto transform = hlx::Transform{};
-		transform.translate({ 0.0f, 0.0f, 3.0f });
-		m_camera = hlx::Camera{ transform, glm::vec3{0.0f, 1.0f, 0.0f}, hlx::Projection::Type::Orthographic };
+		hlx::Transform transform{ glm::vec3{0.0f, 0.0f, 3.0f} };
+		m_camera = hlx::Camera{ transform, glm::vec3{0.0f, 1.0f, 0.0f}, hlx::Projection::Type::Perspective };
 	}
 
 	void update() override

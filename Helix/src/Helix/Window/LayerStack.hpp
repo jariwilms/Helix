@@ -2,7 +2,7 @@
 
 #include "stdafx.hpp"
 
-#include "Helix/Event/Layer.hpp"
+#include "Layer.hpp"
 
 namespace hlx
 {

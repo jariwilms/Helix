@@ -5,8 +5,7 @@
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
 
-#include "API/OpenGL/OpenGL.hpp"
-#include "API/OpenGL/Objects/OpenGLBufferLayout.hpp"
+#include "Helix/Rendering/API/OpenGL/OpenGL.hpp"
 
 namespace hlx
 {

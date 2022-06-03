@@ -8,7 +8,7 @@
 #include "Helix/Event/MouseEvent.hpp"
 #include "Helix/Event/WindowEvent.hpp"
 #include "Helix/Diagnostics/Log.hpp"
-#include "Helix/Window/Base/Window.hpp"
+#include "Helix/Window/Window.hpp"
 
 namespace hlx
 {

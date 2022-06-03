@@ -26,12 +26,17 @@ namespace hlx
 
 	Application::~Application()
 	{
-		delete m_window;
+
 	}
 
 	Application& Application::getInstance()
 	{
 		return *s_instance;
+	}
+
+	const std::unique_ptr<Window>& Application::getWindow()
+	{
+		return m_window;
 	}
 
 	void Application::run()

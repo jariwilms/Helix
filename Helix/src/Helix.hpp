@@ -10,8 +10,8 @@
 // ### DIAGNOSTICS ### //
 
 // !!! EVENT !!! //
-#include "Helix/Event/Layer.hpp"
-#include "Helix/Event/LayerStack.hpp"
+#include "Helix/Window/Layer.hpp"
+#include "Helix/Window/LayerStack.hpp"
 
 #include "Helix/Event/Base/Event.hpp"
 #include "Helix/Event/Base/EventDispatcher.hpp"
@@ -57,5 +57,5 @@
 // ### SCENE ### //
 
 // !!! WINDOW !!! //
-#include "Helix/Window/Base/Window.hpp"
+#include "Helix/Window/Window.hpp"
 // ### WINDOW ### //

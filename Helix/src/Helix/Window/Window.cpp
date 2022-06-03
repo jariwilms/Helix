@@ -2,7 +2,7 @@
 #include "Window.hpp"
 
 #ifdef HLX_PLATFORM_WINDOWS
-	#include "Helix/Window/WindowsWindow.hpp"
+	#include "Helix/Window/OS/Windows/WindowsWindow.hpp"
 #endif
 
 namespace hlx
@@ -13,10 +13,10 @@ namespace hlx
 	WindowProperties::WindowProperties(const std::string& title, glm::uvec2 dimensions, bool vSync)
 		: title{ title }, dimensions{ dimensions }, vSync{ vSync } {}
 
-	Window* Window::create(const WindowProperties& m_properties)
+	std::unique_ptr<Window> Window::create(const WindowProperties& m_properties)
 	{
 #ifdef HLX_PLATFORM_WINDOWS
-		return new WindowsWindow(m_properties);
+		return std::make_unique<WindowsWindow>(m_properties);
 #endif
 	}
 }

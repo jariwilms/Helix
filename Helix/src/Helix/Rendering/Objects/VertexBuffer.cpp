@@ -1,7 +1,7 @@
 #include "stdafx.hpp"
 #include "VertexBuffer.hpp"
 
-#include "API/OpenGL/Objects/OpenGLVertexBuffer.hpp"
+#include "Helix/Rendering/API/OpenGL/Objects/OpenGLVertexBuffer.hpp"
 
 namespace hlx
 {
