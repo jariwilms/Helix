@@ -13,19 +13,16 @@ namespace hlx
 	class VertexBuffer : public BufferObject
 	{
 	public:
-		VertexBuffer();
-		VertexBuffer(const float* data, GLsizei size, GLenum usage = GL_STATIC_DRAW);
-		~VertexBuffer() override;
+		static std::shared_ptr<VertexBuffer> create();
+		static std::shared_ptr<VertexBuffer> create(float* data, int size);
 		
-		void bind() const override;
-		void unbind() const override;
-
 		const BufferLayout& getLayout() const;
-		void setLayout(const BufferLayout& layout);
+		virtual void setLayout(const BufferLayout& layout) = 0;
 
-		void setBufferData(const float* data, GLsizei size, GLenum usage);
+		virtual void setBufferData(float* data, int size) = 0;
 
-	private:
+	protected:
+		VertexBuffer() = default;
 		BufferLayout m_layout;
 	};
 }

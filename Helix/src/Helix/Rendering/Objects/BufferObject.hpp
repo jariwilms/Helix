@@ -4,15 +4,15 @@ namespace hlx
 {
 	class BufferObject
 	{
+	public:
 		virtual void bind() const = 0;
 		virtual void unbind() const = 0;
 
 	protected:
-		BufferObject() : m_objectId{} {}
-		virtual ~BufferObject() = 0;
+		BufferObject() 
+			: m_objectId{} {}
+		virtual ~BufferObject() {}
 
-		GLuint m_objectId;
+		unsigned int m_objectId;
 	};
-
-	inline BufferObject::~BufferObject() {}
 }

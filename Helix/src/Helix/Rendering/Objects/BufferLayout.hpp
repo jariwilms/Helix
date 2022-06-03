@@ -5,72 +5,74 @@
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
 
-#include "Helix/Rendering/GL.hpp"
+#include "API/OpenGL/OpenGL.hpp"
+#include "API/OpenGL/Objects/OpenGLBufferLayout.hpp"
 
 namespace hlx
 {
 	struct VertexAttribute
 	{
-		VertexAttribute(GLenum type, GLsizei size, GLboolean normalized = false) 
+		VertexAttribute(unsigned int type, int size, bool normalized)
 			: type{ type }, size{ size }, normalized{ normalized } {}
-		~VertexAttribute() = default;
 
-		GLenum type;
-		GLint size;
-		GLboolean normalized;
+		unsigned int type;
+		int size;
+		bool normalized;
 	};
 
 	struct BufferLayout
 	{
-		BufferLayout() : m_stride{} {}
+	public:
+		BufferLayout() 
+			: m_stride{} {}
 		~BufferLayout() = default;
 
 		template<typename T>
-		void addAttribute(GLsizei size, GLboolean normalized = false)
+		void addAttribute(int size, bool normalized = false)
 		{
 			HLX_CORE_ASSERT(false);
 		}
 
 		template<>
-		void addAttribute<bool>(GLsizei size, GLboolean normalized)
+		void addAttribute<bool>(int size, bool normalized)
 		{
 			m_attributes.emplace_back(VertexAttribute{ GL_BOOL, size, true });
-			m_stride += size * GL::getSizeOfGLtype(GL_BOOL);
+			m_stride += size * OpenGL::getSizeOfType(GL_BOOL);
 		}
 
 		template<>
-		void addAttribute<int>(GLsizei size, GLboolean normalized)
+		void addAttribute<int>(int size, bool normalized)
 		{
 			m_attributes.emplace_back(VertexAttribute{ GL_INT, size, normalized });
-			m_stride += size * GL::getSizeOfGLtype(GL_INT);
+			m_stride += size * OpenGL::getSizeOfType(GL_INT);
 		}
 
 		template<>
-		void addAttribute<float>(GLsizei size, GLboolean normalized)
+		void addAttribute<float>(int size, bool normalized)
 		{
 			m_attributes.emplace_back(VertexAttribute{ GL_FLOAT, size, normalized });
-			m_stride += size * GL::getSizeOfGLtype(GL_FLOAT);
+			m_stride += size * OpenGL::getSizeOfType(GL_FLOAT);
 		}
 
 		template<>
-		void addAttribute<unsigned int>(GLsizei size, GLboolean normalized)
+		void addAttribute<unsigned int>(int size, bool normalized)
 		{
 			m_attributes.emplace_back(VertexAttribute{ GL_UNSIGNED_INT, size, normalized });
-			m_stride += size * GL::getSizeOfGLtype(GL_UNSIGNED_INT);
+			m_stride += size * OpenGL::getSizeOfType(GL_UNSIGNED_INT);
 		}
 
 		template<>
-		void addAttribute<unsigned char>(GLsizei size, GLboolean normalized)
+		void addAttribute<unsigned char>(int size, bool normalized)
 		{
 			m_attributes.emplace_back(VertexAttribute{ GL_UNSIGNED_BYTE, size, true });
-			m_stride += size * GL::getSizeOfGLtype(GL_UNSIGNED_BYTE);
+			m_stride += size * OpenGL::getSizeOfType(GL_UNSIGNED_BYTE);
 		}
 
 		const std::vector<VertexAttribute>& getAttributes() const { return m_attributes; }
-		GLsizei getStride() const { return m_stride; }
+		int getStride() const { return m_stride; }
 
 	private:
 		std::vector<VertexAttribute> m_attributes;
-		GLsizei m_stride;
+		int m_stride;
 	};
 }

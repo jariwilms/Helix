@@ -5,32 +5,30 @@
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
 
-#include "Helix/Rendering/GL.hpp"
-#include "Helix/Rendering/Objects/BufferObject.hpp"
-#include "Helix/Rendering/Objects/BufferLayout.hpp"
-#include "Helix/Rendering/Objects/VertexBuffer.hpp"
-#include "Helix/Rendering/Objects/ElementBuffer.hpp"
+#include "BufferObject.hpp"
+#include "BufferLayout.hpp"
+#include "VertexBuffer.hpp"
+#include "ElementBuffer.hpp"
 
 namespace hlx
 {
 	class VertexArray : public BufferObject
 	{
 	public:
-		VertexArray();
-		~VertexArray() override;
+		static std::shared_ptr<VertexArray> create();
 
-		void bind() const override;
-		void unbind() const override;
+		virtual const std::vector<std::shared_ptr<VertexBuffer>>& getVertexBuffers() const;
+		virtual void addVertexBuffer(const std::shared_ptr<VertexBuffer> buffer) = 0;
 
-		const std::vector<VertexBuffer>& getVertexBuffers() const;
-		void addVertexBuffer(const VertexBuffer& buffer);
+		virtual const std::shared_ptr<ElementBuffer> getElementBuffer() const;
+		virtual void setElementBuffer(const std::shared_ptr<ElementBuffer> buffer) = 0;
 
-		const ElementBuffer& getElementBuffer() const;
-		void setElementBuffer(const ElementBuffer& buffer);
+	protected:
+		VertexArray()
+			: m_vertexBufferIndex{} {}
 
-	private:
-		std::vector<VertexBuffer> m_vertexBuffers;
-		ElementBuffer m_elementBuffer;
-		GLuint m_vertexBufferIndex;
+		std::vector<std::shared_ptr<VertexBuffer>> m_vertexBuffers;
+		std::shared_ptr<ElementBuffer> m_elementBuffer;
+		unsigned int m_vertexBufferIndex;
 	};
 }

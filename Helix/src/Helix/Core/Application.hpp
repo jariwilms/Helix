@@ -19,7 +19,7 @@
 #include "Helix/Event/MouseEvent.hpp"
 #include "Helix/Event/WindowEvent.hpp"
 #include "Helix/Event/LayerStack.hpp"
-#include "Helix/Rendering/Renderers/Base/Renderer.hpp"
+#include "Helix/Rendering/Renderer.hpp"
 #include "Helix/Rendering/Camera.hpp"
 #include "Helix/Rendering/Objects/BufferLayout.hpp"
 #include "Helix/Rendering/Objects/VertexArray.hpp"

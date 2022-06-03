@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Helix.hpp>
-#include <memory>
 
 class TestLayer : public hlx::Layer
 {
@@ -26,13 +25,13 @@ public:
 		layout.addAttribute<float>(3);
 		layout.addAttribute<float>(2);
 
-		m_vao = std::make_shared<hlx::VertexArray>();
-		m_vbo = std::make_shared<hlx::VertexBuffer>(triangleVertices, (GLsizei)sizeof(triangleVertices));
-		m_ebo = std::make_shared<hlx::ElementBuffer>(triangleIndices, (GLsizei)sizeof(triangleIndices));
+		m_vao = hlx::VertexArray::create();
+		m_vbo = hlx::VertexBuffer::create(triangleVertices, sizeof(triangleVertices));
+		m_ebo = hlx::ElementBuffer::create(triangleIndices, sizeof(triangleIndices));
 
 		m_vbo->setLayout(layout);
-		m_vao->setElementBuffer(*m_ebo);
-		m_vao->addVertexBuffer(*m_vbo);
+		m_vao->setElementBuffer(m_ebo);
+		m_vao->addVertexBuffer(m_vbo);
 		
 		m_shader = std::make_shared<hlx::Shader>("tex.vert", "tex.frag");
 		HLX_CORE_ASSERT(m_shader->verify(), "Failed to create shader"); //TODO: move in shader?
@@ -56,11 +55,9 @@ public:
 
 	void render() override
 	{
-		auto& renderer = hlx::Renderer::getInstance();
-
 		m_vao->bind();
 		m_texture->bind();
-		renderer.drawIndexed(*m_vao);
+		hlx::Renderer::render(*m_vao);
 	}
 
 private:

@@ -1,50 +1,22 @@
 #include "stdafx.hpp"
 #include "VertexBuffer.hpp"
 
+#include "API/OpenGL/Objects/OpenGLVertexBuffer.hpp"
+
 namespace hlx
 {
-	VertexBuffer::VertexBuffer()
+	std::shared_ptr<VertexBuffer> VertexBuffer::create()
 	{
-		glCreateBuffers(1, &m_objectId);
+		return std::make_shared<OpenGLVertexBuffer>();
 	}
 
-	VertexBuffer::VertexBuffer(const float* data, GLsizei size, GLenum usage)
+	std::shared_ptr<VertexBuffer> VertexBuffer::create(float* data, int size)
 	{
-		glCreateBuffers(1, &m_objectId);
-		setBufferData(data, size, usage);
-	}
-
-	VertexBuffer::~VertexBuffer()
-	{
-		glDeleteBuffers(1, &m_objectId);
-	}
-
-	void VertexBuffer::bind() const
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, m_objectId);
-	}
-
-	void VertexBuffer::unbind() const
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		return std::make_shared<OpenGLVertexBuffer>(data, size);
 	}
 
 	const hlx::BufferLayout& VertexBuffer::getLayout() const
 	{
 		return m_layout;
-	}
-
-	void VertexBuffer::setLayout(const BufferLayout& layout)
-	{
-		m_layout = layout;
-	}
-
-	void VertexBuffer::setBufferData(const float* data, GLsizei size, GLenum usage)
-	{
-		bind();
-
-		glBufferData(GL_ARRAY_BUFFER, size, data, usage);
-
-		unbind();
 	}
 }

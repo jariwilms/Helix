@@ -6,7 +6,7 @@
 #include "glfw/glfw3.h"
 #include "stb/stb_image.h"
 
-#include "Helix/Rendering/GL.hpp"
+#include "API/OpenGL/OpenGL.hpp"
 #include "Helix/Format/Image.hpp"
 
 namespace hlx

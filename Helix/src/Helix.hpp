@@ -42,7 +42,7 @@
 // ### MATH ### //
 
 // !!! RENDERING !!! //
-#include "Helix/Rendering/Renderers/Base/Renderer.hpp"
+#include "Helix/Rendering/Renderer.hpp"
 #include "Helix/Rendering/Camera.hpp"
 #include "Helix/Rendering/Projection.hpp"
 #include "Helix/Rendering/Shader.hpp"

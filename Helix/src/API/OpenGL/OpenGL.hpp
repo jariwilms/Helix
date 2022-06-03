@@ -7,7 +7,7 @@
 
 namespace hlx
 {
-	class GL
+	class OpenGL
 	{
 	public:
 		enum : int
@@ -21,7 +21,7 @@ namespace hlx
 			else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 
-		static constexpr unsigned int getSizeOfGLtype(GLenum type)
+		static constexpr unsigned int getSizeOfType(GLenum type)
 		{
 			switch (type)
 			{

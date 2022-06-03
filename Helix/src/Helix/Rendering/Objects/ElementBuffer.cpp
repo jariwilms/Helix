@@ -1,47 +1,12 @@
 #include "stdafx.hpp"
 #include "ElementBuffer.hpp"
 
+#include "API/OpenGL/Objects/OpenGLElementBuffer.hpp"
+
 namespace hlx
 {
-	ElementBuffer::ElementBuffer()
-		: m_count{}
+	std::shared_ptr<ElementBuffer> ElementBuffer::create(unsigned int* data, int size)
 	{
-		glCreateBuffers(1, &m_objectId);
-	}
-
-	ElementBuffer::ElementBuffer(const unsigned int* data, GLsizei size, GLenum usage)
-	{
-		glCreateBuffers(1, &m_objectId);
-		setBufferData(data, size, usage);
-	}
-
-	ElementBuffer::~ElementBuffer()
-	{
-		glDeleteBuffers(1, &m_objectId);
-	}
-
-	void ElementBuffer::bind() const
-	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_objectId);
-	}
-
-	void ElementBuffer::unbind() const
-	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	}
-
-	GLsizei ElementBuffer::getCount() const
-	{
-		return m_count;
-	}
-
-	void ElementBuffer::setBufferData(const unsigned int* data, GLsizei size, GLenum usage)
-	{
-		bind();
-
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, usage);
-		m_count = size / (GLsizei)sizeof(unsigned int);
-
-		unbind();
+		return std::make_shared<OpenGLElementBuffer>(data, size);
 	}
 }

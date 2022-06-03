@@ -12,18 +12,13 @@ namespace hlx
 	class ElementBuffer : public BufferObject
 	{
 	public:
-		ElementBuffer();
-		ElementBuffer(const unsigned int* data, GLsizei size, GLenum usage = GL_STATIC_DRAW);
-		~ElementBuffer() override;
+		static std::shared_ptr<ElementBuffer> create(unsigned int* data, int size);
 
-		void bind() const override;
-		void unbind() const override;
+		virtual int getSize() const = 0;
 
-		GLsizei getCount() const;
+		virtual void setBufferData(unsigned int* data, int size) = 0;
 
-		void setBufferData(const unsigned int* data, GLsizei size, GLenum usage);
-
-	private:
-		GLsizei m_count;
+	protected:
+		int m_size;
 	};
 }

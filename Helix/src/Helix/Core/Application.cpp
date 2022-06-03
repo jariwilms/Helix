@@ -36,8 +36,6 @@ namespace hlx
 
 	void Application::run()
 	{
-		Renderer& renderer = Renderer::getInstance();
-
 		std::chrono::high_resolution_clock::time_point t0{};
 		std::chrono::high_resolution_clock::time_point t1{};
 		std::chrono::duration<float> deltaTime{};
@@ -47,8 +45,8 @@ namespace hlx
 		{
 			t0 = std::chrono::high_resolution_clock::now();
 
-			renderer.clearBuffer();
-			renderer.clearBackground(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
+			Renderer::clearBuffer();
+			Renderer::clearBackground(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
 			for (Layer* layer : m_layerStack)
 				layer->update();
