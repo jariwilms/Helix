@@ -10,6 +10,21 @@
     <Filter Include="Helix\Diagnostics">
       <UniqueIdentifier>{A6B19D5B-12C8-9BF1-5B3F-2713C7946C79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helix\ECS">
+      <UniqueIdentifier>{E90B2B62-5576-DFD8-9EB4-907E0A5EBD2D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\ECS\Components">
+      <UniqueIdentifier>{5E0DFB30-4A9C-84FA-F3BA-98F5DF2895A0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\ECS\Components\Base">
+      <UniqueIdentifier>{A874A837-1437-DCC1-5DE7-6A4EC9E8B49F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\ECS\Entities">
+      <UniqueIdentifier>{BD9AC65E-A97E-87B4-12DF-8107FEE17136}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\ECS\Entities\Base">
+      <UniqueIdentifier>{67354E81-D36C-9618-DC76-FA3B482DBD11}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Helix\Event">
       <UniqueIdentifier>{B0FC3999-1CB2-B28E-A5A6-AC65115BA992}</UniqueIdentifier>
     </Filter>
@@ -43,20 +58,20 @@
     <Filter Include="Helix\Rendering\Objects">
       <UniqueIdentifier>{E5E603E9-511E-4C80-5A28-B0A3C6DE7279}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helix\Rendering\Renderer">
-      <UniqueIdentifier>{529178BE-3EB6-C73E-6701-ADCE5385C65C}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Helix\Scene">
       <UniqueIdentifier>{7CE82C9A-E89D-A58F-7192-9F66DD469C93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\Scene\Camera">
+      <UniqueIdentifier>{7499CECE-607D-8F24-C9DD-8977B5E079A6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Helix\Window">
       <UniqueIdentifier>{26F48FE9-1257-1F8E-BBDC-5744A71EEB10}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helix\Window\API">
-      <UniqueIdentifier>{0F7C345B-FB74-53AD-24A7-383210FF32B9}</UniqueIdentifier>
+    <Filter Include="Helix\Window\OS">
+      <UniqueIdentifier>{D71C1139-43A8-7EFD-4CB9-01F2B8C3DAFD}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helix\Window\API\Windows">
-      <UniqueIdentifier>{49C548EF-35EA-976F-5E35-7DFF4AB9968D}</UniqueIdentifier>
+    <Filter Include="Helix\Window\OS\Windows">
+      <UniqueIdentifier>{11AEFDB0-7DE5-4548-86EF-A96BF2A56C41}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +88,15 @@
     <ClInclude Include="src\Helix\Diagnostics\Log.hpp">
       <Filter>Helix\Diagnostics</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Scene\Components\Base\Component.hpp">
+      <Filter>Helix\ECS\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Scene\Components\TransformComponent.hpp">
+      <Filter>Helix\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Scene\Entities\Base\Entity.hpp">
+      <Filter>Helix\ECS\Entities\Base</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Event\ApplicationEvent.hpp">
       <Filter>Helix\Event</Filter>
     </ClInclude>
@@ -83,12 +107,6 @@
       <Filter>Helix\Event\Base</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Event\KeyEvent.hpp">
-      <Filter>Helix\Event</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Window\Layer.hpp">
-      <Filter>Helix\Event</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Window\LayerStack.hpp">
       <Filter>Helix\Event</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Event\MouseEvent.hpp">
@@ -139,8 +157,8 @@
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Renderer\OpenGLRenderer.hpp">
       <Filter>Helix\Rendering\API\OpenGL\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Camera.hpp">
-      <Filter>Helix\Rendering</Filter>
+    <ClInclude Include="src\Helix\Rendering\API\RenderAPI.hpp">
+      <Filter>Helix\Rendering\API</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Objects\BufferLayout.hpp">
       <Filter>Helix\Rendering\Objects</Filter>
@@ -157,14 +175,8 @@
     <ClInclude Include="src\Helix\Rendering\Objects\VertexBuffer.hpp">
       <Filter>Helix\Rendering\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Projection.hpp">
-      <Filter>Helix\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Renderer.hpp">
       <Filter>Helix\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\API\RenderAPI.hpp">
-      <Filter>Helix\Rendering\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Shader.hpp">
       <Filter>Helix\Rendering</Filter>
@@ -172,17 +184,30 @@
     <ClInclude Include="src\Helix\Rendering\Texture.hpp">
       <Filter>Helix\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Scene\Camera\Camera.hpp">
+      <Filter>Helix\Scene\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Scene\Camera\Projection.hpp">
+      <Filter>Helix\Scene\Camera</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Scene\Scene.hpp">
       <Filter>Helix\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Window\Layer.hpp">
+      <Filter>Helix\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Window\LayerStack.hpp">
+      <Filter>Helix\Window</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Window\OS\Windows\WindowsWindow.hpp">
-      <Filter>Helix\Window\API\Windows</Filter>
+      <Filter>Helix\Window\OS\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Window\Window.hpp">
       <Filter>Helix\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
+    <ClInclude Include="src\Helix\Scene\EntityRegistry.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -218,8 +243,8 @@
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Renderer\OpenGLRenderer.cpp">
       <Filter>Helix\Rendering\API\OpenGL\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\Camera.cpp">
-      <Filter>Helix\Rendering</Filter>
+    <ClCompile Include="src\Helix\Rendering\API\RenderAPI.cpp">
+      <Filter>Helix\Rendering\API</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Rendering\Objects\ElementBuffer.cpp">
       <Filter>Helix\Rendering\Objects</Filter>
@@ -233,20 +258,20 @@
     <ClCompile Include="src\Helix\Rendering\Renderer.cpp">
       <Filter>Helix\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\API\RenderAPI.cpp">
-      <Filter>Helix\Rendering\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="src\Helix\Rendering\Shader.cpp">
       <Filter>Helix\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Rendering\Texture.cpp">
       <Filter>Helix\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="src\Helix\Scene\Camera\Camera.cpp">
+      <Filter>Helix\Scene\Camera</Filter>
+    </ClCompile>
     <ClCompile Include="src\Helix\Scene\Scene.cpp">
       <Filter>Helix\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Window\OS\Windows\WindowsWindow.cpp">
-      <Filter>Helix\Window\API\Windows</Filter>
+      <Filter>Helix\Window\OS\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Window\Window.cpp">
       <Filter>Helix\Window</Filter>

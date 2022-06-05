@@ -34,10 +34,11 @@ namespace hlx
 	{
 	public:
 		Application();
+		Application(const Application&) = delete;
 		virtual ~Application();
 
-		static Application& getInstance();
-		const std::unique_ptr<Window>& getWindow();
+		static const Application& getInstance();
+		const Window& getWindow() const;
 
 		void run();
 		void close();

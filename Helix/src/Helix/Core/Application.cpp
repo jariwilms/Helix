@@ -29,14 +29,14 @@ namespace hlx
 
 	}
 
-	Application& Application::getInstance()
+	const Application& Application::getInstance()
 	{
 		return *s_instance;
 	}
 
-	const std::unique_ptr<Window>& Application::getWindow()
+	const Window& Application::getWindow() const
 	{
-		return m_window;
+		return *m_window;
 	}
 
 	void Application::run()

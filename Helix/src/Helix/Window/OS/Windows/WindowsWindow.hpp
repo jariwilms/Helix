@@ -40,7 +40,7 @@ namespace hlx
 
 		void setEventCallback(const EventCallbackFunction& callback) override;
 
-		WindowsWindowProperties& getProperties() override;
+		const WindowsWindowProperties& getProperties() const override;
 
 		void* getNativeWindow() const override;
 

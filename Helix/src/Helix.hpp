@@ -9,6 +9,15 @@
 #include "Helix/Diagnostics/Log.hpp"
 // ### DIAGNOSTICS ### //
 
+// !!! ECS !!! //
+#include "Helix/Scene/Scene.hpp"
+
+#include "Helix/Scene/Components/Base/Component.hpp"
+#include "Helix/Scene/Components/TransformComponent.hpp"
+
+#include "Helix/Scene/Entities/Base/Entity.hpp"
+// ### ECS ### //
+
 // !!! EVENT !!! //
 #include "Helix/Window/Layer.hpp"
 #include "Helix/Window/LayerStack.hpp"
@@ -39,8 +48,8 @@
 // !!! RENDERING !!! //
 #include "Helix/Rendering/Renderer.hpp"
 
-#include "Helix/Rendering/Projection.hpp"
-#include "Helix/Rendering/Camera.hpp"
+#include "Helix/Scene/Camera/Projection.hpp"
+#include "Helix/Scene/Camera/Camera.hpp"
 
 #include "Helix/Rendering/Shader.hpp"
 #include "Helix/Rendering/Texture.hpp"

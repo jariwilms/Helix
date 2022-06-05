@@ -14,6 +14,7 @@ workspace "Helix"
 	includedir["GLAD"] = "Helix/vendor/glad/include"
 	includedir["GLFW"] = "Helix/vendor/glfw/include"
 	includedir["IMGUI"] = "Helix/vendor/imgui/include"
+	includedir["ENTT"] = "Helix/vendor/entt/include"
 	includedir["STB"] = "Helix/vendor/stb/include"
 	
 	include "Helix/vendor/glad"
@@ -46,6 +47,7 @@ project "Helix"
 		"%{includedir.GLAD}", 
 		"%{includedir.GLFW}", 
 		"%{includedir.IMGUI}", 
+		"%{includedir.ENTT}", 
 		"%{includedir.STB}", 
 		"%{prj.name}/vendor/glm/include", 
 		"%{prj.name}/vendor/spdlog/include"
@@ -71,7 +73,6 @@ project "Helix"
 		defines
 		{
 			"HLX_PLATFORM_WINDOWS", 
-			"HLX_BUILD_DLL", 
 			"GLFW_INCLUDE_NONE"
 		}
 		
@@ -108,6 +109,7 @@ project "Sandbox"
 		"%{includedir.GLAD}", 
 		"%{includedir.GLFW}", 
 		"%{includedir.IMGUI}", 
+		"%{includedir.ENTT}", 
 		"%{includedir.STB}", 
 		"Helix/vendor/glm/include", 
 		"Helix/vendor/spdlog/include"

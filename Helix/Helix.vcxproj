@@ -57,8 +57,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>STB_IMAGE_STATIC;STB_IMAGE_IMPLEMENTATION;HLX_PLATFORM_WINDOWS;HLX_BUILD_DLL;GLFW_INCLUDE_NONE;HLX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\glad\include;vendor\glfw\include;vendor\imgui\include;vendor\stb\include;vendor\glm\include;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>STB_IMAGE_STATIC;STB_IMAGE_IMPLEMENTATION;HLX_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;HLX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\glad\include;vendor\glfw\include;vendor\imgui\include;vendor\entt\include;vendor\stb\include;vendor\glm\include;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -77,8 +77,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.hpp</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>STB_IMAGE_STATIC;STB_IMAGE_IMPLEMENTATION;HLX_PLATFORM_WINDOWS;HLX_BUILD_DLL;GLFW_INCLUDE_NONE;HLX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\glad\include;vendor\glfw\include;vendor\imgui\include;vendor\stb\include;vendor\glm\include;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>STB_IMAGE_STATIC;STB_IMAGE_IMPLEMENTATION;HLX_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;HLX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\glad\include;vendor\glfw\include;vendor\imgui\include;vendor\entt\include;vendor\stb\include;vendor\glm\include;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -102,12 +102,13 @@
     <ClInclude Include="src\Helix\Core\Core.hpp" />
     <ClInclude Include="src\Helix\Core\Transform.hpp" />
     <ClInclude Include="src\Helix\Diagnostics\Log.hpp" />
+    <ClInclude Include="src\Helix\Scene\Components\Base\Component.hpp" />
+    <ClInclude Include="src\Helix\Scene\Components\TransformComponent.hpp" />
+    <ClInclude Include="src\Helix\Scene\Entities\Base\Entity.hpp" />
     <ClInclude Include="src\Helix\Event\ApplicationEvent.hpp" />
     <ClInclude Include="src\Helix\Event\Base\Event.hpp" />
     <ClInclude Include="src\Helix\Event\Base\EventDispatcher.hpp" />
     <ClInclude Include="src\Helix\Event\KeyEvent.hpp" />
-    <ClInclude Include="src\Helix\Window\Layer.hpp" />
-    <ClInclude Include="src\Helix\Window\LayerStack.hpp" />
     <ClInclude Include="src\Helix\Event\MouseEvent.hpp" />
     <ClInclude Include="src\Helix\Event\WindowEvent.hpp" />
     <ClInclude Include="src\Helix\IO\IO.hpp" />
@@ -124,18 +125,21 @@
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\OpenGLShader.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\OpenGLTexture.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Renderer\OpenGLRenderer.hpp" />
-    <ClInclude Include="src\Helix\Rendering\Camera.hpp" />
+    <ClInclude Include="src\Helix\Rendering\API\RenderAPI.hpp" />
     <ClInclude Include="src\Helix\Rendering\Objects\BufferLayout.hpp" />
     <ClInclude Include="src\Helix\Rendering\Objects\BufferObject.hpp" />
     <ClInclude Include="src\Helix\Rendering\Objects\ElementBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\Objects\VertexArray.hpp" />
     <ClInclude Include="src\Helix\Rendering\Objects\VertexBuffer.hpp" />
-    <ClInclude Include="src\Helix\Rendering\Projection.hpp" />
     <ClInclude Include="src\Helix\Rendering\Renderer.hpp" />
-    <ClInclude Include="src\Helix\Rendering\API\RenderAPI.hpp" />
     <ClInclude Include="src\Helix\Rendering\Shader.hpp" />
     <ClInclude Include="src\Helix\Rendering\Texture.hpp" />
+    <ClInclude Include="src\Helix\Scene\Camera\Camera.hpp" />
+    <ClInclude Include="src\Helix\Scene\Camera\Projection.hpp" />
+    <ClInclude Include="src\Helix\Scene\EntityRegistry.hpp" />
     <ClInclude Include="src\Helix\Scene\Scene.hpp" />
+    <ClInclude Include="src\Helix\Window\Layer.hpp" />
+    <ClInclude Include="src\Helix\Window\LayerStack.hpp" />
     <ClInclude Include="src\Helix\Window\OS\Windows\WindowsWindow.hpp" />
     <ClInclude Include="src\Helix\Window\Window.hpp" />
     <ClInclude Include="src\main.hpp" />
@@ -153,14 +157,14 @@
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Renderer\OpenGLRenderer.cpp" />
-    <ClCompile Include="src\Helix\Rendering\Camera.cpp" />
+    <ClCompile Include="src\Helix\Rendering\API\RenderAPI.cpp" />
     <ClCompile Include="src\Helix\Rendering\Objects\ElementBuffer.cpp" />
     <ClCompile Include="src\Helix\Rendering\Objects\VertexArray.cpp" />
     <ClCompile Include="src\Helix\Rendering\Objects\VertexBuffer.cpp" />
     <ClCompile Include="src\Helix\Rendering\Renderer.cpp" />
-    <ClCompile Include="src\Helix\Rendering\API\RenderAPI.cpp" />
     <ClCompile Include="src\Helix\Rendering\Shader.cpp" />
     <ClCompile Include="src\Helix\Rendering\Texture.cpp" />
+    <ClCompile Include="src\Helix\Scene\Camera\Camera.cpp" />
     <ClCompile Include="src\Helix\Scene\Scene.cpp" />
     <ClCompile Include="src\Helix\Window\OS\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Helix\Window\Window.cpp" />

@@ -8,7 +8,7 @@
 #include "Helix/Core/Application.hpp"
 #include "Helix/Core/Transform.hpp"
 #include "Helix/Input/Input.hpp"
-#include "Helix/Rendering/Projection.hpp"
+#include "Helix/Scene/Camera/Projection.hpp"
 
 namespace hlx
 {

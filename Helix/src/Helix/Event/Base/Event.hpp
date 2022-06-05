@@ -36,18 +36,19 @@ namespace hlx
 
 		bool isInCategory(Event::Class eventClass)
 		{
-			return  static_cast<int>(getEventClass()) & static_cast<int>(eventClass);
+			return  static_cast<int>(eventClass) & static_cast<int>(getEventClass());
 		}
 
+#ifdef HLX_DEBUG
 		virtual const std::string getName() const = 0;
-		virtual const std::string toString() const { return std::string{ "Event::Type::None" }; }
+		virtual const std::string toString() const = 0;
+#endif
 
 		bool handled;
 
 	protected:
 		Event() 
 			: handled{} {}
-		std::string m_name;
 	};
 
 	inline std::ostream& operator<<(std::ostream& os, const Event& m_event)
@@ -55,14 +56,13 @@ namespace hlx
 		os << m_event.toString();
 		return os;
 	}
+}
 
+#ifdef HLX_DEBUG
 #define EVENT_TYPE(eventType)																		\
 		static Event::Type getStaticType() { return eventType; }									\
 		Event::Type getEventType() const override { return getStaticType(); }						\
 		virtual const std::string getName() const override { return std::string{ #eventType }; }	\
-
-#define EVENT_CLASS(eventClass)																		\
-		virtual int getEventClass() const override { return eventClass; }							\
 
 #define EVENT_DEBUG(debugOutput)																	\
 	const std::string toString() const override														\
@@ -72,4 +72,14 @@ namespace hlx
 		return ss.str();																			\
 	}																								\
 
-}
+#else
+#define EVENT_TYPE(eventType)																		\
+		static Event::Type getStaticType() { return eventType; }									\
+		Event::Type getEventType() const override { return getStaticType(); }						\
+
+#define EVENT_DEBUG(debugOutput) 
+
+#endif // HLX_DEBUG
+
+#define EVENT_CLASS(eventClass)																		\
+		virtual int getEventClass() const override { return eventClass; }							\

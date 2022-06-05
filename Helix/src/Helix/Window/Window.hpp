@@ -27,18 +27,16 @@ namespace hlx
 	class Window
 	{
 	public:
-		virtual ~Window() = 0;
+		virtual ~Window() {}
+
+		static std::unique_ptr<Window> create(const WindowProperties& m_properties);
 
 		virtual void update() = 0;
 
 		virtual void setEventCallback(const EventCallbackFunction& callback) = 0;
 
-		virtual WindowProperties& getProperties() = 0;
+		virtual const WindowProperties& getProperties() const = 0;
 
 		virtual void* getNativeWindow() const = 0;
-
-		static std::unique_ptr<Window> create(const WindowProperties& m_properties);
 	};
-
-	inline Window::~Window() {}
 }

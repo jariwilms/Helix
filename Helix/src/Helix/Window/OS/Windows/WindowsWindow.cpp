@@ -162,7 +162,7 @@ namespace hlx
 		m_properties.callback = callback;
 	}
 
-	WindowsWindowProperties& WindowsWindow::getProperties()
+	const WindowsWindowProperties& WindowsWindow::getProperties() const
 	{
 		return m_properties;
 	}

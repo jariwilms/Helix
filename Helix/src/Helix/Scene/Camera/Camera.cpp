@@ -9,7 +9,7 @@ namespace hlx
 		this->transform.rotation.y -= 90.0f;
 
 		auto& window = Application::getInstance().getWindow();
-		auto& dims = window->getProperties().dimensions;
+		auto& dims = window.getProperties().dimensions;
 		m_perspectiveProjectionSettings.aspectRatio = static_cast<float>(dims.x) / static_cast<float>(dims.y);
 
 		setProjectionType(projectionType);
