@@ -12,14 +12,17 @@ namespace hlx
 	class OpenGLElementBuffer : public ElementBuffer
 	{
 	public:
-		OpenGLElementBuffer(unsigned int* data, int size);
+		OpenGLElementBuffer(size_t size, const unsigned int* data);
 		~OpenGLElementBuffer() override;
 
 		void bind() const override;
 		void unbind() const override;
 
-		int getSize() const override;
+		virtual void resize(size_t size) override;
+		virtual void reset() override;
 
-		void setBufferData(unsigned int* data, int size);
+		size_t getSize() const override;
+
+		void setBufferData(size_t size, const unsigned int* data) override;
 	};
 }

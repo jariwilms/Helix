@@ -2,8 +2,6 @@
 
 #include "stdafx.hpp"
 
-#include "glad/glad.h"
-
 #include "Helix/Rendering/Objects/VertexArray.hpp"
 
 namespace hlx

@@ -5,8 +5,8 @@
 
 namespace hlx
 {
-	std::shared_ptr<ElementBuffer> ElementBuffer::create(unsigned int* data, int size)
+	std::shared_ptr<ElementBuffer> ElementBuffer::create(size_t size, const unsigned int* data)
 	{
-		return std::make_shared<OpenGLElementBuffer>(data, size);
+		return std::make_shared<OpenGLElementBuffer>(size, data);
 	}
 }

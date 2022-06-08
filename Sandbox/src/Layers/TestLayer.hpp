@@ -7,10 +7,7 @@
 class TestLayer : public hlx::Layer
 {
 public:
-	TestLayer()
-	{
-		hlx::Scene scene{};
-	}
+	TestLayer() = default;
 
 	void update() override
 	{

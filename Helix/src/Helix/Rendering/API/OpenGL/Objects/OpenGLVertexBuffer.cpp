@@ -9,10 +9,13 @@ namespace hlx
 		glCreateBuffers(1, &m_objectId);
 	}
 
-	OpenGLVertexBuffer::OpenGLVertexBuffer(float* data, int size)
+	OpenGLVertexBuffer::OpenGLVertexBuffer(size_t size, const float* data)
+		: VertexBuffer{ size }
 	{
 		glCreateBuffers(1, &m_objectId);
-		setBufferData(data, size);
+
+		if (data) setBufferData(size, data);
+		else resize(size);
 	}
 
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
@@ -30,16 +33,34 @@ namespace hlx
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
+	void OpenGLVertexBuffer::resize(size_t size)
+	{
+		bind();
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_STATIC_DRAW);
+		unbind();
+	}
+
+	void OpenGLVertexBuffer::reset()
+	{
+		setBufferData(m_bufferSize, nullptr);
+	}
+
 	void OpenGLVertexBuffer::setLayout(const BufferLayout& layout)
 	{
 		m_layout = layout;
 	}
 
-	void OpenGLVertexBuffer::setBufferData(float* data, int size)
+	void OpenGLVertexBuffer::setBufferData(size_t size, const float* data)
 	{
 		bind();
 
-		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+		if (size > m_bufferSize)
+		{
+			size = m_bufferSize;
+			HLX_CORE_ERROR("Data size is greater than buffer size");
+		}
+
+		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 
 		unbind();
 	}

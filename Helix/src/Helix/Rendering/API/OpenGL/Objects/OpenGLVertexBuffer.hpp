@@ -13,14 +13,17 @@ namespace hlx
 	{
 	public:
 		OpenGLVertexBuffer();
-		OpenGLVertexBuffer(float* data, int size);
+		OpenGLVertexBuffer(size_t size, const float* data);
 		~OpenGLVertexBuffer() override;
 		
 		void bind() const override;
 		void unbind() const override;
 
+		void resize(size_t size) override;
+		void reset() override;
+
 		void setLayout(const BufferLayout& layout) override;
 
-		void setBufferData(float* data, int size) override;
+		void setBufferData(size_t size, const float* data) override;
 	};
 }

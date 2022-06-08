@@ -8,6 +8,21 @@ namespace hlx
 		s_renderAPI = new OpenGLRenderer{};
 	}
 
+	void Renderer::start(const Camera& camera)
+	{
+		s_renderAPI->start(camera);
+	}
+
+	void Renderer::submit()
+	{
+		s_renderAPI->submit();
+	}
+
+	void Renderer::finish()
+	{
+		s_renderAPI->finish();
+	}
+
 	void Renderer::clearBuffer()
 	{
 		s_renderAPI->clearBuffer();
@@ -18,9 +33,9 @@ namespace hlx
 		s_renderAPI->clearBackground(color);
 	}
 
-	void Renderer::render(const hlx::VertexArray& vertexArray)
+	void Renderer::renderQuad(const glm::vec3& position)
 	{
-		s_renderAPI->render(vertexArray);
+		s_renderAPI->renderQuad(position);
 	}
 
 	RenderAPI* Renderer::s_renderAPI;

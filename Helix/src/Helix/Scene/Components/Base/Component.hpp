@@ -4,25 +4,37 @@
 
 namespace hlx
 {
+	class Entity;
+
 	class Component
 	{
 	public:
-		enum class Type
-		{
-			None, 
-
-			Transform
-		};
-
 		virtual ~Component() = default;
 
 		virtual void update() {};
 		virtual void render() {};
 
+		virtual Entity& getParent()
+		{
+			return *m_parent;
+		}
+		virtual void setParent(Entity* parent)
+		{
+			m_parent = parent;
+		}
+
 #ifdef HLX_DEBUG
 		virtual const std::string getName() const = 0;
 		virtual const std::string toString() const = 0;
 #endif
+	protected:
+		Component(Entity* parent)
+		{
+			setParent(parent);
+		}
+
+	private:
+		Entity* m_parent;
 	};
 }
 
@@ -37,12 +49,5 @@ namespace hlx
 		ss << debugOutput;																					\
 		return ss.str();																					\
 	}																										\
-
-#else
-#define COMPONENT_TYPE(componentType)																		\
-		static Component::Type getStaticType() { return componentType; }									\
-		Component::Type getEventType() const override { return getStaticType(); }							\
-
-#define EVENT_DEBUG(debugOutput)																			\
 
 #endif // HLX_DEBUG

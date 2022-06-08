@@ -10,9 +10,9 @@ namespace hlx
 		return std::make_shared<OpenGLVertexBuffer>();
 	}
 
-	std::shared_ptr<VertexBuffer> VertexBuffer::create(float* data, int size)
+	std::shared_ptr<VertexBuffer> VertexBuffer::create(size_t size, const float* data)
 	{
-		return std::make_shared<OpenGLVertexBuffer>(data, size);
+		return std::make_shared<OpenGLVertexBuffer>(size, data);
 	}
 
 	const hlx::BufferLayout& VertexBuffer::getLayout() const

@@ -1,21 +1,21 @@
 #pragma once
 
-#include "Base/Component.hpp"
 #include "Helix/Core/Transform.hpp"
+#include "Helix/Scene/Entities/Base/Entity.hpp"
+#include "Helix/Scene/Components/Base/Component.hpp"
 
 namespace hlx
 {
 	class TransformComponent : public Component
 	{
 	public:
-		TransformComponent() = default;
+		TransformComponent(Entity* parent)
+			: Component{ parent } {}
 
-		void update() override
-		{
-			std::cout << "tc\n";
-		}
+		COMPONENT_NAME("TransformComponent")
+		COMPONENT_DEBUG("")
 
-		COMPONENT_NAME("ASD")
-		COMPONENT_DEBUG("DEF")
+	private:
+		Transform m_transform;
 	};
 }

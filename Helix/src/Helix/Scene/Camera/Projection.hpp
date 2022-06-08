@@ -29,7 +29,7 @@ namespace hlx
 
 		struct PerspectiveSettings
 		{
-			PerspectiveSettings(float fov = 45.0f, float aspectRatio = 16.0f / 9.0f, float nearPlane = 0.01f, float farPlane = 100.0f)
+			PerspectiveSettings(float fov = 45.0f, float aspectRatio = 1.0f, float nearPlane = 0.01f, float farPlane = 100.0f)
 				: fov{ fov }, aspectRatio{ aspectRatio }, nearPlane{ nearPlane }, farPlane{ farPlane } {}
 
 			float fov;

@@ -130,12 +130,6 @@
     <ClInclude Include="src\Helix\Math\Math.hpp">
       <Filter>Helix\Math</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Objects\OpenGLBufferLayout.hpp">
-      <Filter>Helix\Rendering\API\OpenGL\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Objects\OpenGLBufferObject.hpp">
-      <Filter>Helix\Rendering\API\OpenGL\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Objects\OpenGLElementBuffer.hpp">
       <Filter>Helix\Rendering\API\OpenGL\Objects</Filter>
     </ClInclude>
@@ -207,7 +201,10 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
-    <ClInclude Include="src\Helix\Scene\EntityRegistry.hpp" />
+    <ClInclude Include="src\Helix\Scene\Entities\EntityRegistry.hpp" />
+    <ClInclude Include="src\Helix\Scene\Components\SpriteComponent.hpp" />
+    <ClInclude Include="src\Helix\Scene\Components\TestComponent.hpp" />
+    <ClInclude Include="src\Helix\Rendering\API\RenderBatch.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -243,9 +240,6 @@
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Renderer\OpenGLRenderer.cpp">
       <Filter>Helix\Rendering\API\OpenGL\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\API\RenderAPI.cpp">
-      <Filter>Helix\Rendering\API</Filter>
-    </ClCompile>
     <ClCompile Include="src\Helix\Rendering\Objects\ElementBuffer.cpp">
       <Filter>Helix\Rendering\Objects</Filter>
     </ClCompile>
@@ -277,5 +271,6 @@
       <Filter>Helix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\Helix\Scene\Entities\Base\Entity.cpp" />
   </ItemGroup>
 </Project>

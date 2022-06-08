@@ -2,7 +2,9 @@
 
 #include "stdafx.hpp"
 
+#pragma warning(disable: 26819 26439)
 #include "entt/entt.hpp"
+#pragma warning(default: 26819 26439)
 
 namespace hlx
 {
@@ -37,15 +39,27 @@ namespace hlx
 		}
 
 		template<typename Component, typename... Args>
-		Component& emplace(uint32_t entity, Args... args)
+		Component& emplace(uint32_t entity, Args&&... args)
 		{
-			return m_registry.emplace<Component>(entity, args);
+			return m_registry.get_or_emplace<Component>(entity, std::forward<Args>(args)...);
 		}
 
 		template<typename Component>
 		void erase(uint32_t handle)
 		{
 			return m_registry.erase<Component>(handle);
+		}
+
+		template<typename Component, typename... Other, typename... Exclude>
+		entt::basic_view<entt::entity, entt::get_t<std::add_const_t<Component>, std::add_const_t<Other>...>, entt::exclude_t<Exclude...>> view(entt::exclude_t<Exclude...> = {}) const 
+		{
+			return m_registry.view<Component, Other..., Exclude...>();
+		}
+
+		template<typename... Owned, typename... Exclude>
+		entt::basic_group<entt::entity, entt::owned_t<Owned...>, entt::get_t<>, entt::exclude_t<Exclude...>> group(entt::exclude_t<Exclude...> = {}) 
+		{
+			return m_registry.group<Owned...>();
 		}
 
 		void clear()

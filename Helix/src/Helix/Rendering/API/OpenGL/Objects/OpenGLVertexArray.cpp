@@ -26,7 +26,7 @@ namespace hlx
 
 	void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> buffer)
 	{
-		HLX_CORE_ASSERT(buffer->getLayout().getAttributes().size(), "");
+		HLX_CORE_ASSERT(buffer->getLayout().getAttributes().size(), "Buffer has no size");
 
 		bind();
 		buffer->bind();
@@ -36,9 +36,9 @@ namespace hlx
 
 		for (const auto& attribute : layout.getAttributes())
 		{
-			glEnableVertexAttribArray(m_vertexBufferIndex);
-			glVertexAttribPointer(m_vertexBufferIndex, attribute.size, attribute.type, attribute.normalized, layout.getStride(), (const void*)((uint64_t)offset));
-			++m_vertexBufferIndex;
+			glEnableVertexAttribArray(m_vertexAttributeIndex);
+			glVertexAttribPointer(m_vertexAttributeIndex, attribute.size, attribute.type, attribute.normalized, layout.getStride(), (const void*)((uint64_t)offset));
+			++m_vertexAttributeIndex;
 
 			auto result = attribute.size * OpenGL::getSizeOfType(attribute.type);
 			offset += result;

@@ -3,17 +3,25 @@
 #include "glm/glm.hpp"
 
 #include "Helix/Rendering/Objects/VertexArray.hpp"
+#include "Helix/Scene/Scene.hpp"
 
-class RenderAPI
+namespace hlx
 {
-public:
-	virtual ~RenderAPI() = default;
+	class RenderAPI
+	{
+	public:
+		virtual ~RenderAPI() = default;
 
-	virtual void clearBuffer() = 0;
-	virtual void clearBackground(glm::vec4 color) = 0;
+		virtual void start(const Camera& camera) = 0;
+		virtual void submit() = 0;
+		virtual void finish() = 0;
 
-	virtual void render(const hlx::VertexArray& vertexArray) = 0;
+		virtual void clearBuffer() = 0;
+		virtual void clearBackground(glm::vec4 color) = 0;
 
-protected:
-	RenderAPI() {}
-};
+		virtual void renderQuad(const glm::vec3& position) = 0;
+
+	protected:
+		RenderAPI() {}
+	};
+}

@@ -2,53 +2,32 @@
 
 #include "stdafx.hpp"
 
-#include "entt/entt.hpp"
-
+#include "Helix/Scene/Scene.hpp"
 #include "Helix/Scene/Components/Base/Component.hpp"
 
 namespace hlx
 {
-	class Scene;
-
 	class Entity
 	{
 	public:
-		Entity(Scene* scene)
-			: m_scene{ scene }
-		{
-			auto& registry = m_scene->getRegistry();
-			m_id = registry.create();
-		}
-		virtual ~Entity()
-		{
-			auto& registry = m_scene->getRegistry();
-			registry.destroy(m_id);
-		}
+		Entity(Scene* scene);
+		virtual ~Entity();
 
-		virtual void update()
-		{
-			for (auto& component : m_components)
-				component->update();
-		}
-
-		virtual void render()
-		{
-			for (auto& component : m_components)
-				component->render();
-		}
+		virtual void update();
+		virtual void render();
 
 		template<typename Component, typename... Args>
-		Component& addComponent(Args... args)
+		Component& addComponent(Args&&... args)
 		{
 			auto& registry = m_scene->getRegistry();
-			return registry.emplace<Component>(m_id, args);
+			return registry.emplace<Component>(m_id, this);
 		}
 
 		template<typename Component>
 		Component& getComponent()
 		{
 			auto& registry = m_scene->getRegistry();
-			return registry.get<Component>(m_id)
+			return registry.get<Component>(m_id);
 		}
 
 		template<typename Component>

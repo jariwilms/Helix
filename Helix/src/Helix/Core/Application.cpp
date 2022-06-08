@@ -18,10 +18,11 @@ namespace hlx
 		IO::init();
 		IO::appendRoot("resources");
 		Input::init();
-		Renderer::init();
 
 		m_window = Window::create(WindowProperties("Helix", glm::uvec2(800, 600)));
 		m_window->setEventCallback(BIND_EVENT_FN(onEvent));
+
+		Renderer::init();
 	}
 
 	Application::~Application()
@@ -58,6 +59,8 @@ namespace hlx
 
 			for (Layer* layer : m_layerStack)
 				layer->render();
+
+			Renderer::submit();
 
 			Input::reset();
 			m_window->update();

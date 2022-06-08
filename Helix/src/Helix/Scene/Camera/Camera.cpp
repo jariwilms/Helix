@@ -1,6 +1,8 @@
 #include "stdafx.hpp"
 #include "Camera.hpp"
 
+#include "Helix/Core/Application.hpp"
+
 namespace hlx
 {
 	Camera::Camera(Transform transform, glm::vec3 worldUp, Projection::Type projectionType)
@@ -8,12 +10,14 @@ namespace hlx
 	{
 		this->transform.rotation.y -= 90.0f;
 
-		auto& window = Application::getInstance().getWindow();
-		auto& dims = window.getProperties().dimensions;
-		m_perspectiveProjectionSettings.aspectRatio = static_cast<float>(dims.x) / static_cast<float>(dims.y);
+		auto& dims = Application::getInstance().getWindow().getProperties().dimensions;
+		float aspectRatio = static_cast<float>(dims.x) / static_cast<float>(dims.y);
+
+		m_orthographicProjectionSettings.leftPlane = -aspectRatio;
+		m_orthographicProjectionSettings.rightPlane = aspectRatio;
+		m_perspectiveProjectionSettings.aspectRatio = aspectRatio;
 
 		setProjectionType(projectionType);
-
 		update();
 	}
 

@@ -4,10 +4,10 @@
 
 namespace hlx
 {
-	OpenGLElementBuffer::OpenGLElementBuffer(unsigned int* data, int size)
+	OpenGLElementBuffer::OpenGLElementBuffer(size_t size, const unsigned int* data)
 	{
 		glCreateBuffers(1, &m_objectId);
-		setBufferData(data, size);
+		resize(size);
 	}
 
 	OpenGLElementBuffer::~OpenGLElementBuffer()
@@ -25,17 +25,28 @@ namespace hlx
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
-	GLsizei OpenGLElementBuffer::getSize() const
+	void OpenGLElementBuffer::resize(size_t size)
 	{
-		return m_size;
+		bind();
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, nullptr, GL_STATIC_DRAW);
+		unbind();
 	}
 
-	void OpenGLElementBuffer::setBufferData(unsigned int* data, int size)
+	void OpenGLElementBuffer::reset()
+	{
+		setBufferData(m_bufferSize, nullptr);
+	}
+
+	size_t OpenGLElementBuffer::getSize() const
+	{
+		return m_bufferSize;
+	}
+
+	void OpenGLElementBuffer::setBufferData(size_t size, const unsigned int* data)
 	{
 		bind();
 
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
-		m_size = size / (GLsizei)sizeof(unsigned int);
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, size, data);
 
 		unbind();
 	}

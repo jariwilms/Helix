@@ -2,9 +2,6 @@
 
 #include "stdafx.hpp"
 
-#include "glad/glad.h"
-#include "glfw/glfw3.h"
-
 #include "BufferObject.hpp"
 #include "BufferLayout.hpp"
 #include "VertexBuffer.hpp"
@@ -24,11 +21,10 @@ namespace hlx
 		virtual void setElementBuffer(const std::shared_ptr<ElementBuffer> buffer) = 0;
 
 	protected:
-		VertexArray()
-			: m_vertexBufferIndex{} {}
+		VertexArray() : m_vertexAttributeIndex{} {}
 
 		std::vector<std::shared_ptr<VertexBuffer>> m_vertexBuffers;
 		std::shared_ptr<ElementBuffer> m_elementBuffer;
-		unsigned int m_vertexBufferIndex;
+		unsigned int m_vertexAttributeIndex;
 	};
 }
