@@ -19,7 +19,14 @@ namespace hlx
 		virtual void clearBuffer() = 0;
 		virtual void clearBackground(glm::vec4 color) = 0;
 
-		virtual void renderQuad(const glm::vec3& position) = 0;
+		virtual void renderQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color) = 0;
+		virtual void renderQuad(const glm::vec3& position, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) = 0;
+	
+		virtual void renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const glm::vec4& color) = 0;
+		virtual void renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) = 0;
+		
+		virtual void renderQuad(const glm::mat4& transform, const glm::vec4& color) = 0;
+		virtual void renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) = 0;
 
 	protected:
 		RenderAPI() {}

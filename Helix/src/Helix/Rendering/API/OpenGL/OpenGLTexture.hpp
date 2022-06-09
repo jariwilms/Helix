@@ -16,7 +16,6 @@ namespace hlx
 		OpenGLTexture(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data);
 		~OpenGLTexture() override;
 
-		void bind() const override;
-		void unbind() const override;
+		void bind(unsigned int index) const override;
 	};
 }

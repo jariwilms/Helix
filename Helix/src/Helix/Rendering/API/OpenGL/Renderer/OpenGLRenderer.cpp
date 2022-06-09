@@ -41,7 +41,6 @@ namespace hlx
 	{
 		m_camera = camera;
 	}
-
 	void OpenGLRenderer::submit()
 	{
 		if (!m_vertexIndex || !m_elementIndex)
@@ -60,23 +59,21 @@ namespace hlx
 		m_vertexIndex = 0;
 		m_elementIndex = 0;
 	}
-
 	void OpenGLRenderer::finish()
 	{
-
+		submit();
 	}
 
 	void OpenGLRenderer::clearBuffer()
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
-
 	void OpenGLRenderer::clearBackground(glm::vec4 color)
 	{
 		glClearColor(color.r, color.g, color.b, color.a);
 	}
 
-	void OpenGLRenderer::renderQuad(const glm::vec3& position)
+	void OpenGLRenderer::renderQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color)
 	{
 		constexpr size_t vertices = 4;
 		constexpr float texIndex = 0;
@@ -92,7 +89,85 @@ namespace hlx
 			vertex.color = glm::vec4{ 1.0f, 0.0f, 1.0f, 1.0f };
 			vertex.textureCoordinate = texCoords[i];
 			vertex.textureIndex = 0;
-			vertex.tilingFactor = 1.0f;
+			vertex.textureScale = 1.0f;
+			vertex.entityId = 0;
+
+			++m_vertexIndex;
+		}
+
+		m_elements[m_elementIndex + 0] = 0;
+		m_elements[m_elementIndex + 1] = 1;
+		m_elements[m_elementIndex + 2] = 2;
+
+		m_elements[m_elementIndex + 3] = 0;
+		m_elements[m_elementIndex + 4] = 2;
+		m_elements[m_elementIndex + 5] = 3;
+
+		m_elementIndex += 6;
+	}
+	void OpenGLRenderer::renderQuad(const glm::vec3& position, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
+	{
+
+	}
+
+	void OpenGLRenderer::renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const glm::vec4& color)
+	{
+
+	}
+	void OpenGLRenderer::renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
+	{
+
+	}
+
+	void OpenGLRenderer::renderQuad(const glm::mat4& transform, const glm::vec4& color)
+	{
+		constexpr size_t vertices = 4;
+		constexpr float texIndex = 0;
+		constexpr float texTiling = 0;
+		constexpr glm::vec3 vertexPositions[] = { { -0.5f, 0.5f, 0.0f }, { -0.5f, -0.5f, 0.0f }, { 0.5f, -0.5f, 0.0f }, { 0.5f, 0.5f, 0.0f } };
+		constexpr glm::vec2 texCoords[] = { { 0.0f, 1.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f } };
+
+		for (int i = 0; i < vertices; ++i)
+		{
+			auto& vertex = m_vertices[m_vertexIndex];
+
+			vertex.position = transform * glm::vec4{ vertexPositions[i], 1.0f };
+			vertex.color = glm::vec4{ 1.0f, 0.0f, 1.0f, 1.0f };
+			vertex.textureCoordinate = texCoords[i];
+			vertex.textureIndex = 0;
+			vertex.textureScale = 1.0f;
+			vertex.entityId = 0;
+
+			++m_vertexIndex;
+		}
+
+		m_elements[m_elementIndex + 0] = 0;
+		m_elements[m_elementIndex + 1] = 1;
+		m_elements[m_elementIndex + 2] = 2;
+
+		m_elements[m_elementIndex + 3] = 0;
+		m_elements[m_elementIndex + 4] = 2;
+		m_elements[m_elementIndex + 5] = 3;
+
+		m_elementIndex += 6;
+	}
+	void OpenGLRenderer::renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
+	{
+		constexpr size_t vertices = 4;
+		constexpr float texIndex = 0;
+		constexpr float texTiling = 0;
+		constexpr glm::vec3 vertexPositions[] = { { -0.5f, 0.5f, 0.0f }, { -0.5f, -0.5f, 0.0f }, { 0.5f, -0.5f, 0.0f }, { 0.5f, 0.5f, 0.0f } };
+		constexpr glm::vec2 texCoords[] = { { 0.0f, 1.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f } };
+
+		for (int i = 0; i < vertices; ++i)
+		{
+			auto& vertex = m_vertices[m_vertexIndex];
+
+			vertex.position = transform * glm::vec4{ vertexPositions[i], 1.0f };
+			vertex.color = textureTint;
+			vertex.textureCoordinate = texCoords[i];
+			vertex.textureIndex = 0.0f;
+			vertex.textureScale = textureScale;
 			vertex.entityId = 0;
 
 			++m_vertexIndex;

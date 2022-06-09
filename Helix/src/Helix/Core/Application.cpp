@@ -12,7 +12,7 @@ namespace hlx
 		: m_running { true }
 	{
 		if (!s_instance) s_instance = this;
-		else HLX_CORE_ERROR("An instance of HLX::APPLICATION already exists");
+		else HLX_CORE_ERROR("An instance of <hlx::Application> already exists");
 
 		Log::init();
 		IO::init();
@@ -23,11 +23,6 @@ namespace hlx
 		m_window->setEventCallback(BIND_EVENT_FN(onEvent));
 
 		Renderer::init();
-	}
-
-	Application::~Application()
-	{
-
 	}
 
 	const Application& Application::getInstance()
@@ -59,8 +54,6 @@ namespace hlx
 
 			for (Layer* layer : m_layerStack)
 				layer->render();
-
-			Renderer::submit();
 
 			Input::reset();
 			m_window->update();

@@ -25,8 +25,7 @@ namespace hlx
 
 		virtual ~Texture();
 
-		virtual void bind() const = 0;
-		virtual void unbind() const = 0;
+		virtual void bind(unsigned int index) const = 0;
 
 		int getWidth() const;
 		int getHeight() const;

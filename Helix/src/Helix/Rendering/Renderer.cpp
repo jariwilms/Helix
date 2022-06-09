@@ -12,12 +12,10 @@ namespace hlx
 	{
 		s_renderAPI->start(camera);
 	}
-
 	void Renderer::submit()
 	{
 		s_renderAPI->submit();
 	}
-
 	void Renderer::finish()
 	{
 		s_renderAPI->finish();
@@ -27,15 +25,36 @@ namespace hlx
 	{
 		s_renderAPI->clearBuffer();
 	}
-
 	void Renderer::clearBackground(glm::vec4 color)
 	{
 		s_renderAPI->clearBackground(color);
 	}
 
-	void Renderer::renderQuad(const glm::vec3& position)
+	void Renderer::renderQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color)
 	{
-		s_renderAPI->renderQuad(position);
+		s_renderAPI->renderQuad(position, scale, color);
+	}
+	void Renderer::renderQuad(const glm::vec3& position, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
+	{
+		s_renderAPI->renderQuad(position, scale, texture, textureScale, textureTint);
+	}
+
+	void Renderer::renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const glm::vec4& color)
+	{
+		s_renderAPI->renderQuad(position, rotation, scale, color);
+	}
+	void Renderer::renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
+	{
+		s_renderAPI->renderQuad(position, rotation, scale, texture, textureScale, textureTint);
+	}
+
+	void Renderer::renderQuad(const glm::mat4& transform, const glm::vec4& color)
+	{
+		s_renderAPI->renderQuad(transform, color);
+	}
+	void Renderer::renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
+	{
+		s_renderAPI->renderQuad(transform, texture, textureScale, textureTint);
 	}
 
 	RenderAPI* Renderer::s_renderAPI;

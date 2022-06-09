@@ -35,7 +35,7 @@ namespace hlx
 	public:
 		Application();
 		Application(const Application&) = delete;
-		virtual ~Application();
+		virtual ~Application() = default;
 
 		static const Application& getInstance();
 		const Window& getWindow() const;
