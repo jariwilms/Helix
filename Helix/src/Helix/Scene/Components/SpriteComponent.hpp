@@ -15,7 +15,7 @@ namespace hlx
 		SpriteComponent(Entity* parent)
 			: Component{ parent }
 		{
-			setTexture("images/missing.png");
+			setTexture("textures/penguin.png");
 		}
 		SpriteComponent(Entity* parent, std::filesystem::path texture)
 			: Component{ parent }
@@ -25,7 +25,7 @@ namespace hlx
 
 		void render() override
 		{
-			Renderer::renderQuad(glm::vec3{ 0.0f, 0.0f, 0.0f });
+			Renderer::renderQuad(glm::vec3{ 0.5f, 0.0f, 0.0f }, glm::vec2{ 1.0f }, m_sprite);
 		}
 
 		Texture& getTexture() const

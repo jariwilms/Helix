@@ -8,9 +8,9 @@ namespace hlx
 		s_renderAPI = new OpenGLRenderer{};
 	}
 
-	void Renderer::start(const Camera& camera)
+	void Renderer::start(Scene* scene)
 	{
-		s_renderAPI->start(camera);
+		s_renderAPI->start(scene);
 	}
 	void Renderer::submit()
 	{
@@ -39,11 +39,11 @@ namespace hlx
 		s_renderAPI->renderQuad(position, scale, texture, textureScale, textureTint);
 	}
 
-	void Renderer::renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const glm::vec4& color)
+	void Renderer::renderQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const glm::vec4& color)
 	{
 		s_renderAPI->renderQuad(position, rotation, scale, color);
 	}
-	void Renderer::renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
+	void Renderer::renderQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
 	{
 		s_renderAPI->renderQuad(position, rotation, scale, texture, textureScale, textureTint);
 	}

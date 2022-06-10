@@ -1,6 +1,6 @@
 #version 460 core
 
-struct VertexOutput
+struct VertexData
 {
 	vec4 color;
 	vec2 texCoord;
@@ -18,7 +18,7 @@ layout (location = 3) in float a_texIndex;
 layout (location = 4) in float a_texTiling;
 layout (location = 5) in float a_entityId;
 
-layout (location = 0) out VertexOutput v_output;
+layout (location = 0) out VertexData v_output;
 
 void main()
 {

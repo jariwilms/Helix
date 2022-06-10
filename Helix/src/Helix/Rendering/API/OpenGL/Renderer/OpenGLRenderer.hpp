@@ -9,6 +9,7 @@
 #include "Helix/Rendering/Objects/ElementBuffer.hpp"
 #include "Helix/Rendering/Shader.hpp"
 #include "Helix/Rendering/Texture.hpp"
+#include "Helix/Rendering/RenderData.hpp"
 
 namespace hlx
 {
@@ -18,7 +19,7 @@ namespace hlx
 		OpenGLRenderer();
 		~OpenGLRenderer() = default;
 
-		void start(const Camera& camera) override;
+		void start(Scene* scene) override;
 		void finish() override;
 
 		void clearBuffer() override;
@@ -27,8 +28,8 @@ namespace hlx
 		void renderQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color) override;
 		void renderQuad(const glm::vec3& position, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) override;
 
-		void renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const glm::vec4& color) override;
-		void renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) override;
+		void renderQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const glm::vec4& color) override;
+		void renderQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) override;
 		
 		void renderQuad(const glm::mat4& transform, const glm::vec4& color) override;
 		void renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) override;
@@ -36,19 +37,8 @@ namespace hlx
 	private:
 		void submit() override;
 
-		std::shared_ptr<VertexArray> m_vao;
-		std::shared_ptr<VertexBuffer> m_vbo;
-		std::shared_ptr<ElementBuffer> m_ebo;
-
-		Vertex* m_vertices;
-		size_t m_vertexIndex;
-
-		unsigned int* m_elements;
-		size_t m_elementIndex;
-
-		std::shared_ptr<Shader> m_shader;
+		std::shared_ptr<RenderBatch> m_renderBatch;
 
 		Scene* m_scene;
-		Camera m_camera;
 	};
 }

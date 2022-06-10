@@ -18,31 +18,35 @@ namespace hlx
 		m_perspectiveProjectionSettings.aspectRatio = aspectRatio;
 
 		setProjectionType(projectionType);
-		update();
 	}
 
-	void Camera::update()
+	void Camera::update(DeltaTime deltaTime)
 	{
 		if (getMode() == Mode::Locked)
 			return;
 
+		float s = deltaTime.toSeconds();
+
+		if (Input::isKeyPressed(Key::LeftShift))
+			s *= 5.0f;
+
 		if (Input::isKeyPressed(Key::W))
-			transform.translate(0.0f, 0.0f, -0.1f);
+			transform.translate(glm::vec3{ 0.0f, 0.0f, -1.0f } * s);
 
 		if (Input::isKeyPressed(Key::A))
-			transform.translate(-0.1f, 0.0f, 0.0f);
+			transform.translate(glm::vec3{ -1.0f, 0.0f, 0.0f } * s);
 
 		if (Input::isKeyPressed(Key::S))
-			transform.translate(0.0f, 0.0f, 0.1f);
+			transform.translate(glm::vec3{ 0.0f, 0.0f, 1.0f } * s);
 
 		if (Input::isKeyPressed(Key::D))
-			transform.translate(0.1f, 0.0f, 0.0f);
+			transform.translate(glm::vec3{ 1.0f, 0.0f, 0.0f } * s);
 
 		if (Input::isKeyPressed(Key::Space))
-			transform.translate(0.0f, 0.1f, 0.0f);
+			transform.translate(glm::vec3{ 0.0f, 1.0f, 0.0f } * s);
 
 		if (Input::isKeyPressed(Key::LeftControl))
-			transform.translate(0.0f, -0.1f, 0.0f);
+			transform.translate(glm::vec3{ 0.0f, -1.0f, 0.0f } *s);
 
 
 

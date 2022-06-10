@@ -205,6 +205,8 @@
     <ClInclude Include="src\Helix\Scene\Components\SpriteComponent.hpp" />
     <ClInclude Include="src\Helix\Scene\Components\TestComponent.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\RenderBatch.hpp" />
+    <ClInclude Include="src\Helix\Rendering\RenderData.hpp" />
+    <ClInclude Include="src\Helix\Core\DeltaTime.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">

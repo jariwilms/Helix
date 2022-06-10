@@ -4,7 +4,12 @@
 
 #include "glm/glm.hpp"
 
-#include "Helix/Rendering/Objects/BufferLayout.hpp"
+#include "Helix/Rendering/API/RenderAPI.hpp"
+#include "Helix/Rendering/API/RenderBatch.hpp"
+#include "Helix/Rendering/Objects/VertexArray.hpp"
+#include "Helix/Rendering/Objects/VertexBuffer.hpp"
+#include "Helix/Rendering/Objects/ElementBuffer.hpp"
+#include "Helix/Rendering/Shader.hpp"
 #include "Helix/Rendering/Texture.hpp"
 
 namespace hlx
@@ -24,40 +29,66 @@ namespace hlx
 		float entityId;
 	};
 
-	//TODO: platform agnostic -> only queries OpenGL API atm
 	struct RenderBatch
 	{
 	public:
-		RenderBatch(size_t bufferSize, size_t maxIndices, const BufferLayout& layout)
+		RenderBatch(size_t bufferSize, size_t maxElements, const BufferLayout& layout)
+			: vertexCount{}, elementCount{}
 		{
-			//vao = 
+			vao = VertexArray::create();
+			vbo = VertexBuffer::create(bufferSize);
+			ebo = ElementBuffer::create(maxElements);
+
+			vbo->setLayout(layout);
+			vao->setElementBuffer(ebo);
+			vao->addVertexBuffer(vbo);
+
+			vertexPtr = new Vertex[bufferSize];
+			elementPtr = new unsigned int[maxElements];
 
 
-			//int slots{};
-			//glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &slots);
 
-			//textureSlots.reserve(slots);
+			int slots{};
+			glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &slots);
+			textureSlots.resize(slots);
+
+			textureSlots[0] = (Texture::create("textures/white.png"));
+			shader = Shader::create("shaders/test.vert", "shaders/test.frag");
 		}
 
 		void bind()
 		{
-			//vao->bind();
+			vao->bind();
 
+			for (int i = 0; i < textureCount; ++i)
+				textureSlots.at(i)->bind(i);
 
+			shader->bind();
 		}
 
-		//std::shared_ptr<VertexArray> vao;
-		//std::shared_ptr<VertexBuffer> vbo;
-		//std::shared_ptr<ElementBuffer> ebo;
+		void reset()
+		{
+			vao->unbind();
+			shader->unbind();
 
-		//Vertex* vertexPtr;
-		//size_t vertexCount;
+			vertexCount = 0;
+			elementCount = 0;
+			textureCount = 1;
+		}
 
-		//unsigned int* elementPtr;
-		//size_t elementCount;
+		std::shared_ptr<VertexArray> vao;
+		std::shared_ptr<VertexBuffer> vbo;
+		std::shared_ptr<ElementBuffer> ebo;
 
-		//std::shared_ptr<Shader> shader;
+		Vertex* vertexPtr;
+		size_t vertexCount;
 
-		//std::vector<std::shared_ptr<Texture>> textureSlots;
+		unsigned int* elementPtr;
+		size_t elementCount;
+
+		std::shared_ptr<Shader> shader;
+
+		std::vector<std::shared_ptr<Texture>> textureSlots;
+		size_t textureCount;
 	};
 }

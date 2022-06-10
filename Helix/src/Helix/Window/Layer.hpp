@@ -13,7 +13,7 @@ namespace hlx
 			:m_name{ name }, enabled{ true } {}
 		virtual ~Layer() {}
 
-		virtual void update() {} //TODO: deltaTime
+		virtual void update(DeltaTime deltaTime) {}
 		virtual void render() {}
 
 		virtual void onAttach() {}

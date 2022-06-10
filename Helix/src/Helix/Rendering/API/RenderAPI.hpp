@@ -12,7 +12,7 @@ namespace hlx
 	public:
 		virtual ~RenderAPI() = default;
 
-		virtual void start(const Camera& camera) = 0;
+		virtual void start(Scene* scene) = 0;
 		virtual void submit() = 0;
 		virtual void finish() = 0;
 
@@ -22,8 +22,8 @@ namespace hlx
 		virtual void renderQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color) = 0;
 		virtual void renderQuad(const glm::vec3& position, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) = 0;
 	
-		virtual void renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const glm::vec4& color) = 0;
-		virtual void renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) = 0;
+		virtual void renderQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const glm::vec4& color) = 0;
+		virtual void renderQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) = 0;
 		
 		virtual void renderQuad(const glm::mat4& transform, const glm::vec4& color) = 0;
 		virtual void renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) = 0;

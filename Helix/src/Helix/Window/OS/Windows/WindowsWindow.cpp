@@ -144,8 +144,14 @@ namespace hlx
 		glfwSetMouseButtonCallback(m_window, button_lambda);
 		glfwSetCursorPosCallback(m_window, cursor_lambda);
 		glfwSetScrollCallback(m_window, scroll_lambda);
-	}
 
+
+
+		glfwSwapInterval(0);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
 	WindowsWindow::~WindowsWindow()
 	{
 		glfwDestroyWindow(m_window);

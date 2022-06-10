@@ -15,7 +15,7 @@ namespace hlx
 		Scene();
 		~Scene() = default;
 
-		void update();
+		void update(DeltaTime deltaTime);
 		void render();
 
 		const Camera& getCamera() const;

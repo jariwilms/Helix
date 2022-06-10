@@ -39,8 +39,8 @@ namespace hlx
 	{
 		std::chrono::high_resolution_clock::time_point t0{};
 		std::chrono::high_resolution_clock::time_point t1{};
-		std::chrono::duration<float> deltaTime{};
-		std::chrono::duration<float> totalTime{};
+
+		DeltaTime deltaTime{};
 
 		while (m_running)
 		{
@@ -50,7 +50,7 @@ namespace hlx
 			Renderer::clearBackground(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
 			for (Layer* layer : m_layerStack)
-				layer->update();
+				layer->update(deltaTime);
 
 			for (Layer* layer : m_layerStack)
 				layer->render();
@@ -60,10 +60,7 @@ namespace hlx
 
 			t1 = std::chrono::high_resolution_clock::now();
 			deltaTime = t1 - t0;
-			totalTime += deltaTime;
 		}
-
-		HLX_CORE_INFO("Total time elapsed: {0}s", totalTime.count());
 	}
 
 	void Application::close()

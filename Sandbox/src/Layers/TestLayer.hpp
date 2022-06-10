@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Helix.hpp>
+
 #include "entt/entt.hpp"
 
 #include "Helix/Scene/Scene.hpp"
@@ -9,9 +11,9 @@ class TestLayer : public hlx::Layer
 public:
 	TestLayer() = default;
 
-	void update() override
+	void update(DeltaTime deltaTime) override
 	{
-		m_scene.update();
+		m_scene.update(deltaTime);
 	}
 
 	void render() override

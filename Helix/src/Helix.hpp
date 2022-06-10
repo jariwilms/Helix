@@ -3,6 +3,7 @@
 // !!! CORE !!! //
 #include "Helix/Core/Application.hpp"
 #include "Helix/Core/Transform.hpp"
+#include "Helix/core/DeltaTime.hpp"
 // ### CORE ### //
 
 // !!! DIAGNOSTICS !!! //

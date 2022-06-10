@@ -4,12 +4,10 @@
 namespace hlx
 {
 	OpenGLRenderer::OpenGLRenderer()
-		: m_vertexIndex{}, m_elementIndex{}
+		: m_scene{}
 	{
-		constexpr size_t MAX_VERTICES = (size_t)1 << 15;
-		constexpr size_t BUFFER_SIZE = MAX_VERTICES * sizeof(Vertex);
-
-
+		constexpr size_t MAX_INDICES = (size_t)1 << 15; //TODO: move naar renderdata / rendersettings?
+		constexpr size_t BUFFER_SIZE = MAX_INDICES * sizeof(Vertex);
 
 		BufferLayout layout{};
 		layout.addAttribute<float>(3); //position
@@ -19,45 +17,32 @@ namespace hlx
 		layout.addAttribute<float>(1); //tiling factor
 		layout.addAttribute<float>(1); //entity id
 
-		m_vao = VertexArray::create();
-		m_vbo = VertexBuffer::create(BUFFER_SIZE);
-		m_ebo = ElementBuffer::create(MAX_VERTICES);
-
-		m_vbo->setLayout(layout);
-		m_vao->setElementBuffer(m_ebo);
-		m_vao->addVertexBuffer(m_vbo);
-
-
-
-		m_vertices = new Vertex[BUFFER_SIZE];
-		m_elements = new unsigned int[MAX_VERTICES];
-
-
-
-		m_shader = Shader::create("Shaders/test.vert", "Shaders/test.frag");
+		m_renderBatch = std::make_shared<RenderBatch>(BUFFER_SIZE, MAX_INDICES, layout);
 	}
 
-	void OpenGLRenderer::start(const Camera& camera)
+	void OpenGLRenderer::start(Scene* scene)
 	{
-		m_camera = camera;
+		m_scene = scene;
+
+		m_renderBatch->reset();
 	}
 	void OpenGLRenderer::submit()
 	{
-		if (!m_vertexIndex || !m_elementIndex)
+		if (!m_renderBatch->vertexCount || !m_renderBatch->elementCount)
 			return;
 
-		m_shader->bind();
-		m_shader->setMat("u_projection", m_camera.getProjectionMatrix());
-		m_shader->setMat("u_view", m_camera.getViewMatrix());
+		auto& camera = m_scene->getCamera();
 
-		m_vbo->setBufferData(m_vertexIndex * sizeof(Vertex), (float*)m_vertices);
-		m_ebo->setBufferData(m_elementIndex * sizeof(unsigned int), m_elements);
-		m_vao->bind();
+		m_renderBatch->vbo->setBufferData(m_renderBatch->vertexCount * sizeof(Vertex), (float*)m_renderBatch->vertexPtr);
+		m_renderBatch->ebo->setBufferData(m_renderBatch->elementCount * sizeof(unsigned int), m_renderBatch->elementPtr);
 
-		glDrawElements(GL_TRIANGLES, (GLsizei)m_elementIndex, GL_UNSIGNED_INT, nullptr);
+		m_renderBatch->bind();
+		m_renderBatch->shader->setMat("u_projection", camera.getProjectionMatrix());
+		m_renderBatch->shader->setMat("u_view", camera.getViewMatrix());
 
-		m_vertexIndex = 0;
-		m_elementIndex = 0;
+		glDrawElements(GL_TRIANGLES, (GLsizei)m_renderBatch->elementCount, GL_UNSIGNED_INT, nullptr);
+
+		m_renderBatch->reset();
 	}
 	void OpenGLRenderer::finish()
 	{
@@ -75,112 +60,93 @@ namespace hlx
 
 	void OpenGLRenderer::renderQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color)
 	{
-		constexpr size_t vertices = 4;
-		constexpr float texIndex = 0;
-		constexpr float texTiling = 0;
-		constexpr glm::vec3 vertexPositions[] = { { -0.5f, 0.5f, 0.0f }, { -0.5f, -0.5f, 0.0f }, { 0.5f, -0.5f, 0.0f }, { 0.5f, 0.5f, 0.0f } };
-		constexpr glm::vec2 texCoords[] = { { 0.0f, 1.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f } };
+		glm::mat4 transform{ 1.0f };
+		transform *= glm::translate(glm::mat4{ 1.0f }, position);
+		transform *= glm::scale(glm::mat4{ 1.0f }, glm::vec3{ scale, 0.0f });
 
-		for (int i = 0; i < vertices; ++i)
-		{
-			auto& vertex = m_vertices[m_vertexIndex];
-
-			vertex.position = vertexPositions[i];
-			vertex.color = glm::vec4{ 1.0f, 0.0f, 1.0f, 1.0f };
-			vertex.textureCoordinate = texCoords[i];
-			vertex.textureIndex = 0;
-			vertex.textureScale = 1.0f;
-			vertex.entityId = 0;
-
-			++m_vertexIndex;
-		}
-
-		m_elements[m_elementIndex + 0] = 0;
-		m_elements[m_elementIndex + 1] = 1;
-		m_elements[m_elementIndex + 2] = 2;
-
-		m_elements[m_elementIndex + 3] = 0;
-		m_elements[m_elementIndex + 4] = 2;
-		m_elements[m_elementIndex + 5] = 3;
-
-		m_elementIndex += 6;
+		renderQuad(transform, color);
 	}
 	void OpenGLRenderer::renderQuad(const glm::vec3& position, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
 	{
+		glm::mat4 transform{ 1.0f };
+		transform *= glm::translate(glm::mat4{ 1.0f }, position);
+		transform *= glm::scale(glm::mat4{ 1.0f }, glm::vec3{ scale, 0.0f });
 
+		renderQuad(transform, texture, textureScale, textureTint);
 	}
 
-	void OpenGLRenderer::renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const glm::vec4& color)
+	void OpenGLRenderer::renderQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const glm::vec4& color)
 	{
+		glm::mat4 transform{ 1.0f };
+		transform *= glm::translate(glm::mat4{ 1.0f }, position);
+		transform *= glm::rotate(glm::mat4{ 1.0f }, glm::radians(rotation), glm::vec3{ 0.0f, 0.0f, 1.0f });
+		transform *= glm::scale(glm::mat4{ 1.0f }, glm::vec3{ scale, 0.0f });
 
+		renderQuad(transform, color);
 	}
-	void OpenGLRenderer::renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
+	void OpenGLRenderer::renderQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
 	{
+		glm::mat4 transform{ 1.0f };
+		transform *= glm::translate(glm::mat4{ 1.0f }, position);
+		transform *= glm::rotate(glm::mat4{ 1.0f }, glm::radians(rotation), glm::vec3{ 0.0f, 0.0f, 1.0f });
+		transform *= glm::scale(glm::mat4{ 1.0f }, glm::vec3{ scale, 0.0f });
 
+		renderQuad(transform, texture, textureScale, textureTint);
 	}
 
 	void OpenGLRenderer::renderQuad(const glm::mat4& transform, const glm::vec4& color)
 	{
-		constexpr size_t vertices = 4;
-		constexpr float texIndex = 0;
-		constexpr float texTiling = 0;
-		constexpr glm::vec3 vertexPositions[] = { { -0.5f, 0.5f, 0.0f }, { -0.5f, -0.5f, 0.0f }, { 0.5f, -0.5f, 0.0f }, { 0.5f, 0.5f, 0.0f } };
-		constexpr glm::vec2 texCoords[] = { { 0.0f, 1.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f } };
-
-		for (int i = 0; i < vertices; ++i)
+		for (int i = 0; i < RenderData::QUAD_VERTICES; ++i)
 		{
-			auto& vertex = m_vertices[m_vertexIndex];
+			auto& vertex = m_renderBatch->vertexPtr[m_renderBatch->vertexCount];
 
-			vertex.position = transform * glm::vec4{ vertexPositions[i], 1.0f };
-			vertex.color = glm::vec4{ 1.0f, 0.0f, 1.0f, 1.0f };
-			vertex.textureCoordinate = texCoords[i];
-			vertex.textureIndex = 0;
+			vertex.position = transform * glm::vec4{ RenderData::QUAD_VERTEX_POSITIONS[i], 1.0f };
+			vertex.color = color;
+			vertex.textureCoordinate = RenderData::QUAD_TEXTURE_COORDINATES[i];
+			vertex.textureIndex = 0.0f;
 			vertex.textureScale = 1.0f;
 			vertex.entityId = 0;
 
-			++m_vertexIndex;
+			++m_renderBatch->vertexCount;
 		}
 
-		m_elements[m_elementIndex + 0] = 0;
-		m_elements[m_elementIndex + 1] = 1;
-		m_elements[m_elementIndex + 2] = 2;
+		m_renderBatch->elementPtr[m_renderBatch->elementCount + 0] = 0;
+		m_renderBatch->elementPtr[m_renderBatch->elementCount + 1] = 1;
+		m_renderBatch->elementPtr[m_renderBatch->elementCount + 2] = 2;
 
-		m_elements[m_elementIndex + 3] = 0;
-		m_elements[m_elementIndex + 4] = 2;
-		m_elements[m_elementIndex + 5] = 3;
+		m_renderBatch->elementPtr[m_renderBatch->elementCount + 3] = 0;
+		m_renderBatch->elementPtr[m_renderBatch->elementCount + 4] = 2;
+		m_renderBatch->elementPtr[m_renderBatch->elementCount + 5] = 3;
 
-		m_elementIndex += 6;
+		m_renderBatch->elementCount += 6;
 	}
 	void OpenGLRenderer::renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
 	{
-		constexpr size_t vertices = 4;
-		constexpr float texIndex = 0;
-		constexpr float texTiling = 0;
-		constexpr glm::vec3 vertexPositions[] = { { -0.5f, 0.5f, 0.0f }, { -0.5f, -0.5f, 0.0f }, { 0.5f, -0.5f, 0.0f }, { 0.5f, 0.5f, 0.0f } };
-		constexpr glm::vec2 texCoords[] = { { 0.0f, 1.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f } };
-
-		for (int i = 0; i < vertices; ++i)
+		for (int i = 0; i < RenderData::QUAD_VERTICES; ++i)
 		{
-			auto& vertex = m_vertices[m_vertexIndex];
+			auto& vertex = m_renderBatch->vertexPtr[m_renderBatch->vertexCount];
 
-			vertex.position = transform * glm::vec4{ vertexPositions[i], 1.0f };
+			vertex.position = transform * glm::vec4{ RenderData::QUAD_VERTEX_POSITIONS[i], 1.0f };
 			vertex.color = textureTint;
-			vertex.textureCoordinate = texCoords[i];
-			vertex.textureIndex = 0.0f;
+			vertex.textureCoordinate = RenderData::QUAD_TEXTURE_COORDINATES[i];
+			vertex.textureIndex = (float)m_renderBatch->textureCount;
 			vertex.textureScale = textureScale;
 			vertex.entityId = 0;
 
-			++m_vertexIndex;
+			m_renderBatch->textureSlots[m_renderBatch->textureCount] = texture;
+
+			++m_renderBatch->vertexCount;
+			++m_renderBatch->textureCount;
 		}
 
-		m_elements[m_elementIndex + 0] = 0;
-		m_elements[m_elementIndex + 1] = 1;
-		m_elements[m_elementIndex + 2] = 2;
+		m_renderBatch->elementPtr[m_renderBatch->elementCount + 0] = 0;
+		m_renderBatch->elementPtr[m_renderBatch->elementCount + 1] = 1;
+		m_renderBatch->elementPtr[m_renderBatch->elementCount + 2] = 2;
 
-		m_elements[m_elementIndex + 3] = 0;
-		m_elements[m_elementIndex + 4] = 2;
-		m_elements[m_elementIndex + 5] = 3;
+		m_renderBatch->elementPtr[m_renderBatch->elementCount + 3] = 0;
+		m_renderBatch->elementPtr[m_renderBatch->elementCount + 4] = 2;
+		m_renderBatch->elementPtr[m_renderBatch->elementCount + 5] = 3;
 
-		m_elementIndex += 6;
+		m_renderBatch->elementCount += 6;
 	}
 }

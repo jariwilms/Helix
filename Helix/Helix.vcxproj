@@ -100,9 +100,11 @@
     <ClInclude Include="src\Helix.hpp" />
     <ClInclude Include="src\Helix\Core\Application.hpp" />
     <ClInclude Include="src\Helix\Core\Core.hpp" />
+    <ClInclude Include="src\Helix\Core\DeltaTime.hpp" />
     <ClInclude Include="src\Helix\Core\Transform.hpp" />
     <ClInclude Include="src\Helix\Diagnostics\Log.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\RenderBatch.hpp" />
+    <ClInclude Include="src\Helix\Rendering\RenderData.hpp" />
     <ClInclude Include="src\Helix\Scene\Components\Base\Component.hpp" />
     <ClInclude Include="src\Helix\Scene\Components\SpriteComponent.hpp" />
     <ClInclude Include="src\Helix\Scene\Components\TestComponent.hpp" />

@@ -13,19 +13,20 @@ namespace hlx
 	{
 		m_registry = std::make_unique<EntityRegistry>();
 		m_camera = Camera{ Transform{ glm::vec3{ 0.0f, 0.0f, 3.0f } } };
+		m_camera.setProjectionType(Projection::Type::Perspective);
 
 		auto& e = m_entities.emplace_back(new Entity{ this });
 		e->addComponent<SpriteComponent>();
 	}
 
-	void Scene::update()
+	void Scene::update(DeltaTime deltaTime)
 	{
-		m_camera.update();
+		m_camera.update(deltaTime);
 	}
 
 	void Scene::render()
 	{
-		Renderer::start(m_camera);
+		Renderer::start(this);
 
 		auto view = m_registry->view<SpriteComponent>();
 

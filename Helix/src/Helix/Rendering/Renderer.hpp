@@ -16,7 +16,7 @@ namespace hlx
 	public:
 		static void init();
 
-		static void start(const Camera& camera);
+		static void start(Scene* scene);
 		static void submit();
 		static void finish();
 
@@ -26,8 +26,8 @@ namespace hlx
 		static void renderQuad(const glm::vec3& position, const glm::vec2& scale = glm::vec2{ 1.0f }, const glm::vec4& color = glm::vec4{ 1.0f });
 		static void renderQuad(const glm::vec3& position, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale = 1.0f, const glm::vec4& textureTint = glm::vec4{ 1.0f });
 
-		static void renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale = glm::vec2{ 1.0f }, const glm::vec4& color = glm::vec4{ 1.0f });
-		static void renderQuad(const glm::vec3& position, const glm::vec2& rotation, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale = 1.0f, const glm::vec4& textureTint = glm::vec4{ 1.0f });
+		static void renderQuad(const glm::vec3& position, float rotation, const glm::vec2& scale = glm::vec2{ 1.0f }, const glm::vec4& color = glm::vec4{ 1.0f });
+		static void renderQuad(const glm::vec3& position, float rotation, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale = 1.0f, const glm::vec4& textureTint = glm::vec4{ 1.0f });
 
 		static void renderQuad(const glm::mat4& transform, const glm::vec4& color = glm::vec4{ 1.0f });
 		static void renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale = 1.0f, const glm::vec4& textureTint = glm::vec4{ 1.0f });

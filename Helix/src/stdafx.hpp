@@ -25,5 +25,6 @@
 	#include <Windows.h>
 #endif // HLX_PLATFORM_WINDOWS
 
+#include "Helix/core/DeltaTime.hpp"
 #include "Helix/Diagnostics/Log.hpp"
 #include "Helix/IO/IO.hpp"
