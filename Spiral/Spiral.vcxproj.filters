@@ -11,6 +11,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Sandbox.cpp" />
+    <ClCompile Include="src\Spiral.cpp" />
   </ItemGroup>
 </Project>

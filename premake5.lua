@@ -1,6 +1,6 @@
 workspace "Helix"
 	architecture "x64"
-	startproject "Sandbox"
+	startproject "Spiral"
 	
 	configurations
 	{
@@ -86,8 +86,8 @@ project "Helix"
 		runtime "Release"
 		optimize "On"
 
-project "Sandbox"
-	location "Sandbox"
+project "Spiral"
+	location "Spiral"
 	language "C++"
 	cppdialect "C++17"
 	kind "ConsoleApp"
