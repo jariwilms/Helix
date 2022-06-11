@@ -88,15 +88,6 @@
     <ClInclude Include="src\Helix\Diagnostics\Log.hpp">
       <Filter>Helix\Diagnostics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Scene\Components\Base\Component.hpp">
-      <Filter>Helix\ECS\Components\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Scene\Components\TransformComponent.hpp">
-      <Filter>Helix\ECS\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Scene\Entities\Base\Entity.hpp">
-      <Filter>Helix\ECS\Entities\Base</Filter>
-    </ClInclude>
     <ClInclude Include="src\Helix\Event\ApplicationEvent.hpp">
       <Filter>Helix\Event</Filter>
     </ClInclude>
@@ -201,12 +192,17 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
-    <ClInclude Include="src\Helix\Scene\Entities\EntityRegistry.hpp" />
-    <ClInclude Include="src\Helix\Scene\Components\SpriteComponent.hpp" />
-    <ClInclude Include="src\Helix\Scene\Components\TestComponent.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\RenderBatch.hpp" />
     <ClInclude Include="src\Helix\Rendering\RenderData.hpp" />
     <ClInclude Include="src\Helix\Core\DeltaTime.hpp" />
+    <ClInclude Include="src\Helix\ECS\Registry.hpp" />
+    <ClInclude Include="src\Helix\ECS\Component\Components.hpp" />
+    <ClInclude Include="src\Helix\ECS\Component\ComponentArray.hpp" />
+    <ClInclude Include="src\Helix\ECS\Entity\Entity.hpp" />
+    <ClInclude Include="src\Helix\ECS\Coordinator.hpp" />
+    <ClInclude Include="src\Helix\ECS\System\System.hpp" />
+    <ClInclude Include="src\Helix\ECS\SystemManager.hpp" />
+    <ClInclude Include="src\Helix\ECS\Network.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -273,6 +269,5 @@
       <Filter>Helix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\Helix\Scene\Entities\Base\Entity.cpp" />
   </ItemGroup>
 </Project>

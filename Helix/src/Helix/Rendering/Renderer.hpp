@@ -16,7 +16,7 @@ namespace hlx
 	public:
 		static void init();
 
-		static void start(Scene* scene);
+		static void start(const Camera& camera);
 		static void submit();
 		static void finish();
 

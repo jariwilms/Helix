@@ -10,18 +10,38 @@
 
 namespace hlx
 {
-	struct Texture
+	struct TextureSettings
 	{
-		enum
-		{
-			TEXTURE_WRAP_S, 
-			TEXTURE_WRAP_T, 
-			TEXTURE_MIN_FILTER, 
-			TEXTURE_MAG_FILTER
-		};
+		//enum class Parameter
+		//{
+		//	TEXTURE_WRAP_S,
+		//	TEXTURE_WRAP_T,
 
+		//	TEXTURE_MIN_FILTER,
+		//	TEXTURE_MAG_FILTER,
+		//};
+
+		//enum Flag
+		// 
+		//{
+		//	REPEAT,
+
+		//	NEAREST,
+		//	LINEAR
+		//};
+
+		//Flag wrapS;
+		//Flag wrapT;
+		//Flag minFilter;
+		//Flag magFilter;
+	};
+
+	class Texture
+	{
+	public:
 		static std::shared_ptr<Texture> create(const std::filesystem::path& path);
 		static std::shared_ptr<Texture> create(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data);
+		static std::shared_ptr<Texture> create(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data, TextureSettings settings);
 
 		virtual ~Texture();
 

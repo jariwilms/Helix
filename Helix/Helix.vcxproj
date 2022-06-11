@@ -103,13 +103,16 @@
     <ClInclude Include="src\Helix\Core\DeltaTime.hpp" />
     <ClInclude Include="src\Helix\Core\Transform.hpp" />
     <ClInclude Include="src\Helix\Diagnostics\Log.hpp" />
+    <ClInclude Include="src\Helix\ECS\Component\ComponentArray.hpp" />
+    <ClInclude Include="src\Helix\ECS\Coordinator.hpp" />
+    <ClInclude Include="src\Helix\ECS\Entity\Entity.hpp" />
+    <ClInclude Include="src\Helix\ECS\Network.hpp" />
+    <ClInclude Include="src\Helix\ECS\Registry.hpp" />
+    <ClInclude Include="src\Helix\ECS\Component\Components.hpp" />
+    <ClInclude Include="src\Helix\ECS\System\System.hpp" />
+    <ClInclude Include="src\Helix\ECS\SystemManager.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\RenderBatch.hpp" />
     <ClInclude Include="src\Helix\Rendering\RenderData.hpp" />
-    <ClInclude Include="src\Helix\Scene\Components\Base\Component.hpp" />
-    <ClInclude Include="src\Helix\Scene\Components\SpriteComponent.hpp" />
-    <ClInclude Include="src\Helix\Scene\Components\TestComponent.hpp" />
-    <ClInclude Include="src\Helix\Scene\Components\TransformComponent.hpp" />
-    <ClInclude Include="src\Helix\Scene\Entities\Base\Entity.hpp" />
     <ClInclude Include="src\Helix\Event\ApplicationEvent.hpp" />
     <ClInclude Include="src\Helix\Event\Base\Event.hpp" />
     <ClInclude Include="src\Helix\Event\Base\EventDispatcher.hpp" />
@@ -139,7 +142,6 @@
     <ClInclude Include="src\Helix\Rendering\Texture.hpp" />
     <ClInclude Include="src\Helix\Scene\Camera\Camera.hpp" />
     <ClInclude Include="src\Helix\Scene\Camera\Projection.hpp" />
-    <ClInclude Include="src\Helix\Scene\Entities\EntityRegistry.hpp" />
     <ClInclude Include="src\Helix\Scene\Scene.hpp" />
     <ClInclude Include="src\Helix\Window\Layer.hpp" />
     <ClInclude Include="src\Helix\Window\LayerStack.hpp" />
@@ -167,7 +169,6 @@
     <ClCompile Include="src\Helix\Rendering\Shader.cpp" />
     <ClCompile Include="src\Helix\Rendering\Texture.cpp" />
     <ClCompile Include="src\Helix\Scene\Camera\Camera.cpp" />
-    <ClCompile Include="src\Helix\Scene\Entities\Base\Entity.cpp" />
     <ClCompile Include="src\Helix\Scene\Scene.cpp" />
     <ClCompile Include="src\Helix\Window\OS\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Helix\Window\Window.cpp" />

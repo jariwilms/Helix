@@ -4,7 +4,6 @@
 namespace hlx
 {
 	OpenGLRenderer::OpenGLRenderer()
-		: m_scene{}
 	{
 		constexpr size_t MAX_INDICES = (size_t)1 << 15; //TODO: move naar renderdata / rendersettings?
 		constexpr size_t BUFFER_SIZE = MAX_INDICES * sizeof(Vertex);
@@ -20,33 +19,30 @@ namespace hlx
 		m_renderBatch = std::make_shared<RenderBatch>(BUFFER_SIZE, MAX_INDICES, layout);
 	}
 
-	void OpenGLRenderer::start(Scene* scene)
+	void OpenGLRenderer::start(const Camera& camera)
 	{
-		m_scene = scene;
+		m_view = camera.getViewMatrix();
+		m_projection = camera.getProjectionMatrix();
 
-		m_renderBatch->reset();
 	}
 	void OpenGLRenderer::submit()
 	{
 		if (!m_renderBatch->vertexCount || !m_renderBatch->elementCount)
 			return;
 
-		auto& camera = m_scene->getCamera();
-
 		m_renderBatch->vbo->setBufferData(m_renderBatch->vertexCount * sizeof(Vertex), (float*)m_renderBatch->vertexPtr);
 		m_renderBatch->ebo->setBufferData(m_renderBatch->elementCount * sizeof(unsigned int), m_renderBatch->elementPtr);
 
 		m_renderBatch->bind();
-		m_renderBatch->shader->setMat("u_projection", camera.getProjectionMatrix());
-		m_renderBatch->shader->setMat("u_view", camera.getViewMatrix());
+		m_renderBatch->shader->setMat("u_view", m_view);
+		m_renderBatch->shader->setMat("u_projection", m_projection);
 
 		glDrawElements(GL_TRIANGLES, (GLsizei)m_renderBatch->elementCount, GL_UNSIGNED_INT, nullptr);
-
-		m_renderBatch->reset();
 	}
 	void OpenGLRenderer::finish()
 	{
 		submit();
+		m_renderBatch->reset();
 	}
 
 	void OpenGLRenderer::clearBuffer()
@@ -110,19 +106,13 @@ namespace hlx
 			++m_renderBatch->vertexCount;
 		}
 
-		m_renderBatch->elementPtr[m_renderBatch->elementCount + 0] = 0;
-		m_renderBatch->elementPtr[m_renderBatch->elementCount + 1] = 1;
-		m_renderBatch->elementPtr[m_renderBatch->elementCount + 2] = 2;
-
-		m_renderBatch->elementPtr[m_renderBatch->elementCount + 3] = 0;
-		m_renderBatch->elementPtr[m_renderBatch->elementCount + 4] = 2;
-		m_renderBatch->elementPtr[m_renderBatch->elementCount + 5] = 3;
-
 		m_renderBatch->elementCount += 6;
 	}
 	void OpenGLRenderer::renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
 	{
-		for (int i = 0; i < RenderData::QUAD_VERTICES; ++i)
+		constexpr auto vertices = RenderData::QUAD_VERTICES;
+
+		for (int i = 0; i < vertices; ++i)
 		{
 			auto& vertex = m_renderBatch->vertexPtr[m_renderBatch->vertexCount];
 
@@ -133,20 +123,12 @@ namespace hlx
 			vertex.textureScale = textureScale;
 			vertex.entityId = 0;
 
-			m_renderBatch->textureSlots[m_renderBatch->textureCount] = texture;
-
 			++m_renderBatch->vertexCount;
-			++m_renderBatch->textureCount;
 		}
 
-		m_renderBatch->elementPtr[m_renderBatch->elementCount + 0] = 0;
-		m_renderBatch->elementPtr[m_renderBatch->elementCount + 1] = 1;
-		m_renderBatch->elementPtr[m_renderBatch->elementCount + 2] = 2;
-
-		m_renderBatch->elementPtr[m_renderBatch->elementCount + 3] = 0;
-		m_renderBatch->elementPtr[m_renderBatch->elementCount + 4] = 2;
-		m_renderBatch->elementPtr[m_renderBatch->elementCount + 5] = 3;
-
 		m_renderBatch->elementCount += 6;
+
+		m_renderBatch->textureSlots[m_renderBatch->textureCount] = texture;
+		++m_renderBatch->textureCount;
 	}
 }

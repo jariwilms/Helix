@@ -8,9 +8,9 @@ namespace hlx
 		s_renderAPI = new OpenGLRenderer{};
 	}
 
-	void Renderer::start(Scene* scene)
+	void Renderer::start(const Camera& camera)
 	{
-		s_renderAPI->start(scene);
+		s_renderAPI->start(camera);
 	}
 	void Renderer::submit()
 	{

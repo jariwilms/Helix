@@ -19,7 +19,7 @@ namespace hlx
 		OpenGLRenderer();
 		~OpenGLRenderer() = default;
 
-		void start(Scene* scene) override;
+		void start(const Camera& camera) override;
 		void finish() override;
 
 		void clearBuffer() override;
@@ -39,6 +39,7 @@ namespace hlx
 
 		std::shared_ptr<RenderBatch> m_renderBatch;
 
-		Scene* m_scene;
+		glm::mat4 m_view;
+		glm::mat4 m_projection;
 	};
 }

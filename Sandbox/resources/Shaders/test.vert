@@ -8,8 +8,8 @@ struct VertexData
 	float texTiling;
 };
 
-uniform mat4 u_projection;
 uniform mat4 u_view;
+uniform mat4 u_projection;
 
 layout (location = 0) in vec3 a_position;
 layout (location = 1) in vec4 a_color;

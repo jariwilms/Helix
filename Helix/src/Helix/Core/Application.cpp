@@ -1,6 +1,9 @@
 #include "stdafx.hpp"
 #include "Application.hpp"
 
+#include "Helix/ECS/Registry.hpp"
+#include "Helix/ECS/Component/ComponentArray.hpp"
+
 namespace hlx
 {
 	ApplicationSettings::ApplicationSettings()
@@ -16,7 +19,7 @@ namespace hlx
 
 		Log::init();
 		IO::init();
-		IO::appendRoot("resources");
+		IO::appendRoot("resources"); //TODO: move naar config
 		Input::init();
 
 		m_window = Window::create(WindowProperties("Helix", glm::uvec2(800, 600)));

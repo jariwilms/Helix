@@ -2,12 +2,16 @@
 
 #include "stdafx.hpp"
 
-#include "Helix/Scene/Entities/EntityRegistry.hpp"
+#pragma warning(disable: 26819 26439)
+#include "entt/entt.hpp"
+#pragma warning(default: 26819 26439)
+
 #include "Helix/Scene/Camera/Camera.hpp"
+#include "Helix/ECS/Component/Components.hpp"
 
 namespace hlx
 {
-	class Entity;
+	using Entity = uint32_t;
 
 	class Scene
 	{
@@ -20,22 +24,35 @@ namespace hlx
 
 		const Camera& getCamera() const;
 
-		EntityRegistry& getRegistry() const;
-		const std::vector<std::shared_ptr<Entity>>& getEntities() const;
-
-		template <typename T>
-		Entity& createEntity()
+		Entity Scene::createEntity()
 		{
-			auto& entity = m_entities.emplace(new Entity{ this });
-			return *entity;
+			return (uint32_t)m_registry.create();
+		}
+		void Scene::destroyEntity(Entity entity)
+		{
+			m_registry.destroy((entt::entity)entity);
 		}
 
-		void destroyEntity(const Entity& entity);
+		template<typename Component, typename... Args>
+		Component& addComponent(Entity entity, Args&&... args)
+		{
+			return m_registry.emplace<Component>((entt::entity)entity, args...);
+		}
+		template<typename Component>
+		Component& getComponent(Entity entity)
+		{
+			return m_registry.get<Component>(entity);
+		}
+		template<typename Component>
+		void removeComponent(Entity entity)
+		{
+			m_registry.remove<Component>(entity);
+		}
 
 	private:
-		hlx::Camera m_camera;
+		Camera m_camera;
 
-		std::unique_ptr<EntityRegistry> m_registry;
-		std::vector<std::shared_ptr<Entity>> m_entities;
+		entt::registry m_registry;
+		std::vector<Entity> m_entities;
 	};
 }

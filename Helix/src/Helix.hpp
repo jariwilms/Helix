@@ -10,14 +10,9 @@
 #include "Helix/Diagnostics/Log.hpp"
 // ### DIAGNOSTICS ### //
 
-// !!! ECS !!! //
+// !!! SCENE !!! //
 #include "Helix/Scene/Scene.hpp"
-
-#include "Helix/Scene/Components/Base/Component.hpp"
-#include "Helix/Scene/Components/TransformComponent.hpp"
-
-#include "Helix/Scene/Entities/Base/Entity.hpp"
-// ### ECS ### //
+// ### SCENE ### //
 
 // !!! EVENT !!! //
 #include "Helix/Window/Layer.hpp"

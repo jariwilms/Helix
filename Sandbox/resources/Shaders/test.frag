@@ -16,5 +16,5 @@ layout (location = 0) out vec4 f_color;
 
 void main()
 {
-	f_color = v_input.color * texture(u_textures[int(v_input.texIndex)], v_input.texCoord);
+	f_color = v_input.color * texture(u_textures[int(v_input.texIndex + 0.1)], v_input.texCoord * v_input.texTiling);
 }

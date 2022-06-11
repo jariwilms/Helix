@@ -7,7 +7,11 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <array>
 #include <stack>
+#include <queue>
+#include <deque>
+#include <set>
 
 #include <memory>
 #include <chrono>

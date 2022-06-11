@@ -33,7 +33,7 @@ namespace hlx
 	{
 	public:
 		RenderBatch(size_t bufferSize, size_t maxElements, const BufferLayout& layout)
-			: vertexCount{}, elementCount{}
+			: vertexCount{}, elementCount{}, textureCount{ 1 }
 		{
 			vao = VertexArray::create();
 			vbo = VertexBuffer::create(bufferSize);
@@ -46,7 +46,16 @@ namespace hlx
 			vertexPtr = new Vertex[bufferSize];
 			elementPtr = new unsigned int[maxElements];
 
+			for (unsigned int i = 0, offset = 0; i < maxElements - 6; i += 6, offset += 4) //TODO: fix
+			{
+				elementPtr[i + 0] = offset + 0;
+				elementPtr[i + 1] = offset + 1;
+				elementPtr[i + 2] = offset + 2;
 
+				elementPtr[i + 3] = offset + 0;
+				elementPtr[i + 4] = offset + 2;
+				elementPtr[i + 5] = offset + 3;
+			}
 
 			int slots{};
 			glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &slots);
@@ -54,6 +63,7 @@ namespace hlx
 
 			textureSlots[0] = (Texture::create("textures/white.png"));
 			shader = Shader::create("shaders/test.vert", "shaders/test.frag");
+			shader->bind();
 		}
 
 		void bind()
@@ -62,14 +72,11 @@ namespace hlx
 
 			for (int i = 0; i < textureCount; ++i)
 				textureSlots.at(i)->bind(i);
-
-			shader->bind();
 		}
 
 		void reset()
 		{
 			vao->unbind();
-			shader->unbind();
 
 			vertexCount = 0;
 			elementCount = 0;

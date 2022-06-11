@@ -15,6 +15,11 @@ namespace hlx
 		return std::make_shared<OpenGLTexture>(width, height, channels, data);
 	}
 
+	std::shared_ptr<Texture> Texture::create(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data, TextureSettings settings)
+	{
+		return std::make_shared<OpenGLTexture>(width, height, channels, data, settings);
+	}
+
 	Texture::Texture(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data)
 		: m_textureId{}, m_internalFormat{}, m_dataFormat{}, m_width{ width }, m_height{ height }, m_channels{ channels }, m_data{ data }, m_status{} {}
 
