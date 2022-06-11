@@ -21,6 +21,11 @@ namespace hlx
 			else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 
+		//static constexpr unsigned int getGLType(unsigned int type) //standard vertex type
+		//{
+
+		//}
+
 		static constexpr unsigned int getSizeOfType(GLenum type)
 		{
 			switch (type)

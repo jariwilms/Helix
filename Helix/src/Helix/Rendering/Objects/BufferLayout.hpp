@@ -22,6 +22,15 @@ namespace hlx
 	struct BufferLayout
 	{
 	public:
+		//enum class Type
+		//{
+		//	BOOL, 
+		//	INT, UNSIGNED_INT,
+		//	FLOAT, 
+
+		//	BYTE, UNSIGNED_BYTE, 
+		//};
+
 		BufferLayout() 
 			: m_stride{} {}
 		~BufferLayout() = default;
