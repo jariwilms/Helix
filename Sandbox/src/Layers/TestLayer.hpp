@@ -9,7 +9,10 @@
 class TestLayer : public hlx::Layer
 {
 public:
-	TestLayer() = default;
+	TestLayer()
+	{
+		
+	}
 
 	void update(DeltaTime deltaTime) override
 	{

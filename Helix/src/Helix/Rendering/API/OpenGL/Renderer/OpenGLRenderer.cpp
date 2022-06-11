@@ -25,6 +25,10 @@ namespace hlx
 		m_projection = camera.getProjectionMatrix();
 
 	}
+	void OpenGLRenderer::check()
+	{
+		if (m_renderBatch->textureCount == 32) submit();
+	}
 	void OpenGLRenderer::submit()
 	{
 		if (!m_renderBatch->vertexCount || !m_renderBatch->elementCount)
@@ -107,6 +111,8 @@ namespace hlx
 		}
 
 		m_renderBatch->elementCount += 6;
+
+		check();
 	}
 	void OpenGLRenderer::renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
 	{
@@ -130,5 +136,10 @@ namespace hlx
 
 		m_renderBatch->textureSlots[m_renderBatch->textureCount] = texture;
 		++m_renderBatch->textureCount;
+
+		check();
 	}
+
+	//post processing
+	//instancing
 }

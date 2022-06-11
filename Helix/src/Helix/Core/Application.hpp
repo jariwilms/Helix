@@ -2,10 +2,6 @@
 
 #include "stdafx.hpp"
 
-//#include "imgui/imgui.h"
-//#include "imgui/imgui_impl_glfw.h"
-//#include "imgui/imgui_impl_opengl3.h"
-
 #include "Helix/Core/Core.hpp"
 #include "Helix/Input/Input.hpp"
 #include "Helix/Event/Base/Event.hpp"
@@ -32,7 +28,7 @@ namespace hlx
 	public:
 		Application();
 		Application(const Application&) = delete;
-		virtual ~Application() = default;
+		virtual ~Application();
 
 		static const Application& getInstance();
 		const Window& getWindow() const;

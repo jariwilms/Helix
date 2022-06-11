@@ -6,7 +6,7 @@
 
 #include "Helix/Rendering/API/RenderAPI.hpp"
 #include "Helix/Rendering/API/OpenGL/Renderer/OpenGLRenderer.hpp"
-#include "Helix/Rendering/Objects/VertexArray.hpp"
+#include "Helix/Rendering/Object/VertexArray.hpp"
 #include "Helix/Scene/Camera/Camera.hpp"
 
 namespace hlx
@@ -17,7 +17,6 @@ namespace hlx
 		static void init();
 
 		static void start(const Camera& camera);
-		static void submit();
 		static void finish();
 
 		static void clearBuffer();

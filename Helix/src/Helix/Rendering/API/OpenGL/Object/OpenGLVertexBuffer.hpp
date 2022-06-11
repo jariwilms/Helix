@@ -5,7 +5,7 @@
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
 
-#include "Helix/Rendering/Objects/VertexBuffer.hpp"
+#include "Helix/Rendering/Object/VertexBuffer.hpp"
 
 namespace hlx
 {

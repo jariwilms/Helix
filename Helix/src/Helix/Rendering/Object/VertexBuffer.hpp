@@ -5,8 +5,8 @@
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
 
-#include "Helix/Rendering/Objects/BufferObject.hpp"
-#include "Helix/Rendering/Objects/BufferLayout.hpp"
+#include "Helix/Rendering/Object/BufferObject.hpp"
+#include "Helix/Rendering/Object/BufferLayout.hpp"
 
 namespace hlx
 {

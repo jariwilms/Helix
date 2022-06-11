@@ -2,7 +2,7 @@
 
 #include "glm/glm.hpp"
 
-#include "Helix/Rendering/Objects/VertexArray.hpp"
+#include "Helix/Rendering/Object/VertexArray.hpp"
 #include "Helix/Scene/Camera/Camera.hpp"
 
 namespace hlx
@@ -13,7 +13,6 @@ namespace hlx
 		virtual ~RenderAPI() = default;
 
 		virtual void start(const Camera& camera) = 0;
-		virtual void submit() = 0;
 		virtual void finish() = 0;
 
 		virtual void clearBuffer() = 0;
@@ -30,5 +29,8 @@ namespace hlx
 
 	protected:
 		RenderAPI() {}
+
+		virtual void check() = 0;
+		virtual void submit() = 0;
 	};
 }

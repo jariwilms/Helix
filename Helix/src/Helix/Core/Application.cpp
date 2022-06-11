@@ -1,6 +1,10 @@
 #include "stdafx.hpp"
 #include "Application.hpp"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+
 #include "Helix/ECS/Registry.hpp"
 #include "Helix/ECS/Component/ComponentArray.hpp"
 
@@ -22,10 +26,29 @@ namespace hlx
 		IO::appendRoot("resources"); //TODO: move naar config
 		Input::init();
 
-		m_window = Window::create(WindowProperties("Helix", glm::uvec2(800, 600)));
+		m_window = Window::create(WindowProperties("Helix", glm::uvec2(1600, 900)));
 		m_window->setEventCallback(BIND_EVENT_FN(onEvent));
 
 		Renderer::init();
+
+
+
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext(); 
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+		ImGui_ImplOpenGL3_Init("#version 460");
+		ImGui_ImplGlfw_InitForOpenGL((GLFWwindow*)m_window->getNativeWindow(), true);
+
+		ImGui::StyleColorsDark();
+	}
+
+	Application::~Application()
+	{
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+
+		ImGui::DestroyContext();
 	}
 
 	const Application& Application::getInstance()
@@ -52,11 +75,22 @@ namespace hlx
 			Renderer::clearBuffer();
 			Renderer::clearBackground(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
+			ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
+			ImGui::NewFrame();
+
 			for (Layer* layer : m_layerStack)
 				layer->update(deltaTime);
 
 			for (Layer* layer : m_layerStack)
 				layer->render();
+
+			ImGui::Begin("window");
+			ImGui::Text("hi");
+			ImGui::End();
+
+			ImGui::Render();
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 			Input::reset();
 			m_window->update();

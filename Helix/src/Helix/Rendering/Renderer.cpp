@@ -12,10 +12,6 @@ namespace hlx
 	{
 		s_renderAPI->start(camera);
 	}
-	void Renderer::submit()
-	{
-		s_renderAPI->submit();
-	}
 	void Renderer::finish()
 	{
 		s_renderAPI->finish();

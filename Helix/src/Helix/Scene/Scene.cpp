@@ -9,7 +9,7 @@ namespace hlx
 		m_camera.setProjectionType(Projection::Type::Perspective);
 
 		auto& spr1 = addComponent<SpriteComponent>(createEntity(), "textures/kiryu.png");
-		spr1.transform.position.x += 0.5f;
+		spr1.transform.position.x += 0.6f;
 		auto& spr2 = addComponent<SpriteComponent>(createEntity(), "textures/missing.png");
 		spr2.transform.position.x -= 0.5f;
 	}

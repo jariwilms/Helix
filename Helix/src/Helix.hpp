@@ -50,11 +50,11 @@
 #include "Helix/Rendering/Shader.hpp"
 #include "Helix/Rendering/Texture.hpp"
 
-#include "Helix/Rendering/Objects/BufferObject.hpp"
-#include "Helix/Rendering/Objects/BufferLayout.hpp"
-#include "Helix/Rendering/Objects/VertexArray.hpp"
-#include "Helix/Rendering/Objects/VertexBuffer.hpp"
-#include "Helix/Rendering/Objects/ElementBuffer.hpp"
+#include "Helix/Rendering/Object/BufferObject.hpp"
+#include "Helix/Rendering/Object/BufferLayout.hpp"
+#include "Helix/Rendering/Object/VertexArray.hpp"
+#include "Helix/Rendering/Object/VertexBuffer.hpp"
+#include "Helix/Rendering/Object/ElementBuffer.hpp"
 // ### RENDERING ### //
 
 // !!! SCENE !!! //

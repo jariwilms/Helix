@@ -4,9 +4,9 @@
 
 #include "Helix/Rendering/API/RenderAPI.hpp"
 #include "Helix/Rendering/API/RenderBatch.hpp"
-#include "Helix/Rendering/Objects/VertexArray.hpp"
-#include "Helix/Rendering/Objects/VertexBuffer.hpp"
-#include "Helix/Rendering/Objects/ElementBuffer.hpp"
+#include "Helix/Rendering/Object/VertexArray.hpp"
+#include "Helix/Rendering/Object/VertexBuffer.hpp"
+#include "Helix/Rendering/Object/ElementBuffer.hpp"
 #include "Helix/Rendering/Shader.hpp"
 #include "Helix/Rendering/Texture.hpp"
 #include "Helix/Rendering/RenderData.hpp"
@@ -34,7 +34,8 @@ namespace hlx
 		void renderQuad(const glm::mat4& transform, const glm::vec4& color) override;
 		void renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) override;
 
-	private:
+	protected:
+		void check() override;
 		void submit() override;
 
 		std::shared_ptr<RenderBatch> m_renderBatch;

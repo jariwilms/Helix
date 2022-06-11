@@ -1,7 +1,7 @@
 #include "stdafx.hpp"
 #include "Texture.hpp"
 
-#include "Helix/Rendering/API/OpenGL/OpenGLTexture.hpp"
+#include "Helix/Rendering/API/OpenGL/Texture/OpenGLTexture.hpp"
 
 namespace hlx
 {

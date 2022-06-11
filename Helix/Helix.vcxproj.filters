@@ -13,17 +13,14 @@
     <Filter Include="Helix\ECS">
       <UniqueIdentifier>{E90B2B62-5576-DFD8-9EB4-907E0A5EBD2D}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helix\ECS\Components">
-      <UniqueIdentifier>{5E0DFB30-4A9C-84FA-F3BA-98F5DF2895A0}</UniqueIdentifier>
+    <Filter Include="Helix\ECS\Component">
+      <UniqueIdentifier>{8B9B0730-F7FC-E43D-806A-2BF0ECCA1BFD}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helix\ECS\Components\Base">
-      <UniqueIdentifier>{A874A837-1437-DCC1-5DE7-6A4EC9E8B49F}</UniqueIdentifier>
+    <Filter Include="Helix\ECS\Entity">
+      <UniqueIdentifier>{1578C88A-0171-E7DC-2AA3-CC6116FBC6E8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helix\ECS\Entities">
-      <UniqueIdentifier>{BD9AC65E-A97E-87B4-12DF-8107FEE17136}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Helix\ECS\Entities\Base">
-      <UniqueIdentifier>{67354E81-D36C-9618-DC76-FA3B482DBD11}</UniqueIdentifier>
+    <Filter Include="Helix\ECS\System">
+      <UniqueIdentifier>{DD5E37AC-C957-56FE-F289-3B83DEE1350A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Helix\Event">
       <UniqueIdentifier>{B0FC3999-1CB2-B28E-A5A6-AC65115BA992}</UniqueIdentifier>
@@ -49,14 +46,20 @@
     <Filter Include="Helix\Rendering\API\OpenGL">
       <UniqueIdentifier>{A9363123-9546-DDF3-FEFF-4112EA2ECC8C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helix\Rendering\API\OpenGL\Objects">
-      <UniqueIdentifier>{626ECDF7-4EAA-D061-B7BC-E858A317797C}</UniqueIdentifier>
+    <Filter Include="Helix\Rendering\API\OpenGL\Object">
+      <UniqueIdentifier>{0FECCF3D-7B5A-25BD-C443-E0BC30F11A59}</UniqueIdentifier>
     </Filter>
     <Filter Include="Helix\Rendering\API\OpenGL\Renderer">
       <UniqueIdentifier>{6F0873A6-DBC1-DD50-6421-F82AD0D993C0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helix\Rendering\Objects">
-      <UniqueIdentifier>{E5E603E9-511E-4C80-5A28-B0A3C6DE7279}</UniqueIdentifier>
+    <Filter Include="Helix\Rendering\API\OpenGL\Shader">
+      <UniqueIdentifier>{2F2E8C47-9B9C-E1C6-E485-9CC65033D762}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\Rendering\API\OpenGL\Texture">
+      <UniqueIdentifier>{09F5B580-F530-B9EA-5E43-D1E14A9E6105}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\Rendering\Object">
+      <UniqueIdentifier>{32E007E8-1EDA-303A-0747-C74AF3DF96A6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Helix\Scene">
       <UniqueIdentifier>{7CE82C9A-E89D-A58F-7192-9F66DD469C93}</UniqueIdentifier>
@@ -82,11 +85,35 @@
     <ClInclude Include="src\Helix\Core\Core.hpp">
       <Filter>Helix\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Core\DeltaTime.hpp">
+      <Filter>Helix\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Core\Transform.hpp">
       <Filter>Helix\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Diagnostics\Log.hpp">
       <Filter>Helix\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\ECS\Component\ComponentArray.hpp">
+      <Filter>Helix\ECS\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\ECS\Component\Components.hpp">
+      <Filter>Helix\ECS\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\ECS\Coordinator.hpp">
+      <Filter>Helix\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\ECS\Entity\Entity.hpp">
+      <Filter>Helix\ECS\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\ECS\Network.hpp">
+      <Filter>Helix\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\ECS\Registry.hpp">
+      <Filter>Helix\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\ECS\System\System.hpp">
+      <Filter>Helix\ECS\System</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Event\ApplicationEvent.hpp">
       <Filter>Helix\Event</Filter>
@@ -121,44 +148,50 @@
     <ClInclude Include="src\Helix\Math\Math.hpp">
       <Filter>Helix\Math</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Objects\OpenGLElementBuffer.hpp">
-      <Filter>Helix\Rendering\API\OpenGL\Objects</Filter>
+    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLElementBuffer.hpp">
+      <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Objects\OpenGLVertexArray.hpp">
-      <Filter>Helix\Rendering\API\OpenGL\Objects</Filter>
+    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLVertexArray.hpp">
+      <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Objects\OpenGLVertexBuffer.hpp">
-      <Filter>Helix\Rendering\API\OpenGL\Objects</Filter>
+    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLVertexBuffer.hpp">
+      <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\OpenGL.hpp">
-      <Filter>Helix\Rendering\API\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\API\OpenGL\OpenGLShader.hpp">
-      <Filter>Helix\Rendering\API\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\API\OpenGL\OpenGLTexture.hpp">
       <Filter>Helix\Rendering\API\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Renderer\OpenGLRenderer.hpp">
       <Filter>Helix\Rendering\API\OpenGL\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Shader\OpenGLShader.hpp">
+      <Filter>Helix\Rendering\API\OpenGL\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Texture\OpenGLTexture.hpp">
+      <Filter>Helix\Rendering\API\OpenGL\Texture</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Rendering\API\RenderAPI.hpp">
       <Filter>Helix\Rendering\API</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Objects\BufferLayout.hpp">
-      <Filter>Helix\Rendering\Objects</Filter>
+    <ClInclude Include="src\Helix\Rendering\API\RenderBatch.hpp">
+      <Filter>Helix\Rendering\API</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Objects\BufferObject.hpp">
-      <Filter>Helix\Rendering\Objects</Filter>
+    <ClInclude Include="src\Helix\Rendering\Object\BufferLayout.hpp">
+      <Filter>Helix\Rendering\Object</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Objects\ElementBuffer.hpp">
-      <Filter>Helix\Rendering\Objects</Filter>
+    <ClInclude Include="src\Helix\Rendering\Object\BufferObject.hpp">
+      <Filter>Helix\Rendering\Object</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Objects\VertexArray.hpp">
-      <Filter>Helix\Rendering\Objects</Filter>
+    <ClInclude Include="src\Helix\Rendering\Object\ElementBuffer.hpp">
+      <Filter>Helix\Rendering\Object</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Objects\VertexBuffer.hpp">
-      <Filter>Helix\Rendering\Objects</Filter>
+    <ClInclude Include="src\Helix\Rendering\Object\VertexArray.hpp">
+      <Filter>Helix\Rendering\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Object\VertexBuffer.hpp">
+      <Filter>Helix\Rendering\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\RenderData.hpp">
+      <Filter>Helix\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Renderer.hpp">
       <Filter>Helix\Rendering</Filter>
@@ -192,17 +225,6 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
-    <ClInclude Include="src\Helix\Rendering\API\RenderBatch.hpp" />
-    <ClInclude Include="src\Helix\Rendering\RenderData.hpp" />
-    <ClInclude Include="src\Helix\Core\DeltaTime.hpp" />
-    <ClInclude Include="src\Helix\ECS\Registry.hpp" />
-    <ClInclude Include="src\Helix\ECS\Component\Components.hpp" />
-    <ClInclude Include="src\Helix\ECS\Component\ComponentArray.hpp" />
-    <ClInclude Include="src\Helix\ECS\Entity\Entity.hpp" />
-    <ClInclude Include="src\Helix\ECS\Coordinator.hpp" />
-    <ClInclude Include="src\Helix\ECS\System\System.hpp" />
-    <ClInclude Include="src\Helix\ECS\SystemManager.hpp" />
-    <ClInclude Include="src\Helix\ECS\Network.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -220,32 +242,32 @@
     <ClCompile Include="src\Helix\Input\Input.cpp">
       <Filter>Helix\Input</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Objects\OpenGLElementBuffer.cpp">
-      <Filter>Helix\Rendering\API\OpenGL\Objects</Filter>
+    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLElementBuffer.cpp">
+      <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Objects\OpenGLVertexArray.cpp">
-      <Filter>Helix\Rendering\API\OpenGL\Objects</Filter>
+    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLVertexArray.cpp">
+      <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Objects\OpenGLVertexBuffer.cpp">
-      <Filter>Helix\Rendering\API\OpenGL\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\API\OpenGL\OpenGLShader.cpp">
-      <Filter>Helix\Rendering\API\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\API\OpenGL\OpenGLTexture.cpp">
-      <Filter>Helix\Rendering\API\OpenGL</Filter>
+    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLVertexBuffer.cpp">
+      <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Renderer\OpenGLRenderer.cpp">
       <Filter>Helix\Rendering\API\OpenGL\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\Objects\ElementBuffer.cpp">
-      <Filter>Helix\Rendering\Objects</Filter>
+    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Shader\OpenGLShader.cpp">
+      <Filter>Helix\Rendering\API\OpenGL\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\Objects\VertexArray.cpp">
-      <Filter>Helix\Rendering\Objects</Filter>
+    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Texture\OpenGLTexture.cpp">
+      <Filter>Helix\Rendering\API\OpenGL\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\Objects\VertexBuffer.cpp">
-      <Filter>Helix\Rendering\Objects</Filter>
+    <ClCompile Include="src\Helix\Rendering\Object\ElementBuffer.cpp">
+      <Filter>Helix\Rendering\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Object\VertexArray.cpp">
+      <Filter>Helix\Rendering\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Object\VertexBuffer.cpp">
+      <Filter>Helix\Rendering\Object</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Rendering\Renderer.cpp">
       <Filter>Helix\Rendering</Filter>

@@ -1,7 +1,7 @@
 #include "stdafx.hpp"
 #include "VertexArray.hpp"
 
-#include "Helix/Rendering/API/OpenGL/Objects/OpenGLVertexArray.hpp"
+#include "Helix/Rendering/API/OpenGL/Object/OpenGLVertexArray.hpp"
 
 namespace hlx
 {

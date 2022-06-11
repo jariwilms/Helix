@@ -6,9 +6,9 @@
 
 #include "Helix/Rendering/API/RenderAPI.hpp"
 #include "Helix/Rendering/API/RenderBatch.hpp"
-#include "Helix/Rendering/Objects/VertexArray.hpp"
-#include "Helix/Rendering/Objects/VertexBuffer.hpp"
-#include "Helix/Rendering/Objects/ElementBuffer.hpp"
+#include "Helix/Rendering/Object/VertexArray.hpp"
+#include "Helix/Rendering/Object/VertexBuffer.hpp"
+#include "Helix/Rendering/Object/ElementBuffer.hpp"
 #include "Helix/Rendering/Shader.hpp"
 #include "Helix/Rendering/Texture.hpp"
 

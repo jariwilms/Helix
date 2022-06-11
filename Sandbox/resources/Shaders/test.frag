@@ -1,20 +1,16 @@
 #version 460 core
 
-struct VertexData
-{
-	vec4 color;
-	vec2 texCoord;
-	float texIndex;
-	float texTiling;
-};
-
 layout (binding = 0) uniform sampler2D u_textures[32];
 
-layout (location = 0) in VertexData v_input;
+layout (location = 0) in vec4 				v_color ;
+layout (location = 1) in vec2 				v_texCoord;
+layout (location = 2) in flat float 		v_texIndex;
+layout (location = 3) in float 				v_texTiling;
 
-layout (location = 0) out vec4 f_color;
+layout (location = 0) out vec4 				f_color;
 
 void main()
 {
-	f_color = v_input.color * texture(u_textures[int(v_input.texIndex + 0.1)], v_input.texCoord * v_input.texTiling);
+	f_color = v_color * texture(u_textures[int(v_texIndex)], v_texCoord * v_texTiling);
+	//f_color = vec4(v_input.texCoord, 0.0, 1.0);
 }

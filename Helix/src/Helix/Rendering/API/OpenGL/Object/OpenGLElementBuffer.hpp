@@ -5,7 +5,7 @@
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
 
-#include "Helix/Rendering/Objects/ElementBuffer.hpp"
+#include "Helix/Rendering/Object/ElementBuffer.hpp"
 
 namespace hlx
 {
