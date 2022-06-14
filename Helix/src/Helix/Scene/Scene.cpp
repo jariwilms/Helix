@@ -8,36 +8,33 @@ namespace hlx
 		m_camera = Camera{ Transform{ glm::vec3{ 0.0f, 0.0f, 3.0f } } };
 		m_camera.setProjectionType(Projection::Type::Perspective);
 
-		auto& spr1 = addComponent<SpriteComponent>(createEntity(), "textures/kiryu.png");
-		spr1.transform.position.x += 0.6f;
-		auto& spr2 = addComponent<SpriteComponent>(createEntity(), "textures/missing.png");
-		spr2.transform.position.x -= 0.5f;
+		auto e1 = createEntity();
+		auto e2 = createEntity();
+
+		auto& c1 = addComponent<TransformComponent>(e1);
+		c1.transform.translate(glm::vec3{ 0.4f, 0.0f, 0.0f });
+		addComponent<SpriteComponent>(e1, "textures/kiryu.png");
+
+		auto& c2 = addComponent<TransformComponent>(e2);
+		c2.transform.translate(glm::vec3{ -0.4f, 0.0f, 0.0f });
+		addComponent<SpriteComponent>(e2, "textures/missing.png");
 	}
 
 	void Scene::update(DeltaTime deltaTime)
 	{
 		m_camera.update(deltaTime);
-
-		Renderer::start(getCamera());
-
-		auto view = m_registry.view<SpriteComponent>();
-
-		for (auto entity : view)
-		{
-			auto& sprite = view.get<SpriteComponent>(entity);
-			sprite.update(deltaTime);
-		}
-
-		Renderer::finish();
 	}
 
 	void Scene::render()
 	{
+		auto view = m_registry.view<TransformComponent, SpriteComponent>();
 
-	}
+		for (auto entity : view)
+		{
+			auto& transform = view.get<TransformComponent>(entity);
+			auto& sprite = view.get<SpriteComponent>(entity);
 
-	const Camera& Scene::getCamera() const
-	{
-		return m_camera;
+			Renderer::renderQuad(transform, sprite.texture);
+		}
 	}
 }

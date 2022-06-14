@@ -10,9 +10,12 @@ namespace hlx
 	struct TransformComponent
 	{
 	public:
-		TransformComponent() = default;
+		TransformComponent(glm::vec3 position = glm::vec3{}, glm::vec3 rotation = glm::vec3{}, glm::vec3 scale = glm::vec3{ 1.0f })
+			: transform{ position, rotation, scale } {}
 		TransformComponent(Transform transform)
 			: transform{ transform } {}
+
+		operator glm::mat4() { return transform; }
 
 		Transform transform;
 	};
@@ -20,18 +23,10 @@ namespace hlx
 	struct SpriteComponent
 	{
 	public:
+		SpriteComponent() = default;
 		SpriteComponent(std::filesystem::path path)
-		{
-			texture = Texture::create(path);
-			transform.scale = glm::vec3{ 1.0f };
-		}
-
-		void update(DeltaTime deltaTime)
-		{
-			Renderer::renderQuad(transform, texture);
-		}
+			: texture{ Texture::create(path) } {}
 
 		std::shared_ptr<Texture> texture;
-		Transform transform;
 	};
 }

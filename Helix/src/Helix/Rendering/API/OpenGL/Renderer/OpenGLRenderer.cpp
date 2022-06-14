@@ -4,6 +4,7 @@
 namespace hlx
 {
 	OpenGLRenderer::OpenGLRenderer()
+		: m_statistics{}
 	{
 		constexpr size_t MAX_INDICES = (size_t)1 << 15; //TODO: move naar renderdata / rendersettings?
 		constexpr size_t BUFFER_SIZE = MAX_INDICES * sizeof(Vertex);
@@ -23,7 +24,6 @@ namespace hlx
 	{
 		m_view = camera.getViewMatrix();
 		m_projection = camera.getProjectionMatrix();
-
 	}
 	void OpenGLRenderer::check()
 	{
@@ -34,19 +34,23 @@ namespace hlx
 		if (!m_renderBatch->vertexCount || !m_renderBatch->elementCount)
 			return;
 
+		m_renderBatch->bind();
 		m_renderBatch->vbo->setBufferData(m_renderBatch->vertexCount * sizeof(Vertex), (float*)m_renderBatch->vertexPtr);
 		m_renderBatch->ebo->setBufferData(m_renderBatch->elementCount * sizeof(unsigned int), m_renderBatch->elementPtr);
 
-		m_renderBatch->bind();
 		m_renderBatch->shader->setMat("u_view", m_view);
 		m_renderBatch->shader->setMat("u_projection", m_projection);
 
 		glDrawElements(GL_TRIANGLES, (GLsizei)m_renderBatch->elementCount, GL_UNSIGNED_INT, nullptr);
+
+		m_statistics.drawCalls += 1;
+
+		m_renderBatch->reset();
 	}
 	void OpenGLRenderer::finish()
 	{
 		submit();
-		m_renderBatch->reset();
+		m_statistics.reset();
 	}
 
 	void OpenGLRenderer::clearBuffer()
@@ -112,10 +116,15 @@ namespace hlx
 
 		m_renderBatch->elementCount += 6;
 
+		m_statistics.vertices += 4;
+		m_statistics.triangles += 2;
+
 		check();
 	}
 	void OpenGLRenderer::renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
 	{
+		if (texture == nullptr) return;
+
 		constexpr auto vertices = RenderData::QUAD_VERTICES;
 
 		for (int i = 0; i < vertices; ++i)
@@ -137,9 +146,19 @@ namespace hlx
 		m_renderBatch->textureSlots[m_renderBatch->textureCount] = texture;
 		++m_renderBatch->textureCount;
 
+		m_statistics.vertices += 4;
+		m_statistics.triangles += 2;
+
 		check();
 	}
 
-	//post processing
-	//instancing
+	void OpenGLRenderer::poll()
+	{
+		m_statistics.reset();
+	}
+	RenderStatistics OpenGLRenderer::measure()
+	{
+		m_statistics.tick();
+		return m_statistics;
+	}
 }

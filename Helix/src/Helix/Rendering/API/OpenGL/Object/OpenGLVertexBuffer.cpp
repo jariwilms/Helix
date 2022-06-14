@@ -37,7 +37,6 @@ namespace hlx
 	{
 		bind();
 		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_STATIC_DRAW);
-		unbind();
 	}
 
 	void OpenGLVertexBuffer::reset()
@@ -61,7 +60,5 @@ namespace hlx
 		}
 
 		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
-
-		unbind();
 	}
 }

@@ -18,7 +18,6 @@ namespace hlx
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 #ifdef HLX_DEBUG
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif
@@ -162,19 +161,36 @@ namespace hlx
 		glfwSwapBuffers(m_window);
 		glfwPollEvents();
 	}
-
-	void WindowsWindow::setEventCallback(const EventCallbackFunction& callback)
+	void WindowsWindow::set()
 	{
-		m_properties.callback = callback;
+		glfwMakeContextCurrent(m_window);
 	}
-
-	const WindowsWindowProperties& WindowsWindow::getProperties() const
+	void WindowsWindow::resize(glm::vec2 dimensions)
 	{
-		return m_properties;
+		auto width = static_cast<int>(dimensions.x);
+		auto height = static_cast<int>(dimensions.y);
+
+		glViewport(0, 0, width, height);
+		glScissor(0, 0, width, height);
+
+
 	}
 
 	void* WindowsWindow::getNativeWindow() const
 	{
 		return m_window;
+	}
+	const WindowsWindowProperties& WindowsWindow::getProperties() const
+	{
+		return m_properties;
+	}
+
+	void WindowsWindow::setEventCallback(const EventCallbackFunction& callback)
+	{
+		m_properties.callback = callback;
+	}
+	void WindowsWindow::setVSync(bool state)
+	{
+		glfwSwapInterval(state);
 	}
 }

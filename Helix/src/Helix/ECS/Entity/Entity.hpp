@@ -4,18 +4,18 @@
 
 namespace hlx
 {
-	//class Entity
-	//{
-	//public:
-	//	Entity(uint32_t identifier)
-	//		: m_identifier{ identifier } {}
+	class Entity
+	{
+	public:
+		Entity(uint32_t id)
+			: m_id{ id }
+		{
 
-	//	uint32_t getIdentifier() const
-	//	{
-	//		return m_identifier;
-	//	}
+		}
 
-	//private:
-	//	uint32_t m_identifier;
-	//};
+		uint32_t getId() const { return m_id; }
+
+	private:
+		uint32_t m_id;
+	};
 }

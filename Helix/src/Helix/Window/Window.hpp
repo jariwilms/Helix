@@ -32,11 +32,13 @@ namespace hlx
 		static std::unique_ptr<Window> create(const WindowProperties& m_properties);
 
 		virtual void update() = 0;
-
-		virtual void setEventCallback(const EventCallbackFunction& callback) = 0;
-
-		virtual const WindowProperties& getProperties() const = 0;
+		virtual void set() = 0;
+		virtual void resize(glm::vec2 dimensions) = 0;
 
 		virtual void* getNativeWindow() const = 0;
+		virtual const WindowProperties& getProperties() const = 0;
+
+		virtual void setEventCallback(const EventCallbackFunction& callback) = 0;
+		virtual void setVSync(bool state) = 0;
 	};
 }

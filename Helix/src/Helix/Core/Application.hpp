@@ -30,19 +30,19 @@ namespace hlx
 		Application(const Application&) = delete;
 		virtual ~Application();
 
-		static const Application& getInstance();
-		const Window& getWindow() const;
+		static Application& getInstance();
+		Window& getWindow() const;
+
+		void pushLayer(Layer* layer);
+		void popLayer(Layer* layer);
+		void pushOverlay(Layer* overlay);
+		void popOverlay(Layer* overlay);
+
+		void onEvent(Event& m_event);
 
 		void run();
 		void close();
 
-		void pushLayer(Layer* layer);
-		void pushOverlay(Layer* overlay);
-
-		void onEvent(Event& m_event);
-
-	protected:
-		bool onWindowResizeEvent(WindowResizeEvent& event);
 		bool onWindowCloseEvent(WindowCloseEvent& event);
 
 	private:

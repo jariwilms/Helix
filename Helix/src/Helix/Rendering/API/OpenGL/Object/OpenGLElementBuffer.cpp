@@ -29,7 +29,6 @@ namespace hlx
 	{
 		bind();
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, nullptr, GL_STATIC_DRAW);
-		unbind();
 	}
 
 	void OpenGLElementBuffer::reset()
@@ -45,9 +44,6 @@ namespace hlx
 	void OpenGLElementBuffer::setBufferData(size_t size, const unsigned int* data)
 	{
 		bind();
-
 		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, size, data);
-
-		unbind();
 	}
 }

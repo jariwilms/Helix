@@ -137,11 +137,13 @@
     <ClInclude Include="src\Helix\Rendering\Object\VertexBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\RenderData.hpp" />
     <ClInclude Include="src\Helix\Rendering\Renderer.hpp" />
+    <ClInclude Include="src\Helix\Rendering\RenderStatistics.hpp" />
     <ClInclude Include="src\Helix\Rendering\Shader.hpp" />
     <ClInclude Include="src\Helix\Rendering\Texture.hpp" />
     <ClInclude Include="src\Helix\Scene\Camera\Camera.hpp" />
     <ClInclude Include="src\Helix\Scene\Camera\Projection.hpp" />
     <ClInclude Include="src\Helix\Scene\Scene.hpp" />
+    <ClInclude Include="src\Helix\Widget\RenderStatisticsWidget.hpp" />
     <ClInclude Include="src\Helix\Window\Layer.hpp" />
     <ClInclude Include="src\Helix\Window\LayerStack.hpp" />
     <ClInclude Include="src\Helix\Window\OS\Windows\WindowsWindow.hpp" />

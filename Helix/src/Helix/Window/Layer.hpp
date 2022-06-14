@@ -10,7 +10,7 @@ namespace hlx
 	{
 	public:
 		Layer(const std::string& name = "Layer")
-			:m_name{ name }, enabled{ true } {}
+			:m_name{ name }, m_enabled{ true } {}
 		virtual ~Layer() {}
 
 		virtual void update(DeltaTime deltaTime) {}
@@ -18,20 +18,16 @@ namespace hlx
 
 		virtual void onAttach() {}
 		virtual void onDetach() {}
-		virtual void onEvent(Event& m_event) {}
+		virtual void onEvent(Event& event) {}
 
-		const std::string& getName()
-		{
-			return m_name;
-		}
-		void setName(const std::string& name)
-		{
-			m_name = name;
-		}
+		bool isEnabled() { return m_enabled; }
+		void setEnabled(bool state) { m_enabled = state; }
 
-		bool enabled; //TODO: -> private?
+		const std::string& getName() { return m_name; }
+		void setName(const std::string& name) { m_name = name; }
 
 	protected:
+		bool m_enabled; //TODO: -> private?
 		std::string m_name;
 	};
 }

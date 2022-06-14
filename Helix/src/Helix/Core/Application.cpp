@@ -42,7 +42,6 @@ namespace hlx
 
 		ImGui::StyleColorsDark();
 	}
-
 	Application::~Application()
 	{
 		ImGui_ImplOpenGL3_Shutdown();
@@ -51,14 +50,44 @@ namespace hlx
 		ImGui::DestroyContext();
 	}
 
-	const Application& Application::getInstance()
+	Application& Application::getInstance()
 	{
 		return *s_instance;
 	}
-
-	const Window& Application::getWindow() const
+	Window& Application::getWindow() const
 	{
 		return *m_window;
+	}
+
+	void Application::pushLayer(Layer* layer)
+	{
+		m_layerStack.pushLayer(layer);
+	}
+	void Application::popLayer(Layer* layer)
+	{
+		m_layerStack.popLayer(layer);
+	}
+	void Application::pushOverlay(Layer* overlay)
+	{
+		m_layerStack.pushOverlay(overlay);
+	}
+	void Application::popOverlay(Layer* overlay)
+	{
+		m_layerStack.popOverlay(overlay);
+	}
+
+	void Application::onEvent(Event& m_event)
+	{
+		EventDispatcher dispatcher(m_event);
+		dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowCloseEvent));
+
+		for (auto it = m_layerStack.end(); it != m_layerStack.begin();)
+		{
+			(*--it)->onEvent(m_event);
+
+			if (m_event.handled) 
+				break;
+		}
 	}
 
 	void Application::run()
@@ -70,27 +99,19 @@ namespace hlx
 
 		while (m_running)
 		{
+			if (m_layerStack.empty())
+				close();
+
 			t0 = std::chrono::high_resolution_clock::now();
 
 			Renderer::clearBuffer();
 			Renderer::clearBackground(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
-
-			ImGui_ImplOpenGL3_NewFrame();
-			ImGui_ImplGlfw_NewFrame();
-			ImGui::NewFrame();
 
 			for (Layer* layer : m_layerStack)
 				layer->update(deltaTime);
 
 			for (Layer* layer : m_layerStack)
 				layer->render();
-
-			ImGui::Begin("window");
-			ImGui::Text("hi");
-			ImGui::End();
-
-			ImGui::Render();
-			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 			Input::reset();
 			m_window->update();
@@ -99,47 +120,14 @@ namespace hlx
 			deltaTime = t1 - t0;
 		}
 	}
-
 	void Application::close()
 	{
 		m_running = false;
 	}
 
-	void Application::pushLayer(Layer* layer)
-	{
-		m_layerStack.pushLayer(layer);
-	}
-
-	void Application::pushOverlay(Layer* overlay)
-	{
-		m_layerStack.pushOverlay(overlay);
-	}
-
-	void Application::onEvent(Event& m_event)
-	{
-		EventDispatcher dispatcher(m_event);
-		dispatcher.dispatch<WindowResizeEvent>(BIND_EVENT_FN(onWindowResizeEvent));
-		dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowCloseEvent));
-
-		//HLX_CORE_TRACE("{0}", m_event.toString());
-
-		for (auto it = m_layerStack.end(); it != m_layerStack.begin();)
-		{
-			(*--it)->onEvent(m_event);
-
-			if (m_event.handled) 
-				break;
-		}
-	}
-
-	bool Application::onWindowResizeEvent(WindowResizeEvent& event)
-	{
-		return false;
-	}
-
 	bool Application::onWindowCloseEvent(WindowCloseEvent& event)
 	{
-		close();
+		this->close();
 		return true;
 	}
 

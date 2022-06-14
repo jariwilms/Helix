@@ -37,12 +37,14 @@ namespace hlx
 		virtual ~WindowsWindow();
 
 		void update() override;
-
-		void setEventCallback(const EventCallbackFunction& callback) override;
-
-		const WindowsWindowProperties& getProperties() const override;
+		void set() override;
+		void resize(glm::vec2 dimensions) override;
 
 		void* getNativeWindow() const override;
+		const WindowsWindowProperties& getProperties() const override;
+
+		void setEventCallback(const EventCallbackFunction& callback) override;
+		void setVSync(bool state) override;
 
 	private:
 		GLFWwindow* m_window;

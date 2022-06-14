@@ -49,6 +49,8 @@ namespace hlx
 			}
 		}
 
+		inline bool empty() { return m_layers.empty(); }
+
 		std::vector<Layer*>::iterator begin() { return m_layers.begin(); }
 		std::vector<Layer*>::iterator end() { return m_layers.end(); }
 		std::vector<Layer*>::reverse_iterator rbegin() { return m_layers.rbegin(); }

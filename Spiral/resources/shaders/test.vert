@@ -10,7 +10,7 @@ layout (location = 3) in float 				a_texIndex;
 layout (location = 4) in float 				a_texTiling;
 layout (location = 5) in float 				a_entityId;
 
-layout (location = 0) out vec4 				v_color ;
+layout (location = 0) out vec4 				v_color;
 layout (location = 1) out vec2 				v_texCoord;
 layout (location = 2) out flat float 		v_texIndex;
 layout (location = 3) out float 			v_texTiling;

@@ -4,6 +4,7 @@
 
 #include "glm/glm.hpp"
 
+#include "Helix/Rendering/RenderStatistics.hpp"
 #include "Helix/Rendering/API/RenderAPI.hpp"
 #include "Helix/Rendering/API/OpenGL/Renderer/OpenGLRenderer.hpp"
 #include "Helix/Rendering/Object/VertexArray.hpp"
@@ -30,6 +31,9 @@ namespace hlx
 
 		static void renderQuad(const glm::mat4& transform, const glm::vec4& color = glm::vec4{ 1.0f });
 		static void renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale = 1.0f, const glm::vec4& textureTint = glm::vec4{ 1.0f });
+
+		static void poll();
+		static RenderStatistics measure();
 
 	private:
 		static RenderAPI* s_renderAPI;

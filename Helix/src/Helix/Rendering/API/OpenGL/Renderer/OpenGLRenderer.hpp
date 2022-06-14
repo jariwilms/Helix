@@ -34,11 +34,15 @@ namespace hlx
 		void renderQuad(const glm::mat4& transform, const glm::vec4& color) override;
 		void renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) override;
 
+		void poll() override;
+		RenderStatistics measure() override;
+
 	protected:
 		void check() override;
 		void submit() override;
 
 		std::shared_ptr<RenderBatch> m_renderBatch;
+		RenderStatistics m_statistics;
 
 		glm::mat4 m_view;
 		glm::mat4 m_projection;

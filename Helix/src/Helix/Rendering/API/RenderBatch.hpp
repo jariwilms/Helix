@@ -69,6 +69,7 @@ namespace hlx
 		void bind()
 		{
 			vao->bind();
+			shader->bind();
 
 			for (int i = 0; i < textureCount; ++i)
 				textureSlots.at(i)->bind(i);
@@ -76,8 +77,6 @@ namespace hlx
 
 		void reset()
 		{
-			vao->unbind();
-
 			vertexCount = 0;
 			elementCount = 0;
 			textureCount = 1;

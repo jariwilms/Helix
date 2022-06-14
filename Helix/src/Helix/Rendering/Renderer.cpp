@@ -53,5 +53,14 @@ namespace hlx
 		s_renderAPI->renderQuad(transform, texture, textureScale, textureTint);
 	}
 
+	void Renderer::poll()
+	{
+		s_renderAPI->poll();
+	}
+	RenderStatistics Renderer::measure()
+	{
+		return s_renderAPI->measure();
+	}
+
 	RenderAPI* Renderer::s_renderAPI;
 }
