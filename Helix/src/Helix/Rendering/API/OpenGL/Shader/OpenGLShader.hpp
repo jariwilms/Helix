@@ -7,7 +7,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
-#include "Helix/Rendering/Shader.hpp"
+#include "Helix/Rendering/Shader/Shader.hpp"
 
 namespace hlx
 {

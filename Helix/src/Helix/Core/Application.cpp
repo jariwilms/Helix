@@ -1,20 +1,11 @@
 #include "stdafx.hpp"
-#include "Application.hpp"
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
-
+#include "Helix/Core/Application.hpp"
 #include "Helix/ECS/Registry.hpp"
 #include "Helix/ECS/Component/ComponentArray.hpp"
 
 namespace hlx
 {
-	ApplicationSettings::ApplicationSettings()
-	{
-		glfwInitialized = false;
-	}
-
 	Application::Application()
 		: m_running { true }
 	{
@@ -31,23 +22,12 @@ namespace hlx
 
 		Renderer::init();
 
-
-
-		IMGUI_CHECKVERSION();
-		ImGui::CreateContext(); 
-		ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-		ImGui_ImplOpenGL3_Init("#version 460");
-		ImGui_ImplGlfw_InitForOpenGL((GLFWwindow*)m_window->getNativeWindow(), true);
-
-		ImGui::StyleColorsDark();
+		m_imguiLayer = new ImGuiLayer{};
+		pushLayer(m_imguiLayer);
 	}
 	Application::~Application()
 	{
-		ImGui_ImplOpenGL3_Shutdown();
-		ImGui_ImplGlfw_Shutdown();
 
-		ImGui::DestroyContext();
 	}
 
 	Application& Application::getInstance()
@@ -99,7 +79,7 @@ namespace hlx
 
 		while (m_running)
 		{
-			if (m_layerStack.empty())
+			if (m_layerStack.size() == 1)
 				close();
 
 			t0 = std::chrono::high_resolution_clock::now();
@@ -107,11 +87,17 @@ namespace hlx
 			Renderer::clearBuffer();
 			Renderer::clearBackground(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
+
+
 			for (Layer* layer : m_layerStack)
 				layer->update(deltaTime);
 
 			for (Layer* layer : m_layerStack)
 				layer->render();
+
+
+
+
 
 			Input::reset();
 			m_window->update();

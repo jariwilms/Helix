@@ -67,6 +67,9 @@
     <Filter Include="Helix\Scene\Camera">
       <UniqueIdentifier>{7499CECE-607D-8F24-C9DD-8977B5E079A6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helix\Widget">
+      <UniqueIdentifier>{D2838AE9-BEE6-198E-676C-524453AEE510}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Helix\Window">
       <UniqueIdentifier>{26F48FE9-1257-1F8E-BBDC-5744A71EEB10}</UniqueIdentifier>
     </Filter>
@@ -193,13 +196,16 @@
     <ClInclude Include="src\Helix\Rendering\RenderData.hpp">
       <Filter>Helix\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Renderer.hpp">
+    <ClInclude Include="src\Helix\Rendering\RenderStatistics.hpp">
       <Filter>Helix\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Shader.hpp">
+    <ClInclude Include="src\Helix\Rendering\Renderer\Renderer.hpp">
       <Filter>Helix\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Texture.hpp">
+    <ClInclude Include="src\Helix\Rendering\Shader\Shader.hpp">
+      <Filter>Helix\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Texture\Texture.hpp">
       <Filter>Helix\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Scene\Camera\Camera.hpp">
@@ -211,10 +217,13 @@
     <ClInclude Include="src\Helix\Scene\Scene.hpp">
       <Filter>Helix\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Window\Layer.hpp">
+    <ClInclude Include="src\Helix\Widget\RenderStatisticsWidget.hpp">
+      <Filter>Helix\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Layer\Base\Layer.hpp">
       <Filter>Helix\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Window\LayerStack.hpp">
+    <ClInclude Include="src\Helix\Layer\Base\LayerStack.hpp">
       <Filter>Helix\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Window\OS\Windows\WindowsWindow.hpp">
@@ -225,8 +234,12 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
-    <ClInclude Include="src\Helix\Rendering\RenderStatistics.hpp" />
-    <ClInclude Include="src\Helix\Widget\RenderStatisticsWidget.hpp" />
+    <ClInclude Include="src\Helix\Layer\ImGuiLayer.hpp" />
+    <ClInclude Include="src\Helix\Widget\EntityListWidget.hpp" />
+    <ClInclude Include="src\Helix\Widget\SelectedEntityWidget.hpp" />
+    <ClInclude Include="src\Helix\Widget\ContentBrowserWidget.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Object\FrameBuffer.hpp" />
+    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLFrameBuffer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -271,13 +284,13 @@
     <ClCompile Include="src\Helix\Rendering\Object\VertexBuffer.cpp">
       <Filter>Helix\Rendering\Object</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\Renderer.cpp">
+    <ClCompile Include="src\Helix\Rendering\Renderer\Renderer.cpp">
       <Filter>Helix\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\Shader.cpp">
+    <ClCompile Include="src\Helix\Rendering\Shader\Shader.cpp">
       <Filter>Helix\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\Texture.cpp">
+    <ClCompile Include="src\Helix\Rendering\Texture\Texture.cpp">
       <Filter>Helix\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Scene\Camera\Camera.cpp">
@@ -293,5 +306,8 @@
       <Filter>Helix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\Helix\Layer\ImGuiLayer.cpp" />
+    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLFrameBuffer.cpp" />
+    <ClCompile Include="src\Helix\Rendering\Object\FrameBuffer.cpp" />
   </ItemGroup>
 </Project>

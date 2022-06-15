@@ -6,26 +6,39 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
+#include "Helix/Rendering/Renderer/Renderer.hpp"
 #include "Helix/Rendering/RenderStatistics.hpp"
 
-class RenderStatisticsWidget //merge alles in single imgui utils class?
+namespace hlx
 {
-public:
-	RenderStatisticsWidget() = default;
-
-	static void show(const RenderStatistics& statistics)
+	class RenderStatisticsWidget //merge alles in single imgui utils class?
 	{
-		DeltaTime dt{};
-		dt = statistics.t1 - statistics.t0;
+	public:
+		RenderStatisticsWidget() = default;
 
-		std::string vertices = "Vertices: " + std::to_string(statistics.vertices);
-		std::string triangles = "Triangles: " + std::to_string(statistics.triangles);
-		std::string frametime = std::to_string(dt.toMilliSeconds()) + " ms";
+		void update()
+		{
+			m_statistics = hlx::Renderer::measure();
+		}
 
-		ImGui::Begin("Render Data");
-		ImGui::Text(vertices.c_str());
-		ImGui::Text(triangles.c_str());
-		ImGui::Text(frametime.c_str());
-		ImGui::End();
-	}
-};
+		void renderUI()
+		{
+			DeltaTime dt{};
+			dt = m_statistics.t1 - m_statistics.t0;
+
+			std::string vertices = "Vertices: " + std::to_string(m_statistics.vertices);
+			std::string triangles = "Triangles: " + std::to_string(m_statistics.triangles);
+			std::string frametime = std::to_string(dt.toMilliSeconds()) + " ms";
+
+			bool open = true;
+			ImGui::Begin("Render Data", &open);
+			ImGui::Text(vertices.c_str());
+			ImGui::Text(triangles.c_str());
+			ImGui::Text(frametime.c_str());
+			ImGui::End();
+		}
+
+	private:
+		RenderStatistics m_statistics;
+	};
+}

@@ -9,8 +9,8 @@
 #include "Helix/Rendering/Object/VertexArray.hpp"
 #include "Helix/Rendering/Object/VertexBuffer.hpp"
 #include "Helix/Rendering/Object/ElementBuffer.hpp"
-#include "Helix/Rendering/Shader.hpp"
-#include "Helix/Rendering/Texture.hpp"
+#include "Helix/Rendering/Shader/Shader.hpp"
+#include "Helix/Rendering/Texture/Texture.hpp"
 
 namespace hlx
 {

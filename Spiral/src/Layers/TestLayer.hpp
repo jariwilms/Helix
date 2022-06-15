@@ -3,87 +3,50 @@
 #include <Helix.hpp>
 
 #include "entt/entt.hpp"
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
 
-#include "Helix/core/Application.hpp"
+
+#include "Helix/Core/Application.hpp"
 #include "Helix/Core/DeltaTime.hpp"
+#include "Helix/ECS/Entity/Entity.hpp"
 #include "Helix/Event/Base/Event.hpp"
 #include "Helix/Event/WindowEvent.hpp"
-#include "Helix/ECS/Entity/Entity.hpp"
-#include "Helix/Rendering/Renderer.hpp"
+#include "Helix/Rendering/Renderer/Renderer.hpp"
 #include "Helix/Scene/Scene.hpp"
 #include "Helix/Widget/RenderStatisticsWidget.hpp"
+#include "Helix/Widget/EntityListWidget.hpp"
+#include "Helix/Widget/SelectedEntityWidget.hpp"
 
 class TestLayer : public hlx::Layer
 {
 public:
 	TestLayer()
 	{
-
+		m_scene = new hlx::Scene{};
 	}
 
 	void update(DeltaTime deltaTime) override
 	{
-		m_scene.update(deltaTime);
+		m_scene->update(deltaTime);
+		m_renderStatisticsWidget.update();
+		m_entityListWidget.update(m_scene);
+		m_selectedEntityWidget.setSelectedEntity(m_entityListWidget.getSelectedEntity());
 	}
 
 	void render() override
 	{
-		hlx::Renderer::start(m_scene.getCamera());
+		hlx::Renderer::start(m_scene->getCamera());
 		hlx::Renderer::poll();
 
-		m_scene.render();
+		m_scene->render();
 
-		auto& statistics = hlx::Renderer::measure();
 		hlx::Renderer::finish();
+	}
 
-
-
-		//ImGui_ImplOpenGL3_NewFrame();
-		//ImGui_ImplGlfw_NewFrame();
-		//ImGui::NewFrame();
-
-		//RenderStatisticsWidget::show(statistics);
-
-		//auto& entities = m_scene.getEntities();
-		//static hlx::Entity* selectedEntity = nullptr;
-
-		//ImGui::Begin("Entities");
-		//
-		//if (ImGui::Button("Create"))
-		//{
-		//	m_scene.createEntity();
-		//	selectedEntity = nullptr;
-		//}
-
-		//for (int i = 0; i < entities.size(); ++i)
-		//{
-		//	std::string v = std::to_string(i) + ". " + std::to_string(entities.at(i).getId());
-		//	if (ImGui::Selectable(v.c_str()))
-		//	{
-		//		selectedEntity = &entities.at(i);
-		//	}
-		//}
-
-		//ImGui::End();
-
-
-
-		//ImGui::Begin("Selected");
-		//if (selectedEntity != nullptr)
-		//{
-		//	std::string ent = "Id: " + std::to_string(selectedEntity->getId());
-		//	ImGui::Text(ent.c_str());
-		//}
-		//else ImGui::Text("Nothing selected");
-		//ImGui::End();
-
-
-
-		//ImGui::Render();
-		//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	void renderUI() override
+	{
+		m_renderStatisticsWidget.renderUI();
+		m_entityListWidget.renderUI();
+		m_selectedEntityWidget.renderUI();
 	}
 
 	void onEvent(hlx::Event& event) override
@@ -95,5 +58,9 @@ public:
 	}
 
 private:
-	hlx::Scene m_scene;
+	hlx::Scene* m_scene;
+
+	hlx::RenderStatisticsWidget m_renderStatisticsWidget;
+	hlx::EntityListWidget m_entityListWidget;
+	hlx::SelectedEntityWidget m_selectedEntityWidget;
 };

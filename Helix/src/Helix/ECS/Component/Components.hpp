@@ -2,8 +2,8 @@
 
 #include "Helix/Core/DeltaTime.hpp"
 #include "Helix/Core/Transform.hpp" //todo: move
-#include "Helix/Rendering/Renderer.hpp"
-#include "Helix/Rendering/Texture.hpp"
+#include "Helix/Rendering/Renderer/Renderer.hpp"
+#include "Helix/Rendering/Texture/Texture.hpp"
 
 namespace hlx
 {

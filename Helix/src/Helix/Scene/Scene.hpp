@@ -23,9 +23,10 @@ namespace hlx
 
 		const Camera& getCamera() const { return m_camera; }
 
-		Entity createEntity()
+		Entity& createEntity()
 		{
-			return m_entities.emplace_back((uint32_t)m_registry.create());
+			Entity entity = (uint32_t)m_registry.create();
+			return m_entities.emplace_back(entity);
 		}
 		void destroyEntity(Entity entity)
 		{

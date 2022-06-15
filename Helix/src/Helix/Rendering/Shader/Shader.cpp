@@ -1,7 +1,7 @@
 #include "stdafx.hpp"
 #include "Shader.hpp"
 
-#include "API/OpenGL/Shader/OpenGLShader.hpp"
+#include "Helix/Rendering/API/OpenGL/Shader/OpenGLShader.hpp"
 
 namespace hlx
 {

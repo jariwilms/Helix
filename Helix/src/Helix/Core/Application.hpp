@@ -10,19 +10,14 @@
 #include "Helix/Event/WindowEvent.hpp"
 #include "Helix/Event/KeyEvent.hpp"
 #include "Helix/Event/MouseEvent.hpp"
-#include "Helix/Rendering/Renderer.hpp"
-#include "Helix/Window/LayerStack.hpp"
+#include "Helix/Layer/Base/LayerStack.hpp"
+#include "Helix/Layer/ImGuiLayer.hpp"
+#include "Helix/Layer/ImGuiLayer.hpp"
+#include "Helix/Rendering/Renderer/Renderer.hpp"
 #include "Helix/Window/Window.hpp"
 
 namespace hlx
 {
-	struct ApplicationSettings
-	{
-		ApplicationSettings();
-
-		bool glfwInitialized;
-	};
-
 	class Application
 	{
 	public:
@@ -47,9 +42,9 @@ namespace hlx
 
 	private:
 		static Application* s_instance;
-		ApplicationSettings settings;
 
 		LayerStack m_layerStack;
+		ImGuiLayer* m_imguiLayer;
 
 		std::unique_ptr<Window> m_window;
 		bool m_running;

@@ -19,7 +19,9 @@ namespace hlx
 
 		void pushLayer(Layer* layer)
 		{
+			layer->onAttach();
 			m_layers.emplace(m_layers.begin() + m_layerInsertIndex, layer);
+
 			++m_layerInsertIndex;
 		}
 		void popLayer(Layer* layer)
@@ -30,12 +32,14 @@ namespace hlx
 			{
 				layer->onDetach();
 				m_layers.erase(it);
+
 				--m_layerInsertIndex;
 			}
 		}
 
 		void pushOverlay(Layer* overlay)
 		{
+			overlay->onAttach();
 			m_layers.emplace_back(overlay);
 		}
 		void popOverlay(Layer* overlay)
@@ -49,6 +53,7 @@ namespace hlx
 			}
 		}
 
+		inline size_t size() { return m_layers.size(); }
 		inline bool empty() { return m_layers.empty(); }
 
 		std::vector<Layer*>::iterator begin() { return m_layers.begin(); }

@@ -6,7 +6,7 @@
 #include "stb/stb_image.h"
 #pragma warning(default: 26819 6262 26451)
 
-#include "Helix/Rendering/Texture.hpp"
+#include "Helix/Rendering/Texture/Texture.hpp"
 
 namespace hlx
 {

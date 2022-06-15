@@ -15,8 +15,8 @@
 // ### SCENE ### //
 
 // !!! EVENT !!! //
-#include "Helix/Window/Layer.hpp"
-#include "Helix/Window/LayerStack.hpp"
+#include "Helix/Layer/Base/Layer.hpp"
+#include "Helix/Layer/Base/LayerStack.hpp"
 
 #include "Helix/Event/Base/Event.hpp"
 #include "Helix/Event/Base/EventDispatcher.hpp"
@@ -42,13 +42,13 @@
 // ### MATH ### //
 
 // !!! RENDERING !!! //
-#include "Helix/Rendering/Renderer.hpp"
+#include "Helix/Rendering/Renderer/Renderer.hpp"
 
 #include "Helix/Scene/Camera/Projection.hpp"
 #include "Helix/Scene/Camera/Camera.hpp"
 
-#include "Helix/Rendering/Shader.hpp"
-#include "Helix/Rendering/Texture.hpp"
+#include "Helix/Rendering/Shader/Shader.hpp"
+#include "Helix/Rendering/Texture/Texture.hpp"
 
 #include "Helix/Rendering/Object/BufferObject.hpp"
 #include "Helix/Rendering/Object/BufferLayout.hpp"

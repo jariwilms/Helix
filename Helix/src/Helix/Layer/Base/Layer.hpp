@@ -15,6 +15,7 @@ namespace hlx
 
 		virtual void update(DeltaTime deltaTime) {}
 		virtual void render() {}
+		virtual void renderUI() {}
 
 		virtual void onAttach() {}
 		virtual void onDetach() {}
