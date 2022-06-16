@@ -58,6 +58,8 @@ namespace hlx
 
 			WindowResizeEvent m_event(width, height);
 			m_properties.callback(m_event);
+
+			//glViewport(0, 0, width, height);
 		};
 		auto window_close_lambda = [](GLFWwindow* m_window)
 		{

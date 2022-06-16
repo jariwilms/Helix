@@ -8,6 +8,8 @@ namespace hlx
 	class BufferObject
 	{
 	public:
+		virtual ~BufferObject() {}
+
 		virtual void bind() const = 0;
 		virtual void unbind() const = 0;
 
@@ -16,7 +18,6 @@ namespace hlx
 
 	protected:
 		BufferObject() : m_objectId{} {}
-		virtual ~BufferObject() {}
 
 		unsigned int m_objectId;
 	};

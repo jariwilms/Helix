@@ -95,7 +95,10 @@ namespace hlx
 			for (Layer* layer : m_layerStack)
 				layer->render();
 
-
+			m_imguiLayer->start();
+			for (Layer* layer : m_layerStack)
+				layer->renderUI();
+			m_imguiLayer->finish();
 
 
 

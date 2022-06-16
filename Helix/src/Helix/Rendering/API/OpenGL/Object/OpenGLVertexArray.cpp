@@ -16,6 +16,7 @@ namespace hlx
 	void OpenGLVertexArray::bind() const
 	{
 		glBindVertexArray(m_objectId);
+
 		m_elementBuffer->bind();
 	}
 

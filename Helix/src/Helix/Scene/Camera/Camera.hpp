@@ -35,6 +35,8 @@ namespace hlx
 		const glm::mat4& getViewMatrix() const;
 		const glm::mat4& getProjectionMatrix() const;
 
+		void setScreenDimensions(glm::vec2 dimensions);
+
 		Projection::OrthographicSettings getOrthographicProjectionSettings() const;
 		void setOrthographicSettings(const Projection::OrthographicSettings& settings);
 

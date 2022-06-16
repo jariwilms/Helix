@@ -63,7 +63,6 @@ namespace hlx
 
 			textureSlots[0] = (Texture::create("textures/white.png"));
 			shader = Shader::create("shaders/test.vert", "shaders/test.frag");
-			shader->bind();
 		}
 
 		void bind()
@@ -72,7 +71,7 @@ namespace hlx
 			shader->bind();
 
 			for (int i = 0; i < textureCount; ++i)
-				textureSlots.at(i)->bind(i);
+				textureSlots.at(i)->bindUnit(i);
 		}
 
 		void reset()

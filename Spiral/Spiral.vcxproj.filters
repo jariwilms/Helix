@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Layers">
+    <Filter Include="Layer">
       <UniqueIdentifier>{157446C0-0116-7196-EAD0-84EAD611F8E6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Layers\TestLayer.hpp">
-      <Filter>Layers</Filter>
+    <ClInclude Include="src\Layer\TestLayer.hpp">
+      <Filter>Layer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Layer\EditorLayer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Spiral.cpp" />
+    <ClCompile Include="src\Layer\EditorLayer.cpp" />
   </ItemGroup>
 </Project>

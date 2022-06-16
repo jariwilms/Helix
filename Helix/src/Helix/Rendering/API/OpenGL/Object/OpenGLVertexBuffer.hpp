@@ -12,7 +12,6 @@ namespace hlx
 	class OpenGLVertexBuffer : public VertexBuffer
 	{
 	public:
-		OpenGLVertexBuffer();
 		OpenGLVertexBuffer(size_t size, const float* data);
 		~OpenGLVertexBuffer() override;
 		
@@ -21,8 +20,6 @@ namespace hlx
 
 		void resize(size_t size) override;
 		void reset() override;
-
-		void setLayout(const BufferLayout& layout) override;
 
 		void setBufferData(size_t size, const float* data) override;
 	};

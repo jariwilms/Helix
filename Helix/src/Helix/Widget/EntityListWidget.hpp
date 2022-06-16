@@ -15,7 +15,7 @@ namespace hlx
 	{
 	public:
 		EntityListWidget()
-			: m_entities{ nullptr }, m_selectedEntity{ nullptr } {}
+			: m_scene{}, m_entities {}, m_selectedEntity{} {}
 
 		void update(Scene* scene)
 		{

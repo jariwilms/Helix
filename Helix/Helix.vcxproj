@@ -151,6 +151,7 @@
     <ClInclude Include="src\Helix\Widget\RenderStatisticsWidget.hpp" />
     <ClInclude Include="src\Helix\Layer\Base\Layer.hpp" />
     <ClInclude Include="src\Helix\Layer\Base\LayerStack.hpp" />
+    <ClInclude Include="src\Helix\Widget\SceneRenderWidget.hpp" />
     <ClInclude Include="src\Helix\Widget\SelectedEntityWidget.hpp" />
     <ClInclude Include="src\Helix\Window\OS\Windows\WindowsWindow.hpp" />
     <ClInclude Include="src\Helix\Window\Window.hpp" />

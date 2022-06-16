@@ -5,6 +5,14 @@
 
 namespace hlx
 {
+	Texture::Texture()
+		: m_textureId{}, m_width{}, m_height{}, m_channels{}, m_data{}, m_internalFormat{}, m_dataFormat{}, m_status{} {}
+
+	Texture::~Texture()
+	{
+		stbi_image_free(m_data);
+	}
+
 	std::shared_ptr<Texture> Texture::create(const std::filesystem::path& path)
 	{
 		return IO::load<Texture>(path);
@@ -13,18 +21,5 @@ namespace hlx
 	std::shared_ptr<Texture> Texture::create(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data)
 	{
 		return std::make_shared<OpenGLTexture>(width, height, channels, data);
-	}
-
-	Texture::Texture(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data)
-		: m_textureId{}, m_width{ width }, m_height{ height }, m_channels{ channels }, m_data{ data }, m_internalFormat{}, m_dataFormat{}, m_status{} {}
-
-	Texture::~Texture()
-	{
-		stbi_image_free(m_data);
-	}
-
-	bool Texture::verify() const
-	{
-		return m_status;
 	}
 }

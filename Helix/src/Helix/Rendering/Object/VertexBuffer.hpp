@@ -13,17 +13,19 @@ namespace hlx
 	class VertexBuffer : public BufferObject
 	{
 	public:
-		static std::shared_ptr<VertexBuffer> create();
+		virtual ~VertexBuffer() {}
+
 		static std::shared_ptr<VertexBuffer> create(size_t size, const float* data = nullptr);
 		
-		const BufferLayout& getLayout() const;
-		virtual void setLayout(const BufferLayout& layout) = 0;
+		inline size_t getSize() const { return m_bufferSize; }
+
+		inline virtual const BufferLayout& getLayout() const { return m_layout; }
+		inline virtual void setLayout(const BufferLayout& layout) { m_layout = layout; }
 
 		virtual void setBufferData(size_t size, const float* data) = 0;
 
 	protected:
 		VertexBuffer() : m_bufferSize{} {}
-		VertexBuffer(size_t size) : m_bufferSize{ size } {}
 
 		BufferLayout m_layout;
 		size_t m_bufferSize;

@@ -10,14 +10,10 @@ namespace hlx
 	{
 		this->transform.rotation.y -= 90.0f;
 
-		auto& dims = Application::getInstance().getWindow().getProperties().dimensions;
-		float aspectRatio = static_cast<float>(dims.x) / static_cast<float>(dims.y);
-
-		m_orthographicProjectionSettings.leftPlane = -aspectRatio;
-		m_orthographicProjectionSettings.rightPlane = aspectRatio;
-		m_perspectiveProjectionSettings.aspectRatio = aspectRatio;
-
 		setProjectionType(projectionType);
+
+		auto& dims = Application::getInstance().getWindow().getProperties().dimensions;
+		setScreenDimensions(dims);
 	}
 
 	void Camera::update(DeltaTime deltaTime)
@@ -68,6 +64,7 @@ namespace hlx
 			case Mode::Target:
 				m_viewMatrix = glm::lookAt(transform.position, m_targetPosition, m_up);
 				break;
+
 			default:
 				break;
 		}
@@ -108,6 +105,17 @@ namespace hlx
 	const glm::mat4& Camera::getProjectionMatrix() const
 	{
 		return m_projectionMatrix;
+	}
+
+	void Camera::setScreenDimensions(glm::vec2 dimensions)
+	{
+		float aspectRatio = dimensions.x / dimensions.y;
+
+		m_orthographicProjectionSettings.leftPlane = -aspectRatio;
+		m_orthographicProjectionSettings.rightPlane = aspectRatio;
+		m_perspectiveProjectionSettings.aspectRatio = aspectRatio;
+
+		setProjectionType(getProjectionType()); //scuffed update
 	}
 
 	Projection::OrthographicSettings Camera::getOrthographicProjectionSettings() const

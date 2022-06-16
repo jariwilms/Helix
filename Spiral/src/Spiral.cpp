@@ -1,19 +1,19 @@
 #include "main.hpp"
 
-#include "Layers/TestLayer.hpp"
+#include "Layer/EditorLayer.hpp"
 
-class Sandbox : public hlx::Application
+class Spiral : public hlx::Application
 {
 public:
-	Sandbox();
+	Spiral();
 };
 
-Sandbox::Sandbox() 
+Spiral::Spiral() 
 {
-	pushLayer(new TestLayer{});
+	pushLayer(new EditorLayer{});
 }
 
 hlx::Application* hlx::createApplication()
 {
-	return new Sandbox();
+	return new Spiral();
 }

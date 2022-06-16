@@ -13,7 +13,7 @@ namespace hlx
 
 		auto& c1 = addComponent<TransformComponent>(e1);
 		c1.transform.translate(glm::vec3{ 0.4f, 0.0f, 0.0f });
-		addComponent<SpriteComponent>(e1, "textures/kiryu.png");
+		auto& t1 = addComponent<SpriteComponent>(e1, "textures/kiryu.png");
 
 		auto& c2 = addComponent<TransformComponent>(e2);
 		c2.transform.translate(glm::vec3{ -0.4f, 0.0f, 0.0f });

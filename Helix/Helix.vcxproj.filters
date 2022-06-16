@@ -240,6 +240,7 @@
     <ClInclude Include="src\Helix\Widget\ContentBrowserWidget.hpp" />
     <ClInclude Include="src\Helix\Rendering\Object\FrameBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLFrameBuffer.hpp" />
+    <ClInclude Include="src\Helix\Widget\SceneRenderWidget.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">

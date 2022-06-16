@@ -91,9 +91,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Layers\TestLayer.hpp" />
+    <ClInclude Include="src\Layer\EditorLayer.hpp" />
+    <ClInclude Include="src\Layer\TestLayer.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Layer\EditorLayer.cpp" />
     <ClCompile Include="src\Spiral.cpp" />
   </ItemGroup>
   <ItemGroup>

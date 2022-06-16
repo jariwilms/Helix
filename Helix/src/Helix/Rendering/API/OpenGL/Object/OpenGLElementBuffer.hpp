@@ -21,8 +21,6 @@ namespace hlx
 		virtual void resize(size_t size) override;
 		virtual void reset() override;
 
-		size_t getSize() const override;
-
 		void setBufferData(size_t size, const unsigned int* data) override;
 	};
 }

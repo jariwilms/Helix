@@ -36,8 +36,7 @@ namespace hlx
 		virtual void setMat(const std::string& identifier, const glm::mat4& value) = 0;
 
 	protected:
-		Shader()
-			: m_status{}, m_programId{} {}
+		Shader() : m_status{}, m_programId{} {}
 
 		virtual bool checkProgramStatus(unsigned int programId) = 0;
 		virtual bool checkShaderStatus(unsigned int shaderId) = 0;
@@ -48,8 +47,9 @@ namespace hlx
 		virtual unsigned int create(unsigned int type) = 0;
 		virtual bool compile(unsigned int shaderId, const std::string& source) = 0;
 
-		bool m_status;;
+		bool m_status;
 		unsigned int m_programId;
+
 		std::unordered_map<std::string, int> m_uniformLocationCache;
 	};
 }

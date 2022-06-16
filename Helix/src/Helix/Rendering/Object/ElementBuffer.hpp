@@ -12,9 +12,11 @@ namespace hlx
 	class ElementBuffer : public BufferObject
 	{
 	public:
+		virtual ~ElementBuffer() {}
+
 		static std::shared_ptr<ElementBuffer> create(size_t size, const unsigned int* data = nullptr);
 
-		virtual size_t getSize() const = 0;
+		inline size_t getSize() const { return m_bufferSize; }
 
 		virtual void setBufferData(size_t size, const unsigned int* data) = 0;
 
