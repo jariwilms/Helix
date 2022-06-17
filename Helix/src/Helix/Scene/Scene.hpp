@@ -2,13 +2,10 @@
 
 #include "stdafx.hpp"
 
-#pragma warning(disable: 26819 26439 28020)
-#include "entt/entt.hpp"
-#pragma warning(default: 26819 26439 28020)
-
-#include "Helix/ECS/Entity/Entity.hpp"
-#include "Helix/Scene/Camera/Camera.hpp"
 #include "Helix/ECS/Component/Components.hpp"
+#include "Helix/ECS/Entity/Entity.hpp"
+#include "Helix/ECS/Registry.hpp"
+#include "Helix/Scene/Camera/Camera.hpp"
 
 namespace hlx
 {
@@ -25,50 +22,33 @@ namespace hlx
 
 		Entity& createEntity()
 		{
-			Entity entity = (uint32_t)m_registry.create();
-			return m_entities.emplace_back(entity);
+			Entity entity = Entity{ m_registry.createEntity(), this };
+			return m_entities.emplace_back(entity); //move?
 		}
-		void destroyEntity(Entity entity)
+		void destroyEntity(const Entity& entity)
 		{
-			auto ent = std::find_if(m_entities.begin(), m_entities.end(), [&](const Entity& _) { return _.getId() == entity.getId(); });
-			if (ent != m_entities.end()) m_entities.erase(ent);
+			m_registry.destroyEntity(entity);
 
-			m_registry.destroy((entt::entity)entity.getId());
+			auto it = std::find_if(m_entities.begin(), m_entities.end(), [&](const Entity& _) { return _.getId() == entity.getId(); });
+			if (it != m_entities.end()) m_entities.erase(it); 
+			else HLX_CORE_ERROR("The given entity was not found: {0}", entity.getId());
 		}
-		Entity getEntity(size_t index) const
+		Entity& getEntity(size_t index)
 		{
-			return m_entities.at(index);
+			 if (index > -1 && index < m_entities.size()) return m_entities.at(index);
+			 HLX_CORE_ERROR("Given entity index is out of range: {0}", index);
 		}
 		std::vector<Entity>& getEntities()
 		{
 			return m_entities;
 		}
 
-		template<typename Component, typename... Args>
-		Component& addComponent(Entity entity, Args&&... args)
-		{
-			return m_registry.emplace<Component>((entt::entity)entity.getId(), args...);
-		}
-		template<typename Component>
-		bool hasComponent(Entity entity)
-		{
-			return m_registry.any_of<Component>((entt::entity)entity.getId());
-		}
-		template<typename Component>
-		Component& getComponent(Entity entity)
-		{
-			return m_registry.get<Component>((entt::entity)entity.getId());
-		}
-		template<typename Component>
-		void removeComponent(Entity entity)
-		{
-			m_registry.remove<Component>(entity);
-		}
+		Registry& getRegistry() { return m_registry; }
 
 	private:
 		Camera m_camera;
 
-		entt::registry m_registry;
+		Registry m_registry;
 		std::vector<Entity> m_entities;
 	};
 }

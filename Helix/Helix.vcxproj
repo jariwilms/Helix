@@ -97,6 +97,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Helix\ECS\Registry.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLFrameBuffer.hpp" />
     <ClInclude Include="src\Helix.hpp" />
     <ClInclude Include="src\Helix\Core\Application.hpp" />
@@ -109,7 +110,6 @@
     <ClInclude Include="src\Helix\ECS\Coordinator.hpp" />
     <ClInclude Include="src\Helix\ECS\Entity\Entity.hpp" />
     <ClInclude Include="src\Helix\ECS\Network.hpp" />
-    <ClInclude Include="src\Helix\ECS\Registry.hpp" />
     <ClInclude Include="src\Helix\ECS\System\System.hpp" />
     <ClInclude Include="src\Helix\Event\ApplicationEvent.hpp" />
     <ClInclude Include="src\Helix\Event\Base\Event.hpp" />

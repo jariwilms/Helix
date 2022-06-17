@@ -81,7 +81,8 @@ namespace hlx
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 			auto& texture = m_frameBuffer->getTexture();
-			ImGui::Image((ImTextureID)texture->getId(), ImVec2((float)texture->getWidth(), (float)texture->getHeight()), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+			ImGui::Image((ImTextureID)((size_t)texture->getId()), ImVec2((float)texture->getWidth(), (float)texture->getHeight()), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+			//scuffed typecast fix zodat de compiler stopt met b!tchen
 
 
 

@@ -5,7 +5,6 @@ EditorLayer::EditorLayer()
 	: m_scene{ new hlx::Scene{} }
 {
 	m_entityListWidget.setScene(m_scene);
-	m_selectedEntityWidget.setScene(m_scene);
 }
 
 void EditorLayer::update(DeltaTime deltaTime) 

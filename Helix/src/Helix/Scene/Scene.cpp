@@ -8,16 +8,15 @@ namespace hlx
 		m_camera = Camera{ Transform{ glm::vec3{ 0.0f, 0.0f, 3.0f } } };
 		m_camera.setProjectionType(Projection::Type::Perspective);
 
-		auto e1 = createEntity();
-		auto e2 = createEntity();
+		auto& entity1 = createEntity();
+		auto& transform1 = entity1.addComponent<TransformComponent>();
+		transform1.transform.translate(glm::vec3{ 0.4f, 0.0f, 0.0f });
+		auto& sprite1 = entity1.addComponent<SpriteComponent>("textures/kiryu.png");
 
-		auto& c1 = addComponent<TransformComponent>(e1);
-		c1.transform.translate(glm::vec3{ 0.4f, 0.0f, 0.0f });
-		auto& t1 = addComponent<SpriteComponent>(e1, "textures/kiryu.png");
-
-		auto& c2 = addComponent<TransformComponent>(e2);
-		c2.transform.translate(glm::vec3{ -0.4f, 0.0f, 0.0f });
-		addComponent<SpriteComponent>(e2, "textures/missing.png");
+		auto& entity2 = createEntity();
+		auto& transform2 = entity2.addComponent<TransformComponent>();
+		transform2.transform.translate(glm::vec3{ -0.4f, 0.0f, 0.0f });
+		entity2.addComponent<SpriteComponent>("textures/missing.png");
 	}
 
 	void Scene::update(DeltaTime deltaTime)

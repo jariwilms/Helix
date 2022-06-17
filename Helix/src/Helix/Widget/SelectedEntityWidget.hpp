@@ -13,7 +13,7 @@ namespace hlx
 	class SelectedEntityWidget : public Widget
 	{
 	public:
-		SelectedEntityWidget() : m_scene{}, m_selectedEntity {} {}
+		SelectedEntityWidget() : m_selectedEntity {} {}
 
 		void renderUI() override
 		{
@@ -24,9 +24,9 @@ namespace hlx
 				std::string ent = "Id: " + std::to_string(m_selectedEntity->getId());
 				ImGui::Text(ent.c_str());
 
-				if (m_scene->hasComponent<TransformComponent>(*m_selectedEntity))
+				if (m_selectedEntity->hasComponent<TransformComponent>())
 				{
-					auto& component = m_scene->getComponent<TransformComponent>(*m_selectedEntity);
+					auto& component = m_selectedEntity->getComponent<TransformComponent>();
 					auto& position = component.transform.position;
 					auto& rotation = component.transform.rotation;
 					auto& scale = component.transform.scale;
@@ -42,11 +42,9 @@ namespace hlx
 			ImGui::End();
 		}
 
-		void setScene(Scene* scene) { m_scene = scene; }
 		void setSelectedEntity(Entity* entity) { m_selectedEntity = entity; }
 
 	private:
-		Scene* m_scene;
 		Entity* m_selectedEntity;
 	};
 }

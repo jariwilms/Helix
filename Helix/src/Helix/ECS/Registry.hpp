@@ -1,113 +1,72 @@
 #pragma once
 
-#include "stdafx.hpp"
+#pragma warning(disable: 26819 26439 28020)
+#include "entt/entt.hpp"
+#pragma warning(default: 26819 26439 28020)
 
+#include "Helix/ECS/Component/Components.hpp"
 #include "Helix/ECS/Entity/Entity.hpp"
-#include "Helix/ECS/Component/ComponentArray.hpp"
 
 namespace hlx
 {
-	//using Component = uint32_t;
-	//using Identifier = size_t;
+	class Registry
+	{
+	using globalIdentifier = uint32_t;
+	using localIdentifier = entt::entity;
 
-	//class Registry
-	//{
-	//public:
-	//	Registry()
-	//		: m_entityCount{}, m_newComponentId {}
-	//	{
-	//		for (int i = 0; i < 256; ++i)
-	//			m_availableEntities.push(i);
-	//	}
+	public:
+		Registry() = default;
+		~Registry() = default;
 
-	//	Entity createEntity()
-	//	{
-	//		if (m_availableEntities.empty())
-	//		{
-	//			HLX_CORE_ERROR("Failed to create entity: out of valid identifiers");
-	//			return -1;
-	//		}
+		globalIdentifier createEntity()
+		{
+			return castToGlobalIdentifier(m_registry.create());
+		}
+		void destroyEntity(const Entity& entity)
+		{
+			m_registry.destroy(castToRegistryIdentifier(entity));
+		}
 
-	//		auto id = m_availableEntities.front();
-	//		m_availableEntities.pop();
-	//		++m_entityCount;
+		template<typename Component, typename... Args>
+		Component& addComponent(const Entity& entity, Args&&... args)
+		{
+			return m_registry.emplace<Component>(castToRegistryIdentifier(entity), args...);
+		}
+		template<typename Component>
+		bool hasComponent(const Entity& entity)
+		{
+			return m_registry.any_of<Component>(castToRegistryIdentifier(entity));
+		}
+		template<typename Component>
+		Component& getComponent(const Entity& entity)
+		{
+			return m_registry.get<Component>(castToRegistryIdentifier(entity));
+		}
+		template<typename Component>
+		void removeComponent(const Entity& entity)
+		{
+			m_registry.remove<Component>(castToRegistryIdentifier(entity));
+		}
 
-	//		return id;
-	//	}
+		template<typename Component, typename... Other, typename... Exclude>
+		entt::basic_view<entt::entity, entt::get_t<Component, Other...>, entt::exclude_t<Exclude...>> view(entt::exclude_t<Exclude...> = {}) 
+		{
+			return m_registry.view<Component, Other..., Exclude...>(); //ik snap er geen kak van lol
 
-	//	void destroyEntity(Entity entity)
-	//	{
-	//		m_availableEntities.push(entity);
-	//		--m_entityCount;
-	//	}
+			//ja bro return gewoon 
+			//entt::basic_view<entt::entity<entt::registry<entt::identifier<entt::exclude_list...<entt::exclude_t::options::opt...>>>, entt::entity<T identifier>>();
+			//totaal niet confusing
+		}
+		template<typename... Owned, typename... Exclude>
+		entt::basic_group<entt::entity, entt::owned_t<Owned...>, entt::get_t<>, entt::exclude_t<Exclude...>> group(entt::exclude_t<Exclude...> = {})
+		{
+			return m_registry.group<Owned...>();
+		}
 
-	//	template <typename Component>
-	//	Component& addComponent(Entity entity)
-	//	{
-	//		auto& info = typeid(Component);
-	//		auto hash = info.hash_code();
+	private:
+		globalIdentifier castToGlobalIdentifier(entt::entity entity) { return static_cast<globalIdentifier>(entity); }
+		localIdentifier castToRegistryIdentifier(const Entity& entity) { return static_cast<localIdentifier>(entity.getId()); }
 
-	//		if (m_componentIdentifiers.find(hash) == m_componentIdentifiers.end())
-	//			registerComponent<Component>(hash);
-
-	//		return getComponentArray<Component>()->addComponent(entity);
-	//	}
-
-	//	template <typename Component>
-	//	bool hasComponent(Entity entity)
-	//	{
-	//		return getComponentArray<Component>()->hasComponent(entity);
-	//	}
-
-	//	template <typename Component>
-	//	Component& getComponent(Entity entity)
-	//	{
-	//		return getComponentArray<Component>()->getComponent(entity);
-	//	}
-
-	//	template <typename Component>
-	//	void removeComponent(Entity entity)
-	//	{
-	//		getComponentArray<Component>()->removeComponent(entity);
-	//	}
-
-	//private:
-	//	template <typename Component>
-	//	void registerComponent(size_t hash)
-	//	{
-	//		m_componentIdentifiers.insert(std::make_pair(hash, m_newComponentId));
-	//		m_componentArrays.insert(std::make_pair(hash, std::make_shared<ComponentArray<Component>>()));
-
-	//		++m_newComponentId;
-	//	}
-
-	//	template <typename Component>
-	//	const std::shared_ptr<ComponentArray<Component>> getComponentArray()
-	//	{
-	//		assertExistence<Component>();
-
-	//		auto& info = typeid(Component);
-	//		auto hash = info.hash_code();
-
-	//		HLX_CORE_ASSERT(m_componentArrays.find(hash) != m_componentArrays.end(), "Component array does not exist");
-
-	//		return std::static_pointer_cast<ComponentArray<Component>>(m_componentArrays[hash]);
-	//	}
-
-	//	template <typename Component>
-	//	void assertExistence()
-	//	{
-	//		auto& info = typeid(Component);
-	//		auto hash = info.hash_code();
-
-	//		HLX_CORE_ASSERT(m_componentIdentifiers.find(hash) != m_componentIdentifiers.end(), "Component does not exist");
-	//	}
-
-	//	std::queue<Entity> m_availableEntities;
-	//	size_t m_entityCount;
-
-	//	std::unordered_map<Identifier, std::shared_ptr<IComponentVector>> m_componentArrays; //Pointer to component array
-	//	std::unordered_map<Identifier, Component> m_componentIdentifiers; //Identifier per component
-	//	uint32_t m_newComponentId;
-	//};
+		entt::registry m_registry;
+	};
 }

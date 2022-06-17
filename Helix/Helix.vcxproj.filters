@@ -112,9 +112,6 @@
     <ClInclude Include="src\Helix\ECS\Network.hpp">
       <Filter>Helix\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\ECS\Registry.hpp">
-      <Filter>Helix\ECS</Filter>
-    </ClInclude>
     <ClInclude Include="src\Helix\ECS\System\System.hpp">
       <Filter>Helix\ECS\System</Filter>
     </ClInclude>
@@ -245,6 +242,7 @@
     <ClInclude Include="src\Helix\Rendering\RenderState.hpp" />
     <ClInclude Include="src\Helix\Widget\Component\TransformComponentWidget.hpp" />
     <ClInclude Include="src\Helix\Widget\WidgetData.hpp" />
+    <ClInclude Include="src\Helix\ECS\Registry.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
