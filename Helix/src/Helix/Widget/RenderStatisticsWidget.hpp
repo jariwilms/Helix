@@ -8,15 +8,16 @@
 
 #include "Helix/Rendering/Renderer/Renderer.hpp"
 #include "Helix/Rendering/RenderStatistics.hpp"
+#include "Helix/Widget/Base/Widget.hpp"
 
 namespace hlx
 {
-	class RenderStatisticsWidget //merge alles in single imgui utils class?
+	class RenderStatisticsWidget : public Widget
 	{
 	public:
 		RenderStatisticsWidget() = default;
 
-		void update()
+		void update(DeltaTime deltaTime)
 		{
 			m_statistics = hlx::Renderer::measure();
 		}

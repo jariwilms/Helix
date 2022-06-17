@@ -50,9 +50,14 @@ namespace hlx
 			return m_registry.emplace<Component>((entt::entity)entity.getId(), args...);
 		}
 		template<typename Component>
+		bool hasComponent(Entity entity)
+		{
+			return m_registry.any_of<Component>((entt::entity)entity.getId());
+		}
+		template<typename Component>
 		Component& getComponent(Entity entity)
 		{
-			return m_registry.get<Component>(entity);
+			return m_registry.get<Component>((entt::entity)entity.getId());
 		}
 		template<typename Component>
 		void removeComponent(Entity entity)

@@ -2,21 +2,20 @@
 
 #include "stdafx.hpp"
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
-
+#include "Helix/Scene/Scene.hpp"
+#include "Helix/ECS/Component/Components.hpp"
 #include "Helix/ECS/Entity/Entity.hpp"
+#include "Helix/Widget/Base/Widget.hpp"
+#include "Helix/Widget/Component/TransformComponentWidget.hpp"
 
 namespace hlx
 {
-	class SelectedEntityWidget
+	class SelectedEntityWidget : public Widget
 	{
 	public:
-		SelectedEntityWidget()
-			:m_selectedEntity{ nullptr } {}
+		SelectedEntityWidget() : m_scene{}, m_selectedEntity {} {}
 
-		void renderUI()
+		void renderUI() override
 		{
 			ImGui::Begin("Selected");
 
@@ -24,18 +23,30 @@ namespace hlx
 			{
 				std::string ent = "Id: " + std::to_string(m_selectedEntity->getId());
 				ImGui::Text(ent.c_str());
+
+				if (m_scene->hasComponent<TransformComponent>(*m_selectedEntity))
+				{
+					auto& component = m_scene->getComponent<TransformComponent>(*m_selectedEntity);
+					auto& position = component.transform.position;
+					auto& rotation = component.transform.rotation;
+					auto& scale = component.transform.scale;
+
+					ImGui::CollapsingHeader("Transform");
+					ImGui::InputFloat("X", &position.x, 0.1f);
+					ImGui::InputFloat("Y", &position.y, 0.1f);
+					ImGui::InputFloat("Z", &position.z, 0.1f);
+				}
 			}
 			else ImGui::Text("Nothing selected");
 
 			ImGui::End();
 		}
 
-		void setSelectedEntity(Entity* entity)
-		{
-			m_selectedEntity = entity;
-		}
+		void setScene(Scene* scene) { m_scene = scene; }
+		void setSelectedEntity(Entity* entity) { m_selectedEntity = entity; }
 
 	private:
+		Scene* m_scene;
 		Entity* m_selectedEntity;
 	};
 }

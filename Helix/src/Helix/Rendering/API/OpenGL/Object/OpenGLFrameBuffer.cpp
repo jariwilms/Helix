@@ -22,10 +22,8 @@ namespace hlx
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
 
 
-
 		auto a = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-		HLX_CORE_ASSERT(a == GL_FRAMEBUFFER_COMPLETE, "Framebuffer is not complete. ERROR [{0}]", a);
-
+		HLX_CORE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Framebuffer is not complete. ERROR [{0}]");
 		unbind();
 	}
 	OpenGLFrameBuffer::~OpenGLFrameBuffer()
@@ -41,15 +39,6 @@ namespace hlx
 	void OpenGLFrameBuffer::unbind() const
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	}
-
-	void OpenGLFrameBuffer::resize(unsigned int width, unsigned int height)
-	{
-
-	}
-	void OpenGLFrameBuffer::reset()
-	{
-		m_texture->reset();
 	}
 
 	void OpenGLFrameBuffer::bindTexture() const

@@ -6,10 +6,10 @@ namespace hlx
 	OpenGLTexture::OpenGLTexture(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data)
 	{
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_textureId);
+
 		bind();
 
-		if (data) setBufferData(width, height, channels, data);
-		else resize(width, height, channels);
+		setTextureData(width, height, channels, data);
 
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -17,6 +17,7 @@ namespace hlx
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+		stbi_image_free(m_data);
 		m_status = true;
 
 		unbind();
@@ -39,36 +40,21 @@ namespace hlx
 		glBindTexture(GL_TEXTURE_2D, 0); 
 	}
 
-	void OpenGLTexture::resize(unsigned int width, unsigned int height, unsigned int channels)
+	void OpenGLTexture::setTextureData(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data)
 	{
-		if (width == getWidth() && height == getHeight() && channels == getChannels())
-			return;
-
 		bind();
 
 		m_width = width;
 		m_height = height;
 		m_channels = channels;
+		m_data = data;
+
 		m_dataFormat = OpenGL::getImageFormat(channels);
+		m_internalFormat = GL_RGBA32F;
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, getWidth(), getHeight(), 0, m_dataFormat, GL_UNSIGNED_BYTE, nullptr);
+		glTextureStorage2D(getId(), 1, GL_RGBA32F, width, height);
+		if (data) glTextureSubImage2D(getId(), 0, 0, 0, getWidth(), getHeight(), m_dataFormat, GL_UNSIGNED_BYTE, data);
 
-		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, OpenGL::getImageFormat(channels), GL_UNSIGNED_BYTE, nullptr);
-		//glTextureStorage2D(getId(), 1, GL_RGBA8, getWidth(), getHeight());
-	}
-	void OpenGLTexture::reset()
-	{
-		resize(0, 0, 0);
-	}
-
-	void OpenGLTexture::setBufferData(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data)
-	{
-		bind();
-
-		resize(width, height, channels);
-
-		glTextureSubImage2D(getId(), 0, 0, 0, getWidth(), getHeight(), m_dataFormat, GL_UNSIGNED_BYTE, data);
-
-		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, OpenGL::getImageFormat(channels), GL_UNSIGNED_BYTE, data);
+		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0, m_dataFormat, GL_UNSIGNED_BYTE, data);
 	}
 }

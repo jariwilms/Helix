@@ -24,6 +24,8 @@ namespace hlx
 	{
 		m_view = camera.getViewMatrix();
 		m_projection = camera.getProjectionMatrix();
+
+		m_statistics.reset();
 	}
 	void OpenGLRenderer::check()
 	{
@@ -50,7 +52,6 @@ namespace hlx
 	void OpenGLRenderer::finish()
 	{
 		submit();
-		m_statistics.reset();
 	}
 
 	void OpenGLRenderer::clearBuffer()

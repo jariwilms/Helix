@@ -241,6 +241,10 @@
     <ClInclude Include="src\Helix\Rendering\Object\FrameBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLFrameBuffer.hpp" />
     <ClInclude Include="src\Helix\Widget\SceneRenderWidget.hpp" />
+    <ClInclude Include="src\Helix\Widget\Base\Widget.hpp" />
+    <ClInclude Include="src\Helix\Rendering\RenderState.hpp" />
+    <ClInclude Include="src\Helix\Widget\Component\TransformComponentWidget.hpp" />
+    <ClInclude Include="src\Helix\Widget\WidgetData.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">

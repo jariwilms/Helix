@@ -13,7 +13,7 @@ namespace hlx
 	class Texture
 	{
 	public:
-		virtual ~Texture();
+		virtual ~Texture() = default;
 
 		static std::shared_ptr<Texture> create(const std::filesystem::path& path);
 		static std::shared_ptr<Texture> create(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data = nullptr);
@@ -21,11 +21,6 @@ namespace hlx
 		virtual void bind() const = 0;
 		virtual void bindUnit(unsigned int index) const = 0;
 		virtual void unbind() const = 0;
-
-		virtual void resize(unsigned int width, unsigned int height, unsigned int channels) = 0;
-		virtual void reset() = 0;
-
-		virtual void setBufferData(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data) = 0;
 
 		inline unsigned int getId() const { return m_textureId; }
 		inline unsigned int getWidth() const { return m_width; }
@@ -37,6 +32,7 @@ namespace hlx
 
 	protected:
 		Texture();
+		virtual void setTextureData(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data) = 0;
 
 		unsigned int m_textureId;
 

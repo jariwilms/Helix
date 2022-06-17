@@ -13,9 +13,8 @@ namespace hlx
 
 		static std::shared_ptr<FrameBuffer> create(unsigned int width, unsigned int height);
 
-		virtual void resize(unsigned int width, unsigned int height) = 0;
-
 		virtual const std::shared_ptr<Texture>& getTexture() const = 0;
+
 		virtual void bindTexture() const = 0;
 
 	protected:

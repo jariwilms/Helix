@@ -6,6 +6,8 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
+#include "Helix/Widget/Base/Widget.hpp"
+
 namespace hlx
 {
 	struct File
@@ -19,14 +21,16 @@ namespace hlx
 		std::filesystem::path selectedItemPath;
 	};
 
-	class ContentBrowserWidget
+	class ContentBrowserWidget : public Widget
 	{
 	public:
 		ContentBrowserWidget() = default;
 
-		void renderUI()
+		void renderUI() override
 		{
-
+			ImGui::Begin("Content Browser");
+			ImGui::Text("Content here");
+			ImGui::End();
 		}
 
 	private:

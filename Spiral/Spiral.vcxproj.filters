@@ -6,9 +6,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Layer\TestLayer.hpp">
-      <Filter>Layer</Filter>
-    </ClInclude>
     <ClInclude Include="src\Layer\EditorLayer.hpp" />
   </ItemGroup>
   <ItemGroup>

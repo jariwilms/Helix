@@ -139,6 +139,7 @@
     <ClInclude Include="src\Helix\Rendering\Object\VertexArray.hpp" />
     <ClInclude Include="src\Helix\Rendering\Object\VertexBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\RenderData.hpp" />
+    <ClInclude Include="src\Helix\Rendering\RenderState.hpp" />
     <ClInclude Include="src\Helix\Rendering\RenderStatistics.hpp" />
     <ClInclude Include="src\Helix\Rendering\Renderer\Renderer.hpp" />
     <ClInclude Include="src\Helix\Rendering\Shader\Shader.hpp" />
@@ -146,6 +147,8 @@
     <ClInclude Include="src\Helix\Scene\Camera\Camera.hpp" />
     <ClInclude Include="src\Helix\Scene\Camera\Projection.hpp" />
     <ClInclude Include="src\Helix\Scene\Scene.hpp" />
+    <ClInclude Include="src\Helix\Widget\Base\Widget.hpp" />
+    <ClInclude Include="src\Helix\Widget\Component\TransformComponentWidget.hpp" />
     <ClInclude Include="src\Helix\Widget\ContentBrowserWidget.hpp" />
     <ClInclude Include="src\Helix\Widget\EntityListWidget.hpp" />
     <ClInclude Include="src\Helix\Widget\RenderStatisticsWidget.hpp" />
@@ -153,6 +156,7 @@
     <ClInclude Include="src\Helix\Layer\Base\LayerStack.hpp" />
     <ClInclude Include="src\Helix\Widget\SceneRenderWidget.hpp" />
     <ClInclude Include="src\Helix\Widget\SelectedEntityWidget.hpp" />
+    <ClInclude Include="src\Helix\Widget\WidgetData.hpp" />
     <ClInclude Include="src\Helix\Window\OS\Windows\WindowsWindow.hpp" />
     <ClInclude Include="src\Helix\Window\Window.hpp" />
     <ClInclude Include="src\main.hpp" />

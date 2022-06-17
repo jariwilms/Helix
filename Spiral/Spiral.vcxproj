@@ -92,7 +92,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Layer\EditorLayer.hpp" />
-    <ClInclude Include="src\Layer\TestLayer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Layer\EditorLayer.cpp" />

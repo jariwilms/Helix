@@ -14,7 +14,7 @@
 
 namespace hlx
 {
-	struct Vertex
+	struct Vertex //size = 12
 	{
 		Vertex() = default;
 		~Vertex() = default;

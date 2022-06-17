@@ -8,10 +8,11 @@
 #include "Helix/Rendering/RenderData.hpp"
 #include "Helix/Rendering/Shader/Shader.hpp"
 #include "Helix/Scene/Scene.hpp"
+#include "Helix/Widget/Base/Widget.hpp"
 
 namespace hlx
 {
-	class SceneRenderWidget
+	class SceneRenderWidget : public Widget
 	{
 	public:
 		SceneRenderWidget()
@@ -35,7 +36,7 @@ namespace hlx
 		}
 		~SceneRenderWidget() = default;
 
-		void update(DeltaTime deltaTime)
+		void update(DeltaTime deltaTime) override
 		{
 			m_camera.update(deltaTime);
 		}
@@ -47,8 +48,7 @@ namespace hlx
 
 
 
-			ImVec2 dim = ImGui::GetWindowContentRegionMax();
-			glm::vec2 dimensions{ dim.x, dim.y };
+			glm::uvec2 dimensions{ ImGui::GetWindowWidth(), ImGui::GetWindowHeight() - 19 };
 
 			if (dimensions != lastWindowDimensions)
 			{
@@ -60,6 +60,8 @@ namespace hlx
 
 			m_frameBuffer = FrameBuffer::create(dimensions.x, dimensions.y);
 			m_frameBuffer->bind();
+
+
 
 			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -98,6 +100,6 @@ namespace hlx
 
 		Camera m_camera;
 
-		glm::vec2 lastWindowDimensions;
+		glm::uvec2 lastWindowDimensions;
 	};
 }

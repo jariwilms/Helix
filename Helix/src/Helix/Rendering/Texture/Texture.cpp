@@ -8,11 +8,6 @@ namespace hlx
 	Texture::Texture()
 		: m_textureId{}, m_width{}, m_height{}, m_channels{}, m_data{}, m_internalFormat{}, m_dataFormat{}, m_status{} {}
 
-	Texture::~Texture()
-	{
-		stbi_image_free(m_data);
-	}
-
 	std::shared_ptr<Texture> Texture::create(const std::filesystem::path& path)
 	{
 		return IO::load<Texture>(path);

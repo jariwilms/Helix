@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdint.h>
+#include "stdafx.hpp"
 
 namespace hlx
 {
@@ -8,10 +8,7 @@ namespace hlx
 	{
 	public:
 		Entity(uint32_t id)
-			: m_id{ id }
-		{
-
-		}
+			: m_id{ id } {}
 
 		uint32_t getId() const { return m_id; }
 

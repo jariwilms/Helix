@@ -23,6 +23,7 @@ public:
 private:
 	hlx::Scene* m_scene;
 
+	hlx::ContentBrowserWidget m_contentBrowserWidget;
 	hlx::RenderStatisticsWidget m_renderStatisticsWidget;
 	hlx::EntityListWidget m_entityListWidget;
 	hlx::SelectedEntityWidget m_selectedEntityWidget;

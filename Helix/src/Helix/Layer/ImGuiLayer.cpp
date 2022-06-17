@@ -44,7 +44,6 @@ namespace hlx
 		auto& window = Application::getInstance().getWindow();
 		auto& dimensions = window.getProperties().dimensions;
 		io.DisplaySize = ImVec2((float)dimensions.x, (float)dimensions.y);
-
 	}
 
 	void ImGuiLayer::render()
@@ -54,6 +53,11 @@ namespace hlx
 
 	void ImGuiLayer::renderUI()
 	{
+		ImGui::BeginMainMenuBar();
+		ImGui::MenuItem("File");
+		ImGui::MenuItem("Options");
+		ImGui::EndMainMenuBar();
+
 		ImGui::DockSpaceOverViewport();
 	}
 

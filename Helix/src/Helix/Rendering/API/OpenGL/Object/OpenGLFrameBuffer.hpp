@@ -14,10 +14,8 @@ namespace hlx
 		void bind() const override;
 		void unbind() const override;
 
-		void resize(unsigned int width, unsigned int height) override;
-		void reset() override;
-
 		inline const std::shared_ptr<Texture>& getTexture() const override { return m_texture; }
+
 		void bindTexture() const override;
 
 	private:
