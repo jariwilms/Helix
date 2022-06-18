@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Helix/Rendering/API/OpenGL/Texture/OpenGLTexture.hpp"
+#include "Helix/Rendering/API/OpenGL/Object/OpenGLRenderBuffer.hpp"
 #include "Helix/Rendering/Object/FrameBuffer.hpp"
 
 namespace hlx
@@ -13,12 +14,14 @@ namespace hlx
 
 		void bind() const override;
 		void unbind() const override;
-
-		inline const std::shared_ptr<Texture>& getTexture() const override { return m_texture; }
-
 		void bindTexture() const override;
+
+		inline std::shared_ptr<Texture> getTexture() override { return m_texture; }
+
+		bool verify() const override;
 
 	private:
 		std::shared_ptr<OpenGLTexture> m_texture;
+		std::shared_ptr<OpenGLRenderBuffer> m_renderBuffer;
 	};
 }

@@ -46,9 +46,8 @@ namespace hlx
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 			ImGui::Begin("Scene");
 
-
-
-			glm::uvec2 dimensions{ ImGui::GetWindowWidth(), ImGui::GetWindowHeight() - 19 };
+			auto dim = ImGui::GetContentRegionAvail();
+			glm::uvec2 dimensions{ static_cast<unsigned int>(dim.x), static_cast<unsigned int>(dim.y) };
 
 			if (dimensions != lastWindowDimensions)
 			{
