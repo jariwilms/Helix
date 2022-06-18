@@ -14,7 +14,7 @@ namespace hlx
 
 		Log::init();
 		IO::init();
-		IO::appendRoot("resources"); //TODO: move naar config
+		IO::Affix root{ "Spiral/assets" };
 		Input::init();
 
 		m_window = Window::create(WindowProperties("Helix", glm::uvec2(1600, 900)));

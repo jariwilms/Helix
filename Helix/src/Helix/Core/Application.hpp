@@ -47,6 +47,7 @@ namespace hlx
 		ImGuiLayer* m_imguiLayer;
 
 		std::unique_ptr<Window> m_window;
+
 		bool m_running;
 	};
 

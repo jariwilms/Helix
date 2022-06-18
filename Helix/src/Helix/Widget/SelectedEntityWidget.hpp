@@ -2,9 +2,12 @@
 
 #include "stdafx.hpp"
 
+#include <Helix.hpp>
+
 #include "Helix/Scene/Scene.hpp"
 #include "Helix/ECS/Component/Components.hpp"
 #include "Helix/ECS/Entity/Entity.hpp"
+#include "Helix/Rendering/Texture/Texture.hpp"
 #include "Helix/Widget/Base/Widget.hpp"
 #include "Helix/Widget/Component/TransformComponentWidget.hpp"
 
@@ -13,16 +16,28 @@ namespace hlx
 	class SelectedEntityWidget : public Widget
 	{
 	public:
-		SelectedEntityWidget() : m_selectedEntity {} {}
+		SelectedEntityWidget() : m_selectedEntity{}
+		{
+			m_entityIcon = hlx::IO::load<hlx::Texture>("textures/isometric_cube.png");
+		}
 
 		void renderUI() override
 		{
-			ImGui::Begin("Selected");
+			ImGui::Begin("Inspector", (bool*)nullptr, ImGuiWindowFlags_MenuBar);
+
+			//ImGui::BeginMenuBar();
+			//ImGui::MenuItem("a");
+			//ImGui::MenuItem("b");
+			//ImGui::EndMenuBar();
 
 			if (m_selectedEntity)
 			{
+				ImVec2 dim = ImGui::GetContentRegionAvail();
+
 				std::string ent = "Id: " + std::to_string(m_selectedEntity->getId());
 				ImGui::Text(ent.c_str());
+
+				ImGui::Separator();
 
 				if (m_selectedEntity->hasComponent<TransformComponent>())
 				{
@@ -31,10 +46,26 @@ namespace hlx
 					auto& rotation = component.transform.rotation;
 					auto& scale = component.transform.scale;
 
-					ImGui::CollapsingHeader("Transform");
-					ImGui::InputFloat("X", &position.x, 0.1f);
-					ImGui::InputFloat("Y", &position.y, 0.1f);
-					ImGui::InputFloat("Z", &position.z, 0.1f);
+					if (ImGui::CollapsingHeader("Transform"))
+					{
+						ImGui::InputFloat("X", &position.x, 0.1f);
+						ImGui::InputFloat("Y", &position.y, 0.1f);
+						ImGui::InputFloat("Z", &position.z, 0.1f);
+					}
+				}
+
+				ImGui::Separator();
+				//ImGui::Spacing();
+
+				if (m_selectedEntity->hasComponent<SpriteComponent>())
+				{
+					auto& component = m_selectedEntity->getComponent<SpriteComponent>();
+					auto& texture = component.texture;
+
+					if (ImGui::CollapsingHeader("Sprite"))
+					{
+						ImGui::Image((ImTextureID)((size_t)texture->getId()), ImVec2(128.0f, 128.0f), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+					}
 				}
 			}
 			else ImGui::Text("Nothing selected");
@@ -46,5 +77,7 @@ namespace hlx
 
 	private:
 		Entity* m_selectedEntity;
+
+		std::shared_ptr<hlx::Texture> m_entityIcon;
 	};
 }

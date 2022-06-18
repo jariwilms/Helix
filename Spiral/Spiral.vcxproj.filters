@@ -2,14 +2,18 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Layer">
-      <UniqueIdentifier>{157446C0-0116-7196-EAD0-84EAD611F8E6}</UniqueIdentifier>
+      <UniqueIdentifier>{6287950D-CE9B-BDBE-971D-611E03F1B9EF}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Layer\EditorLayer.hpp" />
+    <ClInclude Include="src\Layer\EditorLayer.hpp">
+      <Filter>Layer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Layer\EditorLayer.cpp">
+      <Filter>Layer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Spiral.cpp" />
-    <ClCompile Include="src\Layer\EditorLayer.cpp" />
   </ItemGroup>
 </Project>

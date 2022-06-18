@@ -23,7 +23,14 @@ namespace hlx
 		Entity& createEntity()
 		{
 			Entity entity = Entity{ m_registry.createEntity(), this };
-			return m_entities.emplace_back(entity); //move?
+			return m_entities.emplace_back(std::move(entity));
+		}
+		Entity& createEntityDefault()
+		{
+			auto& entity = createEntity();
+			entity.addComponent<TransformComponent>();
+
+			return entity;
 		}
 		void destroyEntity(const Entity& entity)
 		{

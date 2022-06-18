@@ -61,7 +61,7 @@ project "Helix"
 		"opengl32.lib"
 	}
 	
-	defines
+		defines
 	{
 		"STB_IMAGE_STATIC", 
 		"STB_IMAGE_IMPLEMENTATION"
@@ -118,6 +118,12 @@ project "Spiral"
 	links
 	{
 		"Helix", 
+	}
+	
+	defines
+	{
+		"STB_IMAGE_STATIC", 
+		"STB_IMAGE_IMPLEMENTATION"
 	}
 	
 	filter "system:windows"

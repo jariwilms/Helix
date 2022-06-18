@@ -30,22 +30,24 @@ namespace hlx
 		template<typename Component, typename... Args>
 		Component& addComponent(const Entity& entity, Args&&... args)
 		{
-			return m_registry.emplace<Component>(castToRegistryIdentifier(entity), args...);
+			if (hasComponent<Component>(entity)) HLX_CORE_WARNING("Entity {0} already has component, returning existing", entity.getId());
+			return m_registry.get_or_emplace<Component>(castToRegistryIdentifier(entity), args...);
 		}
-		template<typename Component>
+		template<typename... Component>
 		bool hasComponent(const Entity& entity)
 		{
-			return m_registry.any_of<Component>(castToRegistryIdentifier(entity));
+			return m_registry.any_of<Component...>(castToRegistryIdentifier(entity));
 		}
 		template<typename Component>
 		Component& getComponent(const Entity& entity)
 		{
+			if (!hasComponent<Component>(entity)) HLX_CORE_CRITICAL("Entity {0} does not have component", entity.getId());
 			return m_registry.get<Component>(castToRegistryIdentifier(entity));
 		}
-		template<typename Component>
+		template<typename... Component>
 		void removeComponent(const Entity& entity)
 		{
-			m_registry.remove<Component>(castToRegistryIdentifier(entity));
+			m_registry.remove<Component...>(castToRegistryIdentifier(entity));
 		}
 
 		template<typename Component, typename... Other, typename... Exclude>
