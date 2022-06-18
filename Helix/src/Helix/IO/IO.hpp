@@ -15,8 +15,9 @@ namespace hlx
 	public:
 		static void init()
 		{
-			m_root = getNormalizedPath(std::filesystem::current_path().parent_path());
+			m_root = std::filesystem::current_path().parent_path().lexically_normal();
 			HLX_CORE_INFO("HLX::IO::INIT");
+			HLX_CORE_INFO("Setting root path to {0}", m_root.string().c_str());
 		}
 
 		inline static bool checkFileExists(const std::filesystem::path& path) { return std::filesystem::exists(path);  }
@@ -26,18 +27,12 @@ namespace hlx
 		inline static void setRoot(const std::filesystem::path& root) { m_root = root; }
 
 		inline static std::filesystem::path getCurrentWorkingDirectory() { return std::filesystem::current_path(); }
-		inline static std::filesystem::path getCoalescedPath()
+		inline static std::filesystem::path getCoalescedPath(std::filesystem::path path = "")
 		{
 			std::filesystem::path coalesced = m_root;
 			std::for_each(m_subdirectories.begin(), m_subdirectories.end(), [&](const std::filesystem::path& _) { coalesced /= _; });
-			return getNormalizedPath(coalesced);
-		}
-		inline static std::filesystem::path getNormalizedPath(const std::filesystem::path& path)
-		{
-			auto normalized = path.string();
-			std::replace(normalized.begin(), normalized.end(), '\\', '/');
 
-			return normalized;
+			return (coalesced / path).lexically_normal();
 		}
 
 		template<typename T>
@@ -47,7 +42,7 @@ namespace hlx
 		}
 		template<> inline static std::shared_ptr<std::string> load<std::string>(const std::filesystem::path& path)
 		{
-			auto fullPath = getNormalizedPath(getCoalescedPath() / path);
+			auto fullPath = getCoalescedPath(path);
 
 			if (!checkFileExists(fullPath)) logError(fullPath);
 			if (m_textFiles.find(fullPath) != m_textFiles.end()) return m_textFiles[fullPath];
@@ -65,7 +60,7 @@ namespace hlx
 		}
 		template<> inline static std::shared_ptr<Texture> load<Texture>(const std::filesystem::path& path)
 		{
-			auto fullPath = getNormalizedPath(getCoalescedPath() / path);
+			auto fullPath = getCoalescedPath(path);
 
 			if (!checkFileExists(fullPath)) logError(fullPath);
 			if (m_textures.find(fullPath) != m_textures.end()) return m_textures[fullPath];

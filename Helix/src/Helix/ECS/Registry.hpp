@@ -70,5 +70,7 @@ namespace hlx
 		localIdentifier castToRegistryIdentifier(const Entity& entity) { return static_cast<localIdentifier>(entity.getId()); }
 
 		entt::registry m_registry;
+		std::vector<Entity> m_entities;
+		std::unordered_map<localIdentifier, unsigned int> m_entityIndexMap;
 	};
 }

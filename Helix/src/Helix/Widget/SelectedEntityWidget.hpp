@@ -23,7 +23,7 @@ namespace hlx
 
 		void renderUI() override
 		{
-			ImGui::Begin("Inspector", (bool*)nullptr, ImGuiWindowFlags_MenuBar);
+			ImGui::Begin("Inspector");
 
 			//ImGui::BeginMenuBar();
 			//ImGui::MenuItem("a");
@@ -32,12 +32,17 @@ namespace hlx
 
 			if (m_selectedEntity)
 			{
-				ImVec2 dim = ImGui::GetContentRegionAvail();
+				ImVec2 avail = ImGui::GetContentRegionAvail();
 
-				std::string ent = "Id: " + std::to_string(m_selectedEntity->getId());
-				ImGui::Text(ent.c_str());
+				std::string id = "Id: " + std::to_string(m_selectedEntity->getId());
+
+				ImGui::Image((ImTextureID)(size_t)m_entityIcon->getId(), ImVec2(32.0f, 32.0f), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+				ImGui::SameLine();
+				ImGui::Text(id.c_str());
 
 				ImGui::Separator();
+
+
 
 				if (m_selectedEntity->hasComponent<TransformComponent>())
 				{
@@ -52,10 +57,11 @@ namespace hlx
 						ImGui::InputFloat("Y", &position.y, 0.1f);
 						ImGui::InputFloat("Z", &position.z, 0.1f);
 					}
+
+					ImGui::Separator();
 				}
 
-				ImGui::Separator();
-				//ImGui::Spacing();
+
 
 				if (m_selectedEntity->hasComponent<SpriteComponent>())
 				{
@@ -66,9 +72,10 @@ namespace hlx
 					{
 						ImGui::Image((ImTextureID)((size_t)texture->getId()), ImVec2(128.0f, 128.0f), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 					}
+
+					ImGui::Separator();
 				}
 			}
-			else ImGui::Text("Nothing selected");
 
 			ImGui::End();
 		}

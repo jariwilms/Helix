@@ -30,6 +30,7 @@ namespace hlx
 
 		for (auto entity : view)
 		{
+
 			auto& transform = view.get<TransformComponent>(entity);
 			auto& sprite = view.get<SpriteComponent>(entity);
 

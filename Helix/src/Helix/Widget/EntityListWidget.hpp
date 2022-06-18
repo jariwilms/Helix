@@ -26,6 +26,11 @@ namespace hlx
 			{
 				std::string row = std::to_string(i) + ". " + std::to_string(entities.at(i).getId());
 				if (ImGui::Selectable(row.c_str())) m_selectedEntity = &entities.at(i);
+				if (ImGui::BeginPopupContextItem())
+				{
+					//if (ImGui::Selectable("Clear")) std::cout << "a";
+					//ImGui::EndPopup();
+				}
 			}
 
 			ImGui::End();
