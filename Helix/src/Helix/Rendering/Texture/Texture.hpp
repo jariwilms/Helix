@@ -31,7 +31,8 @@ namespace hlx
 		inline bool verify() const { return m_status; }
 
 	protected:
-		Texture();
+		Texture() : m_textureId{}, m_width{}, m_height{}, m_channels{}, m_data{}, m_internalFormat{}, m_dataFormat{}, m_status{} {}
+
 		virtual void setTextureData(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data) = 0;
 
 		unsigned int m_textureId;

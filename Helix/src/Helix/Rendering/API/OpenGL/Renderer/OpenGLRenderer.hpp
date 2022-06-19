@@ -3,12 +3,12 @@
 #include "glm/glm.hpp"
 
 #include "Helix/Rendering/API/RenderAPI.hpp"
-#include "Helix/Rendering/API/RenderBatch.hpp"
 #include "Helix/Rendering/Object/VertexArray.hpp"
 #include "Helix/Rendering/Object/VertexBuffer.hpp"
 #include "Helix/Rendering/Object/ElementBuffer.hpp"
 #include "Helix/Rendering/Shader/Shader.hpp"
 #include "Helix/Rendering/Texture/Texture.hpp"
+#include "Helix/Rendering/RenderBatch.hpp"
 #include "Helix/Rendering/RenderData.hpp"
 
 namespace hlx

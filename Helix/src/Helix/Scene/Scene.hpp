@@ -13,6 +13,11 @@ namespace hlx
 	{
 	public:
 		Scene();
+		//Scene(const Scene& other)
+		//{
+		//	m_camera = other.getCamera();
+		//	m_registry = other.m_registry;
+		//}
 		~Scene() = default;
 
 		void update(DeltaTime deltaTime);

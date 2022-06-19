@@ -16,7 +16,7 @@ namespace hlx
 		auto& entity2 = createEntityDefault();
 		auto& transform2 = entity2.getComponent<TransformComponent>();
 		transform2.transform.translate(glm::vec3{ -0.4f, 0.0f, 0.0f });
-		entity2.addComponent<SpriteComponent>("textures/missing.png");
+		entity2.addComponent<SpriteComponent>("textures/checkerboard.png");
 	}
 
 	void Scene::update(DeltaTime deltaTime)

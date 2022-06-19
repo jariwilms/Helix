@@ -5,30 +5,15 @@
 #include "glm/glm.hpp"
 
 #include "Helix/Rendering/API/RenderAPI.hpp"
-#include "Helix/Rendering/API/RenderBatch.hpp"
 #include "Helix/Rendering/Object/VertexArray.hpp"
 #include "Helix/Rendering/Object/VertexBuffer.hpp"
 #include "Helix/Rendering/Object/ElementBuffer.hpp"
 #include "Helix/Rendering/Shader/Shader.hpp"
 #include "Helix/Rendering/Texture/Texture.hpp"
+#include "Helix/Rendering/Vertex.hpp"
 
 namespace hlx
 {
-	struct Vertex //size = 12
-	{
-		Vertex() = default;
-		~Vertex() = default;
-
-		glm::vec3 position;
-		glm::vec4 color;
-
-		glm::vec2 textureCoordinate;
-		float textureIndex;
-		float textureScale;
-
-		float entityId;
-	};
-
 	struct RenderBatch
 	{
 	public:

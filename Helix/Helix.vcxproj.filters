@@ -211,7 +211,7 @@
     <ClInclude Include="src\Helix\Rendering\API\RenderAPI.hpp">
       <Filter>Helix\Rendering\API</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\API\RenderBatch.hpp">
+    <ClInclude Include="src\Helix\Rendering\RenderBatch.hpp">
       <Filter>Helix\Rendering\API</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Object\BufferLayout.hpp">
@@ -294,6 +294,8 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
+    <ClInclude Include="Mesh.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Vertex.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -372,5 +374,6 @@
       <Filter>Helix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="Mesh.cpp" />
   </ItemGroup>
 </Project>

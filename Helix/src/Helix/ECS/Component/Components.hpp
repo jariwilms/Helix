@@ -30,4 +30,11 @@ namespace hlx
 
 		std::shared_ptr<Texture> texture;
 	};
+
+	struct CameraComponent
+	{
+		CameraComponent() = default;
+
+		float x;
+	};
 }
