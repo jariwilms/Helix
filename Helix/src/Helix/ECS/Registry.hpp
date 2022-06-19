@@ -18,13 +18,21 @@ namespace hlx
 		Registry() = default;
 		~Registry() = default;
 
-		globalIdentifier createEntity()
+		Entity& createEntity(Scene* scene)
 		{
-			return castToGlobalIdentifier(m_registry.create());
+			auto id = static_cast<globalIdentifier>(m_registry.create());
+			auto name = "Entity" + std::to_string(id);
+			auto& entity = m_entities.emplace_back(id, scene, nullptr, name);
+
+			return entity;
 		}
 		void destroyEntity(const Entity& entity)
 		{
 			m_registry.destroy(castToRegistryIdentifier(entity));
+
+			auto it = std::find_if(m_entities.begin(), m_entities.end(), [&](const Entity& _) -> bool { return _.getId() == entity.getId(); });
+			if (it != m_entities.end()) m_entities.erase(it);
+			else HLX_CORE_ERROR("The given entity was not found: {0}", entity.getId());
 		}
 
 		template<typename Component, typename... Args>
@@ -65,12 +73,20 @@ namespace hlx
 			return m_registry.group<Owned...>();
 		}
 
+		Entity& getEntity(uint32_t id)
+		{
+			auto it = std::find_if(m_entities.begin(), m_entities.end(), [&](const Entity& _) -> bool { return _.getId() == id; });
+			if (it == m_entities.end()) HLX_CORE_CRITICAL("Entity with id {0} does not exist", id);
+
+			return *it;
+		}
+		std::vector<Entity>& getEntities() { return m_entities; }
+
 	private:
 		globalIdentifier castToGlobalIdentifier(entt::entity entity) { return static_cast<globalIdentifier>(entity); }
 		localIdentifier castToRegistryIdentifier(const Entity& entity) { return static_cast<localIdentifier>(entity.getId()); }
 
 		entt::registry m_registry;
 		std::vector<Entity> m_entities;
-		std::unordered_map<localIdentifier, unsigned int> m_entityIndexMap;
 	};
 }

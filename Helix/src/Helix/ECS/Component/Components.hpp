@@ -23,7 +23,8 @@ namespace hlx
 	struct SpriteComponent
 	{
 	public:
-		SpriteComponent() = default;
+		SpriteComponent()
+			: texture{ Texture::create("textures/white.png") } {}
 		SpriteComponent(std::filesystem::path path)
 			: texture{ Texture::create(path) } {}
 

@@ -25,21 +25,18 @@ namespace hlx
 		{
 			ImGui::Begin("Inspector");
 
-			//ImGui::BeginMenuBar();
-			//ImGui::MenuItem("a");
-			//ImGui::MenuItem("b");
-			//ImGui::EndMenuBar();
-
 			if (m_selectedEntity)
 			{
 				ImVec2 avail = ImGui::GetContentRegionAvail();
-
 				std::string id = "Id: " + std::to_string(m_selectedEntity->getId());
 
 				ImGui::Image((ImTextureID)(size_t)m_entityIcon->getId(), ImVec2(32.0f, 32.0f), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 				ImGui::SameLine();
-				ImGui::Text(id.c_str());
 
+				if (ImGui::Checkbox("enabled", &m_enabled)) m_selectedEntity->setEnabled(m_enabled);
+				ImGui::SameLine();
+
+				ImGui::Text(id.c_str());
 				ImGui::Separator();
 
 
@@ -71,19 +68,36 @@ namespace hlx
 					if (ImGui::CollapsingHeader("Sprite"))
 					{
 						ImGui::Image((ImTextureID)((size_t)texture->getId()), ImVec2(128.0f, 128.0f), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+						ImGui::SameLine();
+						if (ImGui::Button("Select Texture"))
+						{
+
+						}
 					}
 
 					ImGui::Separator();
+				}
+
+				if (ImGui::Button("Add Component"))
+				{
+					m_selectedEntity->addComponent<SpriteComponent>();
 				}
 			}
 
 			ImGui::End();
 		}
 
-		void setSelectedEntity(Entity* entity) { m_selectedEntity = entity; }
+		void setSelectedEntity(Entity* entity) 
+		{ 
+			if (entity == m_selectedEntity) return;
+
+			m_selectedEntity = entity; 
+			m_enabled = m_selectedEntity->isEnabled();
+		}
 
 	private:
 		Entity* m_selectedEntity;
+		bool m_enabled;
 
 		std::shared_ptr<hlx::Texture> m_entityIcon;
 	};

@@ -9,13 +9,13 @@ namespace hlx
 	class Entity
 	{
 	public:
-		Entity(uint32_t id, Scene* scene, Entity* parent = nullptr)
-			: m_id{ id }, m_name{ "Entity" }, m_scene{ scene }, m_enabled{ true } {}
+		Entity(uint32_t id, Scene* scene, Entity* parent = nullptr, std::string name = "Entity")
+			: m_id{ id }, m_name{ name }, m_scene{ scene }, m_enabled{ true } {}
 
-		uint32_t getId() const { return m_id; }
-		const std::string& getName() const { return m_name; }
-		const Scene* getScene() const { return m_scene; }
-		bool isEnabled() const { return m_enabled; }
+		inline uint32_t getId() const { return m_id; }
+		inline const std::string& getName() const { return m_name; }
+		inline const Scene* getScene() const { return m_scene; }
+		inline bool isEnabled() const { return m_enabled; }
 
 		inline void setName(const std::string& name) { m_name = name; }
 		inline void setScene(Scene* scene) { m_scene = scene; }
@@ -24,22 +24,22 @@ namespace hlx
 		template<typename Component, typename... Args>
 		Component& addComponent(Args&&... args)
 		{
-			return m_scene->getRegistry().addComponent<Component>(*this, args...);
+			return m_scene->m_registry.addComponent<Component>(*this, args...);
 		}
 		template<typename Component>
 		bool hasComponent()
 		{
-			return m_scene->getRegistry().hasComponent<Component>(*this);
+			return m_scene->m_registry.hasComponent<Component>(*this);
 		}
 		template<typename Component>
 		Component& getComponent()
 		{
-			return m_scene->getRegistry().getComponent<Component>(*this);
+			return m_scene->m_registry.getComponent<Component>(*this);
 		}
 		template<typename Component>
 		void removeComponent()
 		{
-			m_scene->getRegistry().removeComponent<Component>(*this);
+			m_scene->m_registry.removeComponent<Component>(*this);
 		}
 
 	private:

@@ -22,8 +22,7 @@ namespace hlx
 
 		Entity& createEntity()
 		{
-			Entity entity = Entity{ m_registry.createEntity(), this };
-			return m_entities.emplace_back(std::move(entity));
+			return m_registry.createEntity(this);
 		}
 		Entity& createEntityDefault()
 		{
@@ -35,27 +34,20 @@ namespace hlx
 		void destroyEntity(const Entity& entity)
 		{
 			m_registry.destroyEntity(entity);
-
-			auto it = std::find_if(m_entities.begin(), m_entities.end(), [&](const Entity& _) { return _.getId() == entity.getId(); });
-			if (it != m_entities.end()) m_entities.erase(it); 
-			else HLX_CORE_ERROR("The given entity was not found: {0}", entity.getId());
 		}
-		Entity& getEntity(size_t index)
-		{
-			 if (index > -1 && index < m_entities.size()) return m_entities.at(index);
-			 HLX_CORE_ERROR("Given entity index is out of range: {0}", index);
+		Entity& getEntity(uint32_t id) 
+		{ 
+			return m_registry.getEntity(id); 
 		}
 		std::vector<Entity>& getEntities()
 		{
-			return m_entities;
+			return m_registry.getEntities();
 		}
-
-		Registry& getRegistry() { return m_registry; }
 
 	private:
 		Camera m_camera;
-
 		Registry m_registry;
-		std::vector<Entity> m_entities;
+
+		friend class Entity;
 	};
 }

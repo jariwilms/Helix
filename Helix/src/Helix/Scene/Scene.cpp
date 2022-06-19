@@ -28,11 +28,14 @@ namespace hlx
 	{
 		auto view = m_registry.view<TransformComponent, SpriteComponent>();
 
-		for (auto entity : view)
+		for (auto id : view)
 		{
+			auto& entity = m_registry.getEntity((uint32_t)id);
 
-			auto& transform = view.get<TransformComponent>(entity);
-			auto& sprite = view.get<SpriteComponent>(entity);
+			if (!entity.isEnabled()) continue;
+
+			auto& transform = view.get<TransformComponent>(id);
+			auto& sprite = view.get<SpriteComponent>(id);
 
 			Renderer::renderQuad(transform, sprite.texture);
 		}
