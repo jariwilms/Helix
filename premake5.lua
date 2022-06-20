@@ -13,12 +13,14 @@ workspace "Helix"
 	includedir = {}
 	includedir["GLAD"] = "Helix/vendor/glad/include"
 	includedir["GLFW"] = "Helix/vendor/glfw/include"
+	includedir["ASSIMP"] = "Helix/vendor/assimp/include"
 	includedir["IMGUI"] = "Helix/vendor/imgui/include"
 	includedir["ENTT"] = "Helix/vendor/entt/include"
 	includedir["STB"] = "Helix/vendor/stb/include"
 	
 	include "Helix/vendor/glad"
 	include "Helix/vendor/glfw"
+	include "Helix/vendor/assimp"
 	include "Helix/vendor/imgui"
 	
 project "Helix"
@@ -46,6 +48,7 @@ project "Helix"
 		"%{prj.name}/src", 
 		"%{includedir.GLAD}", 
 		"%{includedir.GLFW}", 
+		"%{includedir.ASSIMP}", 
 		"%{includedir.IMGUI}", 
 		"%{includedir.ENTT}", 
 		"%{includedir.STB}", 
@@ -57,6 +60,7 @@ project "Helix"
 	{
 		"GLAD", 
 		"GLFW", 
+		"ASSIMP", 
 		"IMGUI", 
 		"opengl32.lib"
 	}
@@ -108,6 +112,7 @@ project "Spiral"
 		"Helix/src", 
 		"%{includedir.GLAD}", 
 		"%{includedir.GLFW}", 
+		"%{includedir.ASSIMP}", 
 		"%{includedir.IMGUI}", 
 		"%{includedir.ENTT}", 
 		"%{includedir.STB}", 
