@@ -32,7 +32,7 @@ namespace hlx
 		virtual RenderStatistics measure() = 0;
 
 	protected:
-		RenderAPI() {}
+		RenderAPI() = default;
 
 		virtual void check() = 0;
 		virtual void submit() = 0;

@@ -12,7 +12,7 @@ namespace hlx
 	class VertexArray : public BufferObject
 	{
 	public:
-		virtual ~VertexArray() {}
+		virtual ~VertexArray() = default;
 
 		static std::shared_ptr<VertexArray> create();
 

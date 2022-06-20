@@ -13,7 +13,7 @@ namespace hlx
 	class VertexBuffer : public BufferObject
 	{
 	public:
-		virtual ~VertexBuffer() {}
+		virtual ~VertexBuffer() = default;
 
 		static std::shared_ptr<VertexBuffer> create(size_t size, const float* data = nullptr);
 		

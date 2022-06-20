@@ -8,7 +8,7 @@ namespace hlx
 	class BufferObject
 	{
 	public:
-		virtual ~BufferObject() {}
+		virtual ~BufferObject() = default;
 
 		virtual void bind() const = 0;
 		virtual void unbind() const = 0;

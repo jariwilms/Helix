@@ -11,7 +11,7 @@ namespace hlx
 	class Widget
 	{
 	public:
-		virtual ~Widget() {}
+		virtual ~Widget() = default;
 
 		virtual void update(DeltaTime deltaTime) {}
 		virtual void render() {}

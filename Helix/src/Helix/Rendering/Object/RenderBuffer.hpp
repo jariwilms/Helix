@@ -7,7 +7,7 @@ namespace hlx
 	class RenderBuffer : public BufferObject
 	{
 	public:
-		virtual ~RenderBuffer() {}
+		virtual ~RenderBuffer() = default;
 
 		static std::shared_ptr<RenderBuffer> create(unsigned int width, unsigned int height, int format);
 

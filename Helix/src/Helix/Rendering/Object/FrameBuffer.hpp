@@ -9,7 +9,7 @@ namespace hlx
 	class FrameBuffer : public BufferObject
 	{
 	public:
-		virtual ~FrameBuffer() {}
+		virtual ~FrameBuffer() = default;
 
 		static std::shared_ptr<FrameBuffer> create(unsigned int width, unsigned int height);
 

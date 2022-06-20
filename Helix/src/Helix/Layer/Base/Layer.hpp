@@ -11,7 +11,7 @@ namespace hlx
 	public:
 		Layer(const std::string& name = "Layer")
 			:m_name{ name }, m_enabled{ true } {}
-		virtual ~Layer() {}
+		virtual ~Layer() = default;
 
 		virtual void update(DeltaTime deltaTime) {}
 		virtual void render() {}

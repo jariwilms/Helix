@@ -27,7 +27,7 @@ namespace hlx
 	class Window
 	{
 	public:
-		virtual ~Window() {}
+		virtual ~Window() = default;
 
 		static std::unique_ptr<Window> create(const WindowProperties& m_properties);
 

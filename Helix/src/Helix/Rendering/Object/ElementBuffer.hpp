@@ -12,7 +12,7 @@ namespace hlx
 	class ElementBuffer : public BufferObject
 	{
 	public:
-		virtual ~ElementBuffer() {}
+		virtual ~ElementBuffer() = default;
 
 		static std::shared_ptr<ElementBuffer> create(size_t size, const unsigned int* data = nullptr);
 
