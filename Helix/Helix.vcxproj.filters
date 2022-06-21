@@ -309,6 +309,9 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Model\Model.hpp" />
+    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Model\OpenGLModel.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Material.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -393,5 +396,7 @@
       <Filter>Helix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\Helix\Rendering\Model\Model.cpp" />
+    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Model\OpenGLModel.cpp" />
   </ItemGroup>
 </Project>

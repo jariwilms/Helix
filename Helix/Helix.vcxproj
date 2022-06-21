@@ -97,6 +97,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Model\OpenGLModel.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Material.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Model\Model.hpp" />
     <ClInclude Include="src\Helix.hpp" />
     <ClInclude Include="src\Helix\Core\Application.hpp" />
     <ClInclude Include="src\Helix\Core\Core.hpp" />
@@ -168,6 +171,8 @@
     <ClInclude Include="src\stdafx.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Model\OpenGLModel.cpp" />
+    <ClCompile Include="src\Helix\Rendering\Model\Model.cpp" />
     <ClCompile Include="src\Helix\Core\Application.cpp" />
     <ClCompile Include="src\Helix\Core\Transform.cpp" />
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp" />

@@ -52,9 +52,9 @@ namespace hlx
 
 					if (ImGui::CollapsingHeader("Transform"))
 					{
-						ImGui::InputFloat3("Position", (float*)&component.transform.position);
-						ImGui::InputFloat3("Rotation", (float*)&component.transform.rotation);
-						ImGui::InputFloat3("Scale", (float*)&component.transform.scale);
+						ImGui::InputFloat3("Position", (float*)&component.transform.position, "%.3f", ImGuiInputTextFlags_AutoSelectAll);
+						ImGui::InputFloat3("Rotation", (float*)&component.transform.rotation, "%.3f", ImGuiInputTextFlags_AutoSelectAll);
+						ImGui::InputFloat3("Scale", (float*)&component.transform.scale, "%.3f", ImGuiInputTextFlags_AutoSelectAll);
 					}
 
 					ImGui::Separator();
