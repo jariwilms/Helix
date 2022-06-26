@@ -2,9 +2,12 @@
 
 #include "stdafx.hpp"
 
+#pragma warning(disable: 26495)
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
+#pragma warning(default: 26495)
+
 #pragma warning(disable: 26819 6262 26451)
 #include "stb/stb_image.h"
 #pragma warning(default: 26819 6262 26451)
@@ -63,16 +66,22 @@ namespace hlx
 		}
 		template<> inline static std::shared_ptr<std::string> load<std::string>(const std::filesystem::path& path)
 		{
-			auto fullPath = getCoalescedPath(path);
+			std::filesystem::path fullPath;
 
-			if (!checkFileExists(fullPath)) logError(fullPath);
+			if (path.is_absolute()) fullPath = path;
+			else fullPath = getCoalescedPath(path);
+
+			if (!checkFileExists(fullPath))
+			{
+				logError(fullPath);
+				return nullptr;
+			}
 			if (m_textFiles.find(fullPath) != m_textFiles.end()) return m_textFiles[fullPath];
 
 
 
 			std::ifstream file(fullPath);
-			auto result = std::make_shared<std::string>();
-			*result = std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+			auto result = std::make_shared<std::string>((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
 			m_textFiles.insert(std::make_pair(fullPath, result));
 			file.close();
@@ -81,7 +90,10 @@ namespace hlx
 		}
 		template<> inline static std::shared_ptr<Texture> load<Texture>(const std::filesystem::path& path)
 		{
-			auto fullPath = getCoalescedPath(path);
+			std::filesystem::path fullPath;
+
+			if (path.is_absolute()) fullPath = path;
+			else fullPath = getCoalescedPath(path);
 
 			if (!checkFileExists(fullPath))
 			{
@@ -106,14 +118,21 @@ namespace hlx
 		}
 		template<> inline static std::shared_ptr<Model> load<Model>(const std::filesystem::path& path)
 		{
-			//TODO
-			//if (fullpath.isAbsolute()) { verander path behaviour } 
+			std::filesystem::path fullPath{};
+			std::filesystem::path directory{};
 
-			auto fullPath = getCoalescedPath(path);
-			auto directory = fullPath.parent_path();
+			if (path.is_absolute()) fullPath = path;
+			else fullPath = getCoalescedPath(path);
+			if (fullPath.has_parent_path()) directory = fullPath.parent_path();
 
-			if (!checkFileExists(fullPath)) logError(fullPath);
+			if (!checkFileExists(fullPath))
+			{
+				logError(fullPath);
+				return nullptr;
+			}
 			if (m_textFiles.find(fullPath) != m_textFiles.end()) return m_models[fullPath];
+
+
 
 			Assimp::Importer importer;
 			auto scene = importer.ReadFile(fullPath.string(), aiProcess_Triangulate);
@@ -191,18 +210,8 @@ namespace hlx
 					auto meshMaterial = mesh.getMaterial();
 					auto material = scene->mMaterials[aiMesh->mMaterialIndex];
 
-					for (unsigned int i = 0; i < material->GetTextureCount(aiTextureType_AMBIENT); ++i)
-					{
-						aiString textureName{};
-						material->GetTexture(aiTextureType_AMBIENT, i, &textureName);
 
-						std::string a = "models/";
-						a += textureName.C_Str();
-						auto tex = Texture::create(a);
-						meshMaterial->setAlbedo(tex);
-					}
-
-					//loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+					mesh.setMaterial(createMaterial(material));
 				}
 			}
 
@@ -211,6 +220,43 @@ namespace hlx
 		}
 
 	private:
+		static bool hasTextureType(aiMaterial* material, aiTextureType type)
+		{
+			return material->GetTextureCount(type);
+		}
+		static std::string getTextureName(aiMaterial * material, aiTextureType type)
+		{
+				aiString textureName{};
+				material->GetTexture(type, 0, &textureName);
+				return "models/" + std::string{textureName.C_Str()}; //dit is echt scuffed
+		}
+		static std::shared_ptr<Material> createMaterial(aiMaterial* aiMaterial)
+		{
+			auto shader = Shader::create("shaders/material.vert", "shaders/material.frag");
+			auto meshMaterial = std::make_shared<Material>(shader);
+
+			if (hasTextureType(aiMaterial, aiTextureType_DIFFUSE))
+			{
+				std::string name = getTextureName(aiMaterial, aiTextureType_DIFFUSE);
+				meshMaterial->setAlbedo(load<Texture>(name));
+			}
+
+			if (hasTextureType(aiMaterial, aiTextureType_NORMALS))
+			{
+				std::string name = getTextureName(aiMaterial, aiTextureType_NORMALS);
+				meshMaterial->setNormal(load<Texture>(name));
+			}
+
+			if (hasTextureType(aiMaterial, aiTextureType_SPECULAR))
+			{
+				std::string name = getTextureName(aiMaterial, aiTextureType_SPECULAR);
+				meshMaterial->setSpecular(load<Texture>(name));
+			}
+
+			return meshMaterial;
+		}
+
+
 		static void logError(std::filesystem::path path)
 		{
 			const std::string filename = path.filename().string();

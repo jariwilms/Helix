@@ -29,7 +29,7 @@ namespace hlx
 
 			std::string vertices = "Vertices: " + std::to_string(m_statistics.vertices);
 			std::string triangles = "Triangles: " + std::to_string(m_statistics.triangles);
-			std::string frametime = std::to_string(dt.toMilliSeconds()) + " ms";
+			std::string frametime = std::to_string(dt.inMilliseconds()) + " ms";
 
 			bool open = true;
 			ImGui::Begin("Render Data", &open);

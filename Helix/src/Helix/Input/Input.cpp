@@ -1,10 +1,14 @@
 #include "stdafx.hpp"
 #include "Input.hpp"
 
+#include "Helix/Core/Application.hpp"
+
 namespace hlx
 {
 	void Input::init()
 	{
+		m_window = (GLFWwindow*)Application::getInstance().getWindow().getNativeWindow(); //verander naar base class window ptr
+
 		m_activeKeys.resize(GLFW_KEY_COUNT);
 		m_lastActiveKeys.resize(GLFW_KEY_COUNT);
 
@@ -139,6 +143,10 @@ namespace hlx
 		m_lastScrollDirection = m_scrollDirection;
 		m_scrollDirection = glm::vec2(x, y);
 	}
+
+
+
+	GLFWwindow* Input::m_window;
 
 	std::vector<bool> Input::m_activeKeys;
 	std::vector<bool> Input::m_lastActiveKeys;

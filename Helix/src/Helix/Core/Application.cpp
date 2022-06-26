@@ -15,12 +15,13 @@ namespace hlx
 		Log::init();
 		IO::init();
 		IO::Affix root{ "Spiral/assets" };
-		Input::init();
 
 		m_window = Window::create(WindowProperties("Helix", glm::uvec2(1600, 900)));
 		m_window->setEventCallback(BIND_EVENT_FN(onEvent));
 
+		Input::init();
 		Renderer::init();
+
 
 		m_imguiLayer = new ImGuiLayer{};
 		pushLayer(m_imguiLayer);

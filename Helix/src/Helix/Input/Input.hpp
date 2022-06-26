@@ -39,12 +39,20 @@ namespace hlx
 		static bool isScrollingX(int direction);
 		static bool isScrollingY(int direction);
 
+		static void setMouseLock(bool state)
+		{
+			if (state) glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			else glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
+
 		static void _inputKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 		static void _inputButtonCallback(GLFWwindow* window, int button, int action, int mods);
 		static void _inputCursorCallback(GLFWwindow* window, double x, double y);
 		static void _inputScrollCallback(GLFWwindow* window, double x, double y);
 
 	private:
+		static GLFWwindow* m_window;
+
 		static std::vector<bool> m_activeKeys;
 		static std::vector<bool> m_lastActiveKeys;
 

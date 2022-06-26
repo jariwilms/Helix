@@ -17,7 +17,7 @@ namespace hlx
 
 	void Transform::rotate(float angle, const glm::vec3& axes)
 	{
-		glm::mat4 rotationMatrix = glm::rotate(glm::mat4{ 1.0f }, angle, axes);
+		glm::mat4 rotationMatrix = glm::rotate(glm::mat4{ 1.0f }, glm::radians(angle), axes);
 		rotation = rotationMatrix * glm::vec4{ rotation, 1.0f };
 	}
 	void Transform::rotate(float angle, float x, float y, float z)
@@ -45,7 +45,7 @@ namespace hlx
 
 	glm::vec3 Transform::rotate(const glm::vec3& rotation, float angle, const glm::vec3& axes)
 	{
-		glm::mat4 rotationMatrix = glm::rotate(glm::mat4{ 1.0f }, angle, axes);
+		glm::mat4 rotationMatrix = glm::rotate(glm::mat4{ 1.0f }, glm::radians(angle), axes);
 		return rotationMatrix * glm::vec4{ rotation, 1.0f };
 	}
 	glm::vec3 Transform::rotate(float xRotation, float yRotation, float zRotation, float angle, float xAxis, float yAxis, float zAxis)

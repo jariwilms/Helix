@@ -38,13 +38,34 @@ namespace hlx
 
 		void update(DeltaTime deltaTime) override
 		{
-			m_camera.update(deltaTime);
+			if (isFocused())
+			{
+				Input::setMouseLock(Input::isButtonPressed(Button::ButtonRight));
+				m_camera.update(deltaTime);
+			}
+			else
+			{
+				Input::setMouseLock(false);
+			}
 		}
 
 		void renderUI(Scene* scene)
 		{
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 			ImGui::Begin("Scene");
+
+			auto windowPosition = *(glm::vec2*)&ImGui::GetWindowPos();
+			auto windowSize = *(glm::vec2*)&ImGui::GetWindowSize();
+			auto& cursorPosition = Input::getCursorPosition();
+
+			if (Input::isButtonPressedOnce(Button::ButtonRight))
+			{
+				if (cursorPosition.x > windowPosition.x && cursorPosition.x < windowPosition.x + windowSize.x &&
+					cursorPosition.y > windowPosition.y && cursorPosition.y < windowPosition.y + windowSize.y &&
+					Input::isButtonPressed(Button::ButtonRight)) ImGui::SetWindowFocus();
+			}
+
+			setFocused(ImGui::IsWindowFocused());
 
 			auto dim = ImGui::GetContentRegionAvail();
 			glm::uvec2 dimensions{ static_cast<unsigned int>(dim.x), static_cast<unsigned int>(dim.y) };

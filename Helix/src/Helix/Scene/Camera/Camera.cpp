@@ -21,28 +21,22 @@ namespace hlx
 		if (getMode() == Mode::Locked)
 			return;
 
-		float s = deltaTime.toSeconds();
+		float dt = deltaTime;
+		if (Input::isKeyPressed(Key::LeftShift)) dt *= 10.0f;
 
-		if (Input::isKeyPressed(Key::LeftShift))
-			s *= 10.0f;
+		if (Input::isKeyPressed(Key::W)) transform.position += m_forward * dt;
+		if (Input::isKeyPressed(Key::A)) transform.position -= glm::normalize(glm::cross(m_forward, m_up)) * dt;
+		if (Input::isKeyPressed(Key::S)) transform.position -= m_forward * dt;
+		if (Input::isKeyPressed(Key::D)) transform.position += glm::normalize(glm::cross(m_forward, m_up)) * dt;
+		if (Input::isKeyPressed(Key::Space)) transform.position += m_up * dt;
+		if (Input::isKeyPressed(Key::LeftControl)) transform.position -= m_up * dt;
 
-		if (Input::isKeyPressed(Key::W))
-			transform.translate(glm::vec3{ 0.0f, 0.0f, -1.0f } * s);
-
-		if (Input::isKeyPressed(Key::A))
-			transform.translate(glm::vec3{ -1.0f, 0.0f, 0.0f } * s);
-
-		if (Input::isKeyPressed(Key::S))
-			transform.translate(glm::vec3{ 0.0f, 0.0f, 1.0f } * s);
-
-		if (Input::isKeyPressed(Key::D))
-			transform.translate(glm::vec3{ 1.0f, 0.0f, 0.0f } * s);
-
-		if (Input::isKeyPressed(Key::Space))
-			transform.translate(glm::vec3{ 0.0f, 1.0f, 0.0f } * s);
-
-		if (Input::isKeyPressed(Key::LeftControl))
-			transform.translate(glm::vec3{ 0.0f, -1.0f, 0.0f } *s);
+		if (Input::isButtonPressed(Button::ButtonRight) && Input::isMovingCursor())
+		{
+			auto& cursor = Input::getRelativeCursorPosition();
+			transform.rotation.x += -cursor.y * deltaTime * 50;
+			transform.rotation.y += cursor.x * deltaTime * 50;
+		}
 
 
 

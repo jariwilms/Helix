@@ -17,7 +17,14 @@ namespace hlx
 		virtual void render() {}
 		virtual void renderUI() {}
 
+		inline bool isFocused() const { return m_isFocused; }
+
+		inline void setFocused(bool state) { m_isFocused = state; }
+
 	protected:
-		Widget() = default;
+		Widget() : m_isFocused{} {}
+
+	private:
+		bool m_isFocused;
 	};
 }

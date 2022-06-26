@@ -30,7 +30,6 @@ namespace hlx
 		inline std::shared_ptr<Texture> getAlbedo() const { return m_albedo; }
 		inline std::shared_ptr<Texture> getNormal() const { return m_normal; }
 		inline std::shared_ptr<Texture> getSpecular() const { return m_specular; }
-		inline std::shared_ptr<Texture> getDiffuse() const { return m_diffuse; }
 
 		inline std::shared_ptr<Shader> getShader() { return m_shader; }
 
@@ -39,10 +38,9 @@ namespace hlx
 		inline void setBaseColor(glm::vec3 baseColor) { m_baseColor = glm::clamp(baseColor, glm::vec3{ 0.0f }, glm::vec3{ 1.0f }); }
 		inline void setEmissionColor(glm::vec3 emissionColor) { m_emissionColor = glm::clamp(emissionColor, glm::vec3{ 0.0f }, glm::vec3{ 1.0f }); }
 
-		inline void setAlbedo(std::shared_ptr<Texture> albedo) 
-		{ 
-			m_albedo = albedo; 
-		}
+		inline void setAlbedo(std::shared_ptr<Texture> albedo) { m_albedo = albedo; }
+		inline void setNormal(std::shared_ptr<Texture> normal) { m_normal = normal; }
+		inline void setSpecular(std::shared_ptr<Texture> specular) { m_specular = specular; }
 
 	private:
 		glm::vec3 m_baseColor;
@@ -55,7 +53,6 @@ namespace hlx
 		std::shared_ptr<Texture> m_albedo;
 		std::shared_ptr<Texture> m_normal;
 		std::shared_ptr<Texture> m_specular;
-		std::shared_ptr<Texture> m_diffuse;
 
 		std::shared_ptr<Shader> m_shader;
 	};
