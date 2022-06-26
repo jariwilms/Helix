@@ -6,18 +6,19 @@
 
 namespace hlx
 {
-	struct Vertex
+	struct MeshVertex
 	{
 	public:
-		Vertex() = default;
-		~Vertex() = default;
+		MeshVertex() = default;
+		~MeshVertex() = default;
 
 		glm::vec3 position;
-		glm::vec4 color;
+
+		glm::vec3 normal;
+		glm::vec3 tangent;
+		glm::vec3 bitangent;
 
 		glm::vec2 textureCoordinate;
-		float textureIndex;
-		float textureScale;
 
 		float entityId;
 	};

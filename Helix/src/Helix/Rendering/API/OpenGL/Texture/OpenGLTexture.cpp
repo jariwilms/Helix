@@ -5,10 +5,9 @@ namespace hlx
 {
 	OpenGLTexture::OpenGLTexture(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data)
 	{
-		glCreateTextures(GL_TEXTURE_2D, 1, &m_textureId);
+		glGenTextures(1, &m_textureId);
 
 		bind();
-
 		setTextureData(width, height, channels, data);
 
 		if (data)
@@ -55,9 +54,9 @@ namespace hlx
 		m_dataFormat = OpenGL::getImageFormat(channels);
 		m_internalFormat = GL_RGBA32F;
 
-		glTextureStorage2D(getId(), 1, GL_RGBA32F, width, height);
-		if (data) glTextureSubImage2D(getId(), 0, 0, 0, getWidth(), getHeight(), m_dataFormat, GL_UNSIGNED_BYTE, data);
-
 		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0, m_dataFormat, GL_UNSIGNED_BYTE, data);
+
+		glTextureStorage2D(getId(), 1, m_internalFormat, width, height);
+		if (data) glTextureSubImage2D(getId(), 0, 0, 0, getWidth(), getHeight(), m_dataFormat, GL_UNSIGNED_BYTE, data);
 	}
 }

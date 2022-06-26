@@ -187,9 +187,6 @@
     <ClInclude Include="src\Helix\Math\Math.hpp">
       <Filter>Helix\Math</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Mesh\OpenGLMesh.hpp">
-      <Filter>Helix\Rendering\API\OpenGL\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLElementBuffer.hpp">
       <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
     </ClInclude>
@@ -220,7 +217,7 @@
     <ClInclude Include="src\Helix\Rendering\API\RenderAPI.hpp">
       <Filter>Helix\Rendering\API</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Mesh\Mesh.hpp">
+    <ClInclude Include="src\Helix\Rendering\Model\Mesh.hpp">
       <Filter>Helix\Rendering\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Object\BufferLayout.hpp">
@@ -310,8 +307,8 @@
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
     <ClInclude Include="src\Helix\Rendering\Model\Model.hpp" />
-    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Model\OpenGLModel.hpp" />
-    <ClInclude Include="src\Helix\Rendering\Material.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Model\Material.hpp" />
+    <ClInclude Include="src\Helix\Rendering\MeshVertex.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
@@ -328,9 +325,6 @@
     </ClCompile>
     <ClCompile Include="src\Helix\Layer\ImGuiLayer.cpp">
       <Filter>Helix\Layer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Mesh\OpenGLMesh.cpp">
-      <Filter>Helix\Rendering\API\OpenGL\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLElementBuffer.cpp">
       <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
@@ -355,9 +349,6 @@
     </ClCompile>
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Texture\OpenGLTexture.cpp">
       <Filter>Helix\Rendering\API\OpenGL\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\Mesh\Mesh.cpp">
-      <Filter>Helix\Rendering\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Rendering\Object\ElementBuffer.cpp">
       <Filter>Helix\Rendering\Object</Filter>
@@ -396,7 +387,6 @@
       <Filter>Helix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\Helix\Rendering\Model\Model.cpp" />
-    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Model\OpenGLModel.cpp" />
+    <ClCompile Include="src\Helix\Rendering\Model\Material.cpp" />
   </ItemGroup>
 </Project>

@@ -16,13 +16,13 @@ namespace hlx
 	void OpenGLVertexArray::bind() const
 	{
 		glBindVertexArray(m_objectId);
-
 		m_elementBuffer->bind();
 	}
 
 	void OpenGLVertexArray::unbind() const
 	{
 		glBindVertexArray(0);
+		m_elementBuffer->unbind();
 	}
 
 	void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> buffer)
@@ -49,7 +49,7 @@ namespace hlx
 		buffer->unbind();
 	}
 
-	void OpenGLVertexArray::setElementBuffer(const std::shared_ptr<ElementBuffer> buffer)
+	void OpenGLVertexArray::setElementBuffer(std::shared_ptr<ElementBuffer> buffer)
 	{
 		m_elementBuffer = buffer;
 	}

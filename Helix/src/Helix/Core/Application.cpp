@@ -85,7 +85,7 @@ namespace hlx
 			t0 = std::chrono::high_resolution_clock::now();
 
 			Renderer::clearBuffer();
-			Renderer::clearBackground(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
+			Renderer::clearBackground(glm::vec4(glm::vec3{ 0.1f }, 1.0f));
 
 
 

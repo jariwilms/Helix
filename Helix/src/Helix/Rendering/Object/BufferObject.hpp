@@ -10,6 +10,8 @@ namespace hlx
 	public:
 		virtual ~BufferObject() = default;
 
+		virtual inline unsigned int getId() const { return m_objectId; }
+
 		virtual void bind() const = 0;
 		virtual void unbind() const = 0;
 

@@ -31,7 +31,7 @@ namespace hlx
 
 			m_shader = Shader::create("shaders/framebuffer.vert", "shaders/framebuffer.frag");
 
-			m_camera = Camera{ Transform{ glm::vec3{ 0.0f, 0.0f, 3.0f } } };
+			m_camera = Camera{ Transform{ glm::vec3{ 0.0f, 0.0f, 10.0f } } };
 			m_camera.setProjectionType(Projection::Type::Perspective);
 		}
 		~SceneRenderWidget() = default;
@@ -60,30 +60,34 @@ namespace hlx
 			m_frameBuffer = FrameBuffer::create(dimensions.x, dimensions.y);
 			m_frameBuffer->bind();
 
-
-
 			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // we're not using the stencil buffer now
+			glEnable(GL_DEPTH_TEST);
+
+
+
 			Renderer::start(m_camera);
 			scene->render();
 			Renderer::finish();
 
+
+
 			m_frameBuffer->unbind();
+			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+
+
 
 			m_vao->bind();
 			m_shader->bind();
 			m_frameBuffer->bindTexture();
 
-			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
-			auto& texture = m_frameBuffer->getTexture();
-			ImGui::Image((ImTextureID)((size_t)texture->getId()), ImVec2((float)texture->getWidth(), (float)texture->getHeight()), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
-			//scuffed typecast fix zodat de compiler stopt met b!tchen
+			glDisable(GL_DEPTH_TEST);
+			glDrawArrays(GL_TRIANGLES, 0, 6);
 
 
+
+			ImGui::Image((ImTextureID)((size_t)m_frameBuffer->getTexture()->getId()), ImVec2((float)dimensions.x, (float)dimensions.y), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 
 			ImGui::End();
 			ImGui::PopStyleVar();

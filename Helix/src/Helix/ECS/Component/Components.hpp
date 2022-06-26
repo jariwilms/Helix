@@ -1,5 +1,7 @@
 #pragma once
 
+#include "stdafx.hpp"
+
 #include "Helix/Core/DeltaTime.hpp"
 #include "Helix/Core/Transform.hpp" //todo: move
 #include "Helix/Rendering/Renderer/Renderer.hpp"
@@ -31,8 +33,18 @@ namespace hlx
 		std::shared_ptr<Texture> texture;
 	};
 
+	struct ModelComponent
+	{
+	public:
+		ModelComponent(std::filesystem::path path)
+			: model{ IO::load<Model>(path) } {}
+
+		std::shared_ptr<Model> model;
+	};
+
 	struct CameraComponent
 	{
+	public:
 		CameraComponent() = default;
 
 		float x;

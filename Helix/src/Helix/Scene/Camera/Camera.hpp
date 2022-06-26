@@ -14,6 +14,10 @@ namespace hlx
 	class Camera
 	{
 	public:
+		//REMOVE//
+		friend class Material;
+		//######//
+
 		enum class Mode
 		{
 			Free, 

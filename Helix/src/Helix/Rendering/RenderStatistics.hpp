@@ -22,8 +22,7 @@ public:
 
 		t0 = std::chrono::high_resolution_clock::now();
 	}
-
-	void tick()
+	void measure()
 	{
 		t1 = std::chrono::high_resolution_clock::now();
 	}

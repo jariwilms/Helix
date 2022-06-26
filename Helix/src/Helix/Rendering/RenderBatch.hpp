@@ -47,7 +47,7 @@ namespace hlx
 			textureSlots.resize(slots);
 
 			textureSlots[0] = (Texture::create("textures/white.png"));
-			shader = Shader::create("shaders/test.vert", "shaders/test.frag");
+			shader = Shader::create("shaders/default.vert", "shaders/default.frag");
 		}
 
 		void bind()

@@ -4,7 +4,6 @@
 namespace hlx
 {
 	OpenGLRenderer::OpenGLRenderer()
-		: m_statistics{}
 	{
 		constexpr size_t MAX_INDICES = (size_t)1 << 15; //TODO: move naar renderdata / rendersettings?
 		constexpr size_t BUFFER_SIZE = MAX_INDICES * sizeof(Vertex);
@@ -18,6 +17,8 @@ namespace hlx
 		layout.addAttribute<float>(1); //entity id
 
 		m_renderBatch = std::make_shared<RenderBatch>(BUFFER_SIZE, MAX_INDICES, layout);
+
+		glEnable(GL_DEPTH_TEST);
 	}
 
 	void OpenGLRenderer::start(const Camera& camera)
@@ -45,7 +46,7 @@ namespace hlx
 
 		glDrawElements(GL_TRIANGLES, (GLsizei)m_renderBatch->elementCount, GL_UNSIGNED_INT, nullptr);
 
-		m_statistics.drawCalls += 1;
+		++m_statistics.drawCalls;
 
 		m_renderBatch->reset();
 	}
@@ -56,12 +57,14 @@ namespace hlx
 
 	void OpenGLRenderer::clearBuffer()
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
 	void OpenGLRenderer::clearBackground(glm::vec4 color)
 	{
 		glClearColor(color.r, color.g, color.b, color.a);
 	}
+
+
 
 	void OpenGLRenderer::renderQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color)
 	{
@@ -153,13 +156,37 @@ namespace hlx
 		check();
 	}
 
+
+
+	void OpenGLRenderer::renderModel(Model& model, const glm::mat4& transform)
+	{
+		auto& meshes = model.getMeshes();
+
+		for (const auto& mesh : meshes)
+		{
+			auto& vao = mesh.getVertexArray();
+			auto material = mesh.getMaterial();
+			auto& shader = material->getShader();
+
+			vao->bind();
+			material->bind();
+			shader->setMat("u_model", transform);
+			shader->setMat("u_view", m_view);
+			shader->setMat("u_projection", m_projection);
+
+			glDrawElements(GL_TRIANGLES, (GLsizei)vao->getElementBuffer()->getSize(), GL_UNSIGNED_INT, nullptr);
+		}
+	}
+
+
+
 	void OpenGLRenderer::poll()
 	{
 		m_statistics.reset();
 	}
 	RenderStatistics OpenGLRenderer::measure()
 	{
-		m_statistics.tick();
+		m_statistics.measure();
 		return m_statistics;
 	}
 }

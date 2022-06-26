@@ -26,6 +26,8 @@ namespace hlx
 		s_renderAPI->clearBackground(color);
 	}
 
+
+
 	void Renderer::renderQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color)
 	{
 		s_renderAPI->renderQuad(position, scale, color);
@@ -52,6 +54,15 @@ namespace hlx
 	{
 		s_renderAPI->renderQuad(transform, texture, textureScale, textureTint);
 	}
+
+
+
+	void Renderer::renderModel(Model& model, const glm::mat4& transform)
+	{
+		s_renderAPI->renderModel(model, transform);
+	}
+
+
 
 	void Renderer::poll()
 	{

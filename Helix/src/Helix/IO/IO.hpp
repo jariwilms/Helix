@@ -10,7 +10,7 @@
 #pragma warning(default: 26819 6262 26451)
 
 #include "Helix/Rendering/Texture/Texture.hpp"
-#include "Helix/Rendering/Mesh/Mesh.hpp"
+#include "Helix/Rendering/Model/Mesh.hpp"
 #include "Helix/Rendering/Model/Model.hpp"
 
 namespace hlx
@@ -18,6 +18,22 @@ namespace hlx
 	class IO
 	{
 	public:
+		class Affix
+		{
+		public:
+			Affix(const std::filesystem::path relativePath)
+			{
+				HLX_CORE_INFO("Appended \"{0}\" to current path", relativePath.string().c_str());
+				IO::m_subdirectories.push_back(relativePath);
+			}
+			~Affix()
+			{
+				auto& relativePath = m_subdirectories.at(m_subdirectories.size() - 1);
+				HLX_CORE_INFO("Detached \"{0}\" from current path", relativePath.string().c_str());
+				IO::m_subdirectories.pop_back();
+			}
+		};
+
 		static void init()
 		{
 			m_root = std::filesystem::current_path().parent_path().lexically_normal();
@@ -40,8 +56,8 @@ namespace hlx
 			return (coalesced / path).lexically_normal();
 		}
 
-		template<typename T>
-		inline static std::shared_ptr<T> load(const std::filesystem::path& path)
+		template<typename T, typename... Args>
+		inline static std::shared_ptr<T> load(const std::filesystem::path& path, Args... args)
 		{
 			HLX_CORE_ASSERT(false, "Invalid file format");
 		}
@@ -67,7 +83,11 @@ namespace hlx
 		{
 			auto fullPath = getCoalescedPath(path);
 
-			if (!checkFileExists(fullPath)) logError(fullPath);
+			if (!checkFileExists(fullPath))
+			{
+				logError(fullPath);
+				return load<Texture>("textures/missing.png");
+			}
 			if (m_textures.find(fullPath) != m_textures.end()) return m_textures[fullPath];
 
 
@@ -77,6 +97,7 @@ namespace hlx
 
 			stbi_set_flip_vertically_on_load(true);
 			data = stbi_load(fullPath.string().c_str(), &width, &height, &channels, 0);
+			if (!data) return load<Texture>("textures/missing.png");
 
 			auto texture = Texture::create(width, height, channels, data);
 			m_textures.insert(std::make_pair(fullPath, texture));
@@ -85,102 +106,112 @@ namespace hlx
 		}
 		template<> inline static std::shared_ptr<Model> load<Model>(const std::filesystem::path& path)
 		{
-			auto fullPath = getCoalescedPath(path).string();
+			//TODO
+			//if (fullpath.isAbsolute()) { verander path behaviour } 
+
+			auto fullPath = getCoalescedPath(path);
+			auto directory = fullPath.parent_path();
+
+			if (!checkFileExists(fullPath)) logError(fullPath);
+			if (m_textFiles.find(fullPath) != m_textFiles.end()) return m_models[fullPath];
 
 			Assimp::Importer importer;
-			const aiScene* scene = importer.ReadFile(fullPath, aiProcess_Triangulate | aiProcess_FlipUVs);
+			auto scene = importer.ReadFile(fullPath.string(), aiProcess_Triangulate);
 
-			HLX_CORE_ASSERT(scene && !(scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) && scene->mRootNode, "asd");
-
-			auto Model = Model::create();
-
-
-
-
+			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+			{
+				HLX_CORE_ERROR("Failed to load model: {0}", importer.GetErrorString());
+				return nullptr;
+			}
 
 
 
+			auto model = std::make_shared<Model>();
+			auto& meshes = model->getMeshes();
 
-			return Model;
+			std::stack<aiNode*> nodeStack{};
+			nodeStack.push(scene->mRootNode);
+
+			while (!nodeStack.empty())
+			{
+				auto node = nodeStack.top();
+				nodeStack.pop();
+
+				for (unsigned int i{ 0 }; i < node->mNumChildren; ++i)
+					nodeStack.push(node->mChildren[i]);
+
+				for (unsigned int i{ 0 }; i < node->mNumMeshes; ++i)
+				{
+					auto aiMesh = scene->mMeshes[node->mMeshes[i]];
+
+					std::vector<MeshVertex> vertices;
+					std::vector<unsigned int> indices;
+
+					for (unsigned int i = 0; i < aiMesh->mNumVertices; i++)
+					{
+						MeshVertex vertex{};
+
+						std::memcpy(&vertex.position, &aiMesh->mVertices[i], sizeof(glm::vec3));
+						if (aiMesh->HasNormals()) std::memcpy(&vertex.normal, &aiMesh->mNormals[i], sizeof(glm::vec3));
+
+						if (aiMesh->mTextureCoords) std::memcpy(&vertex.textureCoordinate, &aiMesh->mTextureCoords[0][i], sizeof(glm::vec2));
+						else vertex.textureCoordinate = glm::vec2(0.0f, 0.0f);
+
+						if (aiMesh->mTangents) std::memcpy(&vertex.tangent, &aiMesh->mTangents[i], sizeof(glm::vec3));
+						if (aiMesh->mBitangents) std::memcpy(&vertex.bitangent, &aiMesh->mBitangents[i], sizeof(glm::vec3));
+
+						vertices.push_back(vertex);
+					}
+
+					for (unsigned int i = 0; i < aiMesh->mNumFaces; ++i)
+					{
+						auto& face = aiMesh->mFaces[i];
+
+						for (unsigned int j = 0; j < face.mNumIndices; ++j)
+							indices.push_back(face.mIndices[j]);
+					}
+
+					BufferLayout layout{};
+					layout.addAttribute<float>(3);
+					layout.addAttribute<float>(3);
+					layout.addAttribute<float>(3);
+					layout.addAttribute<float>(3);
+					layout.addAttribute<float>(2);
+					layout.addAttribute<float>(1);
+
+					auto vertexArray = VertexArray::create();
+					auto vertexBuffer = VertexBuffer::create(vertices.size() * sizeof(MeshVertex), (float*)vertices.data());
+					auto elementBuffer = ElementBuffer::create(indices.size() * sizeof(unsigned int), indices.data());
+
+					vertexBuffer->setLayout(layout);
+					vertexArray->setElementBuffer(elementBuffer);
+					vertexArray->addVertexBuffer(vertexBuffer);
+
+					auto& mesh = meshes.emplace_back(vertexArray);
+					auto meshMaterial = mesh.getMaterial();
+					auto material = scene->mMaterials[aiMesh->mMaterialIndex];
+
+					for (unsigned int i = 0; i < material->GetTextureCount(aiTextureType_AMBIENT); ++i)
+					{
+						aiString textureName{};
+						material->GetTexture(aiTextureType_AMBIENT, i, &textureName);
+
+						std::string a = "models/";
+						a += textureName.C_Str();
+						auto tex = Texture::create(a);
+						meshMaterial->setAlbedo(tex);
+					}
+
+					//loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+				}
+			}
+
+			m_models.insert(std::make_pair(fullPath, model));
+			return model;
 		}
-
-		class Affix
-		{
-		public:
-			Affix(const std::filesystem::path relativePath) 
-			{ 
-				HLX_CORE_INFO("Appended \"{0}\" to current path", relativePath.string().c_str());
-				IO::m_subdirectories.push_back(relativePath); }
-			~Affix()
-			{ 
-				auto& relativePath = m_subdirectories.at(m_subdirectories.size() - 1);
-				HLX_CORE_INFO("Detached \"{0}\" from current path", relativePath.string().c_str());
-				IO::m_subdirectories.pop_back(); }
-		};
 
 	private:
-		static void processNode(Model& model, const aiScene* scene, aiNode* node)
-		{
-			auto& meshes = model.getMeshes();
-			
-			for (unsigned int i = 0; i < node->mNumMeshes; ++i)
-			{
-				aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-				meshes.push_back(processMesh(mesh, scene));
-			}
-
-			for (unsigned int i = 0; i < node->mNumChildren; i++) 
-				processNode(model, scene, node->mChildren[i]);
-		}
-
-		struct V
-		{
-			glm::vec3 position;
-			glm::vec3 normal;
-
-			glm::vec2 textureCoordinates;
-
-			glm::vec3 tangent;
-			glm::vec3 bitangent;
-		};
-
-		static Mesh processMesh(aiMesh* mesh, const aiScene* scene)
-		{
-			V v{};
-
-			for (unsigned int i = 0; i < mesh->mNumVertices; ++i)
-			{
-				v.position = *(glm::vec3*)&mesh->mVertices[i];
-
-				if (mesh->HasNormals())
-				{
-					v.normal = *(glm::vec3*)&mesh->mNormals[i];
-				}
-
-				if (mesh->mTextureCoords[0])
-				{
-					v.textureCoordinates = *(glm::vec2*)&mesh->mTextureCoords[0][i];
-
-					v.tangent = *(glm::vec3*)&mesh->mTangents[i];
-					v.bitangent = *(glm::vec3*)&mesh->mBitangents[i];
-				}
-				else v.textureCoordinates = glm::vec2{ 0.0f };
-			}
-
-			//vertices.push_back(v);
-
-			for (unsigned int i = 0; i < mesh->mNumFaces; ++i)
-			{
-				aiFace face = mesh->mFaces[i];
-
-				//for (unsigned int j = 0; j < face.mNumIndices; ++j)
-					//indices.push_back(face.mIndices[j]);
-			}
-
-			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-		}
-
-		inline static void logError(std::filesystem::path path)
+		static void logError(std::filesystem::path path)
 		{
 			const std::string filename = path.filename().string();
 			const std::string parent = path.remove_filename().generic_string();
@@ -192,6 +223,6 @@ namespace hlx
 
 		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<std::string>> m_textFiles;
 		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<Texture>> m_textures;
-		//inline static std::unordered_map<std::filesystem::path, std::shared_ptr<Model>> m_models;
+		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<Model>> m_models;
 	};
 }

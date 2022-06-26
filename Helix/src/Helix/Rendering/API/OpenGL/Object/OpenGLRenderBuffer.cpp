@@ -5,12 +5,12 @@ namespace hlx
 {
 	OpenGLRenderBuffer::OpenGLRenderBuffer(unsigned int width, unsigned int height, int format)
 	{
-		glCreateRenderbuffers(1, &m_objectId);
+		glGenRenderbuffers(1, &m_objectId);
+
 		bind();
 
-		glRenderbufferStorage(GL_RENDERBUFFER, format, width, height);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
 
-		//verify(); //?
 		unbind();
 	}
 	OpenGLRenderBuffer::~OpenGLRenderBuffer()

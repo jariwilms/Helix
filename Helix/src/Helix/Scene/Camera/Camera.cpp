@@ -24,7 +24,7 @@ namespace hlx
 		float s = deltaTime.toSeconds();
 
 		if (Input::isKeyPressed(Key::LeftShift))
-			s *= 5.0f;
+			s *= 10.0f;
 
 		if (Input::isKeyPressed(Key::W))
 			transform.translate(glm::vec3{ 0.0f, 0.0f, -1.0f } * s);
@@ -115,7 +115,7 @@ namespace hlx
 		m_orthographicProjectionSettings.rightPlane = aspectRatio;
 		m_perspectiveProjectionSettings.aspectRatio = aspectRatio;
 
-		setProjectionType(getProjectionType()); //scuffed update
+		setProjectionType(getProjectionType());
 	}
 
 	Projection::OrthographicSettings Camera::getOrthographicProjectionSettings() const

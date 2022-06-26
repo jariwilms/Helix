@@ -25,6 +25,8 @@ namespace hlx
 		void clearBuffer() override;
 		void clearBackground(glm::vec4 color) override;
 
+
+
 		void renderQuad(const glm::vec3& position, const glm::vec2& scale, const glm::vec4& color) override;
 		void renderQuad(const glm::vec3& position, const glm::vec2& scale, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) override;
 
@@ -33,6 +35,12 @@ namespace hlx
 		
 		void renderQuad(const glm::mat4& transform, const glm::vec4& color) override;
 		void renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint) override;
+
+
+
+		void renderModel(Model& model, const glm::mat4& transform) override;
+
+
 
 		void poll() override;
 		RenderStatistics measure() override;
