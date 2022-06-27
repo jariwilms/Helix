@@ -14,7 +14,7 @@ namespace hlx
         glDisable(capability);
     }
 
-	void OpenGLRenderState::selectRasterizationMode(RasterizationFunction rasterizationFunction)
+	void OpenGLRenderState::setRasterizationMode(RasterizationFunction rasterizationFunction)
 	{
         auto mode = getRasterizationMode(rasterizationFunction);
         glPolygonMode(GL_FRONT_AND_BACK, mode);

@@ -4,7 +4,7 @@
 EditorLayer::EditorLayer()
 	: m_scene{ new hlx::Scene{} }
 {
-	m_entityListWidget.setScene(m_scene);
+	m_sceneHierarchyWidget.setScene(m_scene);
 }
 
 void EditorLayer::update(DeltaTime deltaTime) 
@@ -13,7 +13,7 @@ void EditorLayer::update(DeltaTime deltaTime)
 
 	m_contentBrowserWidget.update(deltaTime);
 	m_renderStatisticsWidget.update(deltaTime);
-	m_entityListWidget.update(deltaTime);
+	m_sceneHierarchyWidget.update(deltaTime);
 	m_sceneRenderWidget.update(deltaTime);
 }
 
@@ -27,10 +27,10 @@ void EditorLayer::renderUI()
 	m_contentBrowserWidget.renderUI();
 
 	m_renderStatisticsWidget.renderUI();
-	m_entityListWidget.renderUI();
+	m_sceneHierarchyWidget.renderUI();
 
-	m_selectedEntityWidget.setSelectedEntity(m_entityListWidget.getSelectedEntity());
-	m_selectedEntityWidget.renderUI();
+	m_entityInspectorWidget.setSelectedEntity(m_sceneHierarchyWidget.getSelectedEntity());
+	m_entityInspectorWidget.renderUI();
 
 	m_sceneRenderWidget.renderUI(m_scene);
 }

@@ -13,7 +13,7 @@ namespace hlx
 		static void enable(RenderFunction renderFunction);
 		static void disable(RenderFunction renderFunction);
 
-		static void selectRasterizationMode(RasterizationFunction rasterizationFunction);
+		static void setRasterizationMode(RasterizationFunction rasterizationFunction);
 
 	private:
 		static RenderStateAPI* s_renderStateAPI;

@@ -20,9 +20,9 @@ namespace hlx
 		s_renderStateAPI->disable(renderFunction);
 	}
 
-	void RenderState::selectRasterizationMode(RasterizationFunction rasterizationFunction)
+	void RenderState::setRasterizationMode(RasterizationFunction rasterizationFunction)
 	{
-		s_renderStateAPI->selectRasterizationMode(rasterizationFunction);
+		s_renderStateAPI->setRasterizationMode(rasterizationFunction);
 	}
 
 	RenderStateAPI* RenderState::s_renderStateAPI;

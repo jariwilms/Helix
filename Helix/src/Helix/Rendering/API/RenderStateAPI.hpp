@@ -13,6 +13,6 @@ namespace hlx
 		virtual void enable(RenderFunction renderFunction) = 0;
 		virtual void disable(RenderFunction renderFunction) = 0;
 
-		virtual void selectRasterizationMode(RasterizationFunction rasterizationFunction) = 0;
+		virtual void setRasterizationMode(RasterizationFunction rasterizationFunction) = 0;
 	};
 }

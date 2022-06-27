@@ -280,7 +280,7 @@
     <ClInclude Include="src\Helix\Widget\ContentBrowserWidget.hpp">
       <Filter>Helix\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Widget\EntityListWidget.hpp">
+    <ClInclude Include="src\Helix\Widget\SceneHierarchyWidget.hpp">
       <Filter>Helix\Widget</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Widget\RenderStatisticsWidget.hpp">
@@ -289,7 +289,7 @@
     <ClInclude Include="src\Helix\Widget\SceneRenderWidget.hpp">
       <Filter>Helix\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Widget\SelectedEntityWidget.hpp">
+    <ClInclude Include="src\Helix\Widget\EntityInspectorWidget.hpp">
       <Filter>Helix\Widget</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Widget\WidgetData.hpp">

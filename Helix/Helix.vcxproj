@@ -164,10 +164,10 @@
     <ClInclude Include="src\Helix\Widget\Base\Widget.hpp" />
     <ClInclude Include="src\Helix\Widget\Component\TransformComponentWidget.hpp" />
     <ClInclude Include="src\Helix\Widget\ContentBrowserWidget.hpp" />
-    <ClInclude Include="src\Helix\Widget\EntityListWidget.hpp" />
+    <ClInclude Include="src\Helix\Widget\SceneHierarchyWidget.hpp" />
     <ClInclude Include="src\Helix\Widget\RenderStatisticsWidget.hpp" />
     <ClInclude Include="src\Helix\Widget\SceneRenderWidget.hpp" />
-    <ClInclude Include="src\Helix\Widget\SelectedEntityWidget.hpp" />
+    <ClInclude Include="src\Helix\Widget\EntityInspectorWidget.hpp" />
     <ClInclude Include="src\Helix\Widget\WidgetData.hpp" />
     <ClInclude Include="src\Helix\Window\OS\Windows\WindowsWindow.hpp" />
     <ClInclude Include="src\Helix\Window\Window.hpp" />

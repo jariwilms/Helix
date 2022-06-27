@@ -15,7 +15,7 @@ namespace hlx
 		void enable(RenderFunction renderFunction) override;
 		void disable(RenderFunction renderFunction) override;
 
-		void selectRasterizationMode(RasterizationFunction rasterizationFunction) override;
+		void setRasterizationMode(RasterizationFunction rasterizationFunction) override;
 
 	private:
 		static constexpr int getRenderCapability(RenderFunction renderFunction)

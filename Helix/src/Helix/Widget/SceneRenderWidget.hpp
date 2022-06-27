@@ -17,6 +17,7 @@ namespace hlx
 	{
 	public:
 		SceneRenderWidget()
+			: m_rasterizationMode{}, m_lastRasterizationMode {}
 		{
 			BufferLayout layout{};
 			layout.addAttribute<float>(3);
@@ -52,8 +53,13 @@ namespace hlx
 
 		void renderUI(Scene* scene)
 		{
+			if (!isEnabled())
+				return;
+
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-			ImGui::Begin("Scene");
+			ImGui::Begin("Scene", (bool*)nullptr, ImGuiWindowFlags_MenuBar);
+
+
 
 			auto windowPosition = *(glm::vec2*)&ImGui::GetWindowPos();
 			auto windowSize = *(glm::vec2*)&ImGui::GetWindowSize();
@@ -71,22 +77,49 @@ namespace hlx
 			auto dim = ImGui::GetContentRegionAvail();
 			glm::uvec2 dimensions{ static_cast<unsigned int>(dim.x), static_cast<unsigned int>(dim.y) };
 
-			if (dimensions != lastWindowDimensions)
+			if (dimensions != m_lastWindowDimensions)
 			{
-				lastWindowDimensions = dimensions;
+				m_lastWindowDimensions = dimensions;
 
 				glViewport(0, 0, dimensions.x, dimensions.y);
 				m_camera.setScreenDimensions(dimensions);
 			}
 
+
+
+			if (ImGui::BeginMenuBar())
+			{
+				if (ImGui::BeginMenu("Options"))
+				{
+					ImGui::Combo("Rasterization", &m_rasterizationMode, "Fill\0Line\0Point\0\0");
+
+					if (m_rasterizationMode != m_lastRasterizationMode)
+					{
+						switch (m_rasterizationMode)
+						{
+							case 0: RenderState::setRasterizationMode(RasterizationFunction::Fill);		break;
+							case 1: RenderState::setRasterizationMode(RasterizationFunction::Line);		break;
+							case 2: RenderState::setRasterizationMode(RasterizationFunction::Point);	break;
+							default:																	break;
+						}
+					}
+
+					m_lastRasterizationMode = m_rasterizationMode;
+					ImGui::EndMenu();
+				}
+
+				ImGui::EndMenuBar();
+			}
+
+
+
 			m_frameBuffer = FrameBuffer::create(dimensions.x, dimensions.y);
 			m_frameBuffer->bind();
 
-			Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+			Renderer::setClearColor({ glm::vec3{ 0.1f }, 1.0f });
 			Renderer::clearBuffer(BufferComponent::Color | BufferComponent::Depth);
 
 			RenderState::enable(RenderFunction::DepthTest);
-			RenderState::selectRasterizationMode(RasterizationFunction::Point);
 
 
 
@@ -99,14 +132,13 @@ namespace hlx
 			m_frameBuffer->unbind();
 			Renderer::setClearColor(glm::vec4{ 1.0f });
 			Renderer::clearBuffer(BufferComponent::Color);
-			RenderState::selectRasterizationMode(RasterizationFunction::Fill);
 
 			m_vao->bind();
 			m_shader->bind();
 			m_frameBuffer->bindTexture();
 
 			RenderState::disable(RenderFunction::DepthTest);
-			glDrawArrays(GL_TRIANGLES, 0, 6);
+			glDrawArrays(GL_TRIANGLES, 0, 6);//fix
 
 
 
@@ -127,6 +159,9 @@ namespace hlx
 
 		Camera m_camera;
 
-		glm::uvec2 lastWindowDimensions;
+		glm::uvec2 m_lastWindowDimensions;
+
+		int m_rasterizationMode;
+		int m_lastRasterizationMode;
 	};
 }

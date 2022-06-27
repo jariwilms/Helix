@@ -1,0 +1,32 @@
+Adding materials to 3ds max:
+- Add "4K" OR "8K" folder into 3ds max External Paths (Customize > Configure User Paths > External Paths > Add). Remember to check Add Subpaths
+- Open material library in the Material Editor
+- To control the Displacement Value, add VRayDisplacementMod Modifier to your object and check 'Use object mtl' in the 3D mapping/subdivision settings
+
+Adding materials to Unity:
+- Add asset package (Assets > Import Package > Custom Package)
+
+Adding materials to 3ds max:
+- Please copy everything from the "Content" folder to your project "Content" folder.
+- To have easier control over material (displacement value / tesselation / normal flatness) please use Material Instances
+- Please note tesselation value is dependent on density of your mesh
+
+Import PBR Textures SBSAR Materials:
+- Import using substance plugin available for your software
+- Use at least 4096 x 4096 resolution size to prevent any artifacts
+
+Adding materials to Blender:
+- Use File > Link or File > Append
+- Navigate to the Material folder inside the Blender file and choose 4K or 8K material
+
+Adding PBR Textures in JPG/TGA (4K/8K):
+- Add texture maps in designated slots in your software material:
+	_diffuse to Color / Base Color / Diffuse slot
+	_ao to Ambient Occlusion / AO slot (not necessary in some 3d software)
+	_glossiness to Glossiness (only when it is supported)
+	_height to Displace / Displacement / Height slot
+	_metallic to Metallness / Metallic slot (only when it is supported)
+	_normal to Normal / Bump Normal / Normal Bump slot (DirectX version)
+	_normal_opengl to Normal / Bump Normal / Normal Bump (OpenGl version)
+	_reflection to Reflect / Reflection / Specular slot (only when it is supported)
+	_roughness to Roughness slot (only when it is supported)

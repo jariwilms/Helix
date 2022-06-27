@@ -15,7 +15,7 @@ namespace hlx
 		m_activeButtons.resize(GLFW_BUTTON_COUNT);
 		m_lastActiveButtons.resize(GLFW_BUTTON_COUNT);
 	}
-	void Input::reset() //TODO: move naar callbacks? moet niet per se in reset functie...wrs
+	void Input::reset()
 	{
 		m_lastActiveKeys = m_activeKeys;
 		m_lastActiveButtons = m_activeButtons;
