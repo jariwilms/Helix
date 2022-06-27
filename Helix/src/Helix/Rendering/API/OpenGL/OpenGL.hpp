@@ -10,22 +10,6 @@ namespace hlx
 	class OpenGL
 	{
 	public:
-		enum : int
-		{
-			Wireframe, 
-		};
-
-		static void setWireFrame(bool state)
-		{
-			if (state) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		}
-
-		//static constexpr unsigned int getGLType(unsigned int type) //standard vertex type
-		//{
-
-		//}
-
 		static constexpr unsigned int getSizeOfType(GLenum type)
 		{
 			switch (type)

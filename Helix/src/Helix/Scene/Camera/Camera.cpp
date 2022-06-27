@@ -34,8 +34,8 @@ namespace hlx
 		if (Input::isButtonPressed(Button::ButtonRight) && Input::isMovingCursor())
 		{
 			auto& cursor = Input::getRelativeCursorPosition();
-			transform.rotation.x += -cursor.y * deltaTime * 50;
-			transform.rotation.y += cursor.x * deltaTime * 50;
+			transform.rotation.x += -cursor.y * deltaTime * 30;
+			transform.rotation.y += cursor.x * deltaTime * 30;
 		}
 
 

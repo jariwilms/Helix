@@ -4,8 +4,9 @@
 
 #include "glm/glm.hpp"
 
+#include "Helix/Rendering/RenderState.hpp"
 #include "Helix/Rendering/Object/FrameBuffer.hpp"
-#include "Helix/Rendering/RenderData.hpp"
+#include "Helix/Rendering/Data/RenderData.hpp"
 #include "Helix/Rendering/Shader/Shader.hpp"
 #include "Helix/Scene/Scene.hpp"
 #include "Helix/Widget/Base/Widget.hpp"
@@ -81,9 +82,11 @@ namespace hlx
 			m_frameBuffer = FrameBuffer::create(dimensions.x, dimensions.y);
 			m_frameBuffer->bind();
 
-			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // we're not using the stencil buffer now
-			glEnable(GL_DEPTH_TEST);
+			Renderer::setClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+			Renderer::clearBuffer(BufferComponent::Color | BufferComponent::Depth);
+
+			RenderState::enable(RenderFunction::DepthTest);
+			RenderState::selectRasterizationMode(RasterizationFunction::Point);
 
 
 
@@ -94,16 +97,15 @@ namespace hlx
 
 
 			m_frameBuffer->unbind();
-			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
-
-
+			Renderer::setClearColor(glm::vec4{ 1.0f });
+			Renderer::clearBuffer(BufferComponent::Color);
+			RenderState::selectRasterizationMode(RasterizationFunction::Fill);
 
 			m_vao->bind();
 			m_shader->bind();
 			m_frameBuffer->bindTexture();
 
-			glDisable(GL_DEPTH_TEST);
+			RenderState::disable(RenderFunction::DepthTest);
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 
 

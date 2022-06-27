@@ -4,10 +4,9 @@
 
 #include "glm/glm.hpp"
 
-#include "Helix/Rendering/RenderStatistics.hpp"
-#include "Helix/Rendering/API/RenderAPI.hpp"
-#include "Helix/Rendering/API/OpenGL/Renderer/OpenGLRenderer.hpp"
-#include "Helix/Rendering/Object/VertexArray.hpp"
+#include "Helix/Rendering/Data/BufferComponent.hpp"
+#include "Helix/Rendering/Data/RenderStatistics.hpp"
+#include "Helix/Rendering/API/RendererAPI.hpp"
 #include "Helix/Scene/Camera/Camera.hpp"
 
 namespace hlx
@@ -20,8 +19,11 @@ namespace hlx
 		static void start(const Camera& camera);
 		static void finish();
 
-		static void clearBuffer();
-		static void clearBackground(glm::vec4 color);
+
+
+		static void clearBuffer(BufferComponent buffer);
+		static void clearBuffer(int buffer);
+		static void setClearColor(glm::vec4 color);
 
 
 
@@ -40,10 +42,10 @@ namespace hlx
 
 
 
-		static void poll();
-		static RenderStatistics measure();
+		static const RenderStatistics& getStatistics();
+		static void resetStatistics();
 
 	private:
-		static RenderAPI* s_renderAPI;
+		static RendererAPI* s_renderAPI;
 	};
 }

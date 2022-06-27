@@ -55,11 +55,17 @@ namespace hlx
 		submit();
 	}
 
-	void OpenGLRenderer::clearBuffer()
+	void OpenGLRenderer::clearBuffer(BufferComponent buffer)
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		auto flags = 0;
+
+		if (buffer & BufferComponent::Color)		flags |= GL_COLOR_BUFFER_BIT;
+		if (buffer & BufferComponent::Depth)		flags |= GL_DEPTH_BUFFER_BIT;
+		if (buffer & BufferComponent::Stencil)		flags |= GL_STENCIL_BUFFER_BIT;
+
+		glClear(flags);
 	}
-	void OpenGLRenderer::clearBackground(glm::vec4 color)
+	void OpenGLRenderer::setClearColor(glm::vec4 color)
 	{
 		glClearColor(color.r, color.g, color.b, color.a);
 	}
@@ -175,18 +181,10 @@ namespace hlx
 			shader->setMat("u_projection", m_projection);
 
 			glDrawElements(GL_TRIANGLES, (GLsizei)vao->getElementBuffer()->getSize(), GL_UNSIGNED_INT, nullptr);
+
+			m_statistics.vertices += static_cast<unsigned int>(mesh.getVertexArray()->getElementBuffer()->getSize());
+			m_statistics.triangles += static_cast<unsigned int>(mesh.getVertexArray()->getElementBuffer()->getSize()) / 3;
+			++m_statistics.drawCalls;
 		}
-	}
-
-
-
-	void OpenGLRenderer::poll()
-	{
-		m_statistics.reset();
-	}
-	RenderStatistics OpenGLRenderer::measure()
-	{
-		m_statistics.measure();
-		return m_statistics;
 	}
 }

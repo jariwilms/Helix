@@ -2,22 +2,23 @@
 
 #include "glm/glm.hpp"
 
-#include "Helix/Rendering/RenderStatistics.hpp"
+#include "Helix/Rendering/Data/BufferComponent.hpp"
+#include "Helix/Rendering/Data/RenderStatistics.hpp"
 #include "Helix/Rendering/Object/VertexArray.hpp"
 #include "Helix/Scene/Camera/Camera.hpp"
 
 namespace hlx
 {
-	class RenderAPI
+	class RendererAPI
 	{
 	public:
-		virtual ~RenderAPI() = default;
+		virtual ~RendererAPI() = default;
 
 		virtual void start(const Camera& camera) = 0;
 		virtual void finish() = 0;
 
-		virtual void clearBuffer() = 0;
-		virtual void clearBackground(glm::vec4 color) = 0;
+		virtual void clearBuffer(BufferComponent buffer) = 0;
+		virtual void setClearColor(glm::vec4 color) = 0;
 
 
 
@@ -36,13 +37,18 @@ namespace hlx
 
 
 
-		virtual void poll() = 0;
-		virtual RenderStatistics measure() = 0;
+		const RenderStatistics& getStatistics() { m_statistics.measure(); return m_statistics; }
+		void resetStatistics() { m_statistics.reset(); }
 
 	protected:
-		RenderAPI() = default;
+		RendererAPI() : m_view{}, m_projection{} {}
 
 		virtual void check() = 0;
 		virtual void submit() = 0;
+
+		RenderStatistics m_statistics;
+
+		glm::mat4 m_view;
+		glm::mat4 m_projection;
 	};
 }

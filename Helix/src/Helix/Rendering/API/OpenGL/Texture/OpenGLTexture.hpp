@@ -7,7 +7,7 @@
 #include "stb/stb_image.h"
 
 #include "Helix/Rendering/Texture/Texture.hpp"
-#include "Helix/Rendering/API/OpenGL/OpenGL.hpp"
+#include "Helix/Rendering/API/OpenGL/OpenGLRenderState.hpp"
 
 namespace hlx
 {

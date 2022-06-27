@@ -6,8 +6,8 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
-#include "Helix/Rendering/Renderer/Renderer.hpp"
-#include "Helix/Rendering/RenderStatistics.hpp"
+#include "Helix/Rendering/Renderer.hpp"
+#include "Helix/Rendering/Data/RenderStatistics.hpp"
 #include "Helix/Widget/Base/Widget.hpp"
 
 namespace hlx
@@ -17,12 +17,12 @@ namespace hlx
 	public:
 		RenderStatisticsWidget() = default;
 
-		void update(DeltaTime deltaTime)
+		void update(DeltaTime deltaTime) override
 		{
-			m_statistics = hlx::Renderer::measure();
+			m_statistics = hlx::Renderer::getStatistics();
 		}
 
-		void renderUI()
+		void renderUI() override
 		{
 			DeltaTime dt{};
 			dt = m_statistics.t1 - m_statistics.t0;

@@ -1,6 +1,8 @@
 #include "stdafx.hpp"
 #include "OpenGLTexture.hpp"
 
+#include "Helix/Rendering/API/OpenGL/OpenGL.hpp"
+
 namespace hlx
 {
 	OpenGLTexture::OpenGLTexture(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data)

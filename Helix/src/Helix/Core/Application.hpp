@@ -13,7 +13,8 @@
 #include "Helix/Layer/Base/LayerStack.hpp"
 #include "Helix/Layer/ImGuiLayer.hpp"
 #include "Helix/Layer/ImGuiLayer.hpp"
-#include "Helix/Rendering/Renderer/Renderer.hpp"
+#include "Helix/Rendering/Renderer.hpp"
+#include "Helix/Rendering/RenderState.hpp"
 #include "Helix/Window/Window.hpp"
 
 namespace hlx

@@ -7,7 +7,7 @@
 #include "Helix/Rendering/Object/VertexBuffer.hpp"
 #include "Helix/Rendering/Object/ElementBuffer.hpp"
 #include "Helix/Rendering/Texture/Texture.hpp"
-#include "Helix/Rendering/MeshVertex.hpp"
+#include "Helix/Rendering/Data/MeshVertex.hpp"
 
 namespace hlx
 {

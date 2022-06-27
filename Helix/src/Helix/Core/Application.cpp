@@ -1,8 +1,6 @@
 #include "stdafx.hpp"
 
 #include "Helix/Core/Application.hpp"
-#include "Helix/ECS/Registry.hpp"
-#include "Helix/ECS/Component/ComponentArray.hpp"
 
 namespace hlx
 {
@@ -21,7 +19,7 @@ namespace hlx
 
 		Input::init();
 		Renderer::init();
-
+		RenderState::init();
 
 		m_imguiLayer = new ImGuiLayer{};
 		pushLayer(m_imguiLayer);
@@ -85,8 +83,8 @@ namespace hlx
 
 			t0 = std::chrono::high_resolution_clock::now();
 
-			Renderer::clearBuffer();
-			Renderer::clearBackground(glm::vec4(glm::vec3{ 0.1f }, 1.0f));
+			Renderer::clearBuffer(BufferComponent::Color | BufferComponent::Depth);
+			Renderer::setClearColor({ glm::vec3{0.1f} , 1.0f });
 
 
 

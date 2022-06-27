@@ -53,7 +53,12 @@ namespace hlx
 
 	inline std::ostream& operator<<(std::ostream& os, const Event& m_event)
 	{
+#ifdef HLX_DEBUG
 		os << m_event.toString();
+#else 
+		os << "Event";
+#endif
+
 		return os;
 	}
 }

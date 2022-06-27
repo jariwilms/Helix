@@ -1,6 +1,8 @@
 #include "stdafx.hpp"
 #include "OpenGLVertexArray.hpp"
 
+#include "Helix/Rendering/API/OpenGL/OpenGL.hpp"
+
 namespace hlx
 {
 	OpenGLVertexArray::OpenGLVertexArray()

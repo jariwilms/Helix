@@ -2,18 +2,18 @@
 
 #include "glm/glm.hpp"
 
-#include "Helix/Rendering/API/RenderAPI.hpp"
+#include "Helix/Rendering/API/RendererAPI.hpp"
 #include "Helix/Rendering/Object/VertexArray.hpp"
 #include "Helix/Rendering/Object/VertexBuffer.hpp"
 #include "Helix/Rendering/Object/ElementBuffer.hpp"
 #include "Helix/Rendering/Shader/Shader.hpp"
 #include "Helix/Rendering/Texture/Texture.hpp"
-#include "Helix/Rendering/RenderBatch.hpp"
-#include "Helix/Rendering/RenderData.hpp"
+#include "Helix/Rendering/Data/RenderBatch.hpp"
+#include "Helix/Rendering/Data/RenderData.hpp"
 
 namespace hlx
 {
-	class OpenGLRenderer : public RenderAPI
+	class OpenGLRenderer : public RendererAPI
 	{
 	public:
 		OpenGLRenderer();
@@ -22,8 +22,8 @@ namespace hlx
 		void start(const Camera& camera) override;
 		void finish() override;
 
-		void clearBuffer() override;
-		void clearBackground(glm::vec4 color) override;
+		void clearBuffer(BufferComponent buffer) override;
+		void setClearColor(glm::vec4 color) override;
 
 
 
@@ -40,19 +40,10 @@ namespace hlx
 
 		void renderModel(Model& model, const glm::mat4& transform) override;
 
-
-
-		void poll() override;
-		RenderStatistics measure() override;
-
 	protected:
 		void check() override;
 		void submit() override;
 
 		std::shared_ptr<RenderBatch> m_renderBatch;
-		RenderStatistics m_statistics;
-
-		glm::mat4 m_view;
-		glm::mat4 m_projection;
 	};
 }

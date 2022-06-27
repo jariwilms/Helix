@@ -4,13 +4,13 @@
 
 #include "glm/glm.hpp"
 
-#include "Helix/Rendering/API/RenderAPI.hpp"
+#include "Helix/Rendering/API/RendererAPI.hpp"
 #include "Helix/Rendering/Object/VertexArray.hpp"
 #include "Helix/Rendering/Object/VertexBuffer.hpp"
 #include "Helix/Rendering/Object/ElementBuffer.hpp"
 #include "Helix/Rendering/Shader/Shader.hpp"
 #include "Helix/Rendering/Texture/Texture.hpp"
-#include "Helix/Rendering/Vertex.hpp"
+#include "Helix/Rendering/Data/Vertex.hpp"
 
 namespace hlx
 {

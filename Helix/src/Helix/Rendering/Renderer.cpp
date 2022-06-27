@@ -1,6 +1,8 @@
 #include "stdafx.hpp"
 #include "Renderer.hpp"
 
+#include "Helix/Rendering/API/OpenGL/OpenGLRenderer.hpp"
+
 namespace hlx
 {
 	void Renderer::init()
@@ -17,13 +19,17 @@ namespace hlx
 		s_renderAPI->finish();
 	}
 
-	void Renderer::clearBuffer()
+	void Renderer::clearBuffer(BufferComponent buffer)
 	{
-		s_renderAPI->clearBuffer();
+		s_renderAPI->clearBuffer(buffer);
 	}
-	void Renderer::clearBackground(glm::vec4 color)
+	void Renderer::clearBuffer(int buffer)
 	{
-		s_renderAPI->clearBackground(color);
+		clearBuffer(static_cast<BufferComponent>(buffer));
+	}
+	void Renderer::setClearColor(glm::vec4 color)
+	{
+		s_renderAPI->setClearColor(color);
 	}
 
 
@@ -64,14 +70,16 @@ namespace hlx
 
 
 
-	void Renderer::poll()
+	const RenderStatistics& Renderer::getStatistics()
 	{
-		s_renderAPI->poll();
+		return s_renderAPI->getStatistics();
 	}
-	RenderStatistics Renderer::measure()
+	void Renderer::resetStatistics()
 	{
-		return s_renderAPI->measure();
+		s_renderAPI->resetStatistics();
 	}
 
-	RenderAPI* Renderer::s_renderAPI;
+
+
+	RendererAPI* Renderer::s_renderAPI;
 }
