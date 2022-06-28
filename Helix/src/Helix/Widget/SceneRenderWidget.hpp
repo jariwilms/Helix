@@ -34,6 +34,9 @@ namespace hlx
 			m_shader = Shader::create("shaders/framebuffer.vert", "shaders/framebuffer.frag");
 
 			m_camera = Camera{ Transform{ glm::vec3{ 0.0f, 0.0f, 10.0f } } };
+			auto persp = m_camera.getPerspectiveProjectionSettings();
+			persp.farPlane = 1000.0f;
+			m_camera.setPerspectiveProjectionSettings(persp);
 			m_camera.setProjectionType(Projection::Type::Perspective);
 		}
 		~SceneRenderWidget() = default;

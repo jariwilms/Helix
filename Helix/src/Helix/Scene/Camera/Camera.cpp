@@ -116,7 +116,7 @@ namespace hlx
 	{
 		return m_orthographicProjectionSettings;
 	}
-	void Camera::setOrthographicSettings(const Projection::OrthographicSettings& settings)
+	void Camera::setOrthographicProjectionSettings(const Projection::OrthographicSettings& settings)
 	{
 		m_orthographicProjectionSettings = settings;
 	}
@@ -125,7 +125,7 @@ namespace hlx
 	{
 		return m_perspectiveProjectionSettings;
 	}
-	void Camera::setPerspectiveSettings(const Projection::PerspectiveSettings& settings)
+	void Camera::setPerspectiveProjectionSettings(const Projection::PerspectiveSettings& settings)
 	{
 		m_perspectiveProjectionSettings = settings;
 	}

@@ -42,10 +42,10 @@ namespace hlx
 		void setScreenDimensions(glm::vec2 dimensions);
 
 		Projection::OrthographicSettings getOrthographicProjectionSettings() const;
-		void setOrthographicSettings(const Projection::OrthographicSettings& settings);
+		void setOrthographicProjectionSettings(const Projection::OrthographicSettings& settings);
 
 		Projection::PerspectiveSettings getPerspectiveProjectionSettings() const;
-		void setPerspectiveSettings(const Projection::PerspectiveSettings& settings);
+		void setPerspectiveProjectionSettings(const Projection::PerspectiveSettings& settings);
 
 		Transform transform;
 

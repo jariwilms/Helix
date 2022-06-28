@@ -3,7 +3,14 @@
 
 namespace hlx
 {
-    void OpenGLRenderState::enable(RenderFunction renderFunction)
+	OpenGLRenderState::OpenGLRenderState()
+	{
+        glEnable(GL_CULL_FACE); //TODO: => enable(RenderFunction::Cull);
+        glCullFace(GL_BACK);
+        glFrontFace(GL_CCW);
+	}
+
+	void OpenGLRenderState::enable(RenderFunction renderFunction)
     {
         auto capability = getRenderCapability(renderFunction);
         glEnable(capability);
@@ -19,5 +26,4 @@ namespace hlx
         auto mode = getRasterizationMode(rasterizationFunction);
         glPolygonMode(GL_FRONT_AND_BACK, mode);
 	}
-
 }

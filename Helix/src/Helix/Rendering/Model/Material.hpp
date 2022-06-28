@@ -17,6 +17,13 @@ namespace hlx
 		void bind() const 
 		{ 
 			m_shader->bind(); 
+
+			m_shader->setVec("u_baseColor", m_baseColor);
+
+			//m_shader->setFloat("u_metallicity", m_metallicity);
+			//m_shader->setFloat("u_roughness", m_roughness);
+			m_shader->setFloat("u_opacity", m_opacity);
+
 			m_albedo->bind();
 		}
 

@@ -24,7 +24,7 @@ namespace hlx
 		inline void setFocused(bool state) { m_isFocused = state; }
 
 	protected:
-		Widget() : m_isEnabled{}, m_isFocused {} {}
+		Widget() : m_isEnabled{ true }, m_isFocused{} {}
 
 	private:
 		bool m_isEnabled;

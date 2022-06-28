@@ -27,8 +27,7 @@ namespace hlx
 			{
 				auto& entity = entities.at(i);
 
-				if (ImGui::Selectable(entity.getName().c_str()))
-					m_selectedEntity = &entities.at(i);
+				if (ImGui::Selectable(entity.getName().c_str())) m_selectedEntity = &entities.at(i);
 
 				if (!contextWindowOpen)
 				{

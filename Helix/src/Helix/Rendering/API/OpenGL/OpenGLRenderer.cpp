@@ -17,8 +17,6 @@ namespace hlx
 		layout.addAttribute<float>(1); //entity id
 
 		m_renderBatch = std::make_shared<RenderBatch>(BUFFER_SIZE, MAX_INDICES, layout);
-
-		glEnable(GL_DEPTH_TEST);
 	}
 
 	void OpenGLRenderer::start(const Camera& camera)

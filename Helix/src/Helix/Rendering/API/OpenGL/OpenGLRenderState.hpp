@@ -12,6 +12,8 @@ namespace hlx
 	class OpenGLRenderState : public RenderStateAPI
 	{
 	public:
+		OpenGLRenderState();
+
 		void enable(RenderFunction renderFunction) override;
 		void disable(RenderFunction renderFunction) override;
 
