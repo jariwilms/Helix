@@ -31,6 +31,9 @@
     <Filter Include="Helix\IO">
       <UniqueIdentifier>{66F18C50-52BE-E75B-7BD7-D50367031DEA}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helix\IO\Format">
+      <UniqueIdentifier>{DEE501A4-4A71-6F68-5382-F25CBF8CCB68}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Helix\Input">
       <UniqueIdentifier>{5E2B7E99-CAE0-F68E-53D5-F065BF89ED92}</UniqueIdentifier>
     </Filter>
@@ -159,6 +162,15 @@
     </ClInclude>
     <ClInclude Include="src\Helix\Event\WindowEvent.hpp">
       <Filter>Helix\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\IO\Asset.hpp">
+      <Filter>Helix\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\IO\AssetManager.hpp">
+      <Filter>Helix\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\IO\Format\File.hpp">
+      <Filter>Helix\IO\Format</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\IO\IO.hpp">
       <Filter>Helix\IO</Filter>
@@ -327,9 +339,6 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
-    <ClInclude Include="src\Helix\IO\AssetManager.hpp" />
-    <ClInclude Include="src\Helix\IO\Format\File.hpp" />
-    <ClInclude Include="src\Helix\IO\Asset.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">

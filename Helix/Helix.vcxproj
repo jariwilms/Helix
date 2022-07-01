@@ -97,8 +97,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Helix\IO\Asset.hpp" />
-    <ClInclude Include="src\Helix\IO\AssetManager.hpp" />
     <ClInclude Include="src\Helix.hpp" />
     <ClInclude Include="src\Helix\Core\Application.hpp" />
     <ClInclude Include="src\Helix\Core\Core.hpp" />
@@ -118,6 +116,8 @@
     <ClInclude Include="src\Helix\Event\KeyEvent.hpp" />
     <ClInclude Include="src\Helix\Event\MouseEvent.hpp" />
     <ClInclude Include="src\Helix\Event\WindowEvent.hpp" />
+    <ClInclude Include="src\Helix\IO\Asset.hpp" />
+    <ClInclude Include="src\Helix\IO\AssetManager.hpp" />
     <ClInclude Include="src\Helix\IO\Format\File.hpp" />
     <ClInclude Include="src\Helix\IO\IO.hpp" />
     <ClInclude Include="src\Helix\Input\Input.hpp" />
@@ -216,6 +216,9 @@
     </ProjectReference>
     <ProjectReference Include="vendor\glfw\GLFW.vcxproj">
       <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\assimp\ASSIMP.vcxproj">
+      <Project>{B20B8BA5-9EAD-B57B-8768-C9CF73A93CCC}</Project>
     </ProjectReference>
     <ProjectReference Include="vendor\imgui\IMGUI.vcxproj">
       <Project>{606F530D-CC83-7BBE-9505-1F1E01D977EF}</Project>

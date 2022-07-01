@@ -17,10 +17,12 @@ workspace "Helix"
 	includedir["IMGUI"] = "Helix/vendor/imgui/include"
 	includedir["ENTT"] = "Helix/vendor/entt/include"
 	includedir["STB"] = "Helix/vendor/stb/include"
+	includedir["GLM"] = "Helix/vendor/glm/include"
+	includedir["SPDLOG"] = "Helix/vendor/spdlog/include"
 	
 	include "Helix/vendor/glad"
 	include "Helix/vendor/glfw"
-	--include "Helix/vendor/assimp"
+	include "Helix/vendor/assimp"
 	include "Helix/vendor/imgui"
 	
 project "Helix"
@@ -52,20 +54,20 @@ project "Helix"
 		"%{includedir.IMGUI}", 
 		"%{includedir.ENTT}", 
 		"%{includedir.STB}", 
-		"%{prj.name}/vendor/glm/include", 
-		"%{prj.name}/vendor/spdlog/include"
+		"%{includedir.GLM}", 
+		"%{includedir.SPDLOG}", 
 	}
 	
 	links
 	{
 		"GLAD", 
 		"GLFW", 
-		--"ASSIMP", 
+		"ASSIMP", 
 		"IMGUI", 
 		"opengl32.lib"
 	}
 	
-		defines
+	defines
 	{
 		"STB_IMAGE_STATIC", 
 		"STB_IMAGE_IMPLEMENTATION"
@@ -116,8 +118,8 @@ project "Spiral"
 		"%{includedir.IMGUI}", 
 		"%{includedir.ENTT}", 
 		"%{includedir.STB}", 
-		"Helix/vendor/glm/include", 
-		"Helix/vendor/spdlog/include"
+		"%{includedir.GLM}", 
+		"%{includedir.SPDLOG}", 
 	}
 	
 	libdirs
@@ -128,7 +130,6 @@ project "Spiral"
 	links
 	{
 		"Helix", 
-		"assimp.lib", 
 	}
 	
 	defines
