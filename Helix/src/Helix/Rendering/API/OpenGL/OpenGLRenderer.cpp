@@ -174,7 +174,7 @@ namespace hlx
 
 			vao->bind();
 			material->bind();
-			shader->setMat("u_model", transform);
+			shader->setMat("u_model", glm::mat4{ 1.0f });
 			shader->setMat("u_view", m_view);
 			shader->setMat("u_projection", m_projection);
 

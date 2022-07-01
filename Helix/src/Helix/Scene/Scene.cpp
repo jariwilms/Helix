@@ -21,7 +21,7 @@ namespace hlx
 		entity2.addComponent<SpriteComponent>("textures/checkerboard.png");
 
 		auto& entity3 = createEntityDefault();
-		auto& model = entity3.addComponent<ModelComponent>("models/cat.obj");
+		auto& model = entity3.addComponent<ModelComponent>("models/backpack/backpack.obj");
 	}
 
 	void Scene::update(DeltaTime deltaTime)
@@ -54,16 +54,12 @@ namespace hlx
 			auto& transform = view2.get<TransformComponent>(id);
 			auto& modelComponent = view2.get<ModelComponent>(id);
 
-			for (int i = 0; i < 10; ++i)
-			{
-				glm::mat4 t{ 1.0f };
-				t = glm::translate(t, glm::vec3(2.5f * i, 0.0f, 0.0f));
-				t = glm::rotate(t, (float)glm::radians(-90.0f * glfwGetTime() / 10.0f * i * i), glm::vec3{ 1.0f, 0.0f, 0.0f });
-				t = glm::scale(t, glm::vec3{ 0.2f });
+			glm::mat4 t{ 1.0f };
+			//t = glm::translate(t, glm::vec3(1.0f, 0.0f, 0.0f));
+			//t = glm::rotate(t, (float)glm::radians(-90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
+			//t = glm::scale(t, glm::vec3{ 0.2f });
 				
-
-				Renderer::renderModel(*modelComponent.model, t);
-			}
+			Renderer::renderModel(*modelComponent.model, t);
 		}
 	}
 }

@@ -109,7 +109,11 @@ namespace hlx
 
 			stbi_set_flip_vertically_on_load(true);
 			data = stbi_load(fullPath.string().c_str(), &width, &height, &channels, 0);
-			if (!data) return load<Texture>("textures/missing.png");
+			if (!data)
+			{
+				logError(fullPath);
+				return load<Texture>("textures/missing.png");
+			}
 
 			auto texture = Texture::create(width, height, channels, data);
 			m_textures.insert(std::make_pair(fullPath, texture));
@@ -135,7 +139,7 @@ namespace hlx
 
 
 			Assimp::Importer importer;
-			auto scene = importer.ReadFile(fullPath.string(), aiProcess_Triangulate);
+			auto scene = importer.ReadFile(fullPath.string(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_FlipUVs);
 
 			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 			{
@@ -208,10 +212,9 @@ namespace hlx
 
 					auto& mesh = meshes.emplace_back(vertexArray);
 					auto meshMaterial = mesh.getMaterial();
-					auto material = scene->mMaterials[aiMesh->mMaterialIndex];
+					auto aiMaterial = scene->mMaterials[aiMesh->mMaterialIndex];
 
-
-					mesh.setMaterial(createMaterial(material));
+					mesh.setMaterial(createMaterial(directory, aiMaterial));
 				}
 			}
 
@@ -222,35 +225,38 @@ namespace hlx
 	private:
 		static bool hasTextureType(aiMaterial* material, aiTextureType type)
 		{
-			return material->GetTextureCount(type);
+			auto val = material->GetTextureCount(type);
+			return val;
 		}
-		static std::string getTextureName(aiMaterial * material, aiTextureType type)
+		static std::string getTextureName(aiMaterial* material, aiTextureType type)
 		{
 				aiString textureName{};
 				material->GetTexture(type, 0, &textureName);
-				return "models/" + std::string{textureName.C_Str()}; //dit is echt scuffed
+				return textureName.C_Str();
 		}
-		static std::shared_ptr<Material> createMaterial(aiMaterial* aiMaterial)
+		static std::shared_ptr<Material> createMaterial(std::filesystem::path directory, aiMaterial* aiMaterial)
 		{
+			using setTextureFun = void (hlx::Material::*)(std::shared_ptr<Texture> texture);
+
 			auto shader = Shader::create("shaders/material.vert", "shaders/material.frag");
 			auto meshMaterial = std::make_shared<Material>(shader);
 
-			if (hasTextureType(aiMaterial, aiTextureType_DIFFUSE))
+			const std::vector<aiTextureType> textureTypes { aiTextureType_DIFFUSE, aiTextureType_NORMALS, aiTextureType_SPECULAR };
+			const std::unordered_map<int, setTextureFun> textureFuncs
 			{
-				std::string name = getTextureName(aiMaterial, aiTextureType_DIFFUSE);
-				meshMaterial->setAlbedo(load<Texture>(name));
-			}
+				{std::make_pair(aiTextureType_DIFFUSE, &Material::setAlbedo)}, 
+				{std::make_pair(aiTextureType_NORMALS, &Material::setNormal)},
+				{std::make_pair(aiTextureType_SPECULAR, &Material::setSpecular)},
+			};
 
-			if (hasTextureType(aiMaterial, aiTextureType_NORMALS))
+			for (auto textureType : textureTypes)
 			{
-				std::string name = getTextureName(aiMaterial, aiTextureType_NORMALS);
-				meshMaterial->setNormal(load<Texture>(name));
-			}
+				if (!aiMaterial->GetTextureCount(textureType)) continue;
 
-			if (hasTextureType(aiMaterial, aiTextureType_SPECULAR))
-			{
-				std::string name = getTextureName(aiMaterial, aiTextureType_SPECULAR);
-				meshMaterial->setSpecular(load<Texture>(name));
+				std::string name = getTextureName(aiMaterial, textureType);
+				auto texture = load<Texture>(directory / name);
+
+				std::invoke(textureFuncs.find(textureType)->second, meshMaterial, texture);
 			}
 
 			return meshMaterial;

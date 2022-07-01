@@ -20,7 +20,7 @@ workspace "Helix"
 	
 	include "Helix/vendor/glad"
 	include "Helix/vendor/glfw"
-	include "Helix/vendor/assimp"
+	--include "Helix/vendor/assimp"
 	include "Helix/vendor/imgui"
 	
 project "Helix"
@@ -60,7 +60,7 @@ project "Helix"
 	{
 		"GLAD", 
 		"GLFW", 
-		"ASSIMP", 
+		--"ASSIMP", 
 		"IMGUI", 
 		"opengl32.lib"
 	}
@@ -120,9 +120,15 @@ project "Spiral"
 		"Helix/vendor/spdlog/include"
 	}
 	
+	libdirs
+	{
+		"Helix/vendor/assimp/lib64", 
+	}
+	
 	links
 	{
 		"Helix", 
+		"assimp.lib", 
 	}
 	
 	defines
