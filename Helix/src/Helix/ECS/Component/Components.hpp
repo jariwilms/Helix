@@ -44,7 +44,6 @@ namespace hlx
 
 	struct CameraComponent
 	{
-	public:
 		CameraComponent() = default;
 
 		float x;

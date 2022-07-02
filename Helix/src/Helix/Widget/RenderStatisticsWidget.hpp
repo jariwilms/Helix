@@ -27,6 +27,7 @@ namespace hlx
 			DeltaTime dt{};
 			dt = m_statistics.t1 - m_statistics.t0;
 
+			std::string drawCalls = "Draw Calls: " + std::to_string(m_statistics.drawCalls);
 			std::string vertices = "Vertices: " + std::to_string(m_statistics.vertices);
 			std::string triangles = "Triangles: " + std::to_string(m_statistics.triangles);
 			std::string frametime = std::to_string(dt.inMilliseconds()) + " ms";
@@ -35,6 +36,7 @@ namespace hlx
 			ImGui::Begin("Render Data", &open);
 			ImGui::Text(vertices.c_str());
 			ImGui::Text(triangles.c_str());
+			ImGui::Text(drawCalls.c_str());
 			ImGui::Text(frametime.c_str());
 			ImGui::End();
 		}

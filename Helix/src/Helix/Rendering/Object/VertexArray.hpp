@@ -2,10 +2,10 @@
 
 #include "stdafx.hpp"
 
-#include "BufferObject.hpp"
-#include "BufferLayout.hpp"
-#include "VertexBuffer.hpp"
-#include "ElementBuffer.hpp"
+#include "Helix/Rendering/Object/BufferObject.hpp"
+#include "Helix/Rendering/Object/BufferLayout.hpp"
+#include "Helix/Rendering/Object/VertexBuffer.hpp"
+#include "Helix/Rendering/Object/ElementBuffer.hpp"
 
 namespace hlx
 {
@@ -25,9 +25,9 @@ namespace hlx
 	protected:
 		VertexArray() : m_vertexAttributeIndex{} {}
 
+		unsigned int m_vertexAttributeIndex;
+
 		std::vector<std::shared_ptr<VertexBuffer>> m_vertexBuffers;
 		std::shared_ptr<ElementBuffer> m_elementBuffer;
-
-		unsigned int m_vertexAttributeIndex;
 	};
 }

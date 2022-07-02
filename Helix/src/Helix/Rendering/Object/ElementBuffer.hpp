@@ -14,15 +14,19 @@ namespace hlx
 	public:
 		virtual ~ElementBuffer() = default;
 
-		static std::shared_ptr<ElementBuffer> create(size_t size, const unsigned int* data = nullptr);
+		static std::shared_ptr<ElementBuffer> create(unsigned int count, const unsigned int* data = nullptr);
 
-		inline size_t getSize() const { return m_bufferSize; }
+		inline size_t getSize() const { return static_cast<size_t>(m_dataCount) * sizeof(unsigned int); }
+		inline unsigned int getCount() const { return m_dataCount; }
 
-		virtual void setBufferData(size_t size, const unsigned int* data) = 0;
+		virtual void setData(unsigned int count, const unsigned int* data) = 0;
+		virtual void setSubData(unsigned int count, const unsigned int* data) = 0;
+		virtual void setSubData(unsigned int count, unsigned int offset, const unsigned int* data) = 0;
 
 	protected:
-		ElementBuffer() : m_bufferSize{} {}
+		ElementBuffer() : m_dataCount{}, m_dataLimit{} {}
 
-		size_t m_bufferSize;
+		unsigned int m_dataCount;
+		unsigned int m_dataLimit;
 	};
 }

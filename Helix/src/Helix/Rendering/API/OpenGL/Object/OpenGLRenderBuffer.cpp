@@ -3,27 +3,32 @@
 
 namespace hlx
 {
-	OpenGLRenderBuffer::OpenGLRenderBuffer(unsigned int width, unsigned int height, int format)
+	OpenGLRenderBuffer::OpenGLRenderBuffer(glm::uvec2 dimensions, int format)
 	{
-		glGenRenderbuffers(1, &m_objectId);
+		glGenRenderbuffers(1, &m_id);
 
-		bind();
-
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+		allocate(dimensions, format);
 
 		unbind();
 	}
 	OpenGLRenderBuffer::~OpenGLRenderBuffer()
 	{
-		glDeleteRenderbuffers(1, &m_objectId);
+		glDeleteRenderbuffers(1, &m_id);
 	}
 
 	void OpenGLRenderBuffer::bind() const
 	{
-		glBindRenderbuffer(GL_RENDERBUFFER, m_objectId);
+		glBindRenderbuffer(GL_RENDERBUFFER, m_id);
 	}
 	void OpenGLRenderBuffer::unbind() const
 	{
 		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	}
+
+	void OpenGLRenderBuffer::allocate(glm::uvec2 dimensions, int format)
+	{
+		bind();
+		
+		glRenderbufferStorage(GL_RENDERBUFFER, format, dimensions.x, dimensions.y);
 	}
 }

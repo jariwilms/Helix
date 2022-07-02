@@ -1,7 +1,5 @@
 #pragma once
 
-#include "stdafx.hpp"
-
 #include "Helix/Rendering/Object/BufferObject.hpp"
 
 namespace hlx
@@ -11,15 +9,15 @@ namespace hlx
 	public:
 		virtual ~FrameBuffer() = default;
 
-		static std::shared_ptr<FrameBuffer> create(unsigned int width, unsigned int height);
+		static std::shared_ptr<FrameBuffer> create(glm::uvec2 dimensions);
 
 		virtual void bindTexture() const = 0;
 
 		virtual std::shared_ptr<Texture> getTexture() = 0;
 		
-		virtual bool verify() const = 0;
-
 	protected:
 		FrameBuffer() = default;
+
+		glm::uvec2 m_dimensions;
 	};
 }

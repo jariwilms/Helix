@@ -5,8 +5,8 @@
 
 namespace hlx
 {
-	std::shared_ptr<VertexBuffer> VertexBuffer::create(size_t size, const float* data)
+	std::shared_ptr<VertexBuffer> VertexBuffer::create(unsigned int count, const float* data)
 	{
-		return std::make_shared<OpenGLVertexBuffer>(size, data);
+		return std::make_shared<OpenGLVertexBuffer>(count, data);
 	}
 }

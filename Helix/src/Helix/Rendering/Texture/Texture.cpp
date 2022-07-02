@@ -9,9 +9,8 @@ namespace hlx
 	{
 		return IO::load<Texture>(path);
 	}
-
-	std::shared_ptr<Texture> Texture::create(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data)
+	std::shared_ptr<Texture> Texture::create(glm::uvec2 dimensions, unsigned int channels, unsigned char* data)
 	{
-		return std::make_shared<OpenGLTexture>(width, height, channels, data);
+		return std::make_shared<OpenGLTexture>(dimensions, channels, data);
 	}
 }

@@ -116,7 +116,7 @@ namespace hlx
 
 
 
-			m_frameBuffer = FrameBuffer::create(dimensions.x, dimensions.y);
+			m_frameBuffer = FrameBuffer::create(dimensions);
 			m_frameBuffer->bind();
 
 			Renderer::setClearColor({ glm::vec3{ 0.1f }, 1.0f });

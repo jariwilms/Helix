@@ -15,19 +15,24 @@ namespace hlx
 	public:
 		virtual ~VertexBuffer() = default;
 
-		static std::shared_ptr<VertexBuffer> create(size_t size, const float* data = nullptr);
+		static std::shared_ptr<VertexBuffer> create(unsigned int count, const float* data = nullptr);
 		
-		inline size_t getSize() const { return m_bufferSize; }
+		inline size_t getSize() const { return static_cast<size_t>(m_dataCount) * sizeof(float); }
+		inline unsigned int getCount() const { return m_dataCount; }
 
-		inline virtual const BufferLayout& getLayout() const { return m_layout; }
-		inline virtual void setLayout(const BufferLayout& layout) { m_layout = layout; }
+		virtual void setData(unsigned int count, const float* data) = 0;
+		virtual void setSubData(unsigned int count, const float* data) = 0;
+		virtual void setSubData(unsigned int count, unsigned int offset, const float* data) = 0;
 
-		virtual void setBufferData(size_t size, const float* data) = 0;
+		inline BufferLayout& getLayout() { return m_layout; }
+		inline void setLayout(const BufferLayout& layout) { m_layout = layout; }
 
 	protected:
-		VertexBuffer() : m_bufferSize{} {}
+		VertexBuffer() : m_dataCount{}, m_dataLimit{} {}
 
+		unsigned int m_dataCount;
+		unsigned int m_dataLimit;
+		
 		BufferLayout m_layout;
-		size_t m_bufferSize;
 	};
 }

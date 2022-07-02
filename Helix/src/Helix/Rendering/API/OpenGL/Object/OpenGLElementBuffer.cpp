@@ -4,47 +4,66 @@
 
 namespace hlx
 {
-	OpenGLElementBuffer::OpenGLElementBuffer(size_t size, const unsigned int* data)
+	OpenGLElementBuffer::OpenGLElementBuffer(unsigned int count, const unsigned int* data)
 	{
-		glCreateBuffers(1, &m_objectId);
-
-		if (data) setBufferData(size, data);
-		else resize(size);
+		glCreateBuffers(1, &m_id);
+		
+		setData(count, data);
 
 		unbind();
 	}
 	OpenGLElementBuffer::~OpenGLElementBuffer()
 	{
-		glDeleteBuffers(1, &m_objectId);
+		glDeleteBuffers(1, &m_id);
 	}
 
 	void OpenGLElementBuffer::bind() const
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_objectId);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
 	}
 	void OpenGLElementBuffer::unbind() const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
-	void OpenGLElementBuffer::resize(size_t size)
+	void OpenGLElementBuffer::setData(unsigned int count, const unsigned int* data)
 	{
 		bind();
 
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, nullptr, GL_STATIC_DRAW);
-		m_bufferSize = size;
-	}
-	void OpenGLElementBuffer::reset()
-	{
-		resize(0);
-	}
+		auto size = count * sizeof(unsigned int);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 
-	void OpenGLElementBuffer::setBufferData(size_t size, const unsigned int* data)
+		m_dataCount = count;
+		m_dataLimit = count;
+	}
+	void OpenGLElementBuffer::setSubData(unsigned int count, const unsigned int* data)
 	{
 		bind();
 
-		if (size > m_bufferSize) resize(size);
+		if (m_dataCount + count > m_dataLimit)
+		{
+			HLX_CORE_ERROR("[Element buffer] subdata exceeds data limit");
+			return;
+		}
 
-		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, size, data);
+		auto size = count * sizeof(unsigned int);
+		auto offset = m_dataCount * sizeof(unsigned int);
+
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, offset, size, data);
+	}
+	void OpenGLElementBuffer::setSubData(unsigned int count, unsigned int offset, const unsigned int* data)
+	{
+		bind();
+
+		if (offset + count > m_dataLimit)
+		{
+			HLX_CORE_ERROR("[Element buffer] subdata exceeds data limit");
+			return;
+		}
+
+		auto size = count * sizeof(float);
+		offset *= sizeof(float);
+
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, offset, size, data);
 	}
 }

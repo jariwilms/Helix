@@ -9,9 +9,13 @@ namespace hlx
 	public:
 		virtual ~RenderBuffer() = default;
 
-		static std::shared_ptr<RenderBuffer> create(unsigned int width, unsigned int height, int format);
+		static std::shared_ptr<RenderBuffer> create(glm::uvec2 dimensions, int format);
 
 	protected:
-		RenderBuffer() = default;
+		RenderBuffer() : m_dimensions{} {}
+		
+		virtual void allocate(glm::uvec2 dimensions, int format) = 0;
+
+		glm::uvec2 m_dimensions;
 	};
 }

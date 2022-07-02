@@ -31,35 +31,30 @@ namespace hlx
 
 	void Scene::render()
 	{
-		auto view = m_registry.view<TransformComponent, SpriteComponent>();
+		auto spriteView = m_registry.view<TransformComponent, SpriteComponent>();
 
-		for (auto id : view)
+		for (auto id : spriteView)
 		{
 			auto& entity = m_registry.getEntity((uint32_t)id);
 			if (!entity.isEnabled()) continue;
 
-			auto& transform = view.get<TransformComponent>(id);
-			auto& sprite = view.get<SpriteComponent>(id);
+			auto& transform = spriteView.get<TransformComponent>(id);
+			auto& sprite = spriteView.get<SpriteComponent>(id);
 
 			Renderer::renderQuad(transform, sprite.texture);
 		}
 
-		auto view2 = m_registry.view<TransformComponent, ModelComponent>();
+		auto modelView = m_registry.view<TransformComponent, ModelComponent>();
 
-		for (auto id : view2)
+		for (auto id : modelView)
 		{
 			auto& entity = m_registry.getEntity((uint32_t)id);
 			if (!entity.isEnabled()) continue;
 
-			auto& transform = view2.get<TransformComponent>(id);
-			auto& modelComponent = view2.get<ModelComponent>(id);
+			auto& transform = modelView.get<TransformComponent>(id);
+			auto& modelComponent = modelView.get<ModelComponent>(id);
 
-			glm::mat4 t{ 1.0f };
-			//t = glm::translate(t, glm::vec3(1.0f, 0.0f, 0.0f));
-			//t = glm::rotate(t, (float)glm::radians(-90.0f), glm::vec3{ 1.0f, 0.0f, 0.0f });
-			//t = glm::scale(t, glm::vec3{ 0.2f });
-				
-			Renderer::renderModel(*modelComponent.model, t);
+			Renderer::renderModel(*modelComponent.model, transform);
 		}
 	}
 }

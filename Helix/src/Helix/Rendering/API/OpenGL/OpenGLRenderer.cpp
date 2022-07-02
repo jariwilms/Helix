@@ -5,8 +5,8 @@ namespace hlx
 {
 	OpenGLRenderer::OpenGLRenderer()
 	{
-		constexpr size_t MAX_INDICES = (size_t)1 << 15; //TODO: move naar renderdata / rendersettings?
-		constexpr size_t BUFFER_SIZE = MAX_INDICES * sizeof(Vertex);
+		constexpr unsigned int MAX_INDICES = (size_t)1 << 15; //TODO: move naar renderdata / rendersettings?
+		constexpr unsigned int BUFFER_ELEMENT_COUNT = MAX_INDICES * (sizeof(Vertex) / sizeof(float));
 
 		BufferLayout layout{};
 		layout.addAttribute<float>(3); //position
@@ -16,7 +16,7 @@ namespace hlx
 		layout.addAttribute<float>(1); //tiling factor
 		layout.addAttribute<float>(1); //entity id
 
-		m_renderBatch = std::make_shared<RenderBatch>(BUFFER_SIZE, MAX_INDICES, layout);
+		m_renderBatch = std::make_shared<RenderBatch>(BUFFER_ELEMENT_COUNT, MAX_INDICES, layout);
 	}
 
 	void OpenGLRenderer::start(const Camera& camera)
@@ -36,8 +36,8 @@ namespace hlx
 			return;
 
 		m_renderBatch->bind();
-		m_renderBatch->vbo->setBufferData(m_renderBatch->vertexCount * sizeof(Vertex), (float*)m_renderBatch->vertexPtr);
-		m_renderBatch->ebo->setBufferData(m_renderBatch->elementCount * sizeof(unsigned int), m_renderBatch->elementPtr);
+		m_renderBatch->vbo->setData(static_cast<unsigned int>(m_renderBatch->vertexCount) * sizeof(Vertex), (float*)m_renderBatch->vertexPtr);
+		m_renderBatch->ebo->setData(static_cast<unsigned int>(m_renderBatch->elementCount), m_renderBatch->elementPtr);
 
 		m_renderBatch->shader->setMat("u_view", m_view);
 		m_renderBatch->shader->setMat("u_projection", m_projection);
@@ -174,7 +174,7 @@ namespace hlx
 
 			vao->bind();
 			material->bind();
-			shader->setMat("u_model", glm::mat4{ 1.0f });
+			shader->setMat("u_model", transform);
 			shader->setMat("u_view", m_view);
 			shader->setMat("u_projection", m_projection);
 

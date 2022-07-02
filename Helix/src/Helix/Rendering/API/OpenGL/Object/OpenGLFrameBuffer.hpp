@@ -9,7 +9,7 @@ namespace hlx
 	class OpenGLFrameBuffer : public FrameBuffer
 	{
 	public:
-		OpenGLFrameBuffer(unsigned int width, unsigned int height);
+		OpenGLFrameBuffer(glm::uvec2 dimensions);
 		~OpenGLFrameBuffer();
 
 		void bind() const override;
@@ -17,8 +17,6 @@ namespace hlx
 		void bindTexture() const override;
 
 		inline std::shared_ptr<Texture> getTexture() override { return m_texture; }
-
-		bool verify() const override;
 
 	private:
 		std::shared_ptr<OpenGLTexture> m_texture;

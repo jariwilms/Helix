@@ -7,10 +7,12 @@ namespace hlx
 	class OpenGLRenderBuffer : public RenderBuffer
 	{
 	public:
-		OpenGLRenderBuffer(unsigned int width, unsigned int height, int format = GL_DEPTH24_STENCIL8);
+		OpenGLRenderBuffer(glm::uvec2 dimensions, int format = GL_DEPTH24_STENCIL8);
 		~OpenGLRenderBuffer();
 
 		void bind() const override;
 		void unbind() const override;
+
+		void allocate(glm::uvec2 dimensions, int format) override;
 	};
 }

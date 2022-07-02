@@ -7,20 +7,18 @@ namespace hlx
 {
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
-		glCreateVertexArrays(1, &m_objectId);
+		glCreateVertexArrays(1, &m_id);
 	}
-
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
-		glDeleteVertexArrays(1, &m_objectId);
+		glDeleteVertexArrays(1, &m_id);
 	}
 
 	void OpenGLVertexArray::bind() const
 	{
-		glBindVertexArray(m_objectId);
+		glBindVertexArray(m_id);
 		m_elementBuffer->bind();
 	}
-
 	void OpenGLVertexArray::unbind() const
 	{
 		glBindVertexArray(0);
@@ -29,7 +27,11 @@ namespace hlx
 
 	void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> buffer)
 	{
-		HLX_CORE_ASSERT(buffer->getLayout().getAttributes().size(), "Buffer has no size");
+		if (!buffer->getLayout().getAttributes().size())
+		{
+			"Vertex array [0x{0}] vertex buffer has no data";
+			return;
+		}
 
 		bind();
 		buffer->bind();
@@ -50,9 +52,14 @@ namespace hlx
 		m_vertexBuffers.emplace_back(buffer);
 		buffer->unbind();
 	}
-
 	void OpenGLVertexArray::setElementBuffer(std::shared_ptr<ElementBuffer> buffer)
 	{
+		if (!buffer->getSize())
+		{
+			"Vertex array [0x{0}] element buffer has no data";
+			return;
+		}
+		
 		m_elementBuffer = buffer;
 	}
 }

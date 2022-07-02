@@ -14,7 +14,7 @@ namespace hlx
 	class OpenGLTexture : public Texture
 	{
 	public:
-		OpenGLTexture(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data);
+		OpenGLTexture(glm::uvec2 dimensions, unsigned int channels, unsigned char* data);
 		~OpenGLTexture() override;
 
 		void bind() const override;
@@ -22,6 +22,6 @@ namespace hlx
 		void unbind() const override;
 
 	private:
-		void setTextureData(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data) override;
+		void setData(glm::uvec2 dimensions, unsigned int channels, unsigned char* data) override;
 	};
 }

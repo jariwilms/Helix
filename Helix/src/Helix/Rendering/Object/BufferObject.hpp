@@ -1,7 +1,6 @@
 #pragma once
 
-#include "glad/glad.h"
-#include "glfw/glfw3.h"
+#include "glm/glm.hpp"
 
 namespace hlx
 {
@@ -10,17 +9,14 @@ namespace hlx
 	public:
 		virtual ~BufferObject() = default;
 
-		virtual inline unsigned int getId() const { return m_objectId; }
+		inline unsigned int getId() const { return m_id; }
 
 		virtual void bind() const = 0;
 		virtual void unbind() const = 0;
 
-		virtual void resize(size_t size) {};
-		virtual void reset() {};
-
 	protected:
-		BufferObject() : m_objectId{} {}
-
-		unsigned int m_objectId;
+		BufferObject() : m_id{} {}
+		
+		unsigned int m_id;
 	};
 }

@@ -17,21 +17,24 @@ namespace hlx
 	struct RenderBatch
 	{
 	public:
-		RenderBatch(size_t bufferSize, size_t maxElements, const BufferLayout& layout)
+		RenderBatch(unsigned int count, unsigned int limit, const BufferLayout& layout)
 			: vertexCount{}, elementCount{}, textureCount{ 1 }
 		{
 			vao = VertexArray::create();
-			vbo = VertexBuffer::create(bufferSize);
-			ebo = ElementBuffer::create(maxElements);
+			vbo = VertexBuffer::create(count);
+			ebo = ElementBuffer::create(limit);
 
 			vbo->setLayout(layout);
 			vao->setElementBuffer(ebo);
 			vao->addVertexBuffer(vbo);
 
-			vertexPtr = new Vertex[bufferSize];
-			elementPtr = new unsigned int[maxElements];
+			vertexPtr = new Vertex[count];
+			elementPtr = new unsigned int[limit];
 
-			for (unsigned int i = 0, offset = 0; i < maxElements - 6; i += 6, offset += 4) //TODO: fix
+			const int indicesPerQuad = 6;
+			const int offsetPerTriangle = 4;
+
+			for (unsigned int i{ 0 }, offset{ 0 }; i < limit - 6; i += indicesPerQuad, offset += offsetPerTriangle)
 			{
 				elementPtr[i + 0] = offset + 0;
 				elementPtr[i + 1] = offset + 1;

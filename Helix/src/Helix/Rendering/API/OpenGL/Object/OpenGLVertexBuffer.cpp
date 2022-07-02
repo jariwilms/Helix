@@ -4,47 +4,66 @@
 
 namespace hlx
 {
-	OpenGLVertexBuffer::OpenGLVertexBuffer(size_t size, const float* data)
+	OpenGLVertexBuffer::OpenGLVertexBuffer(unsigned int count, const float* data)
 	{
-		glCreateBuffers(1, &m_objectId);
-
-		if (data) setBufferData(size, data);
-		else resize(size);
+		glCreateBuffers(1, &m_id);
+		
+		setData(count, data);
 
 		unbind();
 	}
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	{
-		glDeleteBuffers(1, &m_objectId);
+		glDeleteBuffers(1, &m_id);
 	}
 
 	void OpenGLVertexBuffer::bind() const
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, m_objectId);
+		glBindBuffer(GL_ARRAY_BUFFER, m_id);
 	}
 	void OpenGLVertexBuffer::unbind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	void OpenGLVertexBuffer::resize(size_t size)
+	void OpenGLVertexBuffer::setData(unsigned int count, const float* data)
 	{
 		bind();
 
-		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_STATIC_DRAW);
-		m_bufferSize = size;
-	}
-	void OpenGLVertexBuffer::reset()
-	{
-		resize(0);
-	}
+		auto size = count * sizeof(float);
+		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 
-	void OpenGLVertexBuffer::setBufferData(size_t size, const float* data)
+		m_dataCount = count;
+		m_dataLimit = count;
+	}
+	void OpenGLVertexBuffer::setSubData(unsigned int count, const float* data)
 	{
 		bind();
 
-		if (size > m_bufferSize) resize(size);
+		if (m_dataCount + count > m_dataLimit)
+		{
+			HLX_CORE_ERROR("[Vertex buffer] subdata exceeds data limit");
+			return;
+		}
 
-		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+		auto size = count * sizeof(float);
+		auto offset = m_dataCount * sizeof(float);
+		
+		glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+	}
+	void OpenGLVertexBuffer::setSubData(unsigned int count, unsigned int offset, const float* data)
+	{
+		bind();
+
+		if (offset + count > m_dataLimit)
+		{
+			HLX_CORE_ERROR("[Vertex buffer] subdata exceeds data limit");
+			return;
+		}
+
+		auto size = count * sizeof(float);
+		offset *= sizeof(float);
+		
+		glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
 	}
 }

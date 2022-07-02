@@ -5,12 +5,11 @@
 
 namespace hlx
 {
-	OpenGLTexture::OpenGLTexture(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data)
+	OpenGLTexture::OpenGLTexture(glm::uvec2 dimensions, unsigned int channels, unsigned char* data)
 	{
-		glGenTextures(1, &m_textureId);
+		glGenTextures(1, &m_id);
 
-		bind();
-		setTextureData(width, height, channels, data);
+		setData(dimensions, channels, data);
 
 		if (data)
 		{
@@ -22,13 +21,12 @@ namespace hlx
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		stbi_image_free(m_data);
-		m_status = true;
 
 		unbind();
 	}
 	OpenGLTexture::~OpenGLTexture()
 	{
-		glDeleteTextures(1, &m_textureId);
+		glDeleteTextures(1, &m_id);
 	}
 
 	void OpenGLTexture::bind() const
@@ -44,21 +42,18 @@ namespace hlx
 		glBindTexture(GL_TEXTURE_2D, 0); 
 	}
 
-	void OpenGLTexture::setTextureData(unsigned int width, unsigned int height, unsigned int channels, unsigned char* data)
+	void OpenGLTexture::setData(glm::uvec2 dimensions, unsigned int channels, unsigned char* data)
 	{
 		bind();
 
-		m_width = width;
-		m_height = height;
+		m_dimensions = dimensions;
 		m_channels = channels;
 		m_data = data;
 
 		m_dataFormat = OpenGL::getImageFormat(channels);
 		m_internalFormat = GL_RGBA32F;
 
-		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0, m_dataFormat, GL_UNSIGNED_BYTE, data);
-
-		glTextureStorage2D(getId(), 1, m_internalFormat, width, height);
-		if (data) glTextureSubImage2D(getId(), 0, 0, 0, getWidth(), getHeight(), m_dataFormat, GL_UNSIGNED_BYTE, data);
+		glTextureStorage2D(m_id, 1, m_internalFormat, dimensions.x, dimensions.y);
+		if (data) glTextureSubImage2D(m_id, 0, 0, 0, dimensions.x, dimensions.y, m_dataFormat, GL_UNSIGNED_BYTE, data);
 	}
 }

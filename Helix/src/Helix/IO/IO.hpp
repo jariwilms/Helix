@@ -2,11 +2,11 @@
 
 #include "stdafx.hpp"
 
-#pragma warning(disable: 26495)
+#pragma warning(disable: 26495 26451)
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
-#pragma warning(default: 26495)
+#pragma warning(default: 26495 26451)
 
 #pragma warning(disable: 26819 6262 26451)
 #include "stb/stb_image.h"
@@ -108,14 +108,14 @@ namespace hlx
 			unsigned char* data;
 
 			stbi_set_flip_vertically_on_load(true);
-			data = stbi_load(fullPath.string().c_str(), &width, &height, &channels, 0);
+			data = stbi_load(fullPath.string().c_str(), &width, & height, &channels, 0);
 			if (!data)
 			{
 				logError(fullPath);
 				return load<Texture>("textures/missing.png");
 			}
 
-			auto texture = Texture::create(width, height, channels, data);
+			auto texture = Texture::create({ width, height }, channels, data);
 			m_textures.insert(std::make_pair(fullPath, texture));
 
 			return texture;
@@ -170,7 +170,7 @@ namespace hlx
 					std::vector<MeshVertex> vertices;
 					std::vector<unsigned int> indices;
 
-					for (unsigned int i = 0; i < aiMesh->mNumVertices; i++)
+					for (unsigned int i = 0; i < aiMesh->mNumVertices; ++i)
 					{
 						MeshVertex vertex{};
 
@@ -203,8 +203,9 @@ namespace hlx
 					layout.addAttribute<float>(1);
 
 					auto vertexArray = VertexArray::create();
-					auto vertexBuffer = VertexBuffer::create(vertices.size() * sizeof(MeshVertex), (float*)vertices.data());
-					auto elementBuffer = ElementBuffer::create(indices.size() * sizeof(unsigned int), indices.data());
+					
+					auto vertexBuffer = VertexBuffer::create(static_cast<unsigned int>(vertices.size()) * (sizeof(MeshVertex) / sizeof(float)), (float*)vertices.data());
+					auto elementBuffer = ElementBuffer::create(static_cast<unsigned int>(indices.size()), indices.data());
 
 					vertexBuffer->setLayout(layout);
 					vertexArray->setElementBuffer(elementBuffer);
