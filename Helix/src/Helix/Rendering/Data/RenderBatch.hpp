@@ -28,21 +28,24 @@ namespace hlx
 			vao->setElementBuffer(ebo);
 			vao->addVertexBuffer(vbo);
 
-			vertexPtr = new Vertex[count];
-			elementPtr = new unsigned int[limit];
+			std::vector<unsigned int> elements{};
+			elements.resize(limit);
 
-			const int indicesPerQuad = 6;
-			const int offsetPerTriangle = 4;
 
-			for (unsigned int i{ 0 }, offset{ 0 }; i < limit - 6; i += indicesPerQuad, offset += offsetPerTriangle)
+
+			unsigned int offset{};
+			constexpr int indicesPerQuad = 6;
+			constexpr int offsetPerTriangle = 4;
+
+			for (size_t i{ 0 }; i < static_cast<size_t>(limit - 6); i += indicesPerQuad, offset += offsetPerTriangle)
 			{
-				elementPtr[i + 0] = offset + 0;
-				elementPtr[i + 1] = offset + 1;
-				elementPtr[i + 2] = offset + 2;
-
-				elementPtr[i + 3] = offset + 0;
-				elementPtr[i + 4] = offset + 2;
-				elementPtr[i + 5] = offset + 3;
+				elements.at(i + 0) = offset + 0;
+				elements.at(i + 1) = offset + 1;
+				elements.at(i + 2) = offset + 2;
+				
+				elements.at(i + 3) = offset + 0;
+				elements.at(i + 4) = offset + 2;
+				elements.at(i + 5) = offset + 3;
 			}
 
 			int slots{};

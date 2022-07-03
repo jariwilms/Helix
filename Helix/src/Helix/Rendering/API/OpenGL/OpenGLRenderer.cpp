@@ -180,8 +180,10 @@ namespace hlx
 
 			glDrawElements(GL_TRIANGLES, (GLsizei)vao->getElementBuffer()->getSize(), GL_UNSIGNED_INT, nullptr);
 
-			m_statistics.vertices += static_cast<unsigned int>(mesh.getVertexArray()->getElementBuffer()->getSize());
-			m_statistics.triangles += static_cast<unsigned int>(mesh.getVertexArray()->getElementBuffer()->getSize()) / 3;
+			//auto& vertexBuffers = mesh.getVertexArray()->getVertexBuffers();
+			//auto sum = std::accumulate(vertexBuffers.begin(), vertexBuffers.end(), 0, [](int sum, const std::shared_ptr<VertexBuffer>& vertexBuffer) { return sum + vertexBuffer->getSize() / sizeof(MeshVertex); });
+			//m_statistics.vertices += static_cast<unsigned int>(sum);
+			m_statistics.triangles += static_cast<unsigned int>(mesh.getVertexArray()->getElementBuffer()->getCount()) / 3;
 			++m_statistics.drawCalls;
 		}
 	}

@@ -152,8 +152,17 @@ namespace hlx
 			auto model = std::make_shared<Model>();
 			auto& meshes = model->getMeshes();
 
+			BufferLayout layout{};
+			layout.addAttribute<float>(3);
+			layout.addAttribute<float>(3);
+			layout.addAttribute<float>(3);
+			layout.addAttribute<float>(3);
+			layout.addAttribute<float>(2);
+			layout.addAttribute<float>(1);
+
 			std::stack<aiNode*> nodeStack{};
 			nodeStack.push(scene->mRootNode);
+
 
 			while (!nodeStack.empty())
 			{
@@ -194,14 +203,6 @@ namespace hlx
 							indices.push_back(face.mIndices[j]);
 					}
 
-					BufferLayout layout{};
-					layout.addAttribute<float>(3);
-					layout.addAttribute<float>(3);
-					layout.addAttribute<float>(3);
-					layout.addAttribute<float>(3);
-					layout.addAttribute<float>(2);
-					layout.addAttribute<float>(1);
-
 					auto vertexArray = VertexArray::create();
 					
 					auto vertexBuffer = VertexBuffer::create(static_cast<unsigned int>(vertices.size()) * (sizeof(MeshVertex) / sizeof(float)), (float*)vertices.data());
@@ -237,13 +238,13 @@ namespace hlx
 		}
 		static std::shared_ptr<Material> createMaterial(std::filesystem::path directory, aiMaterial* aiMaterial)
 		{
-			using setTextureFun = void (hlx::Material::*)(std::shared_ptr<Texture> texture);
+			using setTextureFunc = void (hlx::Material::*)(std::shared_ptr<Texture> texture);
 
 			auto shader = Shader::create("shaders/material.vert", "shaders/material.frag");
 			auto meshMaterial = std::make_shared<Material>(shader);
 
 			const std::vector<aiTextureType> textureTypes { aiTextureType_DIFFUSE, aiTextureType_NORMALS, aiTextureType_SPECULAR };
-			const std::unordered_map<int, setTextureFun> textureFuncs
+			const std::unordered_map<int, setTextureFunc> textureFuncs
 			{
 				{std::make_pair(aiTextureType_DIFFUSE, &Material::setAlbedo)}, 
 				{std::make_pair(aiTextureType_NORMALS, &Material::setNormal)},
@@ -262,7 +263,6 @@ namespace hlx
 
 			return meshMaterial;
 		}
-
 
 		static void logError(std::filesystem::path path)
 		{
