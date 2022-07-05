@@ -44,7 +44,7 @@ namespace hlx
 		RendererAPI() : m_view{}, m_projection{} {}
 
 		virtual void check() = 0;
-		virtual void submit() = 0;
+		virtual void flush() = 0;
 
 		RenderStatistics m_statistics;
 

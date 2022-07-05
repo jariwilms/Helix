@@ -14,8 +14,8 @@ namespace hlx
 	class OpenGLShader : public Shader
 	{
 	public:
-		OpenGLShader(const std::filesystem::path& vertex, const std::filesystem::path& fragment);
-		OpenGLShader(const std::filesystem::path& vertex, const std::filesystem::path& geometry, const std::filesystem::path& fragment);
+		OpenGLShader(const std::string& vertex, const std::string& fragment);
+		OpenGLShader(const std::string& vertex, const std::string& geometry, const std::string& fragment);
 		~OpenGLShader();
 
 		void bind() const override;

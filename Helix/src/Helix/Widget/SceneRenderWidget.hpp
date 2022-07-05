@@ -31,7 +31,7 @@ namespace hlx
 			m_vao->setElementBuffer(m_ebo);
 			m_vao->addVertexBuffer(m_vbo);
 
-			m_shader = Shader::create("shaders/framebuffer.vert", "shaders/framebuffer.frag");
+			m_shader = Shader::create("shaders/framebuffer.glsl");
 
 			m_camera = Camera{ Transform{ glm::vec3{ 0.0f, 0.0f, 10.0f } } };
 			auto persp = m_camera.getPerspectiveProjectionSettings();

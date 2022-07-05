@@ -88,6 +88,59 @@ namespace hlx
 
 			return m_textFiles[fullPath];
 		}
+		template<> inline static std::shared_ptr<Shader> load(const std::filesystem::path& path)
+		{
+			std::filesystem::path fullPath;
+
+			if (path.is_absolute()) fullPath = path;
+			else fullPath = getCoalescedPath(path);
+
+			if (!checkFileExists(fullPath))
+			{
+				logError(fullPath);
+				return nullptr;
+			}
+			if (m_shaders.find(fullPath) != m_shaders.end()) return m_shaders[fullPath];
+
+			
+			
+			const std::string vertexDelimiter = "@vertex\n";
+			const std::string geometryDelimiter = "@geometry\n";
+			const std::string fragmentDelimiter = "@fragment\n";
+
+			auto content = load<std::string>(fullPath);
+			auto vertexPosition = content->find(vertexDelimiter);
+			auto geometryPosition = content->find(geometryDelimiter);
+			auto fragmentPosition = content->find(fragmentDelimiter);
+
+			
+			
+			std::string vertex = content->substr(vertexPosition, fragmentPosition);
+			std::string fragment = content->substr(fragmentPosition, std::string::npos);
+			
+			vertex.erase(0, vertexDelimiter.length());
+			fragment.erase(0, fragmentDelimiter.length());
+
+
+			
+			auto shader = Shader::create(vertex, fragment);
+			m_shaders.insert(std::make_pair(fullPath, shader));
+			
+			return shader;
+
+			// "AI will kill us"
+			// AI:
+			//if (position == std::string::npos)
+			//{
+			//	vertex = content->substr(0, position);
+			//	fragment = content->substr(position + 9);
+			//}
+			//else
+			//{
+			//	vertex = content->substr(0, position);
+			//	fragment = content->substr(position + 9);
+			//}
+		}
 		template<> inline static std::shared_ptr<Texture> load<Texture>(const std::filesystem::path& path)
 		{
 			std::filesystem::path fullPath;
@@ -134,12 +187,13 @@ namespace hlx
 				logError(fullPath);
 				return nullptr;
 			}
-			if (m_textFiles.find(fullPath) != m_textFiles.end()) return m_models[fullPath];
+			if (m_models.find(fullPath) != m_models.end()) return m_models[fullPath];
 
 
 
 			Assimp::Importer importer;
-			auto scene = importer.ReadFile(fullPath.string(), aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_FlipUVs);
+			constexpr auto importerFlags = aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_GenUVCoords | aiProcess_FlipUVs | aiProcess_CalcTangentSpace;// | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph;
+			auto scene = importer.ReadFile(fullPath.string(), importerFlags);
 
 			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 			{
@@ -148,29 +202,20 @@ namespace hlx
 			}
 
 
-
-			auto model = std::make_shared<Model>();
-			auto& meshes = model->getMeshes();
-
-			BufferLayout layout{};
-			layout.addAttribute<float>(3);
-			layout.addAttribute<float>(3);
-			layout.addAttribute<float>(3);
-			layout.addAttribute<float>(3);
-			layout.addAttribute<float>(2);
-			layout.addAttribute<float>(1);
-
+			
 			std::stack<aiNode*> nodeStack{};
 			nodeStack.push(scene->mRootNode);
 
+			std::unordered_map<unsigned int, std::shared_ptr<Material>> idToMaterialMap;
+			std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>> materialToMeshMap{};
+			
+			unsigned int offset{};
 
+			//Iterate over children of root node (DFS)
 			while (!nodeStack.empty())
 			{
 				auto node = nodeStack.top();
 				nodeStack.pop();
-
-				for (unsigned int i{ 0 }; i < node->mNumChildren; ++i)
-					nodeStack.push(node->mChildren[i]);
 
 				for (unsigned int i{ 0 }; i < node->mNumMeshes; ++i)
 				{
@@ -179,49 +224,64 @@ namespace hlx
 					std::vector<MeshVertex> vertices;
 					std::vector<unsigned int> indices;
 
+					//Iterate over mesh vertices and set the correct data to our own vertex
 					for (unsigned int i = 0; i < aiMesh->mNumVertices; ++i)
 					{
 						MeshVertex vertex{};
-
+						
 						std::memcpy(&vertex.position, &aiMesh->mVertices[i], sizeof(glm::vec3));
 						if (aiMesh->HasNormals()) std::memcpy(&vertex.normal, &aiMesh->mNormals[i], sizeof(glm::vec3));
-
+						if (aiMesh->HasTangentsAndBitangents())
+						{
+							std::memcpy(&vertex.tangent, &aiMesh->mTangents[i], sizeof(glm::vec3));
+							std::memcpy(&vertex.bitangent, &aiMesh->mBitangents[i], sizeof(glm::vec3));
+						}
+						
 						if (aiMesh->mTextureCoords) std::memcpy(&vertex.textureCoordinate, &aiMesh->mTextureCoords[0][i], sizeof(glm::vec2));
-						else vertex.textureCoordinate = glm::vec2(0.0f, 0.0f);
-
-						if (aiMesh->mTangents) std::memcpy(&vertex.tangent, &aiMesh->mTangents[i], sizeof(glm::vec3));
-						if (aiMesh->mBitangents) std::memcpy(&vertex.bitangent, &aiMesh->mBitangents[i], sizeof(glm::vec3));
 
 						vertices.push_back(vertex);
 					}
 
+					unsigned int c{};
+					//Iterate over faces to fetch indices
 					for (unsigned int i = 0; i < aiMesh->mNumFaces; ++i)
 					{
-						auto& face = aiMesh->mFaces[i];
+						auto& aiFace = aiMesh->mFaces[i];
+						c += aiFace.mNumIndices;
 
-						for (unsigned int j = 0; j < face.mNumIndices; ++j)
-							indices.push_back(face.mIndices[j]);
+						for (unsigned int j = 0; j < aiFace.mNumIndices; ++j)
+							indices.push_back(aiFace.mIndices[j] + offset);
 					}
 
-					auto vertexArray = VertexArray::create();
-					
-					auto vertexBuffer = VertexBuffer::create(static_cast<unsigned int>(vertices.size()) * (sizeof(MeshVertex) / sizeof(float)), (float*)vertices.data());
-					auto elementBuffer = ElementBuffer::create(static_cast<unsigned int>(indices.size()), indices.data());
+					offset += c;
 
-					vertexBuffer->setLayout(layout);
-					vertexArray->setElementBuffer(elementBuffer);
-					vertexArray->addVertexBuffer(vertexBuffer);
+					auto materialIndex = aiMesh->mMaterialIndex;
+					auto it = idToMaterialMap.find(materialIndex);
+					if (it == idToMaterialMap.end())
+					{
+						auto aiMaterial = scene->mMaterials[aiMesh->mMaterialIndex];
+						idToMaterialMap.insert(std::make_pair(materialIndex, createMaterial(directory, aiMaterial)));
+						it = idToMaterialMap.find(materialIndex);
+					}
 
-					auto& mesh = meshes.emplace_back(vertexArray);
-					auto meshMaterial = mesh.getMaterial();
-					auto aiMaterial = scene->mMaterials[aiMesh->mMaterialIndex];
+					auto& mat = it->second;
+					auto it2 = materialToMeshMap.find(mat);
 
-					mesh.setMaterial(createMaterial(directory, aiMaterial));
+					if (it2 == materialToMeshMap.end())
+					{
+						materialToMeshMap.insert(std::make_pair(mat, std::vector<Mesh>{}));
+						it2 = materialToMeshMap.find(mat);
+					}
+
+					it2->second.emplace_back(vertices, indices);
 				}
+				
+				for (unsigned int i{ 0 }; i < node->mNumChildren; ++i)
+					nodeStack.push(node->mChildren[i]);
 			}
 
-			m_models.insert(std::make_pair(fullPath, model));
-			return model;
+			auto model = m_models.insert(std::make_pair(fullPath, std::make_shared<Model>(materialToMeshMap)));
+			return model.first->second;
 		}
 
 	private:
@@ -240,7 +300,7 @@ namespace hlx
 		{
 			using setTextureFunc = void (hlx::Material::*)(std::shared_ptr<Texture> texture);
 
-			auto shader = Shader::create("shaders/material.vert", "shaders/material.frag");
+			auto shader = Shader::create("shaders/material.glsl");
 			auto meshMaterial = std::make_shared<Material>(shader);
 
 			const std::vector<aiTextureType> textureTypes { aiTextureType_DIFFUSE, aiTextureType_NORMALS, aiTextureType_SPECULAR };
@@ -275,6 +335,7 @@ namespace hlx
 		inline static std::vector<std::filesystem::path> m_subdirectories;
 
 		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<std::string>> m_textFiles;
+		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<Shader>> m_shaders;
 		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<Texture>> m_textures;
 		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<Model>> m_models;
 	};

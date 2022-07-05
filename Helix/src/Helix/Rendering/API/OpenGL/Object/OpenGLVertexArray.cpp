@@ -27,7 +27,13 @@ namespace hlx
 
 	void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> buffer)
 	{
-		if (!buffer->getLayout().getAttributes().size())
+		if (!m_elementBuffer)
+		{
+			HLX_CORE_ERROR("No element buffer has been set. Cannot add vertex buffer");
+			return;
+		}
+
+		if (buffer->getLayout().getAttributes().empty())
 		{
 			"Vertex array [0x{0}] vertex buffer has no data";
 			return;

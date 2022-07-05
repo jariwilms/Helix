@@ -12,20 +12,20 @@ namespace hlx
 	class Material
 	{
 	public:
-		Material(std::shared_ptr<Shader> shader);
+		Material();
+		explicit Material(std::shared_ptr<Shader> shader);
 
-		void bind() const 
+		void use() const 
 		{ 
-			m_shader->bind(); 
+			m_shader->bind();
 
 			m_shader->setVec("u_baseColor", m_baseColor);
-
-			//m_shader->setFloat("u_metallicity", m_metallicity);
-			//m_shader->setFloat("u_roughness", m_roughness);
-			m_shader->setFloat("u_opacity", m_opacity);
-
 			m_albedo->bind();
+
+			//m_shader->setFloat("u_opacity", m_opacity);
 		}
+
+		inline std::shared_ptr<Shader> getShader() { return m_shader; }
 
 		inline const glm::vec3& getBaseColor() const { return m_baseColor; }
 		inline const glm::vec3& getEmissionColor() const { return m_emissionColor; }
@@ -38,18 +38,20 @@ namespace hlx
 		inline std::shared_ptr<Texture> getNormal() const { return m_normal; }
 		inline std::shared_ptr<Texture> getSpecular() const { return m_specular; }
 
-		inline std::shared_ptr<Shader> getShader() { return m_shader; }
-
-
-
 		inline void setBaseColor(glm::vec3 baseColor) { m_baseColor = glm::clamp(baseColor, glm::vec3{ 0.0f }, glm::vec3{ 1.0f }); }
 		inline void setEmissionColor(glm::vec3 emissionColor) { m_emissionColor = glm::clamp(emissionColor, glm::vec3{ 0.0f }, glm::vec3{ 1.0f }); }
+
+		inline void setMetallicity(float metallicity) { m_metallicity = metallicity; }
+		inline void setRoughness(float roughness) { m_roughness = roughness; }
+		inline void setOpacity(float opacity) { m_opacity = opacity; }
 
 		inline void setAlbedo(std::shared_ptr<Texture> albedo) { m_albedo = albedo; }
 		inline void setNormal(std::shared_ptr<Texture> normal) { m_normal = normal; }
 		inline void setSpecular(std::shared_ptr<Texture> specular) { m_specular = specular; }
 
 	private:
+		std::shared_ptr<Shader> m_shader;
+
 		glm::vec3 m_baseColor;
 		glm::vec3 m_emissionColor;
 
@@ -60,7 +62,5 @@ namespace hlx
 		std::shared_ptr<Texture> m_albedo;
 		std::shared_ptr<Texture> m_normal;
 		std::shared_ptr<Texture> m_specular;
-
-		std::shared_ptr<Shader> m_shader;
 	};
 }

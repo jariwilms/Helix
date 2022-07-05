@@ -424,5 +424,6 @@
       <Filter>Helix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\Helix\Rendering\Model\Model.cpp" />
   </ItemGroup>
 </Project>

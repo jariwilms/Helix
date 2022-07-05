@@ -28,7 +28,7 @@ namespace hlx
 			vao->setElementBuffer(ebo);
 			vao->addVertexBuffer(vbo);
 
-			std::vector<unsigned int> elements{};
+			vertices.resize(count);
 			elements.resize(limit);
 
 
@@ -53,7 +53,7 @@ namespace hlx
 			textureSlots.resize(slots);
 
 			textureSlots[0] = (Texture::create("textures/white.png"));
-			shader = Shader::create("shaders/default.vert", "shaders/default.frag");
+			shader = Shader::create("shaders/default.glsl");
 		}
 
 		void bind()
@@ -61,7 +61,7 @@ namespace hlx
 			vao->bind();
 			shader->bind();
 
-			for (int i = 0; i < textureCount; ++i)
+			for (int i{ 0 }; i < textureCount; ++i)
 				textureSlots.at(i)->bindUnit(i);
 		}
 
@@ -76,11 +76,11 @@ namespace hlx
 		std::shared_ptr<VertexBuffer> vbo;
 		std::shared_ptr<ElementBuffer> ebo;
 
-		Vertex* vertexPtr;
-		size_t vertexCount;
+		std::vector<Vertex> vertices;
+		unsigned int vertexCount;
 
-		unsigned int* elementPtr;
-		size_t elementCount;
+		std::vector<unsigned int> elements;
+		unsigned int elementCount;
 
 		std::shared_ptr<Shader> shader;
 

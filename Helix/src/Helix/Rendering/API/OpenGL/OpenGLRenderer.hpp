@@ -42,7 +42,7 @@ namespace hlx
 
 	protected:
 		void check() override;
-		void submit() override;
+		void flush() override;
 
 		std::shared_ptr<RenderBatch> m_renderBatch;
 	};

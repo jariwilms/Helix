@@ -13,17 +13,17 @@ namespace hlx
 	void OpenGLRenderState::enable(RenderFunction renderFunction)
     {
         auto capability = getRenderCapability(renderFunction);
-        glEnable(capability);
+        if (capability != -1) glEnable(capability);
     }
     void OpenGLRenderState::disable(RenderFunction renderFunction)
     {
 		auto capability = getRenderCapability(renderFunction);
-        glDisable(capability);
+        if (capability != -1) glDisable(capability);
     }
 
 	void OpenGLRenderState::setRasterizationMode(RasterizationFunction rasterizationFunction)
 	{
         auto mode = getRasterizationMode(rasterizationFunction);
-        glPolygonMode(GL_FRONT_AND_BACK, mode);
+        if (mode != -1) glPolygonMode(GL_FRONT_AND_BACK, mode);
 	}
 }

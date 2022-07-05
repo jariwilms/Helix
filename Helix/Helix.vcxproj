@@ -193,6 +193,7 @@
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Shader\OpenGLShader.cpp" />
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Texture\OpenGLTexture.cpp" />
     <ClCompile Include="src\Helix\Rendering\Model\Material.cpp" />
+    <ClCompile Include="src\Helix\Rendering\Model\Model.cpp" />
     <ClCompile Include="src\Helix\Rendering\Object\ElementBuffer.cpp" />
     <ClCompile Include="src\Helix\Rendering\Object\FrameBuffer.cpp" />
     <ClCompile Include="src\Helix\Rendering\Object\RenderBuffer.cpp" />

@@ -78,9 +78,6 @@ namespace hlx
 
 		while (m_running)
 		{
-			if (m_layerStack.size() == 1)
-				close();
-
 			t0 = std::chrono::high_resolution_clock::now();
 
 			Renderer::clearBuffer(BufferComponent::Color | BufferComponent::Depth);
@@ -106,6 +103,9 @@ namespace hlx
 
 			t1 = std::chrono::high_resolution_clock::now();
 			deltaTime = t1 - t0;
+
+			if (m_layerStack.size() == 1)
+				close();
 		}
 	}
 	void Application::close()

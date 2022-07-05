@@ -3,37 +3,35 @@
 
 namespace hlx
 {
-	OpenGLShader::OpenGLShader(const std::filesystem::path& vertex, const std::filesystem::path& fragment)
+	OpenGLShader::OpenGLShader(const std::string& vertex, const std::string& fragment)
 		: m_programId{}, m_status {}
 	{
 		bool success{};
 
-		unsigned int vertexOpenGLShader = OpenGLShader::create(GL_VERTEX_SHADER);
-		auto vertexSource = IO::load<std::string>(vertex);
-		success = compile(vertexOpenGLShader, *vertexSource);
+		unsigned int vertexShaderId = OpenGLShader::create(GL_VERTEX_SHADER);
+		success = compile(vertexShaderId, vertex);
 		if (!success)
 		{
-			logShaderError(vertexOpenGLShader);
-			glDeleteShader(vertexOpenGLShader);
+			logShaderError(vertexShaderId);
+			glDeleteShader(vertexShaderId);
 
 			return;
 		}
 
-		unsigned int fragmentOpenGLShader = OpenGLShader::create(GL_FRAGMENT_SHADER);
-		auto fragmentSource = IO::load<std::string>(fragment);
-		success = compile(fragmentOpenGLShader, *fragmentSource);
+		unsigned int fragmentShaderId = OpenGLShader::create(GL_FRAGMENT_SHADER);
+		success = compile(fragmentShaderId, fragment);
 		if (!success)
 		{
-			logShaderError(fragmentOpenGLShader);
-			glDeleteShader(fragmentOpenGLShader);
+			logShaderError(fragmentShaderId);
+			glDeleteShader(fragmentShaderId);
 
 			return;
 		}
 
 		m_programId = glCreateProgram();
 
-		glAttachShader(m_programId, vertexOpenGLShader);
-		glAttachShader(m_programId, fragmentOpenGLShader);
+		glAttachShader(m_programId, vertexShaderId);
+		glAttachShader(m_programId, fragmentShaderId);
 
 		glLinkProgram(m_programId);
 		success = checkProgramStatus(m_programId);
@@ -42,60 +40,57 @@ namespace hlx
 			logProgramError(m_programId);
 			glDeleteProgram(m_programId);
 
-			glDeleteShader(vertexOpenGLShader);
-			glDeleteShader(fragmentOpenGLShader);
+			glDeleteShader(vertexShaderId);
+			glDeleteShader(fragmentShaderId);
 
 			return;
 		}
 
-		glDetachShader(m_programId, vertexOpenGLShader);
-		glDetachShader(m_programId, fragmentOpenGLShader);
+		glDetachShader(m_programId, vertexShaderId);
+		glDetachShader(m_programId, fragmentShaderId);
 
 		m_status = true;
 	}
-	OpenGLShader::OpenGLShader(const std::filesystem::path& vertex, const std::filesystem::path& geometry, const std::filesystem::path& fragment)
+	OpenGLShader::OpenGLShader(const std::string& vertex, const std::string& geometry, const std::string& fragment)
 		: m_programId{}, m_status {}
 	{
 		bool success{};
 
-		unsigned int vertexOpenGLShader = OpenGLShader::create(GL_VERTEX_SHADER);
-		auto vertexSource = IO::load<std::string>(vertex);
-		success = compile(vertexOpenGLShader, *vertexSource);
+		unsigned int vertexShaderId = OpenGLShader::create(GL_VERTEX_SHADER);
+		success = compile(vertexShaderId, vertex);
 		if (!success)
 		{
-			logShaderError(vertexOpenGLShader);
-			glDeleteShader(vertexOpenGLShader);
+			logShaderError(vertexShaderId);
+			glDeleteShader(vertexShaderId);
 
 			return;
 		}
 
-		unsigned int geometryOpenGLShader = OpenGLShader::create(GL_GEOMETRY_SHADER);
-		auto geometrySource = IO::load<std::string>(geometry);
-		success = compile(geometryOpenGLShader, *geometrySource);
+		unsigned int geometryShaderId = OpenGLShader::create(GL_GEOMETRY_SHADER);
+		success = compile(geometryShaderId, geometry);
 		if (!success)
 		{
-			logShaderError(geometryOpenGLShader);
-			glDeleteShader(geometryOpenGLShader);
+			logShaderError(geometryShaderId);
+			glDeleteShader(geometryShaderId);
 
 			return;
 		}
 
-		unsigned int fragmentOpenGLShader = OpenGLShader::create(GL_FRAGMENT_SHADER);
-		auto fragmentSource = IO::load<std::string>(fragment);
-		success = compile(fragmentOpenGLShader, *fragmentSource);
+		unsigned int fragmentShaderId = OpenGLShader::create(GL_FRAGMENT_SHADER);
+		success = compile(fragmentShaderId, fragment);
 		if (!success)
 		{
-			logShaderError(fragmentOpenGLShader);
-			glDeleteShader(fragmentOpenGLShader);
+			logShaderError(fragmentShaderId);
+			glDeleteShader(fragmentShaderId);
 
 			return;
 		}
 
 		m_programId = glCreateProgram();
 
-		glAttachShader(m_programId, vertexOpenGLShader);
-		glAttachShader(m_programId, geometryOpenGLShader);
-		glAttachShader(m_programId, fragmentOpenGLShader);
+		glAttachShader(m_programId, vertexShaderId);
+		glAttachShader(m_programId, geometryShaderId);
+		glAttachShader(m_programId, fragmentShaderId);
 
 		glLinkProgram(m_programId);
 		success = checkProgramStatus(m_programId);
@@ -104,27 +99,33 @@ namespace hlx
 			logProgramError(m_programId);
 			glDeleteProgram(m_programId);
 
-			glDeleteShader(vertexOpenGLShader);
-			glDeleteShader(geometryOpenGLShader);
-			glDeleteShader(fragmentOpenGLShader);
+			glDeleteShader(vertexShaderId);
+			glDeleteShader(geometryShaderId);
+			glDeleteShader(fragmentShaderId);
 
 			return;
 		}
 
-		glDetachShader(m_programId, vertexOpenGLShader);
-		glDetachShader(m_programId, geometryOpenGLShader);
-		glDetachShader(m_programId, fragmentOpenGLShader);
+		glDetachShader(m_programId, vertexShaderId);
+		glDetachShader(m_programId, geometryShaderId);
+		glDetachShader(m_programId, fragmentShaderId);
 
 		m_status = true;
 	}
 	OpenGLShader::~OpenGLShader()
 	{
+		if (s_activeProgramId == m_programId) s_activeProgramId = 0;
+		
 		glDeleteProgram(m_programId);
 	}
 
 	void OpenGLShader::bind() const
 	{
+		if (s_activeProgramId == m_programId) 
+			return;
+			
 		glUseProgram(m_programId);
+		s_activeProgramId = m_programId;
 	}
 	void OpenGLShader::unbind() const
 	{

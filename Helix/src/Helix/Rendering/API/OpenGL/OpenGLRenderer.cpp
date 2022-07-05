@@ -28,16 +28,16 @@ namespace hlx
 	}
 	void OpenGLRenderer::check()
 	{
-		if (m_renderBatch->textureCount == 32) submit();
+		if (m_renderBatch->textureCount == 32) flush();
 	}
-	void OpenGLRenderer::submit()
+	void OpenGLRenderer::flush()
 	{
 		if (!m_renderBatch->vertexCount || !m_renderBatch->elementCount)
 			return;
 
 		m_renderBatch->bind();
-		m_renderBatch->vbo->setData(static_cast<unsigned int>(m_renderBatch->vertexCount) * sizeof(Vertex), (float*)m_renderBatch->vertexPtr);
-		m_renderBatch->ebo->setData(static_cast<unsigned int>(m_renderBatch->elementCount), m_renderBatch->elementPtr);
+		m_renderBatch->vbo->setData(static_cast<unsigned int>(m_renderBatch->vertexCount) * sizeof(Vertex), (float*)m_renderBatch->vertices.data());
+		m_renderBatch->ebo->setData(static_cast<unsigned int>(m_renderBatch->elementCount), m_renderBatch->elements.data());
 
 		m_renderBatch->shader->setMat("u_view", m_view);
 		m_renderBatch->shader->setMat("u_projection", m_projection);
@@ -50,7 +50,7 @@ namespace hlx
 	}
 	void OpenGLRenderer::finish()
 	{
-		submit();
+		flush();
 	}
 
 	void OpenGLRenderer::clearBuffer(BufferComponent buffer)
@@ -110,7 +110,7 @@ namespace hlx
 	{
 		for (int i = 0; i < RenderData::QUAD_VERTICES; ++i)
 		{
-			auto& vertex = m_renderBatch->vertexPtr[m_renderBatch->vertexCount];
+			auto& vertex = m_renderBatch->vertices.at(m_renderBatch->vertexCount);
 
 			vertex.position = transform * glm::vec4{ RenderData::QUAD_VERTEX_POSITIONS[i], 1.0f };
 			vertex.color = color;
@@ -131,13 +131,13 @@ namespace hlx
 	}
 	void OpenGLRenderer::renderQuad(const glm::mat4& transform, const std::shared_ptr<Texture>& texture, float textureScale, const glm::vec4& textureTint)
 	{
-		if (texture == nullptr) return;
+		if (!texture) return;
 
 		constexpr auto vertices = RenderData::QUAD_VERTICES;
 
 		for (int i = 0; i < vertices; ++i)
 		{
-			auto& vertex = m_renderBatch->vertexPtr[m_renderBatch->vertexCount];
+			auto& vertex = m_renderBatch->vertices.at(m_renderBatch->vertexCount);
 
 			vertex.position = transform * glm::vec4{ RenderData::QUAD_VERTEX_POSITIONS[i], 1.0f };
 			vertex.color = textureTint;
@@ -151,10 +151,12 @@ namespace hlx
 
 		m_renderBatch->elementCount += 6;
 
-		m_renderBatch->textureSlots[m_renderBatch->textureCount] = texture;
+		m_renderBatch->textureSlots.at(m_renderBatch->textureCount) = texture;
 		++m_renderBatch->textureCount;
 
-		m_statistics.vertices += 4;
+
+		
+		m_statistics.vertices += vertices;
 		m_statistics.triangles += 2;
 
 		check();
@@ -164,27 +166,27 @@ namespace hlx
 
 	void OpenGLRenderer::renderModel(Model& model, const glm::mat4& transform)
 	{
-		auto& meshes = model.getMeshes();
+		auto& vao = model.getVertexArray();
+		auto& materialToMeshMap = model.getMeshes();
 
-		for (const auto& mesh : meshes)
+		vao->bind();
+
+		for (const auto& pair : materialToMeshMap)
 		{
-			auto& vao = mesh.getVertexArray();
-			auto material = mesh.getMaterial();
+			auto& material = pair.first;
 			auto& shader = material->getShader();
-
-			vao->bind();
-			material->bind();
+			
+			material->use();
 			shader->setMat("u_model", transform);
 			shader->setMat("u_view", m_view);
-			shader->setMat("u_projection", m_projection);
-
-			glDrawElements(GL_TRIANGLES, (GLsizei)vao->getElementBuffer()->getSize(), GL_UNSIGNED_INT, nullptr);
-
-			//auto& vertexBuffers = mesh.getVertexArray()->getVertexBuffers();
-			//auto sum = std::accumulate(vertexBuffers.begin(), vertexBuffers.end(), 0, [](int sum, const std::shared_ptr<VertexBuffer>& vertexBuffer) { return sum + vertexBuffer->getSize() / sizeof(MeshVertex); });
-			//m_statistics.vertices += static_cast<unsigned int>(sum);
-			m_statistics.triangles += static_cast<unsigned int>(mesh.getVertexArray()->getElementBuffer()->getCount()) / 3;
-			++m_statistics.drawCalls;
+			shader->setMat("u_projection", m_projection);			
+			
+			glDrawElements(GL_TRIANGLES, (GLsizei)vao->getElementBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
 		}
+
+		for (const auto& buffer : vao->getVertexBuffers())
+			m_statistics.vertices += static_cast<unsigned int>(buffer->getSize() / sizeof(MeshVertex));
+
+		m_statistics.triangles += vao->getElementBuffer()->getCount() / 3;
 	}
 }

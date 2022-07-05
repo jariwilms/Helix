@@ -14,8 +14,9 @@ namespace hlx
 	public:
 		virtual ~Shader() = default;
 
-		static std::shared_ptr<Shader> create(const std::filesystem::path& vertex, const std::filesystem::path& fragment);
-		static std::shared_ptr<Shader> create(const std::filesystem::path& vertex, const std::filesystem::path& geometry, const std::filesystem::path& fragment);
+		static std::shared_ptr<Shader> create(const std::filesystem::path& path);
+		static std::shared_ptr<Shader> create(const std::string& vertex, const std::string& fragment);
+		static std::shared_ptr<Shader> create(const std::string& vertex, const std::string& geometry, const std::string& fragment);
 
 		virtual void bind() const = 0;
 		virtual void unbind() const = 0;
@@ -36,7 +37,7 @@ namespace hlx
 		virtual void setMat(const std::string& identifier, const glm::mat4& value) = 0;
 
 	protected:
-		Shader() : m_status{}, m_programId{} {}
+		Shader() : m_status{}, m_programId{} { s_activeProgramId = 0; }
 
 		virtual bool checkProgramStatus(unsigned int programId) = 0;
 		virtual bool checkShaderStatus(unsigned int shaderId) = 0;
@@ -49,6 +50,7 @@ namespace hlx
 
 		bool m_status;
 		unsigned int m_programId;
+		inline static unsigned int s_activeProgramId;
 
 		std::unordered_map<std::string, int> m_uniformLocationCache;
 	};
