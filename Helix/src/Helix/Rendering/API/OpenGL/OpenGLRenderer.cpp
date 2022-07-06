@@ -187,13 +187,11 @@ namespace hlx
 			
 			material->use();
 
-			glDrawElementsBaseVertex(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, (const void*)(sizeof(unsigned int) * offset), offset);
-			offset += indexCount;
+			glDrawElementsBaseVertex(GL_TRIANGLES, static_cast<GLsizei>(indexCount), GL_UNSIGNED_INT, (const void*)(sizeof(unsigned int) * offset), offset);
+			offset += static_cast<unsigned int>(indexCount);
+
+			m_statistics.vertices += static_cast<unsigned int>(indexCount);
+			m_statistics.triangles += static_cast<unsigned int>(indexCount / 3);
 		}
-
-		for (const auto& buffer : vao->getVertexBuffers())
-			m_statistics.vertices += static_cast<unsigned int>(buffer->getSize() / sizeof(MeshVertex));
-
-		m_statistics.triangles += vao->getElementBuffer()->getCount() / 3;
 	}
 }
