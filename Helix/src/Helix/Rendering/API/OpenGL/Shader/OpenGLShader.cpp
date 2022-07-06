@@ -119,13 +119,15 @@ namespace hlx
 		glDeleteProgram(m_programId);
 	}
 
-	void OpenGLShader::bind() const
+	bool OpenGLShader::bind() const
 	{
-		if (s_activeProgramId == m_programId) 
-			return;
+		if (s_activeProgramId == m_programId)
+			return false;
 			
 		glUseProgram(m_programId);
 		s_activeProgramId = m_programId;
+
+		return true;
 	}
 	void OpenGLShader::unbind() const
 	{

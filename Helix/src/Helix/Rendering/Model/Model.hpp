@@ -9,14 +9,17 @@ namespace hlx
 	class Model
 	{
 	public:
-		Model(std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>> materialToMeshMap);
+		Model(const std::vector<Mesh>& meshes);
+		Model(std::vector<Mesh>&& meshes);
 		virtual ~Model() = default;
 
 		inline const std::shared_ptr<VertexArray>& getVertexArray() const { return m_vertexArray; }
-		inline const std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>>& getMeshes() const { return m_materialToMeshMap; }
+		inline const std::vector<Mesh>& getMeshes() const { return m_meshes; }
 
 	protected:
-		std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>> m_materialToMeshMap;
+		void createBuffers();
+
+		std::vector<Mesh> m_meshes;
 
 		std::shared_ptr<VertexArray> m_vertexArray;
 		std::shared_ptr<VertexBuffer> m_vertexBuffer;

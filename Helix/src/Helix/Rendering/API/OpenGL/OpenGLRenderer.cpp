@@ -167,21 +167,28 @@ namespace hlx
 	void OpenGLRenderer::renderModel(Model& model, const glm::mat4& transform)
 	{
 		auto& vao = model.getVertexArray();
-		auto& materialToMeshMap = model.getMeshes();
+		auto& meshes = model.getMeshes();
 
 		vao->bind();
 
-		for (const auto& pair : materialToMeshMap)
+		unsigned int offset{};
+		for (const auto& mesh : meshes)
 		{
-			auto& material = pair.first;
+			auto indexCount = mesh.getIndices().size();
+			auto& material = mesh.getMaterial();
 			auto& shader = material->getShader();
 			
-			material->use();
-			shader->setMat("u_model", transform);
-			shader->setMat("u_view", m_view);
-			shader->setMat("u_projection", m_projection);			
+			if (shader->bind())
+			{
+				shader->setMat("u_model", transform);
+				shader->setMat("u_view", m_view);
+				shader->setMat("u_projection", m_projection);
+			}
 			
-			glDrawElements(GL_TRIANGLES, (GLsizei)vao->getElementBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+			material->use();
+
+			glDrawElementsBaseVertex(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, (const void*)(sizeof(unsigned int) * offset), offset);
+			offset += indexCount;
 		}
 
 		for (const auto& buffer : vao->getVertexBuffers())

@@ -192,7 +192,7 @@ namespace hlx
 
 
 			Assimp::Importer importer;
-			constexpr auto importerFlags = aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_GenUVCoords | aiProcess_FlipUVs | aiProcess_CalcTangentSpace;// | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph;
+			constexpr auto importerFlags = aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_GenUVCoords | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph;
 			auto scene = importer.ReadFile(fullPath.string(), importerFlags);
 
 			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
@@ -203,12 +203,11 @@ namespace hlx
 
 
 			
+			std::vector<Mesh> meshes{};
+			std::unordered_map<unsigned int, std::shared_ptr<Material>> idToMaterialMap;
+			
 			std::stack<aiNode*> nodeStack{};
 			nodeStack.push(scene->mRootNode);
-
-			std::unordered_map<unsigned int, std::shared_ptr<Material>> idToMaterialMap;
-			std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>> materialToMeshMap{};
-			
 			unsigned int offset{};
 
 			//Iterate over children of root node (DFS)
@@ -242,18 +241,14 @@ namespace hlx
 						vertices.push_back(vertex);
 					}
 
-					unsigned int c{};
 					//Iterate over faces to fetch indices
 					for (unsigned int i = 0; i < aiMesh->mNumFaces; ++i)
 					{
 						auto& aiFace = aiMesh->mFaces[i];
-						c += aiFace.mNumIndices;
 
 						for (unsigned int j = 0; j < aiFace.mNumIndices; ++j)
-							indices.push_back(aiFace.mIndices[j] + offset);
+							indices.push_back(aiFace.mIndices[j]);
 					}
-
-					offset += c;
 
 					auto materialIndex = aiMesh->mMaterialIndex;
 					auto it = idToMaterialMap.find(materialIndex);
@@ -264,24 +259,16 @@ namespace hlx
 						it = idToMaterialMap.find(materialIndex);
 					}
 
-					auto& mat = it->second;
-					auto it2 = materialToMeshMap.find(mat);
-
-					if (it2 == materialToMeshMap.end())
-					{
-						materialToMeshMap.insert(std::make_pair(mat, std::vector<Mesh>{}));
-						it2 = materialToMeshMap.find(mat);
-					}
-
-					it2->second.emplace_back(vertices, indices);
+					meshes.emplace_back(it->second, vertices, indices);
 				}
 				
+				//Push children of current node on top of stack
 				for (unsigned int i{ 0 }; i < node->mNumChildren; ++i)
 					nodeStack.push(node->mChildren[i]);
 			}
 
-			auto model = m_models.insert(std::make_pair(fullPath, std::make_shared<Model>(materialToMeshMap)));
-			return model.first->second;
+			auto pair = m_models.insert(std::make_pair(fullPath, std::make_shared<Model>(meshes)));
+			return pair.first->second;
 		}
 
 	private:

@@ -18,7 +18,7 @@ namespace hlx
 		static std::shared_ptr<Shader> create(const std::string& vertex, const std::string& fragment);
 		static std::shared_ptr<Shader> create(const std::string& vertex, const std::string& geometry, const std::string& fragment);
 
-		virtual void bind() const = 0;
+		virtual bool bind() const = 0;
 		virtual void unbind() const = 0;
 
 		bool verify() const;

@@ -12,20 +12,15 @@ namespace hlx
 	class Material
 	{
 	public:
-		Material();
 		explicit Material(std::shared_ptr<Shader> shader);
 
 		void use() const 
 		{ 
-			m_shader->bind();
-
 			m_shader->setVec("u_baseColor", m_baseColor);
 			m_albedo->bind();
-
-			//m_shader->setFloat("u_opacity", m_opacity);
 		}
 
-		inline std::shared_ptr<Shader> getShader() { return m_shader; }
+		inline std::shared_ptr<Shader> getShader() const { return m_shader; }
 
 		inline const glm::vec3& getBaseColor() const { return m_baseColor; }
 		inline const glm::vec3& getEmissionColor() const { return m_emissionColor; }

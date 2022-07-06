@@ -3,28 +3,34 @@
 
 namespace hlx
 {
-	Model::Model(std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>> materialToMeshMap)
+	Model::Model(const std::vector<Mesh>& meshes)
 	{
-		m_materialToMeshMap = materialToMeshMap;
-		
+		m_meshes = meshes;
+
+		createBuffers();
+	}
+	Model::Model(std::vector<Mesh>&& meshes)
+	{
+		m_meshes = std::move(meshes);
+
+		createBuffers();
+	}
+
+	void Model::createBuffers()
+	{
 		std::vector<MeshVertex> vertices{};
 		std::vector<unsigned int> indices{};
 
-		for (const auto& it : m_materialToMeshMap)
+		for (const auto& mesh : m_meshes)
 		{
-			for (const auto& mesh : it.second)
-			{
-				std::vector<MeshVertex> v = mesh.getVertices();
-				std::vector<unsigned int> i = mesh.getIndices();
+			std::vector<MeshVertex> v = mesh.getVertices();
+			std::vector<unsigned int> i = mesh.getIndices();
 
-				vertices.insert(vertices.end(), v.begin(), v.end());
-				indices.insert(indices.end(), i.begin(), i.end());
-			}
+			vertices.insert(vertices.end(), v.begin(), v.end());
+			indices.insert(indices.end(), i.begin(), i.end());
 		}
 
-
-		
-		BufferLayout layout{};
+		BufferLayout layout{}; //TODO: zonder af naar RenderData ofzo
 		layout.addAttribute<float>(3);
 		layout.addAttribute<float>(3);
 		layout.addAttribute<float>(3);
@@ -42,5 +48,4 @@ namespace hlx
 		m_vertexArray->setElementBuffer(m_elementBuffer);
 		m_vertexArray->addVertexBuffer(m_vertexBuffer);
 	}
-
 }
