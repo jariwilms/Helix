@@ -17,13 +17,19 @@ namespace hlx
 		glDeleteBuffers(1, &m_id);
 	}
 
-	void OpenGLElementBuffer::bind() const
+	bool OpenGLElementBuffer::bind() const
 	{
+		if (s_boundElementBufferId == m_id) return false;
+
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
+		s_boundElementBufferId = m_id;
+
+		return true;
 	}
 	void OpenGLElementBuffer::unbind() const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		s_boundElementBufferId = 0;
 	}
 
 	void OpenGLElementBuffer::setData(unsigned int count, const unsigned int* data)

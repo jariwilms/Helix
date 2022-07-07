@@ -14,14 +14,21 @@ namespace hlx
 		glDeleteVertexArrays(1, &m_id);
 	}
 
-	void OpenGLVertexArray::bind() const
+	bool OpenGLVertexArray::bind() const
 	{
+		if (s_boundVertexArrayId == m_id) return false;
+		
 		glBindVertexArray(m_id);
+		s_boundVertexArrayId = m_id;
 		m_elementBuffer->bind();
+
+		return true;
 	}
 	void OpenGLVertexArray::unbind() const
 	{
 		glBindVertexArray(0);
+		s_boundVertexArrayId = 0;
+
 		m_elementBuffer->unbind();
 	}
 

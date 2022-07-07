@@ -16,7 +16,8 @@ namespace hlx
 		virtual ~VertexBuffer() = default;
 
 		static std::shared_ptr<VertexBuffer> create(unsigned int count, const float* data = nullptr);
-		
+		static inline unsigned int getBoundObjectId() { return s_boundVertexBufferId; }
+
 		inline size_t getSize() const { return static_cast<size_t>(m_dataCount) * sizeof(float); }
 		inline unsigned int getCount() const { return m_dataCount; }
 
@@ -28,7 +29,9 @@ namespace hlx
 		inline void setLayout(const BufferLayout& layout) { m_layout = layout; }
 
 	protected:
-		VertexBuffer() : m_dataCount{}, m_dataLimit{} {}
+		VertexBuffer() : m_dataCount{}, m_dataLimit{} { s_boundVertexBufferId = 0; }
+
+		static inline unsigned int s_boundVertexBufferId;
 
 		unsigned int m_dataCount;
 		unsigned int m_dataLimit;

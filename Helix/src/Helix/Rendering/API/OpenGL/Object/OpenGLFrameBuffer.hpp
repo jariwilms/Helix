@@ -12,7 +12,7 @@ namespace hlx
 		OpenGLFrameBuffer(glm::uvec2 dimensions);
 		~OpenGLFrameBuffer();
 
-		void bind() const override;
+		bool bind() const override;
 		void unbind() const override;
 		void bindTexture() const override;
 

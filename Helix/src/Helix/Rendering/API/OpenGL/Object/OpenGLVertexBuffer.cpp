@@ -17,13 +17,20 @@ namespace hlx
 		glDeleteBuffers(1, &m_id);
 	}
 
-	void OpenGLVertexBuffer::bind() const
+	bool OpenGLVertexBuffer::bind() const
 	{
+		if (s_boundVertexBufferId == m_id) return false;
+
 		glBindBuffer(GL_ARRAY_BUFFER, m_id);
+		s_boundVertexBufferId = m_id;
+
+		return true;
+		
 	}
 	void OpenGLVertexBuffer::unbind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		s_boundVertexBufferId = 0;
 	}
 
 	void OpenGLVertexBuffer::setData(unsigned int count, const float* data)

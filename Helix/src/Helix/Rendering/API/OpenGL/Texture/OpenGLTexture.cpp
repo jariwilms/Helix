@@ -27,13 +27,15 @@ namespace hlx
 		glDeleteTextures(1, &m_id);
 	}
 
-	void OpenGLTexture::bind() const
+	bool OpenGLTexture::bind() const
 	{
-		glBindTexture(GL_TEXTURE_2D, getId());
+		glBindTexture(GL_TEXTURE_2D, m_id);
+
+		return true;
 	}
 	void OpenGLTexture::bindUnit(unsigned int index) const
 	{
-		glBindTextureUnit(index, getId());
+		glBindTextureUnit(index, m_id);
 	}
 	void OpenGLTexture::unbind() const 
 	{ 

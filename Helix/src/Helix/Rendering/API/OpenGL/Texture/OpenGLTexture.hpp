@@ -17,7 +17,7 @@ namespace hlx
 		OpenGLTexture(glm::uvec2 dimensions, unsigned int channels, unsigned char* data);
 		~OpenGLTexture() override;
 
-		void bind() const override;
+		bool bind() const override;
 		void bindUnit(unsigned int index) const override;
 		void unbind() const override;
 

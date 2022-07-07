@@ -12,7 +12,7 @@ namespace hlx
 		OpenGLVertexArray();
 		~OpenGLVertexArray() override;
 
-		void bind() const override;
+		bool bind() const override;
 		void unbind() const override;
 
 		void addVertexBuffer(const std::shared_ptr<VertexBuffer> buffer) override;

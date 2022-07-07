@@ -15,6 +15,7 @@ namespace hlx
 		virtual ~VertexArray() = default;
 
 		static std::shared_ptr<VertexArray> create();
+		static inline unsigned int getBoundObjectId() { return s_boundVertexArrayId; }
 
 		inline const std::vector<std::shared_ptr<VertexBuffer>>& getVertexBuffers() const { return m_vertexBuffers; }
 		virtual void addVertexBuffer(const std::shared_ptr<VertexBuffer> buffer) = 0;
@@ -23,11 +24,13 @@ namespace hlx
 		virtual void setElementBuffer(const std::shared_ptr<ElementBuffer> buffer) = 0;
 
 	protected:
-		VertexArray() : m_vertexAttributeIndex{} {}
+		VertexArray() : m_vertexAttributeIndex{} { s_boundVertexArrayId = 0; }
 
-		unsigned int m_vertexAttributeIndex;
+		static inline unsigned int s_boundVertexArrayId;
 
 		std::vector<std::shared_ptr<VertexBuffer>> m_vertexBuffers;
 		std::shared_ptr<ElementBuffer> m_elementBuffer;
+
+		unsigned int m_vertexAttributeIndex;
 	};
 }

@@ -11,9 +11,9 @@ namespace hlx
 
 		inline unsigned int getId() const { return m_id; }
 
-		virtual void bind() const = 0;
+		virtual bool bind() const = 0;
 		virtual void unbind() const = 0;
-
+		
 	protected:
 		BufferObject() : m_id{} {}
 		

@@ -10,7 +10,7 @@ namespace hlx
 		OpenGLRenderBuffer(glm::uvec2 dimensions, int format = GL_DEPTH24_STENCIL8);
 		~OpenGLRenderBuffer();
 
-		void bind() const override;
+		bool bind() const override;
 		void unbind() const override;
 
 		void allocate(glm::uvec2 dimensions, int format) override;

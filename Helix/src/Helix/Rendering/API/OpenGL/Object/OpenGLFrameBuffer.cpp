@@ -25,13 +25,19 @@ namespace hlx
 		glDeleteFramebuffers(1, &m_id);
 	}
 
-	void OpenGLFrameBuffer::bind() const
+	bool OpenGLFrameBuffer::bind() const
 	{
+		if (s_boundFrameBufferId == m_id) return false;
+
 		glBindFramebuffer(GL_FRAMEBUFFER, m_id);
+		s_boundFrameBufferId = m_id;
+
+		return true;
 	}
 	void OpenGLFrameBuffer::unbind() const
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		s_boundFrameBufferId = 0;
 	}
 	
 	void OpenGLFrameBuffer::bindTexture() const

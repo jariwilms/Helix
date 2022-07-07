@@ -16,13 +16,19 @@ namespace hlx
 		glDeleteRenderbuffers(1, &m_id);
 	}
 
-	void OpenGLRenderBuffer::bind() const
+	bool OpenGLRenderBuffer::bind() const
 	{
+		if (s_boundRenderBufferId == m_id) return false;
+
 		glBindRenderbuffer(GL_RENDERBUFFER, m_id);
+		s_boundRenderBufferId = m_id;
+
+		return true;
 	}
 	void OpenGLRenderBuffer::unbind() const
 	{
 		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		s_boundRenderBufferId = 0;
 	}
 
 	void OpenGLRenderBuffer::allocate(glm::uvec2 dimensions, int format)

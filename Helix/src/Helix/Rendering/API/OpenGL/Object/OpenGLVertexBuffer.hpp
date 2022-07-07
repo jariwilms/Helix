@@ -15,7 +15,7 @@ namespace hlx
 		OpenGLVertexBuffer(unsigned int count, const float* data);
 		~OpenGLVertexBuffer() override;
 		
-		void bind() const override;
+		bool bind() const override;
 		void unbind() const override;
 
 		void setData(unsigned int count, const float* data) override;
