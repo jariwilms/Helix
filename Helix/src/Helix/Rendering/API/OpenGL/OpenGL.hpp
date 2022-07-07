@@ -38,7 +38,7 @@ namespace hlx
 				case 3: return GL_RGB;
 				case 4: return GL_RGBA;
 
-				default: return GL_RGB;
+				default: return -1;
 			}
 		}
 	};

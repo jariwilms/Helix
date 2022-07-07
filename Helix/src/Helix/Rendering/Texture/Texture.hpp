@@ -23,16 +23,14 @@ namespace hlx
 
 		inline glm::uvec2 getDimensions() const { return m_dimensions; }
 		inline unsigned int getChannels() const { return m_channels; }
-		inline const unsigned char* getData() const { return m_data; }
 
 	protected:
-		Texture() : m_dimensions{}, m_channels{}, m_data{}, m_internalFormat{}, m_dataFormat{} {}
+		Texture() : m_dimensions{}, m_channels{}, m_internalFormat{}, m_dataFormat{} {}
 
 		virtual void setData(glm::uvec2 dimensions, unsigned int channels, unsigned char* data) = 0;
 
 		glm::uvec2 m_dimensions;
 		unsigned int m_channels;
-		unsigned char* m_data;
 
 		int m_internalFormat;
 		unsigned int m_dataFormat;

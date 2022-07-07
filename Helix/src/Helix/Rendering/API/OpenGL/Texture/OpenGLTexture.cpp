@@ -20,8 +20,6 @@ namespace hlx
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		stbi_image_free(m_data);
-
 		unbind();
 	}
 	OpenGLTexture::~OpenGLTexture()
@@ -48,10 +46,16 @@ namespace hlx
 
 		m_dimensions = dimensions;
 		m_channels = channels;
-		m_data = data;
 
 		m_dataFormat = OpenGL::getImageFormat(channels);
-		m_internalFormat = GL_RGBA32F;
+
+		if (m_dataFormat == -1)
+		{
+			HLX_CORE_ERROR("[Texture] Invalid number of channels: {0}", channels);
+			return;
+		}
+
+		m_internalFormat = GL_RGBA8;
 
 		glTextureStorage2D(m_id, 1, m_internalFormat, dimensions.x, dimensions.y);
 		if (data) glTextureSubImage2D(m_id, 0, 0, 0, dimensions.x, dimensions.y, m_dataFormat, GL_UNSIGNED_BYTE, data);

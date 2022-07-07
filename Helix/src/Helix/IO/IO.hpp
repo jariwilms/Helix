@@ -162,13 +162,16 @@ namespace hlx
 
 			stbi_set_flip_vertically_on_load(true);
 			data = stbi_load(fullPath.string().c_str(), &width, & height, &channels, 0);
+			
 			if (!data)
 			{
 				logError(fullPath);
 				return load<Texture>("textures/missing.png");
 			}
 
-			auto texture = Texture::create({ width, height }, channels, data);
+			auto texture = Texture::create(glm::uvec2{ width, height }, channels, data);
+			stbi_image_free(data);
+			
 			m_textures.insert(std::make_pair(fullPath, texture));
 
 			return texture;

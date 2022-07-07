@@ -88,7 +88,7 @@ namespace hlx
 
 	bool Input::isScrolling()
 	{
-		return !(m_scrollDirection.x == 0 || m_scrollDirection.y == 0);
+		return m_scrollDirection.x != 0 || m_scrollDirection.y != 0;
 	}
 	bool Input::isScrollingX(int direction)
 	{
