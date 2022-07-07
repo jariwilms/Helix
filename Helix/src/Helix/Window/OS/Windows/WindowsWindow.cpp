@@ -8,6 +8,10 @@ namespace hlx
 
 	WindowsWindow::WindowsWindow(const WindowProperties& properties)
 	{
+		//REMOVE
+		RenderContext::init();
+		//
+		
 		m_properties = properties;
 
 		int success = 0;
@@ -147,12 +151,7 @@ namespace hlx
 		glfwSetCursorPosCallback(m_window, cursor_lambda);
 		glfwSetScrollCallback(m_window, scroll_lambda);
 
-
-
 		glfwSwapInterval(0);
-
-		//glEnable(GL_BLEND);
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 	WindowsWindow::~WindowsWindow()
 	{
@@ -164,10 +163,6 @@ namespace hlx
 		glfwSwapBuffers(m_window);
 		glfwPollEvents();
 	}
-	void WindowsWindow::set()
-	{
-		glfwMakeContextCurrent(m_window);
-	}
 	void WindowsWindow::resize(glm::vec2 dimensions)
 	{
 		auto width = static_cast<int>(dimensions.x);
@@ -175,8 +170,6 @@ namespace hlx
 
 		glViewport(0, 0, width, height);
 		glScissor(0, 0, width, height);
-
-
 	}
 
 	void* WindowsWindow::getNativeWindow() const

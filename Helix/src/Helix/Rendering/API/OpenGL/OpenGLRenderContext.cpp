@@ -1,27 +1,25 @@
 #include "stdafx.hpp"
-#include "OpenGLRenderState.hpp"
+#include "OpenGLRenderContext.hpp"
 
 namespace hlx
 {
-	OpenGLRenderState::OpenGLRenderState()
+	OpenGLRenderContext::OpenGLRenderContext()
 	{
-        glEnable(GL_CULL_FACE); //TODO: => enable(RenderFunction::Cull);
-        glCullFace(GL_BACK);
-        glFrontFace(GL_CCW);
+
 	}
 
-	void OpenGLRenderState::enable(RenderFunction renderFunction)
+	void OpenGLRenderContext::enable(RenderFunction renderFunction)
     {
         auto capability = getRenderCapability(renderFunction);
         if (capability != -1) glEnable(capability);
     }
-    void OpenGLRenderState::disable(RenderFunction renderFunction)
+    void OpenGLRenderContext::disable(RenderFunction renderFunction)
     {
 		auto capability = getRenderCapability(renderFunction);
         if (capability != -1) glDisable(capability);
     }
 
-	void OpenGLRenderState::setRasterizationMode(RasterizationFunction rasterizationFunction)
+	void OpenGLRenderContext::setRasterizationMode(RasterizationFunction rasterizationFunction)
 	{
         auto mode = getRasterizationMode(rasterizationFunction);
         if (mode != -1) glPolygonMode(GL_FRONT_AND_BACK, mode);

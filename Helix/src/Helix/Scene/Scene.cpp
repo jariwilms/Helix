@@ -53,7 +53,7 @@ namespace hlx
 
 			auto& transform = modelView.get<TransformComponent>(id);
 			auto& modelComponent = modelView.get<ModelComponent>(id);
-
+			
 			Renderer::renderModel(*modelComponent.model, transform);
 		}
 	}

@@ -37,7 +37,6 @@ namespace hlx
 		virtual ~WindowsWindow();
 
 		void update() override;
-		void set() override;
 		void resize(glm::vec2 dimensions) override;
 
 		void* getNativeWindow() const override;
@@ -47,7 +46,8 @@ namespace hlx
 		void setVSync(bool state) override;
 
 	private:
-		GLFWwindow* m_window;
 		WindowsWindowProperties m_properties;
+
+		GLFWwindow* m_window;
 	};
 }

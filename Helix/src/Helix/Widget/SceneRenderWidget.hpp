@@ -4,7 +4,7 @@
 
 #include "glm/glm.hpp"
 
-#include "Helix/Rendering/RenderState.hpp"
+#include "Helix/Rendering/RenderContext.hpp"
 #include "Helix/Rendering/Object/FrameBuffer.hpp"
 #include "Helix/Rendering/Data/RenderData.hpp"
 #include "Helix/Rendering/Shader/Shader.hpp"
@@ -100,9 +100,9 @@ namespace hlx
 					{
 						switch (m_rasterizationMode)
 						{
-							case 0: RenderState::setRasterizationMode(RasterizationFunction::Fill);		break;
-							case 1: RenderState::setRasterizationMode(RasterizationFunction::Line);		break;
-							case 2: RenderState::setRasterizationMode(RasterizationFunction::Point);	break;
+							case 0: RenderContext::setRasterizationMode(RasterizationFunction::Fill);		break;
+							case 1: RenderContext::setRasterizationMode(RasterizationFunction::Line);		break;
+							case 2: RenderContext::setRasterizationMode(RasterizationFunction::Point);	break;
 							default:																	break;
 						}
 					}
@@ -122,7 +122,7 @@ namespace hlx
 			Renderer::setClearColor({ glm::vec3{ 0.1f }, 1.0f });
 			Renderer::clearBuffer(BufferComponent::Color | BufferComponent::Depth);
 
-			RenderState::enable(RenderFunction::DepthTest);
+			RenderContext::enable(RenderFunction::DepthTest);
 
 
 
@@ -140,7 +140,7 @@ namespace hlx
 			m_shader->bind();
 			m_frameBuffer->bindTexture();
 
-			RenderState::disable(RenderFunction::DepthTest);
+			RenderContext::disable(RenderFunction::DepthTest);
 			glDrawArrays(GL_TRIANGLES, 0, 6);//fix
 
 

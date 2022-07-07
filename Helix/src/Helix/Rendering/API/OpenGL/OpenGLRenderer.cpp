@@ -178,12 +178,10 @@ namespace hlx
 			auto& material = mesh.getMaterial();
 			auto& shader = material->getShader();
 			
-			if (shader->bind())
-			{
+			shader->bind();
 				shader->setMat("u_model", transform);
 				shader->setMat("u_view", m_view);
 				shader->setMat("u_projection", m_projection);
-			}
 			
 			material->use();
 

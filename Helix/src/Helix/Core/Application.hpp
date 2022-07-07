@@ -14,7 +14,7 @@
 #include "Helix/Layer/ImGuiLayer.hpp"
 #include "Helix/Layer/ImGuiLayer.hpp"
 #include "Helix/Rendering/Renderer.hpp"
-#include "Helix/Rendering/RenderState.hpp"
+#include "Helix/Rendering/RenderContext.hpp"
 #include "Helix/Window/Window.hpp"
 
 namespace hlx

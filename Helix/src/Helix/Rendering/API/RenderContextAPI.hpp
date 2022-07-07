@@ -5,10 +5,10 @@
 
 namespace hlx
 {
-	class RenderStateAPI
+	class RenderContextAPI
 	{
 	public:
-		virtual ~RenderStateAPI() = default;
+		virtual ~RenderContextAPI() = default;
 
 		virtual void enable(RenderFunction renderFunction) = 0;
 		virtual void disable(RenderFunction renderFunction) = 0;

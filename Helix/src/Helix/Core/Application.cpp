@@ -19,7 +19,6 @@ namespace hlx
 
 		Input::init();
 		Renderer::init();
-		RenderState::init();
 
 		m_imguiLayer = new ImGuiLayer{};
 		pushLayer(m_imguiLayer);

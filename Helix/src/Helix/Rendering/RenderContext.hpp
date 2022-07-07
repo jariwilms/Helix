@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Helix/Rendering/Function/RenderFunction.hpp"
-#include "Helix/Rendering/API/RenderStateAPI.hpp"
+#include "Helix/Rendering/API/RenderContextAPI.hpp"
 
 namespace hlx
 {
-	class RenderState
+	class RenderContext
 	{
 	public:
 		static void init();
@@ -16,6 +16,6 @@ namespace hlx
 		static void setRasterizationMode(RasterizationFunction rasterizationFunction);
 
 	private:
-		static RenderStateAPI* s_renderStateAPI;
+		static inline RenderContextAPI* s_renderStateAPI;
 	};
 }

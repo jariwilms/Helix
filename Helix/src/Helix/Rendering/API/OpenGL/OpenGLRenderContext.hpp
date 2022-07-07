@@ -5,14 +5,14 @@
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
 
-#include "Helix/Rendering/API/RenderStateAPI.hpp"
+#include "Helix/Rendering/API/RenderContextAPI.hpp"
 
 namespace hlx
 {
-	class OpenGLRenderState : public RenderStateAPI
+	class OpenGLRenderContext : public RenderContextAPI
 	{
 	public:
-		OpenGLRenderState();
+		OpenGLRenderContext();
 
 		void enable(RenderFunction renderFunction) override;
 		void disable(RenderFunction renderFunction) override;

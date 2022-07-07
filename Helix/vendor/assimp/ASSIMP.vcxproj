@@ -434,17 +434,12 @@
   <ItemGroup>
     <None Include="contrib\zlib\ALL_BUILD.vcxproj" />
     <None Include="contrib\zlib\ALL_BUILD.vcxproj.filters" />
-    <None Include="contrib\zlib\CMakeLists.txt" />
-    <None Include="contrib\zlib\CTestTestfile.cmake" />
     <None Include="contrib\zlib\INSTALL.vcxproj" />
     <None Include="contrib\zlib\INSTALL.vcxproj.filters" />
     <None Include="contrib\zlib\README" />
-    <None Include="contrib\zlib\cmake_install.cmake" />
-    <None Include="contrib\zlib\zconf.h.cmakein" />
     <None Include="contrib\zlib\zconf.h.in" />
     <None Include="contrib\zlib\zconf.h.included" />
     <None Include="contrib\zlib\zlib.pc" />
-    <None Include="contrib\zlib\zlib.pc.cmakein" />
     <None Include="contrib\zlib\zlib.sln" />
     <None Include="contrib\zlib\zlibstatic.vcxproj" />
     <None Include="contrib\zlib\zlibstatic.vcxproj.filters" />
