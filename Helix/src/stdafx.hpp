@@ -21,15 +21,15 @@
 #include <algorithm>
 #include <functional>
 
-#include <filesystem>
-
 #include <unordered_map>
 #include <unordered_set>
+
+#include <filesystem>
 
 #ifdef HLX_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif // HLX_PLATFORM_WINDOWS
 
-#include "Helix/core/DeltaTime.hpp"
+#include "Helix/Core/DeltaTime.hpp"
 #include "Helix/Diagnostics/Log.hpp"
 #include "Helix/IO/IO.hpp"

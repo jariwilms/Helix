@@ -176,6 +176,7 @@
     <ClInclude Include="src\Helix\Window\Window.hpp" />
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
+    <ClInclude Include="src\Helix\Window\WindowProperties.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp" />

@@ -2,12 +2,7 @@
 
 #include "stdafx.hpp"
 
-#include "glm/glm.hpp"
-
-#include "Helix/Rendering/Data/BufferComponent.hpp"
-#include "Helix/Rendering/Data/RenderStatistics.hpp"
 #include "Helix/Rendering/API/RendererAPI.hpp"
-#include "Helix/Scene/Camera/Camera.hpp"
 
 namespace hlx
 {

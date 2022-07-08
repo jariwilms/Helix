@@ -339,6 +339,9 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
+    <ClInclude Include="src\Helix\Window\WindowProperties.hpp">
+      <Filter>Helix\Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">

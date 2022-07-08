@@ -190,6 +190,7 @@ namespace hlx
 
 			m_statistics.vertices += static_cast<unsigned int>(indexCount);
 			m_statistics.triangles += static_cast<unsigned int>(indexCount / 3);
+			++m_statistics.drawCalls;
 		}
 	}
 }

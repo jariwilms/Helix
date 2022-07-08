@@ -2,8 +2,6 @@
 
 #include "stdafx.hpp"
 
-#include "glm/glm.hpp"
-
 struct RenderStatistics
 {
 public:

@@ -99,6 +99,12 @@ namespace hlx
 		return m_scrollDirection.y == direction;
 	}
 
+	void Input::setMouseLock(bool state)
+	{
+		auto mode = state ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL;
+		glfwSetInputMode(m_window, GLFW_CURSOR, mode);
+	}
+
 	void Input::_inputKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
 		if (key < Key::MIN_VALUE || key > Key::MAX_VALUE)

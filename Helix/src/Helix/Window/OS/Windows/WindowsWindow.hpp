@@ -1,35 +1,10 @@
 #pragma once
 
-#include "stdafx.hpp"
-
-#include "Helix/Core/Application.hpp"
-#include "Helix/Event/ApplicationEvent.hpp"
-#include "Helix/Event/KeyEvent.hpp"
-#include "Helix/Event/MouseEvent.hpp"
-#include "Helix/Event/WindowEvent.hpp"
-#include "Helix/Diagnostics/Log.hpp"
 #include "Helix/Window/Window.hpp"
+#include "Helix/Rendering/RenderContext.hpp"
 
 namespace hlx
 {
-	using WindowsWindowProperties = struct WindowsWindowProperties;
-	struct WindowsWindowProperties : public WindowProperties
-	{
-		WindowsWindowProperties() = default;
-		WindowsWindowProperties(const char* title, glm::uvec2 dimensions = glm::uvec2(), bool vSync = false);
-
-		EventCallbackFunction callback;
-
-		WindowsWindowProperties operator=(const WindowProperties& other)
-		{
-			this->title = other.title;
-			this->dimensions = other.dimensions;
-			this->vSync = other.vSync;
-
-			return *this;
-		}
-	};
-
 	class WindowsWindow : public Window
 	{
 	public:
@@ -39,15 +14,7 @@ namespace hlx
 		void update() override;
 		void resize(glm::vec2 dimensions) override;
 
-		void* getNativeWindow() const override;
-		const WindowsWindowProperties& getProperties() const override;
-
-		void setEventCallback(const EventCallbackFunction& callback) override;
-		void setVSync(bool state) override;
-
-	private:
-		WindowsWindowProperties m_properties;
-
-		GLFWwindow* m_window;
+		inline void setEventCallback(const EventCallbackFunction& callback) override { m_properties.callback = callback; }
+		inline void setVSync(bool state) override { RenderContext::setVSync(state); }
 	};
 }

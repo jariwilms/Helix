@@ -4,17 +4,10 @@
 
 #include "Helix/Core/Core.hpp"
 #include "Helix/Input/Input.hpp"
-#include "Helix/Event/Base/Event.hpp"
-#include "Helix/Event/Base/EventDispatcher.hpp"
-#include "Helix/Event/ApplicationEvent.hpp"
-#include "Helix/Event/WindowEvent.hpp"
-#include "Helix/Event/KeyEvent.hpp"
-#include "Helix/Event/MouseEvent.hpp"
 #include "Helix/Layer/Base/LayerStack.hpp"
 #include "Helix/Layer/ImGuiLayer.hpp"
 #include "Helix/Layer/ImGuiLayer.hpp"
 #include "Helix/Rendering/Renderer.hpp"
-#include "Helix/Rendering/RenderContext.hpp"
 #include "Helix/Window/Window.hpp"
 
 namespace hlx
