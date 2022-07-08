@@ -5,10 +5,14 @@
 namespace hlx
 {
 	Application::Application()
-		: m_running { true }
+		: m_imguiLayer{}, m_running{ true }
 	{
 		if (!s_instance) s_instance = this;
-		else HLX_CORE_ERROR("An instance of <hlx::Application> already exists");
+		else
+		{
+			HLX_CORE_ERROR("An instance of <hlx::Application> already exists");
+			return;
+		}
 
 		Log::init();
 		IO::init();
@@ -25,16 +29,7 @@ namespace hlx
 	}
 	Application::~Application()
 	{
-
-	}
-
-	Application& Application::getInstance()
-	{
-		return *s_instance;
-	}
-	Window& Application::getWindow() const
-	{
-		return *m_window;
+		HLX_CORE_INFO("Application closed");
 	}
 
 	void Application::pushLayer(Layer* layer)

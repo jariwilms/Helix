@@ -10,7 +10,8 @@ namespace hlx
 	class OpenGLRenderContext : public RenderContextAPI
 	{
 	public:
-		OpenGLRenderContext();
+		OpenGLRenderContext(WindowProperties& properties);
+		~OpenGLRenderContext();
 
 		void enable(RenderFunction renderFunction) override;
 		void disable(RenderFunction renderFunction) override;
@@ -19,12 +20,9 @@ namespace hlx
 		void setRasterizationMode(RasterizationFunction rasterizationFunction) override;
 		void setVSync(bool state) override;
 
-		void swapBuffers(NativeWindow* window) override;
+		void swapBuffers() override;
 		void pollEvents() override;
 		
-		void* createWindow(WindowProperties& properties) override;
-		void destroyWindow(NativeWindow* window) override;
-
 	private:
 		static void _windowErrorCallback(int error, const char* description) 
 		{ 

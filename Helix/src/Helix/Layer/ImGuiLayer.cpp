@@ -3,10 +3,10 @@
 
 #include "Helix/Core/Application.hpp"
 #include "Helix/Widget/RenderStatisticsWidget.hpp"
+#include "Helix/Rendering/RenderContext.hpp"
+
 namespace hlx
 {
-
-
 	void ImGuiLayer::onAttach() 
 	{
 		IMGUI_CHECKVERSION();
@@ -20,7 +20,7 @@ namespace hlx
 		ImGui::StyleColorsDark();
 
 		ImGui_ImplOpenGL3_Init("#version 460");
-		auto* window = static_cast<GLFWwindow*>(Application::getInstance().getWindow().getNativeWindow());
+		auto* window = static_cast<GLFWwindow*>(RenderContext::getNativeWindow());
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 	}
 	void ImGuiLayer::onDetach() 

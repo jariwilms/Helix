@@ -19,8 +19,8 @@ namespace hlx
 		Application(const Application&) = delete;
 		virtual ~Application();
 
-		static Application& getInstance();
-		Window& getWindow() const;
+		static inline Application& getInstance() { return *s_instance; }
+		inline Window& getWindow() const { return *m_window; }
 
 		void pushLayer(Layer* layer);
 		void popLayer(Layer* layer);
@@ -38,7 +38,7 @@ namespace hlx
 		static Application* s_instance;
 
 		LayerStack m_layerStack;
-		ImGuiLayer* m_imguiLayer;
+		ImGuiLayer* m_imguiLayer; //todo: unique_ptr?
 
 		std::unique_ptr<Window> m_window;
 

@@ -2,12 +2,13 @@
 #include "Input.hpp"
 
 #include "Helix/Core/Application.hpp"
+#include "Helix/Rendering/RenderContext.hpp"
 
 namespace hlx
 {
 	void Input::init()
 	{
-		m_window = (GLFWwindow*)Application::getInstance().getWindow().getNativeWindow(); //verander naar base class window ptr
+		m_window = (GLFWwindow*)RenderContext::getNativeWindow(); //verander naar base class window ptr
 
 		m_activeKeys.resize(GLFW_KEY_COUNT);
 		m_lastActiveKeys.resize(GLFW_KEY_COUNT);

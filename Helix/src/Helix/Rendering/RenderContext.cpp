@@ -5,9 +5,9 @@
 
 namespace hlx
 {
-	void RenderContext::init()
+	void RenderContext::create(WindowProperties& properties)
 	{
-		s_renderStateAPI = new OpenGLRenderContext{};
+		s_renderStateAPI = new OpenGLRenderContext{properties};
 	}
 
 	void RenderContext::enable(RenderFunction renderFunction)
@@ -17,6 +17,11 @@ namespace hlx
 	void RenderContext::disable(RenderFunction renderFunction)
 	{
 		s_renderStateAPI->disable(renderFunction);
+	}
+
+	NativeWindow* RenderContext::getNativeWindow()
+	{
+		return s_renderStateAPI->getNativeWindow();
 	}
 
 	void RenderContext::setViewport(glm::uvec4 rectangle)
@@ -32,21 +37,12 @@ namespace hlx
 		s_renderStateAPI->setVSync(state);
 	}
 
-	void RenderContext::swapBuffers(NativeWindow* window)
+	void RenderContext::swapBuffers()
 	{
-		s_renderStateAPI->swapBuffers(window);
+		s_renderStateAPI->swapBuffers();
 	}
 	void RenderContext::pollEvents()
 	{
 		s_renderStateAPI->pollEvents();
-	}
-
-	void* RenderContext::createWindow(WindowProperties& properties)
-	{
-		return s_renderStateAPI->createWindow(properties);
-	}
-	void RenderContext::destroyWindow(NativeWindow* window)
-	{
-		s_renderStateAPI->destroyWindow(window);
 	}
 }

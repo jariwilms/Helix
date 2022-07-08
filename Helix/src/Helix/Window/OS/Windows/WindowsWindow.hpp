@@ -9,10 +9,10 @@ namespace hlx
 	{
 	public:
 		WindowsWindow(const WindowProperties& m_properties);
-		virtual ~WindowsWindow();
+		virtual ~WindowsWindow() = default;
 
 		void update() override;
-		void resize(glm::vec2 dimensions) override;
+		void resize(glm::uvec2 dimensions) override;
 
 		inline void setEventCallback(const EventCallbackFunction& callback) override { m_properties.callback = callback; }
 		inline void setVSync(bool state) override { RenderContext::setVSync(state); }

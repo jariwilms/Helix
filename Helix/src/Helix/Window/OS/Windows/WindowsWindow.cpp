@@ -7,27 +7,18 @@ namespace hlx
 	{
 		m_properties = properties;
 		
-		RenderContext::init();
-		m_nativeWindow = RenderContext::createWindow(m_properties);
-
+		RenderContext::create(m_properties);
 		setVSync(false);
-	}
-	WindowsWindow::~WindowsWindow()
-	{
-		RenderContext::destroyWindow(m_nativeWindow);
 	}
 
 	void WindowsWindow::update()
 	{
-		RenderContext::swapBuffers(m_nativeWindow);
+		RenderContext::swapBuffers();
 		RenderContext::pollEvents();
 	}
-	void WindowsWindow::resize(glm::vec2 dimensions)
+	void WindowsWindow::resize(glm::uvec2 dimensions)
 	{
-		auto width = static_cast<int>(dimensions.x);
-		auto height = static_cast<int>(dimensions.y);
-
-		glViewport(0, 0, width, height);
-		glScissor(0, 0, width, height);
+		RenderContext::setViewport(glm::uvec4{ 0.0f, 0.0f, dimensions.x, dimensions.y });
+		glScissor(0, 0, dimensions.x, dimensions.y);
 	}
 }

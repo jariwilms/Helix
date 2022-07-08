@@ -7,9 +7,11 @@
 
 namespace hlx
 {
-	OpenGLRenderContext::OpenGLRenderContext()
+	OpenGLRenderContext::OpenGLRenderContext(WindowProperties& properties)
 	{
-		auto success = glfwInit();
+		int success = 0;
+		
+		success = glfwInit();
 		HLX_CORE_ASSERT(success, "Failed to initialize GLFW");
 
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -20,8 +22,40 @@ namespace hlx
 #ifdef HLX_DEBUG
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif
-	}
 
+		auto window = glfwCreateWindow(properties.dimensions.x, properties.dimensions.y, properties.title.c_str(), nullptr, nullptr);
+
+		HLX_CORE_ASSERT(window, "Failed to create OpenGL window");
+		glfwMakeContextCurrent(window);
+
+		success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		HLX_CORE_ASSERT(success, "Failed to initialize GLAD");
+
+
+
+		m_vendor = reinterpret_cast<const char*>(glGetString(GL_VENDOR));
+		m_renderer = reinterpret_cast<const char*>(glGetString(GL_RENDERER));
+
+
+
+		glfwSetWindowUserPointer(window, static_cast<void*>(&properties));
+
+		glfwSetErrorCallback(_windowErrorCallback);
+		glfwSetWindowSizeCallback(window, _windowSizeCallback);
+		glfwSetWindowCloseCallback(window, _windowCloseCallback);
+		glfwSetKeyCallback(window, _windowKeyCallback);
+		glfwSetMouseButtonCallback(window, _windowButtonCallback);
+		glfwSetCursorPosCallback(window, _windowCursorCallback);
+		glfwSetScrollCallback(window, _windowScrollCallback);
+
+
+		m_nativeWindow = window;
+	}
+	OpenGLRenderContext::~OpenGLRenderContext()
+	{
+		glfwDestroyWindow(static_cast<GLFWwindow*>(m_nativeWindow));
+	}
+	
 	void OpenGLRenderContext::enable(RenderFunction renderFunction)
     {
         auto capability = getRenderCapability(renderFunction);
@@ -47,43 +81,12 @@ namespace hlx
 		glfwSwapInterval(state);
 	}
 
-	void OpenGLRenderContext::swapBuffers(NativeWindow* window)
+	void OpenGLRenderContext::swapBuffers()
 	{
-		glfwSwapBuffers(static_cast<GLFWwindow*>(window));
+		glfwSwapBuffers(static_cast<GLFWwindow*>(m_nativeWindow));
 	}
 	void OpenGLRenderContext::pollEvents()
 	{
 		glfwPollEvents();
-	}
-	
-	void* OpenGLRenderContext::createWindow(WindowProperties& properties)
-	{
-		auto window = glfwCreateWindow(properties.dimensions.x, properties.dimensions.y, properties.title.c_str(), nullptr, nullptr);
-
-		HLX_CORE_ASSERT(window, "Failed to create OpenGL window");
-		glfwMakeContextCurrent(window);
-
-		auto success = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		HLX_CORE_ASSERT(success, "Failed to initialize GLAD");
-
-
-		
-		glfwSetWindowUserPointer(window, static_cast<void*>(&properties));
-
-		glfwSetErrorCallback(_windowErrorCallback);
-		glfwSetWindowSizeCallback(window, _windowSizeCallback);
-		glfwSetWindowCloseCallback(window, _windowCloseCallback);
-		glfwSetKeyCallback(window, _windowKeyCallback);
-		glfwSetMouseButtonCallback(window, _windowButtonCallback);
-		glfwSetCursorPosCallback(window, _windowCursorCallback);
-		glfwSetScrollCallback(window, _windowScrollCallback);
-
-
-		
-		return window;
-	}
-	void OpenGLRenderContext::destroyWindow(NativeWindow* window)
-	{
-		glfwDestroyWindow(static_cast<GLFWwindow*>(window));
 	}
 }
