@@ -15,6 +15,7 @@ namespace hlx
 		static NativeWindow* getNativeWindow();
 		
 		static void setViewport(glm::uvec4 rectangle);
+		static void setScissor(glm::uvec4 rectangle);
 		static void setRasterizationMode(RasterizationFunction rasterizationFunction);
 		static void setVSync(bool state);
 

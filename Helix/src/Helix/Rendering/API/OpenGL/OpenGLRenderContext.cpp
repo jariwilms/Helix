@@ -71,6 +71,10 @@ namespace hlx
 	{
 		glViewport(rectangle.x, rectangle.y, rectangle.z, rectangle.w);
 	}
+	void OpenGLRenderContext::setScissor(glm::uvec4 rectangle)
+	{
+		glScissor(rectangle.x, rectangle.y, rectangle.z, rectangle.w);
+	}
 	void OpenGLRenderContext::setRasterizationMode(RasterizationFunction rasterizationFunction)
 	{
         auto mode = getRasterizationMode(rasterizationFunction);

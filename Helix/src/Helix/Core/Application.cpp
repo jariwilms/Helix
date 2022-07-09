@@ -5,7 +5,7 @@
 namespace hlx
 {
 	Application::Application()
-		: m_imguiLayer{}, m_running{ true }
+		: m_running{ true }
 	{
 		if (!s_instance) s_instance = this;
 		else

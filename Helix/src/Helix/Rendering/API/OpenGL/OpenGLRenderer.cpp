@@ -153,8 +153,6 @@ namespace hlx
 
 		m_renderBatch->textureSlots.at(m_renderBatch->textureCount) = texture;
 		++m_renderBatch->textureCount;
-
-
 		
 		m_statistics.vertices += vertices;
 		m_statistics.triangles += 2;
@@ -167,29 +165,30 @@ namespace hlx
 	void OpenGLRenderer::renderModel(Model& model, const glm::mat4& transform)
 	{
 		auto& vao = model.getVertexArray();
-		auto& meshes = model.getMeshes();
-
+		auto& meshMap = model.getMeshMap();
+		auto& meshSizes = model.getMeshSizes();
+		
 		vao->bind();
-
-		unsigned int offset{};
-		for (const auto& mesh : meshes)
+		
+		unsigned int counter{}, offset{};
+		for (const auto& [material, meshVec] : meshMap)
 		{
-			auto indexCount = mesh.getIndices().size();
-			auto& material = mesh.getMaterial();
 			auto& shader = material->getShader();
 			
 			shader->bind();
-				shader->setMat("u_model", transform);
-				shader->setMat("u_view", m_view);
-				shader->setMat("u_projection", m_projection);
+			shader->setMat("u_model", transform);
+			shader->setMat("u_view", m_view);
+			shader->setMat("u_projection", m_projection);
 			
 			material->use();
 
-			glDrawElementsBaseVertex(GL_TRIANGLES, static_cast<GLsizei>(indexCount), GL_UNSIGNED_INT, (const void*)(sizeof(unsigned int) * offset), offset);
-			offset += static_cast<unsigned int>(indexCount);
+			glDrawElements(GL_TRIANGLES, meshSizes.at(counter), GL_UNSIGNED_INT, (void*)(offset * sizeof(unsigned int)));
+			
+			offset += meshSizes.at(counter);
+			++counter;
 
-			m_statistics.vertices += static_cast<unsigned int>(indexCount);
-			m_statistics.triangles += static_cast<unsigned int>(indexCount / 3);
+			m_statistics.vertices += static_cast<unsigned int>(offset);
+			m_statistics.triangles += static_cast<unsigned int>(offset / 3);
 			++m_statistics.drawCalls;
 		}
 	}

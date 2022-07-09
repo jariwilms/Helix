@@ -41,12 +41,13 @@ namespace hlx
 
 		static void setMouseLock(bool state);
 
+	private:
+		friend class OpenGLRenderContext;
 		static void _inputKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 		static void _inputButtonCallback(GLFWwindow* window, int button, int action, int mods);
 		static void _inputCursorCallback(GLFWwindow* window, double x, double y);
 		static void _inputScrollCallback(GLFWwindow* window, double x, double y);
-
-	private:
+		
 		static GLFWwindow* m_window;
 
 		static std::vector<bool> m_activeKeys;

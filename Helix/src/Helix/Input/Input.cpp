@@ -15,6 +15,8 @@ namespace hlx
 
 		m_activeButtons.resize(GLFW_BUTTON_COUNT);
 		m_lastActiveButtons.resize(GLFW_BUTTON_COUNT);
+
+		HLX_CORE_INFO("Input initialized");
 	}
 	void Input::reset()
 	{

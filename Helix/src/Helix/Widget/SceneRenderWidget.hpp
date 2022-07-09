@@ -102,8 +102,8 @@ namespace hlx
 						{
 							case 0: RenderContext::setRasterizationMode(RasterizationFunction::Fill);		break;
 							case 1: RenderContext::setRasterizationMode(RasterizationFunction::Line);		break;
-							case 2: RenderContext::setRasterizationMode(RasterizationFunction::Point);	break;
-							default:																	break;
+							case 2: RenderContext::setRasterizationMode(RasterizationFunction::Point);		break;
+							default:																		break;
 						}
 					}
 

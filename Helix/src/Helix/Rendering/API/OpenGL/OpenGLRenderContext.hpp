@@ -17,6 +17,7 @@ namespace hlx
 		void disable(RenderFunction renderFunction) override;
 
 		void setViewport(glm::uvec4 rectangle) override;
+		void setScissor(glm::uvec4 rectangle) override;
 		void setRasterizationMode(RasterizationFunction rasterizationFunction) override;
 		void setVSync(bool state) override;
 
@@ -47,24 +48,25 @@ namespace hlx
 		static void _windowKeyCallback(GLFWwindow* m_window, int key, int scancode, int action, int mods)
 		{
 			WindowProperties& m_properties = *(WindowProperties*)glfwGetWindowUserPointer(m_window);
+			auto keyCode = static_cast<KeyCode>(key);
 
 			switch (action)
 			{
 				case GLFW_PRESS:
 				{
-					KeyPressEvent m_event((KeyCode)key, 0);
+					KeyPressEvent m_event(keyCode, 0);
 					m_properties.callback(m_event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
-					KeyReleaseEvent m_event((KeyCode)key);
+					KeyReleaseEvent m_event(keyCode);
 					m_properties.callback(m_event);
 					break;
 				}
 				case GLFW_REPEAT:
 				{
-					KeyPressEvent m_event((KeyCode)key, 1);
+					KeyPressEvent m_event(keyCode, 1);
 					m_properties.callback(m_event);
 					break;
 				}

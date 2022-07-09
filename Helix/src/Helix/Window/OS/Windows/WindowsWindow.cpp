@@ -9,6 +9,8 @@ namespace hlx
 		
 		RenderContext::create(m_properties);
 		setVSync(false);
+
+		HLX_CORE_INFO("Window \"{0}\" created", m_properties.title);
 	}
 
 	void WindowsWindow::update()
@@ -19,6 +21,6 @@ namespace hlx
 	void WindowsWindow::resize(glm::uvec2 dimensions)
 	{
 		RenderContext::setViewport(glm::uvec4{ 0.0f, 0.0f, dimensions.x, dimensions.y });
-		glScissor(0, 0, dimensions.x, dimensions.y);
+		RenderContext::setScissor(glm::uvec4{ 0.0f, 0.0f, dimensions.x, dimensions.y });
 	}
 }

@@ -28,6 +28,10 @@ namespace hlx
 	{
 		s_renderStateAPI->setViewport(rectangle);
 	}
+	void RenderContext::setScissor(glm::uvec4 rectangle)
+	{
+		s_renderStateAPI->setScissor(rectangle);
+	}
 	void RenderContext::setRasterizationMode(RasterizationFunction rasterizationFunction)
 	{
 		s_renderStateAPI->setRasterizationMode(rasterizationFunction);

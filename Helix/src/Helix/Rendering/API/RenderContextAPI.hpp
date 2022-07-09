@@ -22,6 +22,7 @@ namespace hlx
 		virtual NativeWindow* getNativeWindow() { return m_nativeWindow; }
 
 		virtual void setViewport(glm::uvec4 rectangle) = 0;
+		virtual void setScissor(glm::uvec4 rectangle) = 0;
 		virtual void setRasterizationMode(RasterizationFunction rasterizationFunction) = 0;
 		virtual void setVSync(bool state) = 0;
 

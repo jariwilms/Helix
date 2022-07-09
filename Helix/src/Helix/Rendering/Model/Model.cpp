@@ -3,16 +3,14 @@
 
 namespace hlx
 {
-	Model::Model(const std::vector<Mesh>& meshes)
+	Model::Model(const std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>>& meshMap)
+		: m_meshMap{ meshMap }, m_materialMeshSizes{}
 	{
-		m_meshes = meshes;
-
 		createBuffers();
 	}
-	Model::Model(std::vector<Mesh>&& meshes)
+	Model::Model(std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>>&& meshMap)
+		: m_meshMap{ meshMap }, m_materialMeshSizes{}
 	{
-		m_meshes = std::move(meshes);
-
 		createBuffers();
 	}
 
@@ -20,14 +18,29 @@ namespace hlx
 	{
 		std::vector<MeshVertex> vertices{};
 		std::vector<unsigned int> indices{};
-
-		for (const auto& mesh : m_meshes)
+		
+		unsigned int meshIndexOffset{};
+		for (const auto& it : m_meshMap)
 		{
-			std::vector<MeshVertex> v = mesh.getVertices();
-			std::vector<unsigned int> i = mesh.getIndices();
+			unsigned int materialMeshSize{};
 
-			vertices.insert(vertices.end(), v.begin(), v.end());
-			indices.insert(indices.end(), i.begin(), i.end());
+			for (const auto& mesh : it.second)
+			{
+				std::vector<MeshVertex> v = mesh.getVertices();
+				std::vector<unsigned int> i = mesh.getIndices();
+
+				for (auto& index : i)
+					index += meshIndexOffset;
+
+				vertices.insert(vertices.end(), v.begin(), v.end());
+				indices.insert(indices.end(), i.begin(), i.end());
+
+				auto size = static_cast<unsigned int>(i.size());
+				materialMeshSize += size;
+				meshIndexOffset += size;
+			}
+
+			m_materialMeshSizes.push_back(materialMeshSize);
 		}
 
 		BufferLayout layout{}; //TODO: zonder af naar RenderData ofzo

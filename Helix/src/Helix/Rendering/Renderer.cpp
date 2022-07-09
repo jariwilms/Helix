@@ -8,6 +8,7 @@ namespace hlx
 	void Renderer::init()
 	{
 		s_renderAPI = new OpenGLRenderer{};
+		HLX_CORE_INFO("Renderer initialized");
 	}
 
 	void Renderer::start(const Camera& camera)

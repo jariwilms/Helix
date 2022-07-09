@@ -40,5 +40,6 @@ layout (location = 0) out vec4 				f_color;
 void main()
 {
 	f_color = vec4(u_baseColor, 1.0) * texture(u_albedo, v_texCoord);
+	//f_color = vec4(gl_fragCoord, 1.0);
 	//f_color.a *= u_opacity;
 }

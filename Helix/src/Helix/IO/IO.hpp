@@ -40,8 +40,8 @@ namespace hlx
 		static void init()
 		{
 			m_root = std::filesystem::current_path().parent_path().lexically_normal();
-			HLX_CORE_INFO("HLX::IO::INIT");
-			HLX_CORE_INFO("Setting root path to {0}", m_root.string().c_str());
+			HLX_CORE_INFO("IO initalized");
+			HLX_CORE_INFO("CWD: \"{0}\"", m_root.string().c_str());
 		}
 
 		inline static bool checkFileExists(const std::filesystem::path& path) { return std::filesystem::exists(path);  }
@@ -206,12 +206,11 @@ namespace hlx
 
 
 			
-			std::vector<Mesh> meshes{};
-			std::unordered_map<unsigned int, std::shared_ptr<Material>> idToMaterialMap;
-			
 			std::stack<aiNode*> nodeStack{};
 			nodeStack.push(scene->mRootNode);
-			unsigned int offset{};
+
+			std::unordered_map<unsigned int, std::shared_ptr<Material>> itmmap;
+			std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>> mtmmap;
 
 			//Iterate over children of root node (DFS)
 			while (!nodeStack.empty())
@@ -254,15 +253,25 @@ namespace hlx
 					}
 
 					auto materialIndex = aiMesh->mMaterialIndex;
-					auto it = idToMaterialMap.find(materialIndex);
-					if (it == idToMaterialMap.end())
+					auto it = itmmap.find(materialIndex);
+					if (it == itmmap.end())
 					{
 						auto aiMaterial = scene->mMaterials[aiMesh->mMaterialIndex];
-						idToMaterialMap.insert(std::make_pair(materialIndex, createMaterial(directory, aiMaterial)));
-						it = idToMaterialMap.find(materialIndex);
+						itmmap.insert(std::make_pair(materialIndex, createMaterial(directory, aiMaterial)));
+						it = itmmap.find(materialIndex);
 					}
 
-					meshes.emplace_back(it->second, vertices, indices);
+					auto& material = it->second;
+					
+					auto it2 = mtmmap.find(material);
+					if (it2 == mtmmap.end())
+					{
+						mtmmap.insert(std::make_pair(material, std::vector<Mesh>{}));
+						it2 = mtmmap.find(material);
+					}
+
+					auto& meshes = it2->second;
+					meshes.emplace_back(std::move(vertices), std::move(indices));
 				}
 				
 				//Push children of current node on top of stack
@@ -270,7 +279,7 @@ namespace hlx
 					nodeStack.push(node->mChildren[i]);
 			}
 
-			auto pair = m_models.insert(std::make_pair(fullPath, std::make_shared<Model>(meshes)));
+			auto pair = m_models.insert(std::make_pair(fullPath, std::make_shared<Model>(std::move(mtmmap))));
 			return pair.first->second;
 		}
 
