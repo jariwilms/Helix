@@ -59,7 +59,7 @@ namespace hlx
 	void OpenGLRenderContext::enable(RenderFunction renderFunction)
     {
         auto capability = getRenderCapability(renderFunction);
-        if (capability != -1) glEnable(capability);
+		if (capability != -1) glEnable(capability);
     }
     void OpenGLRenderContext::disable(RenderFunction renderFunction)
     {

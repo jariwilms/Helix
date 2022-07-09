@@ -122,6 +122,9 @@ namespace hlx
 				case DepthTest:			return GL_DEPTH_TEST;
 				case StencilTest:		return GL_STENCIL_TEST;
 				case ScissorTest:		return GL_SCISSOR_TEST;
+
+				case FaceCulling:		return GL_CULL_FACE;
+					
 				default: HLX_CORE_ERROR("Invalid render function: {0}", static_cast<int>(renderFunction)); return -1;
 			}
 		}
@@ -132,6 +135,7 @@ namespace hlx
 				case Point:				return GL_POINT;
 				case Line:				return GL_LINE;
 				case Fill:				return GL_FILL;
+					
 				default: HLX_CORE_ERROR("Invalid rasterization function: {0}", static_cast<int>(rasterizationFunction)); return -1;
 			}
 		}

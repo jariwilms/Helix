@@ -1,6 +1,8 @@
 #include "stdafx.hpp"
 #include "OpenGLRenderer.hpp"
 
+#include "Helix/Rendering/RenderContext.hpp"
+
 namespace hlx
 {
 	OpenGLRenderer::OpenGLRenderer()
@@ -17,6 +19,8 @@ namespace hlx
 		layout.addAttribute<float>(1); //entity id
 
 		m_renderBatch = std::make_shared<RenderBatch>(BUFFER_ELEMENT_COUNT, MAX_INDICES, layout);
+
+		RenderContext::enable(RenderFunction::FaceCulling);
 	}
 
 	void OpenGLRenderer::start(const Camera& camera)
