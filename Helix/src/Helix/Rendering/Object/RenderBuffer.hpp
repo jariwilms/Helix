@@ -13,11 +13,11 @@ namespace hlx
 		static inline unsigned int getBoundObjectId() { return s_boundRenderBufferId; }
 		
 	protected:
-		RenderBuffer() : m_dimensions{} { s_boundRenderBufferId = 0; }
+		RenderBuffer() : m_dimensions{} {}
 		
 		virtual void allocate(glm::uvec2 dimensions, int format) = 0;
 
-		static inline unsigned int s_boundRenderBufferId;
+		static inline unsigned int s_boundRenderBufferId = 0;
 
 		glm::uvec2 m_dimensions;
 	};

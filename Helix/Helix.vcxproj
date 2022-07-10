@@ -97,11 +97,13 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Helix\Library\RoundVector.hpp" />
+    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLUniformBuffer.hpp" />
     <ClInclude Include="src\Helix.hpp" />
     <ClInclude Include="src\Helix\Core\Application.hpp" />
     <ClInclude Include="src\Helix\Core\Core.hpp" />
-    <ClInclude Include="src\Helix\Core\DeltaTime.hpp" />
-    <ClInclude Include="src\Helix\Core\Transform.hpp" />
+    <ClInclude Include="src\Helix\Library\DeltaTime.hpp" />
+    <ClInclude Include="src\Helix\Library\Transform.hpp" />
     <ClInclude Include="src\Helix\Diagnostics\Log.hpp" />
     <ClInclude Include="src\Helix\ECS\Component\ComponentArray.hpp" />
     <ClInclude Include="src\Helix\ECS\Component\Components.hpp" />
@@ -177,10 +179,12 @@
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
     <ClInclude Include="src\Helix\Window\WindowProperties.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Object\UniformBuffer.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLUniformBuffer.cpp" />
     <ClCompile Include="src\Helix\Core\Application.cpp" />
-    <ClCompile Include="src\Helix\Core\Transform.cpp" />
+    <ClCompile Include="src\Helix\Library\Transform.cpp" />
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp" />
     <ClCompile Include="src\Helix\Input\Input.cpp" />
     <ClCompile Include="src\Helix\Layer\ImGuiLayer.cpp" />
@@ -211,6 +215,7 @@
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Object\UniformBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\glad\GLAD.vcxproj">

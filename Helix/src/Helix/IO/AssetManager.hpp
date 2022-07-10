@@ -7,8 +7,8 @@ namespace hlx
 	class AssetManager
 	{
 	private:
-		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<File>> m_files;
-		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<Texture>> m_textures;
-		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<Model>> m_models;
+		static inline std::unordered_map<std::filesystem::path, std::shared_ptr<File>> m_files;
+		static inline std::unordered_map<std::filesystem::path, std::shared_ptr<Texture>> m_textures;
+		static inline std::unordered_map<std::filesystem::path, std::shared_ptr<Model>> m_models;
 	};
 }

@@ -29,9 +29,9 @@ namespace hlx
 		inline void setLayout(const BufferLayout& layout) { m_layout = layout; }
 
 	protected:
-		VertexBuffer() : m_dataCount{}, m_dataLimit{} { s_boundVertexBufferId = 0; }
+		VertexBuffer() : m_dataCount{}, m_dataLimit{} {}
 
-		static inline unsigned int s_boundVertexBufferId;
+		static inline unsigned int s_boundVertexBufferId = 0;
 
 		unsigned int m_dataCount;
 		unsigned int m_dataLimit;

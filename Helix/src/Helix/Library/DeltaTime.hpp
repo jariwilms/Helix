@@ -5,7 +5,10 @@
 struct DeltaTime
 {
 public:
-	DeltaTime() = default;
+	DeltaTime()
+	{
+		m_deltaTime = std::chrono::duration<float>(0.0f);
+	}
 
 	float inSeconds() { return m_deltaTime.count() / 1000.0f; }
 	float inMilliseconds() { return m_deltaTime.count(); }

@@ -25,8 +25,10 @@ namespace hlx
 
 	void OpenGLRenderer::start(const Camera& camera)
 	{
-		m_view = camera.getViewMatrix();
-		m_projection = camera.getProjectionMatrix();
+		m_matrices[0] = camera.getViewMatrix();
+		m_matrices[1] = camera.getProjectionMatrix();
+
+		m_renderBatch->shader->setUniformBuffer("Matrices", 2 * sizeof(glm::mat4), m_matrices);
 
 		m_statistics.reset();
 	}
@@ -42,10 +44,7 @@ namespace hlx
 		m_renderBatch->bind();
 		m_renderBatch->vbo->setData(static_cast<unsigned int>(m_renderBatch->vertexCount) * sizeof(Vertex), (float*)m_renderBatch->vertices.data());
 		m_renderBatch->ebo->setData(static_cast<unsigned int>(m_renderBatch->elementCount), m_renderBatch->elements.data());
-
-		m_renderBatch->shader->setMat("u_view", m_view);
-		m_renderBatch->shader->setMat("u_projection", m_projection);
-
+		
 		glDrawElements(GL_TRIANGLES, (GLsizei)m_renderBatch->elementCount, GL_UNSIGNED_INT, nullptr);
 
 		++m_statistics.drawCalls;
@@ -181,8 +180,6 @@ namespace hlx
 			
 			shader->bind();
 			shader->setMat("u_model", transform);
-			shader->setMat("u_view", m_view);
-			shader->setMat("u_projection", m_projection);
 			
 			material->use();
 

@@ -25,9 +25,9 @@ namespace hlx
 		virtual void setSubData(unsigned int count, unsigned int offset, const unsigned int* data) = 0;
 
 	protected:
-		ElementBuffer() : m_dataCount{}, m_dataLimit{} { s_boundElementBufferId = 0; }
+		ElementBuffer() : m_dataCount{}, m_dataLimit{} {}
 
-		static inline unsigned int s_boundElementBufferId;
+		static inline unsigned int s_boundElementBufferId = 0;
 
 		unsigned int m_dataCount;
 		unsigned int m_dataLimit;

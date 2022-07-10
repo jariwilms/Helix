@@ -41,14 +41,13 @@ namespace hlx
 		void resetStatistics() { m_statistics.reset(); }
 
 	protected:
-		RendererAPI() : m_view{}, m_projection{} {}
+		RendererAPI() = default;
 
 		virtual void check() = 0;
 		virtual void flush() = 0;
 
 		RenderStatistics m_statistics;
 
-		glm::mat4 m_view;
-		glm::mat4 m_projection;
+		glm::mat4 m_matrices[2];
 	};
 }

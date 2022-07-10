@@ -40,23 +40,12 @@ namespace hlx
 		auto size = count * sizeof(float);
 		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 
-		m_dataCount = count;
+		if (data) m_dataCount = count;
 		m_dataLimit = count;
 	}
 	void OpenGLVertexBuffer::setSubData(unsigned int count, const float* data)
 	{
-		bind();
-
-		if (m_dataCount + count > m_dataLimit)
-		{
-			HLX_CORE_ERROR("[Vertex buffer] subdata exceeds data limit");
-			return;
-		}
-
-		auto size = count * sizeof(float);
-		auto offset = m_dataCount * sizeof(float);
-		
-		glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+		setSubData(count, 0, data);
 	}
 	void OpenGLVertexBuffer::setSubData(unsigned int count, unsigned int offset, const float* data)
 	{
@@ -64,7 +53,7 @@ namespace hlx
 
 		if (offset + count > m_dataLimit)
 		{
-			HLX_CORE_ERROR("[Vertex buffer] subdata exceeds data limit");
+			HLX_CORE_ERROR("[Vertex buffer] subdata overflow");
 			return;
 		}
 
@@ -72,5 +61,6 @@ namespace hlx
 		offset *= sizeof(float);
 		
 		glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+		m_dataCount += static_cast<unsigned int>(size);
 	}
 }

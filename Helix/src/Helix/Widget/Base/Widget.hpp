@@ -4,7 +4,7 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
-#include "Helix/Core/DeltaTime.hpp"
+#include "Helix/Library/DeltaTime.hpp"
 
 namespace hlx
 {

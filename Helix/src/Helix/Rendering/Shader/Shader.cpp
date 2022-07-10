@@ -13,14 +13,8 @@ namespace hlx
 	{
 		return std::make_shared<OpenGLShader>(vertex, fragment);
 	}
-
 	std::shared_ptr<Shader> Shader::create(const std::string& vertex, const std::string& geometry, const std::string& fragment)
 	{
 		return std::make_shared<OpenGLShader>(vertex, geometry, fragment);
-	}
-
-	bool Shader::verify() const
-	{
-		return m_status;
 	}
 }

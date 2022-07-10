@@ -115,10 +115,10 @@
     <ClInclude Include="src\Helix\Core\Core.hpp">
       <Filter>Helix\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Core\DeltaTime.hpp">
+    <ClInclude Include="src\Helix\Library\DeltaTime.hpp">
       <Filter>Helix\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Core\Transform.hpp">
+    <ClInclude Include="src\Helix\Library\Transform.hpp">
       <Filter>Helix\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Diagnostics\Log.hpp">
@@ -342,12 +342,19 @@
     <ClInclude Include="src\Helix\Window\WindowProperties.hpp">
       <Filter>Helix\Window</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Object\UniformBuffer.hpp">
+      <Filter>Helix\Rendering\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLUniformBuffer.hpp">
+      <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Library\RoundVector.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
       <Filter>Helix\Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Helix\Core\Transform.cpp">
+    <ClCompile Include="src\Helix\Library\Transform.cpp">
       <Filter>Helix\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp">
@@ -432,5 +439,11 @@
       <Filter>Helix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\Helix\Rendering\Object\UniformBuffer.cpp">
+      <Filter>Helix\Rendering\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLUniformBuffer.cpp">
+      <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

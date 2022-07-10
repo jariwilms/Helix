@@ -44,14 +44,14 @@ namespace hlx
 			HLX_CORE_INFO("CWD: \"{0}\"", m_root.string().c_str());
 		}
 
-		inline static bool checkFileExists(const std::filesystem::path& path) { return std::filesystem::exists(path);  }
-		inline static bool checkDirectoryExists(const std::filesystem::path& path) { return std::filesystem::exists(path); }
+		static inline bool checkFileExists(const std::filesystem::path& path) { return std::filesystem::exists(path);  }
+		static inline bool checkDirectoryExists(const std::filesystem::path& path) { return std::filesystem::exists(path); }
 
-		inline static const std::filesystem::path& getRoot() { return m_root; }
-		inline static void setRoot(const std::filesystem::path& root) { m_root = root; }
+		static inline const std::filesystem::path& getRoot() { return m_root; }
+		static inline void setRoot(const std::filesystem::path& root) { m_root = root; }
 
-		inline static std::filesystem::path getCurrentWorkingDirectory() { return std::filesystem::current_path(); }
-		inline static std::filesystem::path getCoalescedPath(std::filesystem::path path = "")
+		static inline std::filesystem::path getCurrentWorkingDirectory() { return std::filesystem::current_path(); }
+		static inline std::filesystem::path getCoalescedPath(std::filesystem::path path = "")
 		{
 			std::filesystem::path coalesced = m_root;
 			std::for_each(m_subdirectories.begin(), m_subdirectories.end(), [&](const std::filesystem::path& _) { coalesced /= _; });
@@ -60,11 +60,11 @@ namespace hlx
 		}
 
 		template<typename T, typename... Args>
-		inline static std::shared_ptr<T> load(const std::filesystem::path& path, Args... args)
+		static inline std::shared_ptr<T> load(const std::filesystem::path& path, Args... args)
 		{
 			HLX_CORE_ASSERT(false, "Invalid file format");
 		}
-		template<> inline static std::shared_ptr<std::string> load<std::string>(const std::filesystem::path& path)
+		template<> static inline std::shared_ptr<std::string> load<std::string>(const std::filesystem::path& path)
 		{
 			std::filesystem::path fullPath;
 
@@ -88,7 +88,7 @@ namespace hlx
 
 			return m_textFiles[fullPath];
 		}
-		template<> inline static std::shared_ptr<Shader> load(const std::filesystem::path& path)
+		template<> static inline std::shared_ptr<Shader> load(const std::filesystem::path& path)
 		{
 			std::filesystem::path fullPath;
 
@@ -141,7 +141,7 @@ namespace hlx
 			//	fragment = content->substr(position + 9);
 			//}
 		}
-		template<> inline static std::shared_ptr<Texture> load<Texture>(const std::filesystem::path& path)
+		template<> static inline std::shared_ptr<Texture> load<Texture>(const std::filesystem::path& path)
 		{
 			std::filesystem::path fullPath;
 
@@ -176,7 +176,7 @@ namespace hlx
 
 			return texture;
 		}
-		template<> inline static std::shared_ptr<Model> load<Model>(const std::filesystem::path& path)
+		template<> static inline std::shared_ptr<Model> load<Model>(const std::filesystem::path& path)
 		{
 			std::filesystem::path fullPath{};
 			std::filesystem::path directory{};
@@ -330,12 +330,12 @@ namespace hlx
 			HLX_CORE_WARNING("File \"{0}\" was not found at location \"{1}\"", filename, parent);
 		}
 
-		inline static std::filesystem::path m_root;
-		inline static std::vector<std::filesystem::path> m_subdirectories;
+		static inline std::filesystem::path m_root;
+		static inline std::vector<std::filesystem::path> m_subdirectories;
 
-		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<std::string>> m_textFiles;
-		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<Shader>> m_shaders;
-		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<Texture>> m_textures;
-		inline static std::unordered_map<std::filesystem::path, std::shared_ptr<Model>> m_models;
+		static inline std::unordered_map<std::filesystem::path, std::shared_ptr<std::string>> m_textFiles;
+		static inline std::unordered_map<std::filesystem::path, std::shared_ptr<Shader>> m_shaders;
+		static inline std::unordered_map<std::filesystem::path, std::shared_ptr<Texture>> m_textures;
+		static inline std::unordered_map<std::filesystem::path, std::shared_ptr<Model>> m_models;
 	};
 }

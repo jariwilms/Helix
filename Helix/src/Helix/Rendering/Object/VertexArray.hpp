@@ -24,9 +24,9 @@ namespace hlx
 		virtual void setElementBuffer(const std::shared_ptr<ElementBuffer> buffer) = 0;
 
 	protected:
-		VertexArray() : m_vertexAttributeIndex{} { s_boundVertexArrayId = 0; }
+		VertexArray() : m_vertexAttributeIndex{} {}
 
-		static inline unsigned int s_boundVertexArrayId;
+		static inline unsigned int s_boundVertexArrayId = 0;
 
 		std::vector<std::shared_ptr<VertexBuffer>> m_vertexBuffers;
 		std::shared_ptr<ElementBuffer> m_elementBuffer;

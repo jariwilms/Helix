@@ -17,9 +17,9 @@ namespace hlx
 		virtual std::shared_ptr<Texture> getTexture() = 0;
 		
 	protected:
-		FrameBuffer() : m_dimensions{} { s_boundFrameBufferId = 0; }
+		FrameBuffer() : m_dimensions{} {}
 
-		static inline unsigned int s_boundFrameBufferId;
+		static inline unsigned int s_boundFrameBufferId = 0;
 
 		glm::uvec2 m_dimensions;
 	};

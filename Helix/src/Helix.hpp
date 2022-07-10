@@ -2,8 +2,8 @@
 
 // !!! CORE !!! //
 #include "Helix/Core/Application.hpp"
-#include "Helix/Core/Transform.hpp"
-#include "Helix/core/DeltaTime.hpp"
+#include "Helix/Library/Transform.hpp"
+#include "Helix/Library/DeltaTime.hpp"
 // ### CORE ### //
 
 // !!! DIAGNOSTICS !!! //

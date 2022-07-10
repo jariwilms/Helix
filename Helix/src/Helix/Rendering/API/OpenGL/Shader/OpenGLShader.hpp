@@ -22,6 +22,7 @@ namespace hlx
 		void unbind() const override;
 
 		int getUniformLocation(const std::string& id) override;
+		int getUniformBlockIndex(const std::string& identifier) override;
 
 		void setBool(const std::string& identifier, bool value) override;
 		void setInt(const std::string& identifier, int value) override;
@@ -35,8 +36,14 @@ namespace hlx
 		void setMat(const std::string& identifier, const glm::mat3& value) override;
 		void setMat(const std::string& identifier, const glm::mat4& value) override;
 
+		void setUniformBuffer(const std::string& identifier, size_t size, const void* data) override;
+		void setUniformBuffer(const std::string& identifier, size_t size, unsigned int offset, const void* data) override;
+		
+		std::shared_ptr<UniformBuffer> getUniformBuffer(const std::string& identifier) override;
+		std::shared_ptr<UniformBuffer> createUniformBuffer(const std::string& identifier) override;
+
 	private:
-		bool checkProgramStatus(unsigned int programId) override;
+		bool checkProgramStatus(unsigned int programId) override; //Todo: move naar base shader als virtual?
 		bool checkShaderStatus(unsigned int shaderId) override;
 
 		void logProgramError(unsigned int programId) override;
@@ -44,9 +51,5 @@ namespace hlx
 
 		unsigned int create(unsigned int type) override;
 		bool compile(unsigned int shaderId, const std::string& source) override;
-
-		bool m_status;;
-		unsigned int m_programId;
-		std::unordered_map<std::string, int> m_uniformLocationCache;
 	};
 }

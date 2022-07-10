@@ -2,8 +2,8 @@
 
 #include "stdafx.hpp"
 
-#include "Helix/Core/DeltaTime.hpp"
-#include "Helix/Core/Transform.hpp" //todo: move
+#include "Helix/Library/DeltaTime.hpp"
+#include "Helix/Library/Transform.hpp" //todo: move
 #include "Helix/Rendering/Renderer.hpp"
 #include "Helix/Rendering/Texture/Texture.hpp"
 

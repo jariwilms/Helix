@@ -5,7 +5,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "Helix/Core/Transform.hpp"
+#include "Helix/Library/Transform.hpp"
 #include "Helix/Input/Input.hpp"
 #include "Helix/Scene/Camera/Projection.hpp"
 

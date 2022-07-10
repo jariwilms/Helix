@@ -4,7 +4,6 @@
 namespace hlx
 {
 	OpenGLShader::OpenGLShader(const std::string& vertex, const std::string& fragment)
-		: m_programId{}, m_status {}
 	{
 		bool success{};
 
@@ -28,17 +27,17 @@ namespace hlx
 			return;
 		}
 
-		m_programId = glCreateProgram();
+		m_id = glCreateProgram();
 
-		glAttachShader(m_programId, vertexShaderId);
-		glAttachShader(m_programId, fragmentShaderId);
+		glAttachShader(m_id, vertexShaderId);
+		glAttachShader(m_id, fragmentShaderId);
 
-		glLinkProgram(m_programId);
-		success = checkProgramStatus(m_programId);
+		glLinkProgram(m_id);
+		success = checkProgramStatus(m_id);
 		if (!success)
 		{
-			logProgramError(m_programId);
-			glDeleteProgram(m_programId);
+			logProgramError(m_id);
+			glDeleteProgram(m_id);
 
 			glDeleteShader(vertexShaderId);
 			glDeleteShader(fragmentShaderId);
@@ -46,13 +45,10 @@ namespace hlx
 			return;
 		}
 
-		glDetachShader(m_programId, vertexShaderId);
-		glDetachShader(m_programId, fragmentShaderId);
-
-		m_status = true;
+		glDetachShader(m_id, vertexShaderId);
+		glDetachShader(m_id, fragmentShaderId);
 	}
 	OpenGLShader::OpenGLShader(const std::string& vertex, const std::string& geometry, const std::string& fragment)
-		: m_programId{}, m_status {}
 	{
 		bool success{};
 
@@ -86,18 +82,18 @@ namespace hlx
 			return;
 		}
 
-		m_programId = glCreateProgram();
+		m_id = glCreateProgram();
 
-		glAttachShader(m_programId, vertexShaderId);
-		glAttachShader(m_programId, geometryShaderId);
-		glAttachShader(m_programId, fragmentShaderId);
+		glAttachShader(m_id, vertexShaderId);
+		glAttachShader(m_id, geometryShaderId);
+		glAttachShader(m_id, fragmentShaderId);
 
-		glLinkProgram(m_programId);
-		success = checkProgramStatus(m_programId);
+		glLinkProgram(m_id);
+		success = checkProgramStatus(m_id);
 		if (!success)
 		{
-			logProgramError(m_programId);
-			glDeleteProgram(m_programId);
+			logProgramError(m_id);
+			glDeleteProgram(m_id);
 
 			glDeleteShader(vertexShaderId);
 			glDeleteShader(geometryShaderId);
@@ -106,43 +102,30 @@ namespace hlx
 			return;
 		}
 
-		glDetachShader(m_programId, vertexShaderId);
-		glDetachShader(m_programId, geometryShaderId);
-		glDetachShader(m_programId, fragmentShaderId);
-
-		m_status = true;
+		glDetachShader(m_id, vertexShaderId);
+		glDetachShader(m_id, geometryShaderId);
+		glDetachShader(m_id, fragmentShaderId);
 	}
 	OpenGLShader::~OpenGLShader()
 	{
-		if (s_boundProgramId == m_programId) s_boundProgramId = 0;
+		if (s_boundProgramId == m_id) s_boundProgramId = 0;
 		
-		glDeleteProgram(m_programId);
+		glDeleteProgram(m_id);
 	}
 
 	bool OpenGLShader::bind() const
 	{
-		if (s_boundProgramId == m_programId)
+		if (s_boundProgramId == m_id)
 			return false;
 			
-		glUseProgram(m_programId);
-		s_boundProgramId = m_programId;
+		glUseProgram(m_id);
+		s_boundProgramId = m_id;
 
 		return true;
 	}
 	void OpenGLShader::unbind() const
 	{
 		glUseProgram(0);
-	}
-
-	int OpenGLShader::getUniformLocation(const std::string& identifier)
-	{
-		if (m_uniformLocationCache.find(identifier) != m_uniformLocationCache.end()) return m_uniformLocationCache[identifier];
-
-		int location = glGetUniformLocation(m_programId, identifier.c_str());
-		if (location == -1) HLX_CORE_ERROR("Failed to get uniform location. Identifier: {0}", identifier);
-		else m_uniformLocationCache[identifier] = location;
-
-		return location;
 	}
 
 	void OpenGLShader::setBool(const std::string& identifier, bool value)
@@ -182,6 +165,56 @@ namespace hlx
 	void OpenGLShader::setMat(const std::string& identifier, const glm::mat4& value)
 	{
 		glUniformMatrix4fv(getUniformLocation(identifier), 1, GL_FALSE, glm::value_ptr(value));
+	}
+
+	void OpenGLShader::setUniformBuffer(const std::string& identifier, size_t size, const void* data)
+	{
+		getUniformBuffer(identifier)->setSubData(size, data);
+	}
+	void OpenGLShader::setUniformBuffer(const std::string& identifier, size_t size, unsigned int offset, const void* data)
+	{
+		getUniformBuffer(identifier)->setSubData(size, offset, data);
+	}
+
+	int OpenGLShader::getUniformLocation(const std::string& identifier)
+	{
+		if (m_uniformLocationCache.find(identifier) != m_uniformLocationCache.end()) return m_uniformLocationCache.at(identifier);
+
+		int location = glGetUniformLocation(m_id, identifier.c_str());
+		
+		if (location != -1) m_uniformLocationCache.insert(std::make_pair(identifier, location)); 
+		else HLX_CORE_ERROR("Failed to get uniform location. Identifier: {0}", identifier);
+
+		return location;
+	}
+	int OpenGLShader::getUniformBlockIndex(const std::string& identifier)
+	{
+		if (m_uniformBlockIndexCache.find(identifier) != m_uniformBlockIndexCache.end()) return m_uniformBlockIndexCache.at(identifier);
+
+		int index = glGetUniformBlockIndex(m_id, identifier.c_str());
+		
+		if (index != -1) m_uniformBlockIndexCache.insert(std::make_pair(identifier, index)); 
+		else HLX_CORE_ERROR("Failed to get uniform block location. Identifier: {0}", identifier);
+		
+		return index;
+	}
+	
+	std::shared_ptr<hlx::UniformBuffer> OpenGLShader::getUniformBuffer(const std::string& identifier)
+	{
+		if (s_uniformBufferCache.find(identifier) != s_uniformBufferCache.end()) return s_uniformBufferCache.at(identifier);
+		
+		return createUniformBuffer(identifier);
+	}
+	std::shared_ptr<hlx::UniformBuffer> OpenGLShader::createUniformBuffer(const std::string& identifier)
+	{
+		auto blockIndex = getUniformBlockIndex(identifier);
+		auto blockBinding = static_cast<int>(s_uniformBufferCache.size());
+		int blockSize{};
+
+		glGetActiveUniformBlockiv(m_id, blockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &blockSize);
+		auto pair = s_uniformBufferCache.insert(std::make_pair(identifier, UniformBuffer::create(blockIndex, blockBinding, blockSize)));
+
+		return pair.first->second;
 	}
 
 	bool OpenGLShader::checkProgramStatus(unsigned int programId)
