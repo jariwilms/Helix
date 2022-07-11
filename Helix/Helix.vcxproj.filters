@@ -43,6 +43,9 @@
     <Filter Include="Helix\Layer\Base">
       <UniqueIdentifier>{95A79E00-81A0-BD52-AAD2-A2D7962A9D5E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helix\Library">
+      <UniqueIdentifier>{2328FCCB-8FE8-7702-5823-C17FC4A2BCDE}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Helix\Math">
       <UniqueIdentifier>{587091A7-4428-D3F4-AD2F-AC5099066EE5}</UniqueIdentifier>
     </Filter>
@@ -113,12 +116,6 @@
       <Filter>Helix\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Core\Core.hpp">
-      <Filter>Helix\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Library\DeltaTime.hpp">
-      <Filter>Helix\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Library\Transform.hpp">
       <Filter>Helix\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Diagnostics\Log.hpp">
@@ -193,6 +190,15 @@
     <ClInclude Include="src\Helix\Layer\ImGuiLayer.hpp">
       <Filter>Helix\Layer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Library\DeltaTime.hpp">
+      <Filter>Helix\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Library\RoundVector.hpp">
+      <Filter>Helix\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Library\Transform.hpp">
+      <Filter>Helix\Library</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Math\Math.hpp">
       <Filter>Helix\Math</Filter>
     </ClInclude>
@@ -203,6 +209,9 @@
       <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLRenderBuffer.hpp">
+      <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLUniformBuffer.hpp">
       <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLVertexArray.hpp">
@@ -280,6 +289,9 @@
     <ClInclude Include="src\Helix\Rendering\Object\RenderBuffer.hpp">
       <Filter>Helix\Rendering\Object</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Object\UniformBuffer.hpp">
+      <Filter>Helix\Rendering\Object</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Object\VertexArray.hpp">
       <Filter>Helix\Rendering\Object</Filter>
     </ClInclude>
@@ -337,24 +349,14 @@
     <ClInclude Include="src\Helix\Window\Window.hpp">
       <Filter>Helix\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\main.hpp" />
-    <ClInclude Include="src\stdafx.hpp" />
     <ClInclude Include="src\Helix\Window\WindowProperties.hpp">
       <Filter>Helix\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\Object\UniformBuffer.hpp">
-      <Filter>Helix\Rendering\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLUniformBuffer.hpp">
-      <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helix\Library\RoundVector.hpp" />
+    <ClInclude Include="src\main.hpp" />
+    <ClInclude Include="src\stdafx.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">
-      <Filter>Helix\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Helix\Library\Transform.cpp">
       <Filter>Helix\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp">
@@ -366,6 +368,9 @@
     <ClCompile Include="src\Helix\Layer\ImGuiLayer.cpp">
       <Filter>Helix\Layer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Helix\Library\Transform.cpp">
+      <Filter>Helix\Library</Filter>
+    </ClCompile>
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLElementBuffer.cpp">
       <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
     </ClCompile>
@@ -373,6 +378,9 @@
       <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLRenderBuffer.cpp">
+      <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLUniformBuffer.cpp">
       <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
     </ClCompile>
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLVertexArray.cpp">
@@ -408,6 +416,9 @@
     <ClCompile Include="src\Helix\Rendering\Object\RenderBuffer.cpp">
       <Filter>Helix\Rendering\Object</Filter>
     </ClCompile>
+    <ClCompile Include="src\Helix\Rendering\Object\UniformBuffer.cpp">
+      <Filter>Helix\Rendering\Object</Filter>
+    </ClCompile>
     <ClCompile Include="src\Helix\Rendering\Object\VertexArray.cpp">
       <Filter>Helix\Rendering\Object</Filter>
     </ClCompile>
@@ -439,11 +450,5 @@
       <Filter>Helix\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\Helix\Rendering\Object\UniformBuffer.cpp">
-      <Filter>Helix\Rendering\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLUniformBuffer.cpp">
-      <Filter>Helix\Rendering\API\OpenGL\Object</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

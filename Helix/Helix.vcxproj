@@ -97,13 +97,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Helix\Library\RoundVector.hpp" />
-    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLUniformBuffer.hpp" />
     <ClInclude Include="src\Helix.hpp" />
     <ClInclude Include="src\Helix\Core\Application.hpp" />
     <ClInclude Include="src\Helix\Core\Core.hpp" />
-    <ClInclude Include="src\Helix\Library\DeltaTime.hpp" />
-    <ClInclude Include="src\Helix\Library\Transform.hpp" />
     <ClInclude Include="src\Helix\Diagnostics\Log.hpp" />
     <ClInclude Include="src\Helix\ECS\Component\ComponentArray.hpp" />
     <ClInclude Include="src\Helix\ECS\Component\Components.hpp" />
@@ -128,10 +124,14 @@
     <ClInclude Include="src\Helix\Layer\Base\Layer.hpp" />
     <ClInclude Include="src\Helix\Layer\Base\LayerStack.hpp" />
     <ClInclude Include="src\Helix\Layer\ImGuiLayer.hpp" />
+    <ClInclude Include="src\Helix\Library\DeltaTime.hpp" />
+    <ClInclude Include="src\Helix\Library\RoundVector.hpp" />
+    <ClInclude Include="src\Helix\Library\Transform.hpp" />
     <ClInclude Include="src\Helix\Math\Math.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLElementBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLFrameBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLRenderBuffer.hpp" />
+    <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLUniformBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLVertexArray.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLVertexBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\OpenGL.hpp" />
@@ -157,6 +157,7 @@
     <ClInclude Include="src\Helix\Rendering\Object\ElementBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\Object\FrameBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\Object\RenderBuffer.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Object\UniformBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\Object\VertexArray.hpp" />
     <ClInclude Include="src\Helix\Rendering\Object\VertexBuffer.hpp" />
     <ClInclude Include="src\Helix\Rendering\RenderContext.hpp" />
@@ -176,21 +177,20 @@
     <ClInclude Include="src\Helix\Widget\WidgetData.hpp" />
     <ClInclude Include="src\Helix\Window\OS\Windows\WindowsWindow.hpp" />
     <ClInclude Include="src\Helix\Window\Window.hpp" />
+    <ClInclude Include="src\Helix\Window\WindowProperties.hpp" />
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
-    <ClInclude Include="src\Helix\Window\WindowProperties.hpp" />
-    <ClInclude Include="src\Helix\Rendering\Object\UniformBuffer.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLUniformBuffer.cpp" />
     <ClCompile Include="src\Helix\Core\Application.cpp" />
-    <ClCompile Include="src\Helix\Library\Transform.cpp" />
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp" />
     <ClCompile Include="src\Helix\Input\Input.cpp" />
     <ClCompile Include="src\Helix\Layer\ImGuiLayer.cpp" />
+    <ClCompile Include="src\Helix\Library\Transform.cpp" />
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLElementBuffer.cpp" />
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLRenderBuffer.cpp" />
+    <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLUniformBuffer.cpp" />
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLVertexBuffer.cpp" />
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\OpenGLRenderContext.cpp" />
@@ -202,6 +202,7 @@
     <ClCompile Include="src\Helix\Rendering\Object\ElementBuffer.cpp" />
     <ClCompile Include="src\Helix\Rendering\Object\FrameBuffer.cpp" />
     <ClCompile Include="src\Helix\Rendering\Object\RenderBuffer.cpp" />
+    <ClCompile Include="src\Helix\Rendering\Object\UniformBuffer.cpp" />
     <ClCompile Include="src\Helix\Rendering\Object\VertexArray.cpp" />
     <ClCompile Include="src\Helix\Rendering\Object\VertexBuffer.cpp" />
     <ClCompile Include="src\Helix\Rendering\RenderContext.cpp" />
@@ -215,7 +216,6 @@
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Helix\Rendering\Object\UniformBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\glad\GLAD.vcxproj">

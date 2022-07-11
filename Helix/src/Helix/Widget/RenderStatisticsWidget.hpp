@@ -30,24 +30,24 @@ namespace hlx
 
 		void renderUI() override
 		{
-			m_frametimes.push_back(m_statistics.deltaTime.inSeconds());
+			m_frametimes.push_back(m_statistics.deltaTime.inMilliseconds());
 
-			auto averageMS = std::reduce(m_frametimes.begin(), m_frametimes.end());
+			auto averageMS = std::reduce(m_frametimes.begin(), m_frametimes.end()) / m_frametimes.size();
 			auto averageFPS = 1000.0f / averageMS;
 
-			std::string drawCalls = "Draw Calls: " + std::to_string(m_statistics.drawCalls);
-			std::string vertices = "Vertices: " + std::to_string(m_statistics.vertices);
-			std::string triangles = "Triangles: " + std::to_string(m_statistics.triangles);
-			std::string fps = "FPS: " + std::to_string(averageFPS);
-			std::string ms = "MS: " + std::to_string(averageMS);
+			std::stringstream first{};
+			std::stringstream second{};
 
+			first	<< "Draw Calls: "	<< m_statistics.drawCalls									<< '\n';
+			first	<< "Vertices: "		<< m_statistics.vertices									<< '\n';
+			first	<< "Triangles: "	<< m_statistics.triangles									<< '\n';
+			second	<< "Average FPS: "	<< static_cast<int>(averageFPS)								<< '\n';
+			second	<< "Average MS: "	<< std::fixed << std::setprecision(2) << averageMS			<< '\n';
+			
 			ImGui::Begin("Render Data");
-			ImGui::Text(vertices.c_str());
-			ImGui::Text(triangles.c_str());
-			ImGui::Text(drawCalls.c_str());
+			ImGui::Text(first.str().c_str());
 			ImGui::Spacing();
-			ImGui::Text(fps.c_str());
-			ImGui::Text(ms.c_str());
+			ImGui::Text(second.str().c_str());
 			ImGui::End();
 		}
 

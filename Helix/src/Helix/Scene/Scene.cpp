@@ -20,8 +20,8 @@ namespace hlx
 		transform2.transform.translate(glm::vec3{ -0.4f, 0.0f, 0.0f });
 		entity2.addComponent<SpriteComponent>("textures/checkerboard.png");
 
-		//auto& entity3 = createEntityDefault();
-		//auto& model = entity3.addComponent<ModelComponent>("models/backpack/backpack.obj");
+		auto& entity3 = createEntityDefault();
+		auto& model = entity3.addComponent<ModelComponent>("models/backpack/backpack.obj");
 	}
 
 	void Scene::update(DeltaTime deltaTime)
