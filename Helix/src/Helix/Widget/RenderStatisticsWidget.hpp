@@ -35,19 +35,17 @@ namespace hlx
 			auto averageMS = std::reduce(m_frametimes.begin(), m_frametimes.end()) / m_frametimes.size();
 			auto averageFPS = 1000.0f / averageMS;
 
-			std::stringstream first{};
-			std::stringstream second{};
+			std::stringstream dataStream{};
 
-			first	<< "Draw Calls: "	<< m_statistics.drawCalls									<< '\n';
-			first	<< "Vertices: "		<< m_statistics.vertices									<< '\n';
-			first	<< "Triangles: "	<< m_statistics.triangles									<< '\n';
-			second	<< "Average FPS: "	<< static_cast<int>(averageFPS)								<< '\n';
-			second	<< "Average MS: "	<< std::fixed << std::setprecision(2) << averageMS			<< '\n';
+			dataStream << "Draw Calls: "	<< m_statistics.drawCalls									<< '\n';
+			dataStream << "Vertices: "		<< m_statistics.vertices									<< '\n';
+			dataStream << "Triangles: "		<< m_statistics.triangles									<< '\n';
+			dataStream << '\n';
+			dataStream << "Average FPS: "	<< static_cast<int>(averageFPS)								<< '\n';
+			dataStream << "Average MS: "	<< std::fixed << std::setprecision(2) << averageMS			<< '\n';
 			
-			ImGui::Begin("Render Data");
-			ImGui::Text(first.str().c_str());
-			ImGui::Spacing();
-			ImGui::Text(second.str().c_str());
+			ImGui::Begin("Renderdata");
+			ImGui::Text(dataStream.str().c_str());
 			ImGui::End();
 		}
 
