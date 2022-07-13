@@ -10,20 +10,20 @@ namespace hlx
 	
 	enum class TextureType
 	{
-		TEXTURE_1D, 
-		TEXTURE_2D, 
-		TEXTURE_3D, 
+		Texture1D, 
+		Texture2D, 
+		Texture3D, 
+		
+		Texture1DArray, 
+		Texture2DArray, 
 
-		TEXTURE_1D_ARRAY, 
-		TEXTURE_2D_ARRAY, 
+		Texture2DMultisample, 
+		Texture2DMultisampleArray, 
 
-		TEXTURE_2D_MULTISAMPLE, 
-		TEXTURE_2D_MULTISAMPLE_ARRAY, 
+		TextureCubeMap, 
+		TextureCubeMapArray, 
 
-		TEXTURE_CUBE_MAP, 
-		TEXTURE_CUBE_MAP_ARRAY, 
-
-		TEXTURE_BUFFER, 
+		TextureBuffer, 
 	};
 	enum class TextureLayout
 	{
@@ -37,42 +37,42 @@ namespace hlx
 	};
 	enum class TextureWrap
 	{
-		CLAMP_TO_EDGE, 
-		CLAMP_TO_BORDER, 
+		ClampToEdge, 
+		ClampToBorder, 
 		
-		MIRRORED_REPEAT, 
-		REPEAT, 
-		MIRROR_CLAMP_TO_EDGE, 
+		MirroredRepeat, 
+		Repeat, 
+		MirroredClampToEdge, 
 	};
 	enum class TextureFilter
 	{
-		NEAREST, 
-		LINEAR, 
+		Nearest, 
+		Linear, 
 		
-		NEAREST_MIPMAP_NEAREST, 
-		LINEAR_MIPMAP_NEAREST, 
+		NearestMipmapNearest, 
+		LinearMipmapNearest, 
 		
-		NEAREST_MIPMAP_LINEAR, 
-		LINEAR_MIPMAP_LINEAR, 
+		NearestMipmapLinear, 
+		LinearMipmapLinear, 
 	};
 	
 	enum class RenderBufferAttachment
 	{
-		COLOR,  
-		DEPTH,  
-		STENCIL,  
+		Color,  
+		Depth,  
+		Stencil,  
 		
-		DEPTH_STENCIL,  
+		DepthStencil,  
 	};
 	enum class RenderBufferLayout
 	{
-		DEPTH16, 
-		DEPTH24, 
-		DEPTH32, 
+		Depth16, 
+		Depth24, 
+		Depth32, 
 		
-		DEPTH24_STENCIL8, 
-		DEPTH32_STENCIL8, 
+		Depth24Stencil8, 
+		Depth32Stencil8, 
 		
-		STENCIL8, 
+		Stencil8, 
 	};
 }

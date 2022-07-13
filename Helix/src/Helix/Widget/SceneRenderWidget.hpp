@@ -16,8 +16,7 @@ namespace hlx
 	class SceneRenderWidget : public Widget
 	{
 	public:
-		SceneRenderWidget()
-			: m_rasterizationMode{}, m_lastRasterizationMode {}
+		SceneRenderWidget() : m_rasterizationMode{}, m_lastRasterizationMode {}
 		{
 			BufferLayout layout{};
 			layout.addAttribute<float>(3);

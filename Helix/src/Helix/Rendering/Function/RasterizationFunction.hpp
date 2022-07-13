@@ -4,7 +4,7 @@
 
 enum RasterizationFunction
 {
-	Point		= BIT(0), 
-	Line		= BIT(1), 
-	Fill		= BIT(2)
+	Point,  
+	Line,  
+	Fill,  
 };

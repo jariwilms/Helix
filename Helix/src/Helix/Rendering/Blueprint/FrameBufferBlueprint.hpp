@@ -16,8 +16,8 @@ namespace hlx
 		FrameBufferBlueprint(glm::uvec3 dimensions) : dimensions{ dimensions } {}
 		~FrameBufferBlueprint() = default;
 		
-		TextureBlueprint& addTextureBlueprint() { return textureBlueprints.emplace_back(TextureType::TEXTURE_2D, dimensions); }
-		RenderBufferBlueprint& addRenderBufferBlueprint() { return renderBufferBlueprints.emplace_back(RenderBufferAttachment::DEPTH_STENCIL, RenderBufferLayout::DEPTH24_STENCIL8, dimensions); }
+		TextureBlueprint& addTextureBlueprint() { return textureBlueprints.emplace_back(TextureType::Texture2D, dimensions); }
+		RenderBufferBlueprint& addRenderBufferBlueprint() { return renderBufferBlueprints.emplace_back(RenderBufferAttachment::DepthStencil, RenderBufferLayout::Depth24Stencil8, dimensions); }
 
 		glm::uvec3 dimensions;
 

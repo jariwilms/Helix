@@ -21,10 +21,10 @@ namespace hlx
 		unsigned int channels{ 4 };
 		unsigned int mipmapLevels{ 1 };
 
-		TextureWrap wrapS{ TextureWrap::CLAMP_TO_EDGE };
-		TextureWrap wrapT{ TextureWrap::CLAMP_TO_EDGE };
-		TextureMinFilter minFilter{ TextureMinFilter::NEAREST };
-		TextureMagFilter magFilter{ TextureMagFilter::NEAREST };
+		TextureWrap wrapS{ TextureWrap::ClampToEdge };
+		TextureWrap wrapT{ TextureWrap::ClampToEdge };
+		TextureMinFilter minFilter{ TextureMinFilter::Nearest };
+		TextureMagFilter magFilter{ TextureMagFilter::Nearest };
 
 		bool isMutable{ false };
 	};

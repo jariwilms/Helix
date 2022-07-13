@@ -169,7 +169,7 @@ namespace hlx
 				return load<Texture>("textures/missing.png");
 			}
 
-			TextureBlueprint blueprint{ TextureType::TEXTURE_2D, glm::uvec3{width, height, 0} };
+			TextureBlueprint blueprint{ TextureType::Texture2D, glm::uvec3{width, height, 0} };
 			auto texture = Texture::create(blueprint, data);
 			m_textures.insert(std::make_pair(fullPath, texture));
 			

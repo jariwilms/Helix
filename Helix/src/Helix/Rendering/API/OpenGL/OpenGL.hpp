@@ -31,22 +31,22 @@ namespace hlx
 		{
 			switch (type)
 			{
-				case TextureType::TEXTURE_1D:								return GL_TEXTURE_1D;
-				case TextureType::TEXTURE_2D:								return GL_TEXTURE_2D;
-				case TextureType::TEXTURE_3D:								return GL_TEXTURE_3D;
+				case TextureType::Texture1D:							return GL_TEXTURE_1D;
+				case TextureType::Texture2D:							return GL_TEXTURE_2D;
+				case TextureType::Texture3D:							return GL_TEXTURE_3D;
 
-				case TextureType::TEXTURE_1D_ARRAY:							return GL_TEXTURE_1D_ARRAY;
-				case TextureType::TEXTURE_2D_ARRAY:							return GL_TEXTURE_2D_ARRAY;
+				case TextureType::Texture1DArray:						return GL_TEXTURE_1D_ARRAY;
+				case TextureType::Texture2DArray:						return GL_TEXTURE_2D_ARRAY;
 
-				case TextureType::TEXTURE_2D_MULTISAMPLE:					return GL_TEXTURE_2D_MULTISAMPLE;
-				case TextureType::TEXTURE_2D_MULTISAMPLE_ARRAY:				return GL_TEXTURE_2D_MULTISAMPLE_ARRAY;
+				case TextureType::Texture2DMultisample:					return GL_TEXTURE_2D_MULTISAMPLE;
+				case TextureType::Texture2DMultisampleArray:			return GL_TEXTURE_2D_MULTISAMPLE_ARRAY;
 
-				case TextureType::TEXTURE_CUBE_MAP:							return GL_TEXTURE_CUBE_MAP;
-				case TextureType::TEXTURE_CUBE_MAP_ARRAY:					return GL_TEXTURE_CUBE_MAP_ARRAY;
+				case TextureType::TextureCubeMap:						return GL_TEXTURE_CUBE_MAP;
+				case TextureType::TextureCubeMapArray:					return GL_TEXTURE_CUBE_MAP_ARRAY;
 
-				case TextureType::TEXTURE_BUFFER:							return GL_TEXTURE_BUFFER;
+				case TextureType::TextureBuffer:						return GL_TEXTURE_BUFFER;
 
-				default:													HLX_CORE_ASSERT(false, "Invalid Texture Type: {0}", static_cast<int>(type)); return -1;
+				default:												HLX_CORE_ASSERT(false, "Invalid Texture Type: {0}", static_cast<int>(type)); return -1;
 			}
 		}
 		static constexpr int getTextureLayout(TextureLayout layout)
@@ -80,27 +80,30 @@ namespace hlx
 		{
 			switch (wrap)
 			{
-				case TextureWrap::CLAMP_TO_EDGE:					return GL_CLAMP_TO_EDGE;
-				case TextureWrap::CLAMP_TO_BORDER:					return GL_CLAMP_TO_BORDER;
-				case TextureWrap::MIRRORED_REPEAT:					return GL_MIRRORED_REPEAT;
-				case TextureWrap::REPEAT:							return GL_REPEAT;
-				case TextureWrap::MIRROR_CLAMP_TO_EDGE:				return GL_MIRROR_CLAMP_TO_EDGE;
+				case TextureWrap::ClampToEdge:					return GL_CLAMP_TO_EDGE;
+				case TextureWrap::ClampToBorder:				return GL_CLAMP_TO_BORDER;
+
+				case TextureWrap::MirroredRepeat:				return GL_MIRRORED_REPEAT;
+				case TextureWrap::Repeat:						return GL_REPEAT;
+				case TextureWrap::MirroredClampToEdge:			return GL_MIRROR_CLAMP_TO_EDGE;
 					
-				default:											HLX_CORE_ASSERT(false, "Invalid Texture Wrap: {0}", static_cast<int>(wrap)); return -1;
+				default:										HLX_CORE_ASSERT(false, "Invalid Texture Wrap: {0}", static_cast<int>(wrap)); return -1;
 			}
 		}
 		static constexpr int getTextureFilter(TextureFilter filter)
 		{
 			switch (filter)
 			{
-				case TextureFilter::NEAREST:							return GL_NEAREST;
-				case TextureFilter::LINEAR:								return GL_LINEAR;
-				case TextureFilter::NEAREST_MIPMAP_NEAREST:				return GL_NEAREST_MIPMAP_NEAREST;
-				case TextureFilter::LINEAR_MIPMAP_NEAREST:				return GL_LINEAR_MIPMAP_NEAREST;
-				case TextureFilter::NEAREST_MIPMAP_LINEAR:				return GL_NEAREST_MIPMAP_LINEAR;
-				case TextureFilter::LINEAR_MIPMAP_LINEAR:				return GL_NEAREST_MIPMAP_LINEAR;
+				case TextureFilter::Nearest:						return GL_NEAREST;
+				case TextureFilter::Linear:							return GL_LINEAR;
 
-				default:												HLX_CORE_ASSERT(false, "Invalid Texture Filter: {0}", static_cast<int>(filter)); return -1;
+				case TextureFilter::NearestMipmapNearest:			return GL_NEAREST_MIPMAP_NEAREST;
+				case TextureFilter::LinearMipmapNearest:			return GL_LINEAR_MIPMAP_NEAREST;
+
+				case TextureFilter::NearestMipmapLinear:			return GL_NEAREST_MIPMAP_LINEAR;
+				case TextureFilter::LinearMipmapLinear:				return GL_NEAREST_MIPMAP_LINEAR;
+
+				default:											HLX_CORE_ASSERT(false, "Invalid Texture Filter: {0}", static_cast<int>(filter)); return -1;
 			}
 		}
 
@@ -108,26 +111,26 @@ namespace hlx
 		{
 			switch (attachment)
 			{
-				case RenderBufferAttachment::COLOR:						return GL_COLOR_ATTACHMENT0;
-				case RenderBufferAttachment::DEPTH:						return GL_DEPTH_ATTACHMENT;
-				case RenderBufferAttachment::STENCIL:					return GL_STENCIL_ATTACHMENT;
-				case RenderBufferAttachment::DEPTH_STENCIL:				return GL_DEPTH_STENCIL_ATTACHMENT;
+				case RenderBufferAttachment::Color:					return GL_COLOR_ATTACHMENT0;
+				case RenderBufferAttachment::Depth:					return GL_DEPTH_ATTACHMENT;
+				case RenderBufferAttachment::Stencil:				return GL_STENCIL_ATTACHMENT;
+				case RenderBufferAttachment::DepthStencil:			return GL_DEPTH_STENCIL_ATTACHMENT;
 
-				default:												HLX_CORE_ASSERT(false, "Invalid Render Buffer attachment: {0}", static_cast<int>(attachment)); return -1;
+				default:											HLX_CORE_ASSERT(false, "Invalid Render Buffer attachment: {0}", static_cast<int>(attachment)); return -1;
 			}
 		}
 		static constexpr int getRenderBufferLayout(RenderBufferLayout layout)
 		{
 			switch (layout)
 			{
-				case RenderBufferLayout::DEPTH16:					return GL_DEPTH_COMPONENT16;
-				case RenderBufferLayout::DEPTH24:					return GL_DEPTH_COMPONENT24;
-				case RenderBufferLayout::DEPTH32:					return GL_DEPTH_COMPONENT32F;
+				case RenderBufferLayout::Depth16:					return GL_DEPTH_COMPONENT16;
+				case RenderBufferLayout::Depth24:					return GL_DEPTH_COMPONENT24;
+				case RenderBufferLayout::Depth32:					return GL_DEPTH_COMPONENT32F;
 							
-				case RenderBufferLayout::DEPTH24_STENCIL8:			return GL_DEPTH24_STENCIL8;
-				case RenderBufferLayout::DEPTH32_STENCIL8:			return GL_DEPTH32F_STENCIL8;
+				case RenderBufferLayout::Depth24Stencil8:			return GL_DEPTH24_STENCIL8;
+				case RenderBufferLayout::Depth32Stencil8:			return GL_DEPTH32F_STENCIL8;
 					
-				case RenderBufferLayout::STENCIL8:					return GL_STENCIL_INDEX8;
+				case RenderBufferLayout::Stencil8:					return GL_STENCIL_INDEX8;
 
 				default:											HLX_CORE_ASSERT(false, "Invalid Render Buffer layout: {0}", static_cast<int>(layout)); return -1;
 			}
