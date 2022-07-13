@@ -3,12 +3,22 @@
 
 namespace hlx
 {
-	OpenGLRenderBuffer::OpenGLRenderBuffer(glm::uvec2 dimensions, int format)
+	OpenGLRenderBuffer::OpenGLRenderBuffer(RenderBufferBlueprint blueprint)
+		: m_target{ GL_RENDERBUFFER }
 	{
 		glGenRenderbuffers(1, &m_id);
 
-		allocate(dimensions, format);
 
+		
+		m_attachment = blueprint.attachment;
+		m_layout = blueprint.layout;
+		
+		m_dimensions = blueprint.dimensions;
+
+
+		
+		bind();
+		allocate();
 		unbind();
 	}
 	OpenGLRenderBuffer::~OpenGLRenderBuffer()
@@ -20,21 +30,20 @@ namespace hlx
 	{
 		if (s_boundRenderBufferId == m_id) return false;
 
-		glBindRenderbuffer(GL_RENDERBUFFER, m_id);
+		glBindRenderbuffer(m_target, m_id);
 		s_boundRenderBufferId = m_id;
 
 		return true;
 	}
 	void OpenGLRenderBuffer::unbind() const
 	{
-		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		glBindRenderbuffer(m_target, 0);
 		s_boundRenderBufferId = 0;
 	}
 
-	void OpenGLRenderBuffer::allocate(glm::uvec2 dimensions, int format)
+	void OpenGLRenderBuffer::allocate()
 	{
-		bind();
-		
-		glRenderbufferStorage(GL_RENDERBUFFER, format, dimensions.x, dimensions.y);
+		m_internalFormat = OpenGL::getRenderBufferLayout(m_layout);
+		glRenderbufferStorage(m_target, m_internalFormat, m_dimensions.x, m_dimensions.y);
 	}
 }

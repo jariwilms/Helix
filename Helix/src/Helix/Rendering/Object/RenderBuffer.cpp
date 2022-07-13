@@ -5,8 +5,8 @@
 
 namespace hlx
 {
-	std::shared_ptr<RenderBuffer> hlx::RenderBuffer::create(glm::uvec2 dimensions, int format)
+	std::shared_ptr<RenderBuffer> RenderBuffer::create(RenderBufferBlueprint blueprint)
 	{
-		return std::make_shared<OpenGLRenderBuffer>(dimensions, format);
+		return std::make_shared<OpenGLRenderBuffer>(blueprint);
 	}
 }

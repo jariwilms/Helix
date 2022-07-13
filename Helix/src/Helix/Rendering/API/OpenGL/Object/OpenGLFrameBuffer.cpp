@@ -3,20 +3,29 @@
 
 namespace hlx
 {
-	OpenGLFrameBuffer::OpenGLFrameBuffer(glm::uvec2 dimensions)
+	OpenGLFrameBuffer::OpenGLFrameBuffer(FrameBufferBlueprint blueprint)
+		: m_target{ GL_FRAMEBUFFER }
 	{
 		glGenFramebuffers(1, &m_id);
 		
+
+
+		for (const auto& blueprint : blueprint.textureBlueprints)
+			m_textures.push_back(std::make_shared<OpenGLTexture>(blueprint, nullptr));
+
+		for (const auto& blueprint : blueprint.renderBufferBlueprints)
+			m_renderBuffers.push_back(std::make_shared<OpenGLRenderBuffer>(blueprint));
+
+		
+
 		bind();
+		attach();
 
-		m_texture = std::make_shared<OpenGLTexture>(dimensions, 4, nullptr);
-		m_renderBuffer = std::make_shared<OpenGLRenderBuffer>(dimensions);
+		auto status = glCheckFramebufferStatus(m_target);
+		HLX_CORE_ASSERT(status == GL_FRAMEBUFFER_COMPLETE, "Invalid framebuffer: status {0}", status);
 
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture->getId(), 0);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_renderBuffer->getId());
-
-		int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-		if (status != GL_FRAMEBUFFER_COMPLETE) HLX_CORE_ERROR("Framebuffer is not complete, error: ", status);//TODO: OPENGL API getstatus message ofzo idk
+		unsigned int attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
+		glDrawBuffers(3, attachments);
 
 		unbind();
 	}
@@ -39,9 +48,36 @@ namespace hlx
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		s_boundFrameBufferId = 0;
 	}
-	
-	void OpenGLFrameBuffer::bindTexture() const
+	void OpenGLFrameBuffer::bindTextures() const
 	{
-		m_texture->bind();
+		unsigned int index{};
+		
+		for (const auto& texture : m_textures)
+		{
+			texture->bindUnit(index);
+			++index;
+		}
+	}
+
+	void OpenGLFrameBuffer::attach()
+	{
+		unsigned int offset{};
+		std::vector<unsigned int> attachments{};
+		
+		for (const auto& texture : m_textures)
+		{
+			glFramebufferTexture2D(m_target, GL_COLOR_ATTACHMENT0 + offset, GL_TEXTURE_2D, texture->getId(), 0);
+			attachments.push_back(GL_COLOR_ATTACHMENT0 + offset);
+			
+			++offset;
+		}
+
+		for (const auto& renderBuffer : m_renderBuffers)
+		{
+			auto attachment = OpenGL::getRenderBufferAttachment(renderBuffer->getAttachment());
+			glFramebufferRenderbuffer(m_target, attachment, GL_RENDERBUFFER, renderBuffer->getId());
+		}
+
+		glDrawBuffers(offset + 1, attachments.data());
 	}
 }

@@ -3,9 +3,9 @@
 
 layout (std140) uniform Matrices
 {
-	mat4 view;
-	mat4 projection;
-} u_matrices;
+	mat4 u_view;
+	mat4 u_projection;
+};
 
 layout (location = 0) in vec3 				a_position;
 layout (location = 1) in vec4 				a_color;
@@ -21,7 +21,7 @@ layout (location = 3) out float 			v_texTiling;
 
 void main()
 {
-	gl_Position = u_matrices.projection * u_matrices.view * vec4(a_position, 1.0);
+	gl_Position = u_projection * u_view * vec4(a_position, 1.0);
 	
 	v_color = a_color;
 	v_texCoord = a_texCoord;

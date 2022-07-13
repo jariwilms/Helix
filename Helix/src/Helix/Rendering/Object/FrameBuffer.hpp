@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Helix/Rendering/Object/BufferObject.hpp"
+#include "Helix/Rendering/Blueprint/FrameBufferBlueprint.hpp"
+#include "Helix/Rendering/Object/RenderBuffer.hpp"
 
 namespace hlx
 {
@@ -9,18 +11,17 @@ namespace hlx
 	public:
 		virtual ~FrameBuffer() = default;
 
-		static std::shared_ptr<FrameBuffer> create(glm::uvec2 dimensions);
+		static std::shared_ptr<FrameBuffer> create(FrameBufferBlueprint blueprint);
 		static inline unsigned int getBoundObjectId() { return s_boundFrameBufferId; }
 
-		virtual void bindTexture() const = 0;
+		virtual void bindTextures() const = 0;
 
-		virtual std::shared_ptr<Texture> getTexture() = 0;
+		virtual std::vector<std::shared_ptr<Texture>> getTextures() = 0;
+		virtual std::vector<std::shared_ptr<RenderBuffer>> getRenderBuffers() = 0;
 		
 	protected:
-		FrameBuffer() : m_dimensions{} {}
+		FrameBuffer() = default;
 
 		static inline unsigned int s_boundFrameBufferId = 0;
-
-		glm::uvec2 m_dimensions;
 	};
 }

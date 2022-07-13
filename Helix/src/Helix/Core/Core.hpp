@@ -4,7 +4,8 @@
 #define BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 
 #ifdef HLX_DEBUG
-	#define HLX_CORE_ASSERT(condition, ...) { if (!(condition)) { HLX_CORE_CRITICAL("Assertion failed: {0}", __VA_ARGS__); } }
+	#define HLX_CORE_ASSERT(condition, ...) { if (!(condition)) { HLX_CORE_CRITICAL("Core Assertion failed: {0}", __VA_ARGS__); } }
+	#define HLX_STATIC_ASSERT(condition, ...) { static_assert(condition, ""); HLX_CORE_CRITICAL("Static assertion failed: {0}", __VA_ARGS__); }
 	#define HLX_ASSERT(condition, ...) { if (!(condition)) { HLX_CRITICAL("Assertion failed: {0}", __VA_ARGS__); } }
 #else
 	#define HLX_ASSERT(condition, ...)

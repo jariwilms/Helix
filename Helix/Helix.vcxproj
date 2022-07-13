@@ -141,12 +141,16 @@
     <ClInclude Include="src\Helix\Rendering\API\OpenGL\Texture\OpenGLTexture.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\RenderContextAPI.hpp" />
     <ClInclude Include="src\Helix\Rendering\API\RendererAPI.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Blueprint\FrameBufferBlueprint.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Blueprint\RenderBufferBlueprint.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Blueprint\TextureBlueprint.hpp" />
     <ClInclude Include="src\Helix\Rendering\Data\BufferComponent.hpp" />
     <ClInclude Include="src\Helix\Rendering\Data\MeshVertex.hpp" />
     <ClInclude Include="src\Helix\Rendering\Data\RenderBatch.hpp" />
     <ClInclude Include="src\Helix\Rendering\Data\RenderData.hpp" />
     <ClInclude Include="src\Helix\Rendering\Data\RenderStatistics.hpp" />
     <ClInclude Include="src\Helix\Rendering\Data\Vertex.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Format\Format.hpp" />
     <ClInclude Include="src\Helix\Rendering\Function\RasterizationFunction.hpp" />
     <ClInclude Include="src\Helix\Rendering\Function\RenderFunction.hpp" />
     <ClInclude Include="src\Helix\Rendering\Model\Material.hpp" />

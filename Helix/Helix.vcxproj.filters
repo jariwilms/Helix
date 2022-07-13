@@ -67,6 +67,9 @@
     <Filter Include="Helix\Rendering\API\OpenGL\Texture">
       <UniqueIdentifier>{09F5B580-F530-B9EA-5E43-D1E14A9E6105}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helix\Rendering\Blueprint">
+      <UniqueIdentifier>{106E84D9-7C30-B863-C5E0-46F031E29041}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Helix\Rendering\Data">
       <UniqueIdentifier>{15CD6A08-015C-F4D1-AA7A-08CD96E80478}</UniqueIdentifier>
     </Filter>
@@ -241,6 +244,12 @@
     <ClInclude Include="src\Helix\Rendering\API\RendererAPI.hpp">
       <Filter>Helix\Rendering\API</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Blueprint\FrameBufferBlueprint.hpp">
+      <Filter>Helix\Rendering\Blueprint</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Blueprint\TextureBlueprint.hpp">
+      <Filter>Helix\Rendering\Blueprint</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Data\BufferComponent.hpp">
       <Filter>Helix\Rendering\Data</Filter>
     </ClInclude>
@@ -354,6 +363,8 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Blueprint\RenderBufferBlueprint.hpp" />
+    <ClInclude Include="src\Helix\Rendering\Format\Format.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">

@@ -5,21 +5,41 @@
 
 namespace hlx
 {
-	OpenGLTexture::OpenGLTexture(glm::uvec2 dimensions, unsigned int channels, unsigned char* data)
+	OpenGLTexture::OpenGLTexture(TextureBlueprint blueprint, unsigned char* data)
 	{
 		glGenTextures(1, &m_id);
 
-		setData(dimensions, channels, data);
+		
+		
+		m_type = blueprint.type;
+		m_layout = blueprint.layout;
+		m_dimensions = blueprint.dimensions;
+		m_channels = blueprint.channels;
+		m_mipmapLevels = blueprint.mipmapLevels;
+
+		
+
+		m_target = OpenGL::getTextureTarget(m_type);
+		m_internalFormat = OpenGL::getTextureLayout(m_layout);
+		m_format = OpenGL::getTextureBaseLayout(m_channels);
+
+
+
+		bind();
+		allocate();
 
 		if (data)
 		{
-			glGenerateMipmap(GL_TEXTURE_2D);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		}
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			setSubData(data);
 
+			glGenerateMipmap(m_target);
+			glTexParameteri(m_target, GL_TEXTURE_WRAP_S, OpenGL::getTextureWrap(blueprint.wrapS));
+			glTexParameteri(m_target, GL_TEXTURE_WRAP_T, OpenGL::getTextureWrap(blueprint.wrapT));
+		}
+		
+		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, OpenGL::getTextureFilter(blueprint.minFilter));
+		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, OpenGL::getTextureFilter(blueprint.magFilter));
+		
 		unbind();
 	}
 	OpenGLTexture::~OpenGLTexture()
@@ -29,7 +49,7 @@ namespace hlx
 
 	bool OpenGLTexture::bind() const
 	{
-		glBindTexture(GL_TEXTURE_2D, m_id);
+		glBindTexture(m_target, m_id);
 
 		return true;
 	}
@@ -39,27 +59,27 @@ namespace hlx
 	}
 	void OpenGLTexture::unbind() const 
 	{ 
-		glBindTexture(GL_TEXTURE_2D, 0); 
+		glBindTexture(m_target, 0);
 	}
 
-	void OpenGLTexture::setData(glm::uvec2 dimensions, unsigned int channels, unsigned char* data)
+	void OpenGLTexture::allocate()
 	{
-		bind();
-
-		m_dimensions = dimensions;
-		m_channels = channels;
-
-		m_dataFormat = OpenGL::getImageFormat(channels);
-
-		if (m_dataFormat == -1)
+		switch (m_type)
 		{
-			HLX_CORE_ERROR("[Texture] Invalid number of channels: {0}", channels);
-			return;
+			case TextureType::TEXTURE_1D: glTextureStorage1D(m_id, m_mipmapLevels, m_internalFormat, m_dimensions.x);											return;
+			case TextureType::TEXTURE_2D: glTextureStorage2D(m_id, m_mipmapLevels, m_internalFormat, m_dimensions.x, m_dimensions.y);							return;
+			case TextureType::TEXTURE_3D: glTextureStorage3D(m_id, m_mipmapLevels, m_internalFormat, m_dimensions.x, m_dimensions.y, m_dimensions.z);			return;
+			default:					  HLX_CORE_ASSERT(false, "Texture Type not supported");
 		}
-
-		m_internalFormat = GL_RGBA8;
-
-		glTextureStorage2D(m_id, 1, m_internalFormat, dimensions.x, dimensions.y);
-		if (data) glTextureSubImage2D(m_id, 0, 0, 0, dimensions.x, dimensions.y, m_dataFormat, GL_UNSIGNED_BYTE, data);
+	}
+	void OpenGLTexture::setSubData(unsigned char* data)
+	{
+		switch (m_type)
+		{
+			case TextureType::TEXTURE_1D: glTextureSubImage1D(m_id, 0, 0, 0, m_format, GL_UNSIGNED_BYTE, data);																return;
+			case TextureType::TEXTURE_2D: glTextureSubImage2D(m_id, 0, 0, 0, m_dimensions.x, m_dimensions.y, m_format, GL_UNSIGNED_BYTE, data);								return;
+			case TextureType::TEXTURE_3D: glTextureSubImage3D(m_id, 0, 0, 0, 0, m_dimensions.x, m_dimensions.y, m_dimensions.z, m_format, GL_UNSIGNED_BYTE, data);			return;
+			default:					  HLX_CORE_ASSERT(false, "Texture Type not supported");
+		}
 	}
 }

@@ -161,7 +161,7 @@ namespace hlx
 			unsigned char* data;
 
 			stbi_set_flip_vertically_on_load(true);
-			data = stbi_load(fullPath.string().c_str(), &width, & height, &channels, 0);
+			data = stbi_load(fullPath.string().c_str(), &width, & height, &channels, 4);
 			
 			if (!data)
 			{
@@ -169,10 +169,11 @@ namespace hlx
 				return load<Texture>("textures/missing.png");
 			}
 
-			auto texture = Texture::create(glm::uvec2{ width, height }, channels, data);
-			stbi_image_free(data);
-			
+			TextureBlueprint blueprint{ TextureType::TEXTURE_2D, glm::uvec3{width, height, 0} };
+			auto texture = Texture::create(blueprint, data);
 			m_textures.insert(std::make_pair(fullPath, texture));
+			
+			stbi_image_free(data);
 
 			return texture;
 		}

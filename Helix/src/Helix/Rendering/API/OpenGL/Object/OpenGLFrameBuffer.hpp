@@ -9,17 +9,22 @@ namespace hlx
 	class OpenGLFrameBuffer : public FrameBuffer
 	{
 	public:
-		OpenGLFrameBuffer(glm::uvec2 dimensions);
+		OpenGLFrameBuffer(FrameBufferBlueprint blueprint);
 		~OpenGLFrameBuffer();
 
 		bool bind() const override;
 		void unbind() const override;
-		void bindTexture() const override;
+		void bindTextures() const override;
 
-		inline std::shared_ptr<Texture> getTexture() override { return m_texture; }
+		std::vector<std::shared_ptr<Texture>> getTextures() override { return std::vector<std::shared_ptr<Texture>>(m_textures.begin(), m_textures.end()); }
+		std::vector<std::shared_ptr<RenderBuffer>> getRenderBuffers() override { return std::vector<std::shared_ptr<RenderBuffer>>(m_renderBuffers.begin(), m_renderBuffers.end()); }
 
 	private:
-		std::shared_ptr<OpenGLTexture> m_texture;
-		std::shared_ptr<OpenGLRenderBuffer> m_renderBuffer;
+		void attach();
+
+		int m_target;
+		
+		std::vector<std::shared_ptr<OpenGLTexture>> m_textures;
+		std::vector<std::shared_ptr<OpenGLRenderBuffer>> m_renderBuffers;
 	};
 }

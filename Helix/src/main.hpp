@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 
 	delete application;
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 #endif // HLX_PLATFORM_WINDOWS

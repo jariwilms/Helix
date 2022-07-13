@@ -100,10 +100,11 @@ namespace hlx
 					{
 						switch (m_rasterizationMode)
 						{
-							case 0: RenderContext::setRasterizationMode(RasterizationFunction::Fill);		break;
-							case 1: RenderContext::setRasterizationMode(RasterizationFunction::Line);		break;
-							case 2: RenderContext::setRasterizationMode(RasterizationFunction::Point);		break;
-							default:																		break;
+							case 0: RenderContext::setRasterizationMode(RasterizationFunction::Fill);			break;
+							case 1: RenderContext::setRasterizationMode(RasterizationFunction::Line);			break;
+							case 2: RenderContext::setRasterizationMode(RasterizationFunction::Point);			break;
+								
+							default:																			break;
 						}
 					}
 
@@ -115,8 +116,12 @@ namespace hlx
 			}
 
 
-
-			m_frameBuffer = FrameBuffer::create(dimensions);
+			
+			FrameBufferBlueprint frameBufferBlueprint{dimensions};
+			auto& textureBlueprint = frameBufferBlueprint.addTextureBlueprint();
+			auto& renderBufferBlueprint = frameBufferBlueprint.addRenderBufferBlueprint();
+			
+			m_frameBuffer = FrameBuffer::create(frameBufferBlueprint);
 			m_frameBuffer->bind();
 
 			Renderer::setClearColor({ glm::vec3{ 0.1f }, 1.0f });
@@ -135,17 +140,17 @@ namespace hlx
 			m_frameBuffer->unbind();
 			Renderer::setClearColor(glm::vec4{ 1.0f });
 			Renderer::clearBuffer(BufferComponent::Color);
-
+			
 			m_vao->bind();
 			m_shader->bind();
-			m_frameBuffer->bindTexture();
+			m_frameBuffer->bindTextures();
 
 			RenderContext::disable(RenderFunction::DepthTest);
 			glDrawArrays(GL_TRIANGLES, 0, 6);//fix
 
 
-
-			ImGui::Image((ImTextureID)((size_t)m_frameBuffer->getTexture()->getId()), ImVec2((float)dimensions.x, (float)dimensions.y), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+			
+			ImGui::Image((ImTextureID)((size_t)m_frameBuffer->getTextures()[0]->getId()), ImVec2((float)dimensions.x, (float)dimensions.y), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 
 			ImGui::End();
 			ImGui::PopStyleVar();

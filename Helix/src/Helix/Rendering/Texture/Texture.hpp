@@ -8,6 +8,7 @@
 
 #include "Helix/Rendering/Object/BufferObject.hpp"
 #include "Helix/Rendering/API/OpenGL/OpenGLRenderContext.hpp"
+#include "Helix/Rendering/Blueprint/TextureBlueprint.hpp"
 
 namespace hlx
 {
@@ -17,22 +18,27 @@ namespace hlx
 		virtual ~Texture() = default;
 
 		static std::shared_ptr<Texture> create(const std::filesystem::path& path);
-		static std::shared_ptr<Texture> create(glm::uvec2 dimensions, unsigned int channels, unsigned char* data = nullptr);
+		static std::shared_ptr<Texture> create(TextureBlueprint blueprint, unsigned char* data = nullptr);
 
 		virtual void bindUnit(unsigned int index) const = 0;
 
-		inline glm::uvec2 getDimensions() const { return m_dimensions; }
+		inline TextureType getType() const { return m_type; }
+		inline TextureLayout getLayout() const { return m_layout; }
+
+		inline glm::uvec3 getDimensions() const { return m_dimensions; }
 		inline unsigned int getChannels() const { return m_channels; }
 
+		inline unsigned int getMipmapLevels() const { return m_mipmapLevels; }
+
 	protected:
-		Texture() : m_dimensions{}, m_channels{}, m_internalFormat{}, m_dataFormat{} {}
+		Texture() : m_type{}, m_layout{}, m_dimensions{}, m_channels{}, m_mipmapLevels{} {}
 
-		virtual void setData(glm::uvec2 dimensions, unsigned int channels, unsigned char* data) = 0;
+		TextureType m_type;
+		TextureLayout m_layout;
 
-		glm::uvec2 m_dimensions;
+		glm::uvec3 m_dimensions;
 		unsigned int m_channels;
 
-		int m_internalFormat;
-		unsigned int m_dataFormat;
+		unsigned int m_mipmapLevels;
 	};
 }

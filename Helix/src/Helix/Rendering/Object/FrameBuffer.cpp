@@ -5,8 +5,8 @@
 
 namespace hlx
 {
-	std::shared_ptr<FrameBuffer> FrameBuffer::create(glm::uvec2 dimensions)
+	std::shared_ptr<FrameBuffer> FrameBuffer::create(FrameBufferBlueprint blueprint)
 	{ 
-		return std::make_shared<OpenGLFrameBuffer>(dimensions); 
+		return std::make_shared<OpenGLFrameBuffer>(blueprint); 
 	}
 }

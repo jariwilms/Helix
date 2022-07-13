@@ -4,9 +4,9 @@
 uniform mat4 u_model;
 layout (std140) uniform Matrices
 {
-	mat4 view;
-	mat4 projection;
-} u_matrices;
+	mat4 u_view;
+	mat4 u_projection;
+};
 
 layout (location = 0) in vec3 				a_position;
 layout (location = 1) in vec3 				a_normal;
@@ -20,7 +20,7 @@ layout (location = 0) out vec2 				v_texCoord;
 
 void main()
 {
-	gl_Position = u_matrices.projection * u_matrices.view * u_model * vec4(a_position, 1.0);
+	gl_Position = u_projection * u_view * u_model * vec4(a_position, 1.0);
 	
 	v_texCoord = a_texCoord;
 	//v_texTiling = a_texTiling;
@@ -31,9 +31,6 @@ void main()
 
 uniform vec3 u_baseColor;
 uniform sampler2D u_albedo;
-
-//uniform float u_metallicity;
-//uniform float u_roughness;
 uniform float u_opacity;
 
 layout (location = 0) in vec2 				v_texCoord;
