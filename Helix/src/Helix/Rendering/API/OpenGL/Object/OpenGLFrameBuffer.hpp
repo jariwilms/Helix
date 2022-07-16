@@ -12,19 +12,23 @@ namespace hlx
 		OpenGLFrameBuffer(FrameBufferBlueprint blueprint);
 		~OpenGLFrameBuffer();
 
-		bool bind() const override;
+		bool bind(FrameBufferTarget target) const override;
 		void unbind() const override;
+
 		void bindTextures() const override;
 
-		std::vector<std::shared_ptr<Texture>> getTextures() override { return std::vector<std::shared_ptr<Texture>>(m_textures.begin(), m_textures.end()); }
-		std::vector<std::shared_ptr<RenderBuffer>> getRenderBuffers() override { return std::vector<std::shared_ptr<RenderBuffer>>(m_renderBuffers.begin(), m_renderBuffers.end()); }
+		const std::shared_ptr<Texture> getTexture(const std::string& name) const override;
+		const std::vector<std::shared_ptr<Texture>> getTextures() const override;
+		const std::vector<std::shared_ptr<RenderBuffer>> getRenderBuffers() const override;
 
 	private:
 		void attach();
 
 		int m_target;
 		
-		std::vector<std::shared_ptr<OpenGLTexture>> m_textures;
-		std::vector<std::shared_ptr<OpenGLRenderBuffer>> m_renderBuffers;
+		std::vector<std::pair<std::string, std::shared_ptr<OpenGLTexture>>> m_textures;
+		std::vector<std::pair<std::string, std::shared_ptr<OpenGLRenderBuffer>>> m_renderBuffers;
+
+		std::vector<unsigned int> m_attachments;
 	};
 }

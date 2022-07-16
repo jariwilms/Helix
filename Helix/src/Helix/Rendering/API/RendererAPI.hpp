@@ -41,7 +41,7 @@ namespace hlx
 		void resetStatistics() { m_statistics.reset(); }
 
 	protected:
-		RendererAPI() = default;
+		RendererAPI() : m_matrices{ glm::mat4{1.0f}, glm::mat4{1.0f} } {}
 
 		virtual void check() = 0;
 		virtual void flush() = 0;

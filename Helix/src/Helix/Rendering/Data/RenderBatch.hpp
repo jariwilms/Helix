@@ -53,7 +53,7 @@ namespace hlx
 			textureSlots.resize(slots);
 
 			textureSlots[0] = (Texture::create("textures/white.png"));
-			shader = Shader::create("shaders/default.glsl");
+			shader = Shader::create("shaders/default2.glsl");
 		}
 
 		void bind()

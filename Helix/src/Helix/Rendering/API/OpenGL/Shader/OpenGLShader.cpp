@@ -115,8 +115,8 @@ namespace hlx
 
 	bool OpenGLShader::bind() const
 	{
-		if (s_boundProgramId == m_id)
-			return false;
+		//if (s_boundProgramId == m_id)
+			//return false;
 			
 		glUseProgram(m_id);
 		s_boundProgramId = m_id;

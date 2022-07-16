@@ -27,6 +27,18 @@ namespace hlx
 			}
 		}
 
+		static constexpr int getFrameBufferTarget(FrameBufferTarget target)
+		{
+			switch (target)
+			{
+				case FrameBufferTarget::Default:			return GL_FRAMEBUFFER;
+				case FrameBufferTarget::Read:				return GL_READ_FRAMEBUFFER;
+				case FrameBufferTarget::Write:				return GL_DRAW_FRAMEBUFFER;
+
+				default:									HLX_CORE_ASSERT(false, "Invalid FrameBuffer Target: {0}", static_cast<int>(target)); return -1;
+			}
+		}
+
 		static constexpr int getTextureTarget(TextureType type)
 		{
 			switch (type)

@@ -2,6 +2,11 @@
 #version 460 core
 
 uniform mat4 u_model;
+layout (std140) uniform Matrices
+{
+	mat4 u_view;
+	mat4 u_projection;
+};
 
 layout (location = 0) in vec3 				a_position;
 layout (location = 1) in vec3 				a_normal;

@@ -31,6 +31,7 @@ namespace hlx
 			m_vao->addVertexBuffer(m_vbo);
 
 			m_shader = Shader::create("shaders/framebuffer.glsl");
+			m_lightingShader = Shader::create("shaders/lighting.glsl");
 
 			m_camera = Camera{ Transform{ glm::vec3{ 0.0f, 0.0f, 10.0f } } };
 			auto persp = m_camera.getPerspectiveProjectionSettings();
@@ -69,9 +70,12 @@ namespace hlx
 
 			if (Input::isButtonPressedOnce(Button::ButtonRight))
 			{
-				if (cursorPosition.x > windowPosition.x && cursorPosition.x < windowPosition.x + windowSize.x &&
-					cursorPosition.y > windowPosition.y && cursorPosition.y < windowPosition.y + windowSize.y &&
-					Input::isButtonPressed(Button::ButtonRight)) ImGui::SetWindowFocus();
+				if (cursorPosition.x > windowPosition.x && cursorPosition.x < windowPosition.x + windowSize.x && cursorPosition.y > windowPosition.y && 
+					cursorPosition.y < windowPosition.y + windowSize.y && 
+					Input::isButtonPressed(Button::ButtonRight))
+				{	
+					ImGui::SetWindowFocus();
+				}
 			}
 
 			setFocused(ImGui::IsWindowFocused());
@@ -115,17 +119,19 @@ namespace hlx
 			}
 
 
-			
-			FrameBufferBlueprint frameBufferBlueprint{dimensions};
-			auto& textureBlueprint = frameBufferBlueprint.addTextureBlueprint();
-			auto& renderBufferBlueprint = frameBufferBlueprint.addRenderBufferBlueprint();
-			
-			m_frameBuffer = FrameBuffer::create(frameBufferBlueprint);
-			m_frameBuffer->bind();
+			FrameBufferBlueprint gBufferBlueprint{ dimensions };
+			auto& gPosition = gBufferBlueprint.addTextureBlueprint("position");
+			auto& gNormal = gBufferBlueprint.addTextureBlueprint("normal");
+			auto& gAlbedo = gBufferBlueprint.addTextureBlueprint("albedo");
+			auto& gRender = gBufferBlueprint.addRenderBufferBlueprint("render");
 
-			Renderer::setClearColor({ glm::vec3{ 0.1f }, 1.0f });
+			m_gBuffer = FrameBuffer::create(gBufferBlueprint);
+
+
+			
+			m_gBuffer->bind(FrameBufferTarget::Write);
+			Renderer::setClearColor({ glm::vec3{ 1.0f }, 1.0f });
 			Renderer::clearBuffer(BufferComponent::Color | BufferComponent::Depth);
-
 			RenderContext::enable(RenderFunction::DepthTest);
 
 
@@ -136,33 +142,57 @@ namespace hlx
 
 
 
-			m_frameBuffer->unbind();
+			const std::string F_COLOR_NAME = "color";
+			
+			FrameBufferBlueprint fBufferBlueprint{ dimensions };
+			auto& fColor = fBufferBlueprint.addTextureBlueprint(F_COLOR_NAME);
+			auto& fRender = fBufferBlueprint.addRenderBufferBlueprint("render");
+
+			m_fBuffer = FrameBuffer::create(fBufferBlueprint);
+
+
+			
 			Renderer::setClearColor(glm::vec4{ 1.0f });
 			Renderer::clearBuffer(BufferComponent::Color);
 			
+			constexpr float linear = 0.7f;
+			constexpr float quadratic = 1.8f;
+
 			m_vao->bind();
-			m_shader->bind();
-			m_frameBuffer->bindTextures();
+			m_lightingShader->bind();
+			m_lightingShader->setVec("light.position", glm::vec3{ -2.0f, 0.0f, 2.0f });
+			m_lightingShader->setVec("light.color", glm::vec3{ 1.0f, 1.0f, 1.0f });
+			m_lightingShader->setFloat("light.linear", linear);
+			m_lightingShader->setFloat("light.quadratic", quadratic);
+			m_lightingShader->setFloat("light.radius", 10.0f);
+			m_lightingShader->setVec("viewPos", m_camera.getTransform().position);
+			
+			m_gBuffer->bindTextures();
+			m_fBuffer->bind(FrameBufferTarget::Write);
 
 			RenderContext::disable(RenderFunction::DepthTest);
-			glDrawArrays(GL_TRIANGLES, 0, 6);//fix
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 
-			
-			ImGui::Image((ImTextureID)((size_t)m_frameBuffer->getTextures()[0]->getId()), ImVec2((float)dimensions.x, (float)dimensions.y), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+
+			m_fBuffer->unbind();
+			auto id = m_fBuffer->getTexture(F_COLOR_NAME)->getId();
+			ImGui::Image((ImTextureID)((size_t)id), ImVec2((float)dimensions.x, (float)dimensions.y), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 
 			ImGui::End();
 			ImGui::PopStyleVar();
 		}
 
 	private:
+		std::shared_ptr<FrameBuffer> m_gBuffer;
+		std::shared_ptr<FrameBuffer> m_fBuffer;
+		
 		std::shared_ptr<VertexArray> m_vao;
 		std::shared_ptr<VertexBuffer> m_vbo;
 		std::shared_ptr<ElementBuffer> m_ebo;
 
-		std::shared_ptr<FrameBuffer> m_frameBuffer;
-
 		std::shared_ptr<Shader> m_shader;
+		std::shared_ptr<Shader> m_lightingShader;
 
 		Camera m_camera;
 

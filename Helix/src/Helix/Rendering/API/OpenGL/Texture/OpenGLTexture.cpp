@@ -66,10 +66,11 @@ namespace hlx
 	{
 		switch (m_type)
 		{
-			case TextureType::Texture1D: glTextureStorage1D(m_id, m_mipmapLevels, m_internalFormat, m_dimensions.x);											return;
-			case TextureType::Texture2D: glTextureStorage2D(m_id, m_mipmapLevels, m_internalFormat, m_dimensions.x, m_dimensions.y);							return;
-			case TextureType::Texture3D: glTextureStorage3D(m_id, m_mipmapLevels, m_internalFormat, m_dimensions.x, m_dimensions.y, m_dimensions.z);			return;
-			default:					  HLX_CORE_ASSERT(false, "Texture Type not supported");
+			case TextureType::Texture1D: glTextureStorage1D(m_id, m_mipmapLevels, m_internalFormat, m_dimensions.x);														return;
+			case TextureType::Texture2D: glTextureStorage2D(m_id, m_mipmapLevels, m_internalFormat, m_dimensions.x, m_dimensions.y);										return;
+			case TextureType::Texture3D: glTextureStorage3D(m_id, m_mipmapLevels, m_internalFormat, m_dimensions.x, m_dimensions.y, m_dimensions.z);						return;
+				
+			default:					 HLX_CORE_ASSERT(false, "Texture Type not supported");
 		}
 	}
 	void OpenGLTexture::setSubData(unsigned char* data)
@@ -79,7 +80,8 @@ namespace hlx
 			case TextureType::Texture1D: glTextureSubImage1D(m_id, 0, 0, 0, m_format, GL_UNSIGNED_BYTE, data);																return;
 			case TextureType::Texture2D: glTextureSubImage2D(m_id, 0, 0, 0, m_dimensions.x, m_dimensions.y, m_format, GL_UNSIGNED_BYTE, data);								return;
 			case TextureType::Texture3D: glTextureSubImage3D(m_id, 0, 0, 0, 0, m_dimensions.x, m_dimensions.y, m_dimensions.z, m_format, GL_UNSIGNED_BYTE, data);			return;
-			default:					  HLX_CORE_ASSERT(false, "Texture Type not supported");
+				
+			default:					 HLX_CORE_ASSERT(false, "Texture Type not supported");
 		}
 	}
 }

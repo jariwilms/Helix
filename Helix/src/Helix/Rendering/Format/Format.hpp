@@ -8,6 +8,13 @@ namespace hlx
 	using TextureMinFilter = TextureFilter;
 	using TextureMagFilter = TextureFilter;
 	
+	enum class FrameBufferTarget
+	{
+		Default,
+		Read,
+		Write,
+	};
+
 	enum class TextureType
 	{
 		Texture1D, 

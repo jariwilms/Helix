@@ -40,6 +40,13 @@ namespace hlx
 
 		glfwSetWindowUserPointer(window, static_cast<void*>(&properties));
 
+		auto l = [](GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) -> void
+		{
+			if (type == GL_DEBUG_SOURCE_OTHER) return;
+			std::cout << message << '\n';
+		};
+
+		//glDebugMessageCallback(l, nullptr);
 		glfwSetErrorCallback(_windowErrorCallback);
 		glfwSetWindowSizeCallback(window, _windowSizeCallback);
 		glfwSetWindowCloseCallback(window, _windowCloseCallback);
