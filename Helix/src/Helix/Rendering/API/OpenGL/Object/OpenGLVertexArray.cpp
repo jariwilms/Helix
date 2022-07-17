@@ -11,18 +11,19 @@ namespace hlx
 	}
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
+		if (isBound()) unbind();
+
 		glDeleteVertexArrays(1, &m_id);
 	}
 
-	bool OpenGLVertexArray::bind() const
+	void OpenGLVertexArray::bind() const
 	{
-		if (s_boundVertexArrayId == m_id) return false;
+		if (isBound() && m_elementBuffer->isBound()) return;
 		
 		glBindVertexArray(m_id);
 		s_boundVertexArrayId = m_id;
+		
 		m_elementBuffer->bind();
-
-		return true;
 	}
 	void OpenGLVertexArray::unbind() const
 	{
@@ -30,6 +31,10 @@ namespace hlx
 		s_boundVertexArrayId = 0;
 
 		m_elementBuffer->unbind();
+	}
+	bool OpenGLVertexArray::isBound() const
+	{
+		return s_boundVertexArrayId == m_id;
 	}
 
 	void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> buffer)

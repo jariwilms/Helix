@@ -10,9 +10,10 @@ namespace hlx
 		OpenGLRenderBuffer(RenderBufferBlueprint blueprint);
 		~OpenGLRenderBuffer();
 
-		bool bind() const override;
+		void bind() const override;
 		void unbind() const override;
-
+		bool isBound() const override;
+		
 	private:
 		void allocate();
 

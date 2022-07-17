@@ -15,22 +15,26 @@ namespace hlx
 	}
 	OpenGLUniformBuffer::~OpenGLUniformBuffer()
 	{
+		if (isBound()) unbind();
+		
 		glDeleteBuffers(1, &m_id);
 	}
 
-	bool OpenGLUniformBuffer::bind() const
+	void OpenGLUniformBuffer::bind() const
 	{
-		if (s_boundUniformBufferId == m_id) return false;
+		if (isBound()) return;
 
 		glBindBuffer(GL_UNIFORM_BUFFER, m_id);
 		s_boundUniformBufferId = m_id;
-
-		return true;
 	}
 	void OpenGLUniformBuffer::unbind() const
 	{
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 		s_boundUniformBufferId = 0;
+	}
+	bool OpenGLUniformBuffer::isBound() const
+	{
+		return s_boundUniformBufferId == m_id;
 	}
 
 	void OpenGLUniformBuffer::setData(size_t size, const void* data)

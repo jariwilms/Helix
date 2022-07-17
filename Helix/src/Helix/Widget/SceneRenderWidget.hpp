@@ -119,18 +119,23 @@ namespace hlx
 			}
 
 
+			
 			FrameBufferBlueprint gBufferBlueprint{ dimensions };
 			auto& gPosition = gBufferBlueprint.addTextureBlueprint("position");
 			auto& gNormal = gBufferBlueprint.addTextureBlueprint("normal");
 			auto& gAlbedo = gBufferBlueprint.addTextureBlueprint("albedo");
 			auto& gRender = gBufferBlueprint.addRenderBufferBlueprint("render");
 
+			gPosition.layout = TextureLayout::RGBA16;
+			gNormal.layout = TextureLayout::RGBA16;
+			gAlbedo.layout = TextureLayout::RGBA16;
+
 			m_gBuffer = FrameBuffer::create(gBufferBlueprint);
 
 
 			
 			m_gBuffer->bind(FrameBufferTarget::Write);
-			Renderer::setClearColor({ glm::vec3{ 1.0f }, 1.0f });
+			Renderer::setClearColor({ glm::vec3{ 0.0f }, 1.0f });
 			Renderer::clearBuffer(BufferComponent::Color | BufferComponent::Depth);
 			RenderContext::enable(RenderFunction::DepthTest);
 
@@ -141,11 +146,9 @@ namespace hlx
 			Renderer::finish();
 
 
-
-			const std::string F_COLOR_NAME = "color";
 			
 			FrameBufferBlueprint fBufferBlueprint{ dimensions };
-			auto& fColor = fBufferBlueprint.addTextureBlueprint(F_COLOR_NAME);
+			auto& fColor = fBufferBlueprint.addTextureBlueprint("color");
 			auto& fRender = fBufferBlueprint.addRenderBufferBlueprint("render");
 
 			m_fBuffer = FrameBuffer::create(fBufferBlueprint);
@@ -160,15 +163,21 @@ namespace hlx
 
 			m_vao->bind();
 			m_lightingShader->bind();
-			m_lightingShader->setVec("light.position", glm::vec3{ -2.0f, 0.0f, 2.0f });
-			m_lightingShader->setVec("light.color", glm::vec3{ 1.0f, 1.0f, 1.0f });
+			
+			m_lightingShader->setInt("g_position", 0);
+			m_lightingShader->setInt("g_normal", 1);
+			m_lightingShader->setInt("g_albedoSpec", 2);
+
+			m_lightingShader->setVec("light.position", glm::vec3{ 0.0f, 0.0f, 1.0f });
+			m_lightingShader->setVec("light.color", glm::vec3{ 1.0f, 0.0f, 0.0f });
 			m_lightingShader->setFloat("light.linear", linear);
 			m_lightingShader->setFloat("light.quadratic", quadratic);
 			m_lightingShader->setFloat("light.radius", 10.0f);
+			
 			m_lightingShader->setVec("viewPos", m_camera.getTransform().position);
 			
-			m_gBuffer->bindTextures();
 			m_fBuffer->bind(FrameBufferTarget::Write);
+			m_gBuffer->bindTextures();
 
 			RenderContext::disable(RenderFunction::DepthTest);
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
@@ -176,7 +185,7 @@ namespace hlx
 
 
 			m_fBuffer->unbind();
-			auto id = m_fBuffer->getTexture(F_COLOR_NAME)->getId();
+			auto id = m_fBuffer->getTexture("color")->getId();
 			ImGui::Image((ImTextureID)((size_t)id), ImVec2((float)dimensions.x, (float)dimensions.y), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 
 			ImGui::End();

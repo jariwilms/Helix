@@ -18,8 +18,9 @@ namespace hlx
 		OpenGLShader(const std::string& vertex, const std::string& geometry, const std::string& fragment);
 		~OpenGLShader();
 
-		bool bind() const override;
+		void bind() const override;
 		void unbind() const override;
+		bool isBound() const override;
 
 		int getUniformLocation(const std::string& id) override;
 		int getUniformBlockIndex(const std::string& identifier) override;

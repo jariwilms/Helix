@@ -12,9 +12,9 @@ namespace hlx
 		virtual ~FrameBuffer() = default;
 
 		static std::shared_ptr<FrameBuffer> create(FrameBufferBlueprint blueprint);
-		static inline unsigned int getBoundObjectId() { return s_boundFrameBufferId; }
+		static inline const std::vector<unsigned int>& getBoundTargetIds() { return s_boundFrameBufferTargetId; }
 
-		virtual bool bind(FrameBufferTarget target = FrameBufferTarget::Default) const = 0;
+		virtual void bind(FrameBufferTarget target = FrameBufferTarget::Default) const = 0;
 
 		virtual void bindTextures() const = 0;
 
@@ -25,9 +25,10 @@ namespace hlx
 	protected:
 		FrameBuffer() = default;
 
-		static inline unsigned int s_boundFrameBufferId = 0;
+		static inline FrameBufferTarget s_boundFrameBufferTarget = FrameBufferTarget::Default;
+		static inline std::vector<unsigned int> s_boundFrameBufferTargetId{ {0, 0, 0} };
 
 	private:
-		bool bind() const override { return false; }
+		void bind() const override { }
 	};
 }

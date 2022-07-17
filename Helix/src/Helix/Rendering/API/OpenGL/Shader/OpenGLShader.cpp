@@ -108,24 +108,26 @@ namespace hlx
 	}
 	OpenGLShader::~OpenGLShader()
 	{
-		if (s_boundProgramId == m_id) s_boundProgramId = 0;
+		if (isBound()) unbind();
 		
 		glDeleteProgram(m_id);
 	}
 
-	bool OpenGLShader::bind() const
+	void OpenGLShader::bind() const
 	{
-		//if (s_boundProgramId == m_id)
-			//return false;
-			
+		if (isBound()) return;
+		
 		glUseProgram(m_id);
 		s_boundProgramId = m_id;
-
-		return true;
 	}
 	void OpenGLShader::unbind() const
 	{
 		glUseProgram(0);
+		s_boundProgramId = 0;
+	}
+	bool OpenGLShader::isBound() const
+	{
+		return s_boundProgramId == m_id;
 	}
 
 	void OpenGLShader::setBool(const std::string& identifier, bool value)

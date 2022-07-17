@@ -21,7 +21,7 @@ layout (location = 2) out vec2 				v_texCoord;
 
 void main()
 {
-	gl_Position = u_model * vec4(a_position, 1.0);
+	gl_Position = u_projection * u_view * vec4(a_position, 1.0);
 	
 	v_position = u_model * vec4(a_position, 1.0);
 	v_normal = a_normal;

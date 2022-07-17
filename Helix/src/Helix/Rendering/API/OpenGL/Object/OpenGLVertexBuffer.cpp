@@ -14,23 +14,26 @@ namespace hlx
 	}
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	{
+		if (isBound()) unbind();
+		
 		glDeleteBuffers(1, &m_id);
 	}
 
-	bool OpenGLVertexBuffer::bind() const
+	void OpenGLVertexBuffer::bind() const
 	{
-		if (s_boundVertexBufferId == m_id) return false;
+		if (isBound()) return;
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_id);
 		s_boundVertexBufferId = m_id;
-
-		return true;
-		
 	}
 	void OpenGLVertexBuffer::unbind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		s_boundVertexBufferId = 0;
+	}
+	bool OpenGLVertexBuffer::isBound() const
+	{
+		return s_boundVertexBufferId == m_id;
 	}
 
 	void OpenGLVertexBuffer::setData(unsigned int count, const float* data)

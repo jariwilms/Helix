@@ -23,22 +23,26 @@ namespace hlx
 	}
 	OpenGLRenderBuffer::~OpenGLRenderBuffer()
 	{
+		if (isBound()) unbind();
+		
 		glDeleteRenderbuffers(1, &m_id);
 	}
 
-	bool OpenGLRenderBuffer::bind() const
+	void OpenGLRenderBuffer::bind() const
 	{
-		if (s_boundRenderBufferId == m_id) return false;
+		if (isBound()) return;
 
 		glBindRenderbuffer(m_target, m_id);
 		s_boundRenderBufferId = m_id;
-
-		return true;
 	}
 	void OpenGLRenderBuffer::unbind() const
 	{
 		glBindRenderbuffer(m_target, 0);
 		s_boundRenderBufferId = 0;
+	}
+	bool OpenGLRenderBuffer::isBound() const
+	{
+		return s_boundRenderBufferId == m_id;
 	}
 
 	void OpenGLRenderBuffer::allocate()

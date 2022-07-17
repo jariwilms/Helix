@@ -44,14 +44,17 @@ namespace hlx
 	}
 	OpenGLTexture::~OpenGLTexture()
 	{
+		if (isBound()) unbind();
+		
 		glDeleteTextures(1, &m_id);
 	}
 
-	bool OpenGLTexture::bind() const
+	void OpenGLTexture::bind() const
 	{
-		glBindTexture(m_target, m_id);
+		if (isBound()) return;
 
-		return true;
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(m_target, m_id);
 	}
 	void OpenGLTexture::bindUnit(unsigned int index) const
 	{
@@ -60,6 +63,10 @@ namespace hlx
 	void OpenGLTexture::unbind() const 
 	{ 
 		glBindTexture(m_target, 0);
+	}
+	bool OpenGLTexture::isBound() const
+	{
+		return false;
 	}
 
 	void OpenGLTexture::allocate()

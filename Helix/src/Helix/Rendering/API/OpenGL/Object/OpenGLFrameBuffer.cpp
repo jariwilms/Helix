@@ -8,7 +8,7 @@ namespace hlx
 	{
 		glGenFramebuffers(1, &m_id);
 		
-
+		auto test = s_boundFrameBufferTargetId.size();
 
 		for (const auto& [name, blueprint] : blueprint.textureBlueprints)
 			m_textures.emplace_back(std::move(std::make_pair(name, std::make_shared<OpenGLTexture>(blueprint, nullptr))));
@@ -28,23 +28,28 @@ namespace hlx
 	}
 	OpenGLFrameBuffer::~OpenGLFrameBuffer()
 	{
-		if (s_boundFrameBufferId == m_id) unbind();
+		if (isBound()) unbind();
+		
 		glDeleteFramebuffers(1, &m_id);
 	}
 
-	bool OpenGLFrameBuffer::bind(FrameBufferTarget target) const
+	void OpenGLFrameBuffer::bind(FrameBufferTarget target) const
 	{
-		//if (s_boundFrameBufferId == m_id) return false;
+		if (isBound() && target == s_boundFrameBufferTarget) return;
+		if (target != s_boundFrameBufferTarget) unbind();
 
 		glBindFramebuffer(OpenGL::getFrameBufferTarget(target), m_id);
-		s_boundFrameBufferId = m_id;
-
-		return true;
+		s_boundFrameBufferTarget = target;
+		s_boundFrameBufferTargetId[static_cast<int>(target)] = m_id;
 	}
 	void OpenGLFrameBuffer::unbind() const
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		s_boundFrameBufferId = 0;
+		glBindFramebuffer(OpenGL::getFrameBufferTarget(s_boundFrameBufferTarget), 0);
+		s_boundFrameBufferTargetId[static_cast<int>(s_boundFrameBufferTarget)] = 0;
+	}
+	bool OpenGLFrameBuffer::isBound() const
+	{
+		return s_boundFrameBufferTargetId[static_cast<int>(s_boundFrameBufferTarget)] == m_id;
 	}
 
 	void OpenGLFrameBuffer::bindTextures() const

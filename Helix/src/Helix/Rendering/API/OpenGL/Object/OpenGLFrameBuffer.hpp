@@ -12,8 +12,9 @@ namespace hlx
 		OpenGLFrameBuffer(FrameBufferBlueprint blueprint);
 		~OpenGLFrameBuffer();
 
-		bool bind(FrameBufferTarget target) const override;
+		void bind(FrameBufferTarget target) const override;
 		void unbind() const override;
+		bool isBound() const override;
 
 		void bindTextures() const override;
 

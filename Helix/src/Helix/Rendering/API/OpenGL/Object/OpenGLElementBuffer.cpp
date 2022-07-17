@@ -14,22 +14,26 @@ namespace hlx
 	}
 	OpenGLElementBuffer::~OpenGLElementBuffer()
 	{
+		if (isBound()) unbind();
+		
 		glDeleteBuffers(1, &m_id);
 	}
 
-	bool OpenGLElementBuffer::bind() const
+	void OpenGLElementBuffer::bind() const
 	{
-		if (s_boundElementBufferId == m_id) return false;
+		if (isBound()) return;
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
 		s_boundElementBufferId = m_id;
-
-		return true;
 	}
 	void OpenGLElementBuffer::unbind() const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		s_boundElementBufferId = 0;
+	}
+	bool OpenGLElementBuffer::isBound() const
+	{
+		return s_boundElementBufferId == m_id;
 	}
 
 	void OpenGLElementBuffer::setData(unsigned int count, const unsigned int* data)

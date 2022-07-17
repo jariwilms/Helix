@@ -15,8 +15,9 @@ namespace hlx
 		OpenGLElementBuffer(unsigned int count, const unsigned int* data);
 		~OpenGLElementBuffer() override;
 
-		bool bind() const override;
+		void bind() const override;
 		void unbind() const override;
+		bool isBound() const override;
 
 		void setData(unsigned int count, const unsigned int* data) override;
 		void setSubData(unsigned int count, const unsigned int* data) override;

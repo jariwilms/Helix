@@ -48,6 +48,5 @@ void main()
 {
 	g_position = v_position;
 	g_normal = vec3(0.0, 0.0, 1.0);
-	g_albedoSpec.rgb = texture(u_textures[int(v_texIndex)], v_texCoord).rgb;
-	g_albedoSpec.a = 0.5;
+	g_albedoSpec = texture(u_textures[int(v_texIndex)], v_texCoord);
 }

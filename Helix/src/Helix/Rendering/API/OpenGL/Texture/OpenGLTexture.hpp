@@ -17,9 +17,10 @@ namespace hlx
 		OpenGLTexture(TextureBlueprint blueprint, unsigned char* data);
 		~OpenGLTexture() override;
 
-		bool bind() const override;
+		void bind() const override;
 		void bindUnit(unsigned int index) const override;
 		void unbind() const override;
+		bool isBound() const override;
 
 		int getTarget() const { return m_target; }
 		int getInternalFormat() const { return m_internalFormat; }
