@@ -196,7 +196,7 @@ namespace hlx
 
 
 			Assimp::Importer importer;
-			constexpr auto importerFlags = aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_GenUVCoords | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph;
+			constexpr auto importerFlags = aiProcess_Triangulate | aiProcess_GenUVCoords | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph;
 			auto scene = importer.ReadFile(fullPath.string(), importerFlags);
 
 			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
@@ -300,7 +300,7 @@ namespace hlx
 		{
 			using setTextureFunc = void (hlx::Material::*)(std::shared_ptr<Texture> texture);
 
-			auto shader = Shader::create("shaders/material.glsl");
+			auto shader = Shader::create("shaders/material2.glsl");
 			auto meshMaterial = std::make_shared<Material>(shader);
 
 			const std::vector<aiTextureType> textureTypes { aiTextureType_DIFFUSE, aiTextureType_NORMALS, aiTextureType_SPECULAR };

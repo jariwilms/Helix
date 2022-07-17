@@ -180,6 +180,7 @@ namespace hlx
 			
 			shader->bind();
 			shader->setMat("u_model", transform);
+			shader->setUniformBuffer("Matrices", 2 * sizeof(glm::mat4), m_matrices);
 			
 			material->use();
 

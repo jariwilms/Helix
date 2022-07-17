@@ -118,7 +118,7 @@ namespace hlx
 				ImGui::EndMenuBar();
 			}
 
-
+			glDisable(GL_BLEND);
 			
 			FrameBufferBlueprint gBufferBlueprint{ dimensions };
 			auto& gPosition = gBufferBlueprint.addTextureBlueprint("position");
@@ -149,7 +149,8 @@ namespace hlx
 			
 			FrameBufferBlueprint fBufferBlueprint{ dimensions };
 			auto& fColor = fBufferBlueprint.addTextureBlueprint("color");
-			auto& fRender = fBufferBlueprint.addRenderBufferBlueprint("render");
+			
+			fColor.layout = TextureLayout::RGBA16;
 
 			m_fBuffer = FrameBuffer::create(fBufferBlueprint);
 
@@ -158,8 +159,13 @@ namespace hlx
 			Renderer::setClearColor(glm::vec4{ 1.0f });
 			Renderer::clearBuffer(BufferComponent::Color);
 			
+			constexpr float constant = 1.0f;
 			constexpr float linear = 0.7f;
 			constexpr float quadratic = 1.8f;
+			constexpr glm::vec3 lightColor{ 1.0f, 1.0f, 1.0f };
+			
+			float lightMax = std::fmaxf(std::fmaxf(lightColor.r, lightColor.g), lightColor.b);
+			float radius = (-linear + std::sqrtf(linear * linear - 4 * quadratic * (constant - (256.0f / 5.0f) * lightMax))) / (2 * quadratic);
 
 			m_vao->bind();
 			m_lightingShader->bind();
@@ -168,11 +174,11 @@ namespace hlx
 			m_lightingShader->setInt("g_normal", 1);
 			m_lightingShader->setInt("g_albedoSpec", 2);
 
-			m_lightingShader->setVec("light.position", glm::vec3{ 0.0f, 0.0f, 1.0f });
-			m_lightingShader->setVec("light.color", glm::vec3{ 1.0f, 0.0f, 0.0f });
+			m_lightingShader->setVec("light.position", glm::vec3{ 2.0f, 0.0f, 2.0f });
+			m_lightingShader->setVec("light.color", glm::vec3{ 1.0f, 1.0f, 1.0f });
 			m_lightingShader->setFloat("light.linear", linear);
 			m_lightingShader->setFloat("light.quadratic", quadratic);
-			m_lightingShader->setFloat("light.radius", 10.0f);
+			m_lightingShader->setFloat("light.radius", radius);
 			
 			m_lightingShader->setVec("viewPos", m_camera.getTransform().position);
 			

@@ -66,11 +66,11 @@ namespace hlx
 			switch (layout)
 			{
 				case TextureLayout::RGB8:				return GL_RGB8;
-				case TextureLayout::RGB16:				return GL_RGB16;
+				case TextureLayout::RGB16:				return GL_RGB16F;
 				case TextureLayout::RGB32:				return GL_RGB32F;
 					
 				case TextureLayout::RGBA8:				return GL_RGBA8;
-				case TextureLayout::RGBA16:				return GL_RGBA16;
+				case TextureLayout::RGBA16:				return GL_RGBA16F;
 				case TextureLayout::RGBA32:				return GL_RGBA32F;
 
 				default:								HLX_CORE_ASSERT(false, "Invalid Texture Layout: {0}", static_cast<int>(layout)); return -1;

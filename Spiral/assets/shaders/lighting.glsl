@@ -43,12 +43,12 @@ void main()
     vec3 Diffuse = texture(g_albedoSpec, v_texCoord).rgb;
     float Specular = texture(g_albedoSpec, v_texCoord).a;
     
-    vec3 lighting = Diffuse * 0.1;
+    vec3 lighting = Diffuse * 0.5;
     vec3 viewDir = normalize(viewPos - FragPos);
 	
 	float distance = length(light.position - FragPos);
 	
-	if(distance < light.radius)
+	if (distance < light.radius)
 	{
 		//diffuse
 		vec3 lightDir = normalize(light.position - FragPos);

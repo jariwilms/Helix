@@ -21,11 +21,14 @@ layout (location = 2) out vec2 				v_texCoord;
 
 void main()
 {
-	gl_Position = u_projection * u_view * vec4(a_position, 1.0);
-	
-	v_position = u_model * vec4(a_position, 1.0);
-	v_normal = a_normal;
-	v_texCoord = a_texCoord;
+	vec4 worldPos = u_model * vec4(a_position, 1.0);
+    v_position = worldPos.xyz; 
+    v_texCoord = a_texCoord;
+    
+    mat3 normalMatrix = transpose(inverse(mat3(u_model)));
+    v_normal = normalMatrix * a_normal;
+
+    gl_Position = u_projection * u_view * worldPos;
 }
 
 @fragment
@@ -47,6 +50,6 @@ void main()
 {
 	g_position = v_position;
 	g_normal = normalize(v_normal);
-	g_albedoSpec.rgb = texture(u_albedo, v_texCoord).rgb;
+	g_albedoSpec.rgb = u_baseColor * texture(u_albedo, v_texCoord).rgb;
 	g_albedoSpec.a = texture(u_specular, v_texCoord).r;
 }

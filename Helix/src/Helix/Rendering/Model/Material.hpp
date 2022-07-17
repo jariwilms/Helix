@@ -17,7 +17,12 @@ namespace hlx
 		void use() const 
 		{ 
 			m_shader->setVec("u_baseColor", m_baseColor);
-			m_albedo->bind();
+			
+			m_shader->setInt("u_albedo", 0);
+			m_shader->setInt("u_specular", 1);
+
+			m_albedo->bindUnit(0);
+			m_specular->bindUnit(1);
 		}
 
 		inline std::shared_ptr<Shader> getShader() const { return m_shader; }

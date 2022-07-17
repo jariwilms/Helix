@@ -11,10 +11,10 @@ namespace hlx
 		auto test = s_boundFrameBufferTargetId.size();
 
 		for (const auto& [name, blueprint] : blueprint.textureBlueprints)
-			m_textures.emplace_back(std::move(std::make_pair(name, std::make_shared<OpenGLTexture>(blueprint, nullptr))));
+			m_textures.insert(std::make_pair(name, std::make_shared<OpenGLTexture>(blueprint, nullptr)));
 
 		for (const auto& [name, blueprint] : blueprint.renderBufferBlueprints)
-			m_renderBuffers.emplace_back(std::move(std::make_pair(name, std::make_shared<OpenGLRenderBuffer>(blueprint))));
+			m_renderBuffers.insert(std::make_pair(name, std::make_shared<OpenGLRenderBuffer>(blueprint)));
 
 		
 

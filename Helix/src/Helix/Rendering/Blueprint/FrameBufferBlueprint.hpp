@@ -15,21 +15,32 @@ namespace hlx
 		FrameBufferBlueprint(glm::uvec2 dimensions) : dimensions{ dimensions.x, dimensions.y, 0 } {}
 		FrameBufferBlueprint(glm::uvec3 dimensions) : dimensions{ dimensions } {}
 		
-		inline TextureBlueprint& addTextureBlueprint(const std::string& name) 
+		inline auto& addTextureBlueprint(const std::string& name) 
 		{
-			auto pair = std::make_pair(name, TextureBlueprint{ TextureType::Texture2D, dimensions });
-			
-			return textureBlueprints.emplace_back(std::move(pair)).second; 
+			auto it = textureBlueprints.find(name);
+
+			HLX_CORE_ASSERT(it == textureBlueprints.end(), "Blueprint already contains a Texture with name: {0}" + name);
+
+			textureBlueprints.insert(std::make_pair(name, TextureBlueprint{ TextureType::Texture2D, dimensions }));
+			it = textureBlueprints.find(name);
+
+			return it->second;
 		}
-		inline RenderBufferBlueprint& addRenderBufferBlueprint(const std::string& name)
+		inline auto& addRenderBufferBlueprint(const std::string& name)
 		{
-			auto pair = std::make_pair(name, RenderBufferBlueprint{ RenderBufferAttachment::DepthStencil, RenderBufferLayout::Depth24Stencil8, dimensions });
-			return renderBufferBlueprints.emplace_back(std::move(pair)).second;
+			auto it = renderBufferBlueprints.find(name);
+
+			HLX_CORE_ASSERT(it == renderBufferBlueprints.end(), "Blueprint already contains a Render Buffer with name: {0}" + name);
+
+			renderBufferBlueprints.insert(std::make_pair(name, RenderBufferBlueprint{ RenderBufferAttachment::Depth, RenderBufferLayout::Depth32, dimensions }));
+			it = renderBufferBlueprints.find(name);
+
+			return it->second;
 		}
 
 		glm::uvec3 dimensions;
 
-		std::vector<std::pair<std::string, TextureBlueprint>> textureBlueprints;
-		std::vector< std::pair<std::string, RenderBufferBlueprint>> renderBufferBlueprints;
+		std::unordered_map<std::string, TextureBlueprint> textureBlueprints;
+		std::unordered_map<std::string, RenderBufferBlueprint> renderBufferBlueprints;
 	};
 }

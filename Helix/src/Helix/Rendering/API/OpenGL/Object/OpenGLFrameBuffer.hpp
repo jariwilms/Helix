@@ -27,8 +27,8 @@ namespace hlx
 
 		int m_target;
 		
-		std::vector<std::pair<std::string, std::shared_ptr<OpenGLTexture>>> m_textures;
-		std::vector<std::pair<std::string, std::shared_ptr<OpenGLRenderBuffer>>> m_renderBuffers;
+		std::unordered_map<std::string, std::shared_ptr<OpenGLTexture>> m_textures;
+		std::unordered_map<std::string, std::shared_ptr<OpenGLRenderBuffer>> m_renderBuffers;
 
 		std::vector<unsigned int> m_attachments;
 	};
