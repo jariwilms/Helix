@@ -25,6 +25,8 @@ struct Light
     float radius;
 };
 
+uniform int u_renderMask;
+
 uniform sampler2D g_position;
 uniform sampler2D g_normal;
 uniform sampler2D g_albedoSpec;
@@ -66,5 +68,5 @@ void main()
 		lighting += diffuse + specular;
 	}
 	
-    f_color = vec4(lighting, 1.0);
+	f_color = vec4(lighting, 1.0);
 }

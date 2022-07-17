@@ -11,11 +11,8 @@ namespace hlx
 {
 	struct TransformComponent
 	{
-	public:
-		TransformComponent(glm::vec3 position = glm::vec3{}, glm::vec3 rotation = glm::vec3{}, glm::vec3 scale = glm::vec3{ 1.0f })
-			: transform{ position, rotation, scale } {}
-		TransformComponent(Transform transform)
-			: transform{ transform } {}
+		TransformComponent(glm::vec3 position = glm::vec3{}, glm::vec3 rotation = glm::vec3{}, glm::vec3 scale = glm::vec3{ 1.0f }) : transform{ position, rotation, scale } {}
+		TransformComponent(Transform transform) : transform{ transform } {}
 
 		operator glm::mat4() { return transform; }
 
@@ -24,22 +21,30 @@ namespace hlx
 
 	struct SpriteComponent
 	{
-	public:
-		SpriteComponent()
-			: texture{ Texture::create("textures/white.png") } {}
-		SpriteComponent(std::filesystem::path path)
-			: texture{ Texture::create(path) } {}
+		SpriteComponent() : texture{ Texture::create("textures/white.png") } {}
+		SpriteComponent(std::filesystem::path path) : texture{ Texture::create(path) } {}
 
 		std::shared_ptr<Texture> texture;
 	};
 
 	struct ModelComponent
 	{
-	public:
-		ModelComponent(std::filesystem::path path)
-			: model{ IO::load<Model>(path) } {}
+		ModelComponent(std::filesystem::path path) : model{ IO::load<Model>(path) } {}
 
 		std::shared_ptr<Model> model;
+	};
+
+	struct LightComponent
+	{
+		LightComponent() = default;
+
+		glm::vec3 color;
+		
+		float minAngle;
+		float maxAngle;
+		float falloff;
+		
+		float radius;
 	};
 
 	struct CameraComponent

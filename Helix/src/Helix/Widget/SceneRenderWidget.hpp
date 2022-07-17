@@ -16,7 +16,7 @@ namespace hlx
 	class SceneRenderWidget : public Widget
 	{
 	public:
-		SceneRenderWidget() : m_rasterizationMode{}, m_lastRasterizationMode {}
+		SceneRenderWidget() : m_rasterizationMode{}
 		{
 			BufferLayout layout{};
 			layout.addAttribute<float>(3);
@@ -91,34 +91,28 @@ namespace hlx
 				m_camera.setScreenDimensions(dimensions);
 			}
 
-
-
 			if (ImGui::BeginMenuBar())
 			{
 				if (ImGui::BeginMenu("Options"))
 				{
 					ImGui::Combo("Rasterization", &m_rasterizationMode, "Fill\0Line\0Point\0\0");
 
-					if (m_rasterizationMode != m_lastRasterizationMode)
-					{
-						switch (m_rasterizationMode)
-						{
-							case 0: RenderContext::setRasterizationMode(RasterizationFunction::Fill);			break;
-							case 1: RenderContext::setRasterizationMode(RasterizationFunction::Line);			break;
-							case 2: RenderContext::setRasterizationMode(RasterizationFunction::Point);			break;
-								
-							default:																			break;
-						}
-					}
-
-					m_lastRasterizationMode = m_rasterizationMode;
 					ImGui::EndMenu();
 				}
 
 				ImGui::EndMenuBar();
 			}
 
-			glDisable(GL_BLEND);
+			switch (m_rasterizationMode)
+			{
+				case 0: RenderContext::setRasterizationMode(RasterizationFunction::Fill);			break;
+				case 1: RenderContext::setRasterizationMode(RasterizationFunction::Line);			break;
+				case 2: RenderContext::setRasterizationMode(RasterizationFunction::Point);			break;
+
+				default:																			break;
+			}
+			
+
 			
 			FrameBufferBlueprint gBufferBlueprint{ dimensions };
 			auto& gPosition = gBufferBlueprint.addTextureBlueprint("position");
@@ -126,9 +120,9 @@ namespace hlx
 			auto& gAlbedo = gBufferBlueprint.addTextureBlueprint("albedo");
 			auto& gRender = gBufferBlueprint.addRenderBufferBlueprint("render");
 
-			gPosition.layout = TextureLayout::RGBA16;
-			gNormal.layout = TextureLayout::RGBA16;
-			gAlbedo.layout = TextureLayout::RGBA16;
+			gPosition.layout = TextureLayout::RGB16;
+			gNormal.layout = TextureLayout::RGB16;
+			gAlbedo.layout = TextureLayout::RGBA8;
 
 			m_gBuffer = FrameBuffer::create(gBufferBlueprint);
 
@@ -150,12 +144,13 @@ namespace hlx
 			FrameBufferBlueprint fBufferBlueprint{ dimensions };
 			auto& fColor = fBufferBlueprint.addTextureBlueprint("color");
 			
-			fColor.layout = TextureLayout::RGBA16;
+			fColor.layout = TextureLayout::RGBA8;
 
 			m_fBuffer = FrameBuffer::create(fBufferBlueprint);
 
 
 			
+			RenderContext::setRasterizationMode(RasterizationFunction::Fill);
 			Renderer::setClearColor(glm::vec4{ 1.0f });
 			Renderer::clearBuffer(BufferComponent::Color);
 			
@@ -169,7 +164,7 @@ namespace hlx
 
 			m_vao->bind();
 			m_lightingShader->bind();
-			
+
 			m_lightingShader->setInt("g_position", 0);
 			m_lightingShader->setInt("g_normal", 1);
 			m_lightingShader->setInt("g_albedoSpec", 2);
@@ -214,6 +209,5 @@ namespace hlx
 		glm::uvec2 m_lastWindowDimensions;
 
 		int m_rasterizationMode;
-		int m_lastRasterizationMode;
 	};
 }
