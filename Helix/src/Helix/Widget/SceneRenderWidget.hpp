@@ -22,8 +22,8 @@ namespace hlx
 			layout.addAttribute<float>(3);
 			layout.addAttribute<float>(2);
 
-			m_vao = VertexArray::create();
-			m_vbo = VertexBuffer::create(sizeof(RenderData::FRAME_BUFFER_VERTICES), RenderData::FRAME_BUFFER_VERTICES);
+			m_vao = VertexArray<float>::create();
+			m_vbo = VertexBuffer<float>::create(static_cast<unsigned int>(sizeof(RenderData::FRAME_BUFFER_VERTICES) / sizeof(float)), RenderData::FRAME_BUFFER_VERTICES);
 			m_ebo = ElementBuffer::create(sizeof(RenderData::FRAME_BUFFER_ELEMENTS), RenderData::FRAME_BUFFER_ELEMENTS);
 
 			m_vbo->setLayout(layout);
@@ -160,7 +160,7 @@ namespace hlx
 			constexpr glm::vec3 lightColor{ 1.0f, 1.0f, 1.0f };
 			
 			float lightMax = std::fmaxf(std::fmaxf(lightColor.r, lightColor.g), lightColor.b);
-			float radius = (-linear + std::sqrtf(linear * linear - 4 * quadratic * (constant - (256.0f / 5.0f) * lightMax))) / (2 * quadratic);
+			float radius = (-linear + std::sqrtf(linear * linear - 4 * quadratic * (constant - (256.0f / 5.0f) * lightMax))) / (2 * quadratic) * 10;
 
 			m_vao->bind();
 			m_lightingShader->bind();
@@ -197,8 +197,8 @@ namespace hlx
 		std::shared_ptr<FrameBuffer> m_gBuffer;
 		std::shared_ptr<FrameBuffer> m_fBuffer;
 		
-		std::shared_ptr<VertexArray> m_vao;
-		std::shared_ptr<VertexBuffer> m_vbo;
+		std::shared_ptr<VertexArray<float>> m_vao;
+		std::shared_ptr<VertexBuffer<float>> m_vbo;
 		std::shared_ptr<ElementBuffer> m_ebo;
 
 		std::shared_ptr<Shader> m_shader;

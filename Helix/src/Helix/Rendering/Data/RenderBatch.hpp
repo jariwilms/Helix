@@ -14,22 +14,23 @@
 
 namespace hlx
 {
+	template <typename T>
 	struct RenderBatch
 	{
 	public:
-		RenderBatch(unsigned int count, unsigned int limit, const BufferLayout& layout)
+		RenderBatch(unsigned int count, const BufferLayout& layout) 
 			: vertexCount{}, elementCount{}, textureCount{ 1 }
 		{
-			vao = VertexArray::create();
-			vbo = VertexBuffer::create(count);
-			ebo = ElementBuffer::create(limit);
+			vao = VertexArray<T>::create();
+			vbo = VertexBuffer<T>::create(count, nullptr);
+			ebo = ElementBuffer::create(count);
 
 			vbo->setLayout(layout);
 			vao->setElementBuffer(ebo);
 			vao->addVertexBuffer(vbo);
 
 			vertices.resize(count);
-			elements.resize(limit);
+			elements.resize(count);
 
 
 
@@ -37,7 +38,7 @@ namespace hlx
 			constexpr int indicesPerQuad = 6;
 			constexpr int offsetPerTriangle = 4;
 
-			for (size_t i{ 0 }; i < static_cast<size_t>(limit - 6); i += indicesPerQuad, offset += offsetPerTriangle)
+			for (size_t i{ 0 }; i < static_cast<size_t>(count - 6); i += indicesPerQuad, offset += offsetPerTriangle)
 			{
 				elements.at(i + 0) = offset + 0;
 				elements.at(i + 1) = offset + 1;
@@ -72,11 +73,11 @@ namespace hlx
 			textureCount = 1;
 		}
 
-		std::shared_ptr<VertexArray> vao;
-		std::shared_ptr<VertexBuffer> vbo;
+		std::shared_ptr<VertexArray<T>> vao;
+		std::shared_ptr<VertexBuffer<T>> vbo;
 		std::shared_ptr<ElementBuffer> ebo;
 
-		std::vector<Vertex> vertices;
+		std::vector<Vertex> vertices; //fix?
 		unsigned int vertexCount;
 
 		std::vector<unsigned int> elements;
@@ -85,6 +86,6 @@ namespace hlx
 		std::shared_ptr<Shader> shader;
 
 		std::vector<std::shared_ptr<Texture>> textureSlots;
-		size_t textureCount;
+		size_t textureCount; //Todo: unsigned int
 	};
 }

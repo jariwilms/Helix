@@ -14,9 +14,13 @@ namespace hlx
 	public:
 		virtual ~RendererAPI() = default;
 
+
+		
 		virtual void start(const Camera& camera) = 0;
 		virtual void finish() = 0;
 
+
+		
 		virtual void clearBuffer(BufferComponent buffer) = 0;
 		virtual void setClearColor(glm::vec4 color) = 0;
 

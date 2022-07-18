@@ -7,8 +7,7 @@ namespace hlx
 {
 	OpenGLRenderer::OpenGLRenderer()
 	{
-		constexpr unsigned int MAX_INDICES = (size_t)1 << 15; //TODO: move naar renderdata / rendersettings?
-		constexpr unsigned int BUFFER_ELEMENT_COUNT = MAX_INDICES * (sizeof(Vertex) / sizeof(float));
+		constexpr unsigned int VERTEX_COUNT = 1 << 15;
 
 		BufferLayout layout{};
 		layout.addAttribute<float>(3); //position
@@ -18,11 +17,11 @@ namespace hlx
 		layout.addAttribute<float>(1); //tiling factor
 		layout.addAttribute<float>(1); //entity id
 
-		m_renderBatch = std::make_shared<RenderBatch>(BUFFER_ELEMENT_COUNT, MAX_INDICES, layout);
-
-		RenderContext::enable(RenderFunction::FaceCulling);
+		m_renderBatch = std::make_shared<RenderBatch<Vertex>>(VERTEX_COUNT, layout);
 	}
 
+
+	
 	void OpenGLRenderer::start(const Camera& camera)
 	{
 		m_matrices[0] = camera.getViewMatrix();
@@ -56,6 +55,8 @@ namespace hlx
 		flush();
 	}
 
+
+	
 	void OpenGLRenderer::clearBuffer(BufferComponent buffer)
 	{
 		auto flags = 0;

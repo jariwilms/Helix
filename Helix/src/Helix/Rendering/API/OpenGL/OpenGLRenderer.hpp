@@ -19,9 +19,13 @@ namespace hlx
 		OpenGLRenderer();
 		~OpenGLRenderer() = default;
 
+
+		
 		void start(const Camera& camera) override;
 		void finish() override;
 
+
+		
 		void clearBuffer(BufferComponent buffer) override;
 		void setClearColor(glm::vec4 color) override;
 
@@ -44,6 +48,6 @@ namespace hlx
 		void check() override;
 		void flush() override;
 
-		std::shared_ptr<RenderBatch> m_renderBatch;
+		std::shared_ptr<RenderBatch<Vertex>> m_renderBatch;
 	};
 }

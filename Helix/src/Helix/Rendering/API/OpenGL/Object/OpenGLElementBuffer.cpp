@@ -5,6 +5,7 @@
 namespace hlx
 {
 	OpenGLElementBuffer::OpenGLElementBuffer(unsigned int count, const unsigned int* data)
+		: ElementBuffer{}
 	{
 		glCreateBuffers(1, &m_id);
 		
@@ -40,8 +41,8 @@ namespace hlx
 	{
 		bind();
 
-		auto size = count * sizeof(unsigned int);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+		size_t totalSize = count * sizeof(unsigned int);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, totalSize, data, GL_STATIC_DRAW);
 
 		if (data) m_dataCount = count;
 		m_dataLimit = count;
@@ -56,13 +57,14 @@ namespace hlx
 
 		if (offset + count > m_dataLimit)
 		{
-			HLX_CORE_ERROR("[Element buffer] subdata exceeds data limit");
+			HLX_CORE_ERROR("[ElementBuffer] subdata overflow");
 			return;
 		}
 
-		auto size = count * sizeof(float);
-		offset *= sizeof(float);
+		size_t totalSize = count * sizeof(unsigned int);
+		size_t byteOffset = offset * sizeof(unsigned int);
 
-		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, offset, size, data);
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, byteOffset, totalSize, data);
+		m_dataCount = static_cast<unsigned int>(offset + count);
 	}
 }

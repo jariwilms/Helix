@@ -73,6 +73,9 @@
     <Filter Include="Helix\Rendering\Data">
       <UniqueIdentifier>{15CD6A08-015C-F4D1-AA7A-08CD96E80478}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helix\Rendering\Format">
+      <UniqueIdentifier>{E435F9D3-D02F-2226-B99C-B836A5358892}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Helix\Rendering\Function">
       <UniqueIdentifier>{015FFC7A-ED83-4BFB-16CF-308B02534A19}</UniqueIdentifier>
     </Filter>
@@ -81,6 +84,9 @@
     </Filter>
     <Filter Include="Helix\Rendering\Object">
       <UniqueIdentifier>{32E007E8-1EDA-303A-0747-C74AF3DF96A6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helix\Rendering\Object\Factory">
+      <UniqueIdentifier>{79063EF8-652C-085F-4E72-8D2A3A372D2B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Helix\Rendering\Shader">
       <UniqueIdentifier>{5222C4F1-3E1C-ED43-2789-8354132253B0}</UniqueIdentifier>
@@ -247,6 +253,9 @@
     <ClInclude Include="src\Helix\Rendering\Blueprint\FrameBufferBlueprint.hpp">
       <Filter>Helix\Rendering\Blueprint</Filter>
     </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Blueprint\RenderBufferBlueprint.hpp">
+      <Filter>Helix\Rendering\Blueprint</Filter>
+    </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Blueprint\TextureBlueprint.hpp">
       <Filter>Helix\Rendering\Blueprint</Filter>
     </ClInclude>
@@ -267,6 +276,9 @@
     </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Data\Vertex.hpp">
       <Filter>Helix\Rendering\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helix\Rendering\Format\Format.hpp">
+      <Filter>Helix\Rendering\Format</Filter>
     </ClInclude>
     <ClInclude Include="src\Helix\Rendering\Function\RasterizationFunction.hpp">
       <Filter>Helix\Rendering\Function</Filter>
@@ -363,8 +375,6 @@
     </ClInclude>
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\stdafx.hpp" />
-    <ClInclude Include="src\Helix\Rendering\Blueprint\RenderBufferBlueprint.hpp" />
-    <ClInclude Include="src\Helix\Rendering\Format\Format.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Helix\Core\Application.cpp">

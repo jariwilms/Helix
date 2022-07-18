@@ -5,8 +5,13 @@
 
 namespace hlx
 {
-	std::shared_ptr<VertexArray> VertexArray::create()
+	template <typename T>
+	std::shared_ptr<VertexArray<T>> VertexArray<T>::create()
 	{
-		return std::make_shared<OpenGLVertexArray>();
+		return std::make_shared<OpenGLVertexArray<T>>();
 	}
+
+	template class VertexArray<float>;
+	template class VertexArray<Vertex>;
+	template class VertexArray<MeshVertex>;
 }

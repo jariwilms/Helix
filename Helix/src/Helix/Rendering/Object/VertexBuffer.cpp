@@ -5,8 +5,13 @@
 
 namespace hlx
 {
-	std::shared_ptr<VertexBuffer> VertexBuffer::create(unsigned int count, const float* data)
+	template <typename T>
+	std::shared_ptr<VertexBuffer<T>> VertexBuffer<T>::create(unsigned int count, const float* data)
 	{
-		return std::make_shared<OpenGLVertexBuffer>(count, data);
+		return std::make_shared<OpenGLVertexBuffer<T>>(count, data);
 	}
+	
+	template class VertexBuffer<float>;
+	template class VertexBuffer<Vertex>;
+	template class VertexBuffer<MeshVertex>;
 }

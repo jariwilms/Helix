@@ -5,64 +5,64 @@
 
 namespace hlx
 {
-	OpenGLVertexArray::OpenGLVertexArray()
-	{
-		glCreateVertexArrays(1, &m_id);
-	}
-	OpenGLVertexArray::~OpenGLVertexArray()
-	{
-		if (isBound()) unbind();
+	//template <typename T> OpenGLVertexArray<T>::OpenGLVertexArray()
+	//{
+	//	glCreateVertexArrays(1, &m_id);
+	//}
+	//template <typename T> OpenGLVertexArray<T>::~OpenGLVertexArray()
+	//{
+	//	if (isBound()) unbind();
 
-		glDeleteVertexArrays(1, &m_id);
-	}
+	//	glDeleteVertexArrays(1, &m_id);
+	//}
 
-	void OpenGLVertexArray::bind() const
-	{
-		if (isBound() && m_elementBuffer->isBound()) return;
-		
-		glBindVertexArray(m_id);
-		s_boundVertexArrayId = m_id;
-		
-		m_elementBuffer->bind();
-	}
-	void OpenGLVertexArray::unbind() const
-	{
-		glBindVertexArray(0);
-		s_boundVertexArrayId = 0;
+	//template <typename T> void OpenGLVertexArray<T>::bind() const
+	//{
+	//	if (isBound() && m_elementBuffer->isBound()) return;
+	//	
+	//	glBindVertexArray(m_id);
+	//	s_boundVertexArrayId = m_id;
+	//	
+	//	m_elementBuffer->bind();
+	//}
+	//template <typename T> void OpenGLVertexArray<T>::unbind() const
+	//{
+	//	glBindVertexArray(0);
+	//	s_boundVertexArrayId = 0;
 
-		m_elementBuffer->unbind();
-	}
-	bool OpenGLVertexArray::isBound() const
-	{
-		return s_boundVertexArrayId == m_id;
-	}
+	//	m_elementBuffer->unbind();
+	//}
+	//template <typename T> bool OpenGLVertexArray<T>::isBound() const
+	//{
+	//	return s_boundVertexArrayId == m_id;
+	//}
 
-	void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> buffer)
-	{
-		HLX_CORE_ASSERT(m_elementBuffer, "[VertexArray] No ElementBuffer has been set");
-		HLX_CORE_ASSERT(!buffer->getLayout().getAttributes().empty(), "[VertexArray] VertexBuffer has no layout");
+	//template <typename T> void OpenGLVertexArray<T>::addVertexBuffer(const std::shared_ptr<VertexBuffer<T>> buffer)
+	//{
+	//	HLX_CORE_ASSERT(m_elementBuffer, "[VertexArray] No ElementBuffer has been set");
+	//	HLX_CORE_ASSERT(!buffer->getLayout().getAttributes().empty(), "[VertexArray] VertexBuffer has no layout");
 
-		bind();
-		buffer->bind();
+	//	bind();
+	//	buffer->bind();
 
-		unsigned int offset{};
-		auto& layout = buffer->getLayout();
+	//	unsigned int offset{};
+	//	auto& layout = buffer->getLayout();
 
-		for (const auto& attribute : layout.getAttributes())
-		{
-			glEnableVertexAttribArray(m_vertexAttributeIndex);
-			glVertexAttribPointer(m_vertexAttributeIndex, attribute.size, attribute.type, attribute.normalized, layout.getStride(), (const void*)((uint64_t)offset));
-			++m_vertexAttributeIndex;
+	//	for (const auto& attribute : layout.getAttributes())
+	//	{
+	//		glEnableVertexAttribArray(m_vertexAttributeIndex);
+	//		glVertexAttribPointer(m_vertexAttributeIndex, attribute.size, attribute.type, attribute.normalized, layout.getStride(), (const void*)((uint64_t)offset));
+	//		++m_vertexAttributeIndex;
 
-			auto result = attribute.size * OpenGL::getSizeOfType(attribute.type);
-			offset += result;
-		}
+	//		auto result = attribute.size * OpenGL::getSizeOfType(attribute.type);
+	//		offset += result;
+	//	}
 
-		m_vertexBuffers.emplace_back(buffer);
-		buffer->unbind();
-	}
-	void OpenGLVertexArray::setElementBuffer(std::shared_ptr<ElementBuffer> buffer) //Todo: inline
-	{
-		m_elementBuffer = buffer;
-	}
+	//	m_vertexBuffers.emplace_back(buffer);
+	//	buffer->unbind();
+	//}
+	//template <typename T> void OpenGLVertexArray<T>::setElementBuffer(std::shared_ptr<ElementBuffer> buffer) //Todo: inline
+	//{
+	//	m_elementBuffer = buffer;
+	//}
 }

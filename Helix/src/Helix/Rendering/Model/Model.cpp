@@ -3,12 +3,12 @@
 
 namespace hlx
 {
-	Model::Model(const std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>>& meshMap)
+	Model::Model(const std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>>& meshMap) 
 		: m_meshMap{ meshMap }, m_materialMeshSizes{}
 	{
 		createBuffers();
 	}
-	Model::Model(std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>>&& meshMap)
+	Model::Model(std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>>&& meshMap) 
 		: m_meshMap{ meshMap }, m_materialMeshSizes{}
 	{
 		createBuffers();
@@ -53,8 +53,8 @@ namespace hlx
 
 		auto size = sizeof(MeshVertex) / sizeof(float);
 
-		m_vertexArray = VertexArray::create();
-		m_vertexBuffer = VertexBuffer::create(static_cast<unsigned int>(vertices.size() * size), (const float*)vertices.data());
+		m_vertexArray = VertexArray<MeshVertex>::create();
+		m_vertexBuffer = VertexBuffer<MeshVertex>::create(static_cast<unsigned int>(vertices.size()), (const float*)vertices.data());
 		m_elementBuffer = ElementBuffer::create(static_cast<unsigned int>(indices.size()), indices.data());
 
 		m_vertexBuffer->setLayout(layout);
