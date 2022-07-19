@@ -25,8 +25,6 @@ struct Light
     float radius;
 };
 
-uniform int u_renderMask;
-
 uniform sampler2D g_position;
 uniform sampler2D g_normal;
 uniform sampler2D g_albedoSpec;
@@ -45,7 +43,7 @@ void main()
     vec3 Diffuse = texture(g_albedoSpec, v_texCoord).rgb;
     float Specular = texture(g_albedoSpec, v_texCoord).a;
     
-    vec3 lighting = Diffuse * 0.5;
+    vec3 lighting = Diffuse * 0.1;
     vec3 viewDir = normalize(viewPos - FragPos);
 	
 	float distance = length(light.position - FragPos);

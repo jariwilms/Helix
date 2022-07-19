@@ -37,7 +37,7 @@ namespace hlx
 
 				auto size = static_cast<unsigned int>(i.size());
 				materialMeshSize += size;
-				meshIndexOffset += size;
+				meshIndexOffset += v.size();
 			}
 
 			m_materialMeshSizes.push_back(materialMeshSize);

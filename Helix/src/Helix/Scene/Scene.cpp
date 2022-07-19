@@ -21,7 +21,7 @@ namespace hlx
 		entity2.addComponent<SpriteComponent>("textures/checkerboard.png");
 
 		auto& entity3 = createEntityDefault();
-		auto& model = entity3.addComponent<ModelComponent>("models/backpack/backpack.obj");
+		auto& model = entity3.addComponent<ModelComponent>("models/backpack_fbx/Survival_BackPack_2.fbx");
 	}
 
 	void Scene::update(DeltaTime deltaTime)
@@ -35,7 +35,7 @@ namespace hlx
 
 		for (auto id : spriteView)
 		{
-			auto& entity = m_registry.getEntity((uint32_t)id);
+			auto& entity = m_registry.getEntity(static_cast<uint32_t>(id));
 			if (!entity.isEnabled()) continue;
 
 			auto& transform = spriteView.get<TransformComponent>(id);
@@ -48,13 +48,26 @@ namespace hlx
 
 		for (auto id : modelView)
 		{
-			auto& entity = m_registry.getEntity((uint32_t)id);
+			auto& entity = m_registry.getEntity(static_cast<uint32_t>(id));
 			if (!entity.isEnabled()) continue;
 
 			auto& transform = modelView.get<TransformComponent>(id);
+			auto scaled = glm::scale(glm::mat4{ transform }, glm::vec3{ 0.1f });
 			auto& modelComponent = modelView.get<ModelComponent>(id);
 			
-			Renderer::renderModel(*modelComponent.model, transform);
+			Renderer::renderModel(*modelComponent.model, scaled);
 		}
+
+		//auto lightView = m_registry.view<TransformComponent, LightComponent>();
+
+		//for (auto id : lightView)
+		//{
+		//	auto& entity = m_registry.getEntity(static_cast<uint32_t>(id));
+
+		//	auto& transform = lightView.get<TransformComponent>(id);
+		//	auto& light = lightView.get<LightComponent>(id);
+
+		//	Renderer::renderLight(transform, light);
+		//}
 	}
 }

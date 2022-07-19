@@ -218,7 +218,15 @@ namespace hlx
 			{
 				auto node = nodeStack.top();
 				nodeStack.pop();
-
+				
+				auto transform = getCompoundNodeTransform(node);
+				/*std::cout << "transform\n";
+				std::cout << "[" << transform[0][0] << ", " << transform[0][1] << ", " << transform[0][2] << ", " << transform[0][3] << "]\n";
+				std::cout << "[" << transform[1][0] << ", " << transform[1][1] << ", " << transform[1][2] << ", " << transform[1][3] << "]\n";
+				std::cout << "[" << transform[2][0] << ", " << transform[2][1] << ", " << transform[2][2] << ", " << transform[2][3] << "]\n";
+				std::cout << "[" << transform[3][0] << ", " << transform[3][1] << ", " << transform[3][2] << ", " << transform[3][3] << "]\n";
+				std::cout << "\n\n";*/
+				
 				for (unsigned int i{ 0 }; i < node->mNumMeshes; ++i)
 				{
 					auto aiMesh = scene->mMeshes[node->mMeshes[i]];
@@ -240,6 +248,12 @@ namespace hlx
 						}
 						
 						if (aiMesh->mTextureCoords) std::memcpy(&vertex.textureCoordinate, &aiMesh->mTextureCoords[0][i], sizeof(glm::vec2));
+						
+
+						//todo: vertex position vec3 => vec4
+						glm::vec4 pos = glm::vec4{ vertex.position, 1.0f };
+						pos = transform * pos;
+						vertex.position = pos;
 
 						vertices.push_back(vertex);
 					}
@@ -280,23 +294,50 @@ namespace hlx
 					nodeStack.push(node->mChildren[i]);
 			}
 
-			auto pair = m_models.insert(std::make_pair(fullPath, std::make_shared<Model>(std::move(mtmmap))));
-			return pair.first->second;
+			m_models.insert(std::make_pair(fullPath, std::make_shared<Model>(std::move(mtmmap))));
+			return m_models.find(fullPath)->second;
 		}
 
 	private:
-		static bool hasTextureType(aiMaterial* material, aiTextureType type)
+		static glm::mat4 getCompoundNodeTransform(const aiNode* node)
 		{
-			auto val = material->GetTextureCount(type);
-			return val;
+			glm::mat4 compoundTransform{ 1.0f };
+			std::vector<const aiNode*> nodes{};
+
+			nodes.push_back(node);
+
+			while (true)
+			{
+				auto node = nodes.back();
+				
+				if (!node->mParent) break;
+				nodes.push_back(node->mParent);
+			}
+			
+			for (auto it = nodes.rbegin(); it != nodes.rend(); ++it)
+			{
+				auto node = *it;
+				auto transform = glm::mat4{ 1.0f };
+				
+				if (node->mTransformation.IsIdentity()) continue;
+				
+				transform = glm::transpose(glm::make_mat4(&node->mTransformation.a1));
+				compoundTransform = compoundTransform * transform;
+			}
+
+			return compoundTransform;
 		}
-		static std::string getTextureName(aiMaterial* material, aiTextureType type)
+		static std::shared_ptr<Texture> getTexture()
+		{
+			
+		}
+		static std::string getTextureName(const aiMaterial* material, aiTextureType type)
 		{
 				aiString textureName{};
 				material->GetTexture(type, 0, &textureName);
 				return textureName.C_Str();
 		}
-		static std::shared_ptr<Material> createMaterial(std::filesystem::path directory, aiMaterial* aiMaterial)
+		static std::shared_ptr<Material> createMaterial(std::filesystem::path directory, const aiMaterial* aiMaterial)
 		{
 			using setTextureFunc = void (hlx::Material::*)(std::shared_ptr<Texture> texture);
 
@@ -322,7 +363,7 @@ namespace hlx
 			}
 
 			return meshMaterial;
-		}
+		} //todo: deftige filepath handling
 
 		static void logError(std::filesystem::path path)
 		{

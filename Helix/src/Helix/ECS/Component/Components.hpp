@@ -3,7 +3,7 @@
 #include "stdafx.hpp"
 
 #include "Helix/Library/DeltaTime.hpp"
-#include "Helix/Library/Transform.hpp" //todo: move
+#include "Helix/Library/Transform.hpp"
 #include "Helix/Rendering/Renderer.hpp"
 #include "Helix/Rendering/Texture/Texture.hpp"
 

@@ -160,7 +160,7 @@ namespace hlx
 			constexpr glm::vec3 lightColor{ 1.0f, 1.0f, 1.0f };
 			
 			float lightMax = std::fmaxf(std::fmaxf(lightColor.r, lightColor.g), lightColor.b);
-			float radius = (-linear + std::sqrtf(linear * linear - 4 * quadratic * (constant - (256.0f / 5.0f) * lightMax))) / (2 * quadratic) * 10;
+			float radius = (-linear + std::sqrtf(linear * linear - 4 * quadratic * (constant - (256.0f / 5.0f) * lightMax))) / (2 * quadratic);
 
 			m_vao->bind();
 			m_lightingShader->bind();
