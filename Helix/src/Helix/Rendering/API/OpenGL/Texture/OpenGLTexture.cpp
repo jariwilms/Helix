@@ -5,7 +5,7 @@
 
 namespace hlx
 {
-	OpenGLTexture::OpenGLTexture(TextureBlueprint blueprint, unsigned char* data)
+	OpenGLTexture::OpenGLTexture(TextureBlueprint blueprint, const unsigned char* data)
 	{
 		glGenTextures(1, &m_id);
 
@@ -80,7 +80,7 @@ namespace hlx
 			default:					 HLX_CORE_ASSERT(false, "Texture Type not supported");
 		}
 	}
-	void OpenGLTexture::setSubData(unsigned char* data)
+	void OpenGLTexture::setSubData(const unsigned char* data)
 	{
 		switch (m_type)
 		{

@@ -3,8 +3,8 @@
 
 namespace hlx
 {
-	Material::Material(std::shared_ptr<Shader> shader)
-		: m_shader{ shader }, m_baseColor{ 1.0f }, m_emissionColor{ 0.0f }, m_metallicity{ 0.0f }, m_roughness{ 0.0f }, m_opacity{ 1.0f }
+	Material::Material(const std::string& name, std::shared_ptr<Shader> shader)
+		: m_name{ name }, m_shader{ shader }, m_baseColor{ 1.0f }, m_emissionColor{ 0.0f }, m_metallicity{ 0.0f }, m_roughness{ 0.0f }, m_opacity{ 1.0f }
 	{
 		auto whiteTexture = IO::load<Texture>("textures/white.png");
 		m_albedo = whiteTexture;

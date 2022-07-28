@@ -9,8 +9,8 @@ namespace hlx
 	class Model
 	{
 	public:
-		Model(const std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>>& meshMap);
-		Model(std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>>&& meshMap);
+		Model(const std::vector<std::pair<std::shared_ptr<Material>, std::vector<Mesh>>>& meshMap);
+		Model(std::vector<std::pair<std::shared_ptr<Material>, std::vector<Mesh>>>&& meshMap);
 		virtual ~Model() = default;
 
 		inline const std::shared_ptr<VertexArray<MeshVertex>>& getVertexArray() const { return m_vertexArray; }
@@ -20,7 +20,7 @@ namespace hlx
 	protected:
 		void createBuffers();
 
-		std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>> m_meshMap;
+		std::vector<std::pair<std::shared_ptr<Material>, std::vector<Mesh>>> m_meshMap;
 		std::vector<unsigned int> m_materialMeshSizes;
 
 		std::shared_ptr<VertexArray<MeshVertex>> m_vertexArray;

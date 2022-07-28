@@ -21,7 +21,7 @@ namespace hlx
 		entity2.addComponent<SpriteComponent>("textures/checkerboard.png");
 
 		auto& entity3 = createEntityDefault();
-		auto& model = entity3.addComponent<ModelComponent>("models/backpack_fbx/Survival_BackPack_2.fbx");
+		auto& model = entity3.addComponent<ModelComponent>("models/ufo/fbx/Low_poly_UFO.FBX");
 	}
 
 	void Scene::update(DeltaTime deltaTime)

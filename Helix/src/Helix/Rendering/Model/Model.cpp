@@ -3,12 +3,12 @@
 
 namespace hlx
 {
-	Model::Model(const std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>>& meshMap) 
+	Model::Model(const std::vector<std::pair<std::shared_ptr<Material>, std::vector<Mesh>>>& meshMap)
 		: m_meshMap{ meshMap }, m_materialMeshSizes{}
 	{
 		createBuffers();
 	}
-	Model::Model(std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>>&& meshMap) 
+	Model::Model(std::vector<std::pair<std::shared_ptr<Material>, std::vector<Mesh>>>&& meshMap)
 		: m_meshMap{ meshMap }, m_materialMeshSizes{}
 	{
 		createBuffers();

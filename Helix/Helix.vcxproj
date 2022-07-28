@@ -117,6 +117,7 @@
     <ClInclude Include="src\Helix\IO\Asset.hpp" />
     <ClInclude Include="src\Helix\IO\AssetManager.hpp" />
     <ClInclude Include="src\Helix\IO\Format\File.hpp" />
+    <ClInclude Include="src\Helix\IO\Importer\Model\ModelImporter.hpp" />
     <ClInclude Include="src\Helix\IO\IO.hpp" />
     <ClInclude Include="src\Helix\Input\Input.hpp" />
     <ClInclude Include="src\Helix\Input\KeyCode.hpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="src\Helix\Core\Application.cpp" />
     <ClCompile Include="src\Helix\Diagnostics\Log.cpp" />
     <ClCompile Include="src\Helix\Input\Input.cpp" />
+    <ClCompile Include="src\Helix\IO\Importer\Model\ModelImporter.cpp" />
     <ClCompile Include="src\Helix\Layer\ImGuiLayer.cpp" />
     <ClCompile Include="src\Helix\Library\Transform.cpp" />
     <ClCompile Include="src\Helix\Rendering\API\OpenGL\Object\OpenGLElementBuffer.cpp" />

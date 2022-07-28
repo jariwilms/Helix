@@ -14,7 +14,7 @@ namespace hlx
 	class OpenGLTexture : public Texture
 	{
 	public:
-		OpenGLTexture(TextureBlueprint blueprint, unsigned char* data);
+		OpenGLTexture(TextureBlueprint blueprint, const unsigned char* data);
 		~OpenGLTexture() override;
 
 		void bind() const override;
@@ -28,7 +28,7 @@ namespace hlx
 
 	private:
 		void allocate();
-		void setSubData(unsigned char* data);
+		void setSubData(const unsigned char* data);
 
 		int m_target;
 		int m_internalFormat;

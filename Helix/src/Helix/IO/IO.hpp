@@ -2,12 +2,6 @@
 
 #include "stdafx.hpp"
 
-#pragma warning(disable: 26495 26451)
-#include "assimp/Importer.hpp"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
-#pragma warning(default: 26495 26451)
-
 #pragma warning(disable: 26819 6262 26451)
 #include "stb/stb_image.h"
 #pragma warning(default: 26819 6262 26451)
@@ -15,6 +9,7 @@
 #include "Helix/Rendering/Texture/Texture.hpp"
 #include "Helix/Rendering/Model/Mesh.hpp"
 #include "Helix/Rendering/Model/Model.hpp"
+#include "Helix/IO/Importer/Model/ModelImporter.hpp"
 
 namespace hlx
 {
@@ -168,203 +163,43 @@ namespace hlx
 				logError(fullPath);
 				return load<Texture>("textures/missing.png");
 			}
-
-			TextureBlueprint blueprint{ TextureType::Texture2D, glm::uvec3{width, height, 0} };
-			auto texture = Texture::create(blueprint, data);
-			m_textures.insert(std::make_pair(fullPath, texture));
 			
+			TextureBlueprint blueprint{ TextureType::Texture2D, glm::uvec2{width, height} };
+			auto texture = Texture::create(blueprint, data);
 			stbi_image_free(data);
 
-			return texture;
+
+			
+			m_textures.emplace(fullPath, std::move(texture));
+			return m_textures.find(fullPath)->second;
 		}
 		template<> static inline std::shared_ptr<Model> load<Model>(const std::filesystem::path& path)
 		{
 			std::filesystem::path fullPath{};
 			std::filesystem::path directory{};
 
-			if (path.is_absolute()) fullPath = path;
+			if (path.is_absolute()) fullPath = path; //todo: fix brol
 			else fullPath = getCoalescedPath(path);
 			if (fullPath.has_parent_path()) directory = fullPath.parent_path();
 
+			if (m_models.find(fullPath) != m_models.end()) return m_models[fullPath];
 			if (!checkFileExists(fullPath))
 			{
 				logError(fullPath);
 				return nullptr;
 			}
-			if (m_models.find(fullPath) != m_models.end()) return m_models[fullPath];
 
-
-
-			Assimp::Importer importer;
+			//TODO: api agnostic flags
 			constexpr auto importerFlags = aiProcess_Triangulate | aiProcess_GenUVCoords | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph;
-			auto scene = importer.ReadFile(fullPath.string(), importerFlags);
 
-			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
-			{
-				HLX_CORE_ERROR("Failed to load model: {0}", importer.GetErrorString());
-				return nullptr;
-			}
-
-
+			auto model = m_modelImporter.loadModel(fullPath, importerFlags);
+			if (!model) return nullptr;
 			
-			std::stack<aiNode*> nodeStack{};
-			nodeStack.push(scene->mRootNode);
-
-			std::unordered_map<unsigned int, std::shared_ptr<Material>> itmmap;
-			std::unordered_map<std::shared_ptr<Material>, std::vector<Mesh>> mtmmap;
-
-			//Iterate over children of root node (DFS)
-			while (!nodeStack.empty())
-			{
-				auto node = nodeStack.top();
-				nodeStack.pop();
-				
-				auto transform = getCompoundNodeTransform(node);
-				/*std::cout << "transform\n";
-				std::cout << "[" << transform[0][0] << ", " << transform[0][1] << ", " << transform[0][2] << ", " << transform[0][3] << "]\n";
-				std::cout << "[" << transform[1][0] << ", " << transform[1][1] << ", " << transform[1][2] << ", " << transform[1][3] << "]\n";
-				std::cout << "[" << transform[2][0] << ", " << transform[2][1] << ", " << transform[2][2] << ", " << transform[2][3] << "]\n";
-				std::cout << "[" << transform[3][0] << ", " << transform[3][1] << ", " << transform[3][2] << ", " << transform[3][3] << "]\n";
-				std::cout << "\n\n";*/
-				
-				for (unsigned int i{ 0 }; i < node->mNumMeshes; ++i)
-				{
-					auto aiMesh = scene->mMeshes[node->mMeshes[i]];
-
-					std::vector<MeshVertex> vertices;
-					std::vector<unsigned int> indices;
-
-					//Iterate over mesh vertices and set the correct data to our own vertex
-					for (unsigned int i = 0; i < aiMesh->mNumVertices; ++i)
-					{
-						MeshVertex vertex{};
-						
-						std::memcpy(&vertex.position, &aiMesh->mVertices[i], sizeof(glm::vec3));
-						if (aiMesh->HasNormals()) std::memcpy(&vertex.normal, &aiMesh->mNormals[i], sizeof(glm::vec3));
-						if (aiMesh->HasTangentsAndBitangents())
-						{
-							std::memcpy(&vertex.tangent, &aiMesh->mTangents[i], sizeof(glm::vec3));
-							std::memcpy(&vertex.bitangent, &aiMesh->mBitangents[i], sizeof(glm::vec3));
-						}
-						
-						if (aiMesh->mTextureCoords) std::memcpy(&vertex.textureCoordinate, &aiMesh->mTextureCoords[0][i], sizeof(glm::vec2));
-						
-
-						//todo: vertex position vec3 => vec4
-						glm::vec4 pos = glm::vec4{ vertex.position, 1.0f };
-						pos = transform * pos;
-						vertex.position = pos;
-
-						vertices.push_back(vertex);
-					}
-
-					//Iterate over faces to fetch indices
-					for (unsigned int i = 0; i < aiMesh->mNumFaces; ++i)
-					{
-						auto& aiFace = aiMesh->mFaces[i];
-
-						for (unsigned int j = 0; j < aiFace.mNumIndices; ++j)
-							indices.push_back(aiFace.mIndices[j]);
-					}
-
-					auto materialIndex = aiMesh->mMaterialIndex;
-					auto it = itmmap.find(materialIndex);
-					if (it == itmmap.end())
-					{
-						auto aiMaterial = scene->mMaterials[aiMesh->mMaterialIndex];
-						itmmap.insert(std::make_pair(materialIndex, createMaterial(directory, aiMaterial)));
-						it = itmmap.find(materialIndex);
-					}
-
-					auto& material = it->second;
-					
-					auto it2 = mtmmap.find(material);
-					if (it2 == mtmmap.end())
-					{
-						mtmmap.insert(std::make_pair(material, std::vector<Mesh>{}));
-						it2 = mtmmap.find(material);
-					}
-
-					auto& meshes = it2->second;
-					meshes.emplace_back(std::move(vertices), std::move(indices));
-				}
-				
-				//Push children of current node on top of stack
-				for (unsigned int i{ 0 }; i < node->mNumChildren; ++i)
-					nodeStack.push(node->mChildren[i]);
-			}
-
-			m_models.insert(std::make_pair(fullPath, std::make_shared<Model>(std::move(mtmmap))));
+			m_models.emplace(fullPath, std::move(model));
 			return m_models.find(fullPath)->second;
 		}
 
 	private:
-		static glm::mat4 getCompoundNodeTransform(const aiNode* node)
-		{
-			glm::mat4 compoundTransform{ 1.0f };
-			std::vector<const aiNode*> nodes{};
-
-			nodes.push_back(node);
-
-			while (true)
-			{
-				auto node = nodes.back();
-				
-				if (!node->mParent) break;
-				nodes.push_back(node->mParent);
-			}
-			
-			for (auto it = nodes.rbegin(); it != nodes.rend(); ++it)
-			{
-				auto node = *it;
-				auto transform = glm::mat4{ 1.0f };
-				
-				if (node->mTransformation.IsIdentity()) continue;
-				
-				transform = glm::transpose(glm::make_mat4(&node->mTransformation.a1));
-				compoundTransform = compoundTransform * transform;
-			}
-
-			return compoundTransform;
-		}
-		static std::shared_ptr<Texture> getTexture()
-		{
-			
-		}
-		static std::string getTextureName(const aiMaterial* material, aiTextureType type)
-		{
-				aiString textureName{};
-				material->GetTexture(type, 0, &textureName);
-				return textureName.C_Str();
-		}
-		static std::shared_ptr<Material> createMaterial(std::filesystem::path directory, const aiMaterial* aiMaterial)
-		{
-			using setTextureFunc = void (hlx::Material::*)(std::shared_ptr<Texture> texture);
-
-			auto shader = Shader::create("shaders/material2.glsl");
-			auto meshMaterial = std::make_shared<Material>(shader);
-
-			const std::vector<aiTextureType> textureTypes { aiTextureType_DIFFUSE, aiTextureType_NORMALS, aiTextureType_SPECULAR };
-			const std::unordered_map<int, setTextureFunc> textureFuncs
-			{
-				{std::make_pair(aiTextureType_DIFFUSE, &Material::setAlbedo)}, 
-				{std::make_pair(aiTextureType_NORMALS, &Material::setNormal)},
-				{std::make_pair(aiTextureType_SPECULAR, &Material::setSpecular)},
-			};
-
-			for (auto textureType : textureTypes)
-			{
-				if (!aiMaterial->GetTextureCount(textureType)) continue;
-
-				std::string name = getTextureName(aiMaterial, textureType);
-				auto texture = load<Texture>(directory / name);
-
-				std::invoke(textureFuncs.find(textureType)->second, meshMaterial, texture);
-			}
-
-			return meshMaterial;
-		} //todo: deftige filepath handling
-
 		static void logError(std::filesystem::path path)
 		{
 			const std::string filename = path.filename().string();
@@ -374,6 +209,8 @@ namespace hlx
 
 		static inline std::filesystem::path m_root;
 		static inline std::vector<std::filesystem::path> m_subdirectories;
+
+		static inline ModelImporter m_modelImporter;
 
 		static inline std::unordered_map<std::filesystem::path, std::shared_ptr<std::string>> m_textFiles;
 		static inline std::unordered_map<std::filesystem::path, std::shared_ptr<Shader>> m_shaders;

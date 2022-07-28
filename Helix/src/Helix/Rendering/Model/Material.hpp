@@ -12,7 +12,7 @@ namespace hlx
 	class Material
 	{
 	public:
-		explicit Material(std::shared_ptr<Shader> shader);
+		Material(const std::string& name, std::shared_ptr<Shader> shader);
 
 		void use() const 
 		{ 
@@ -50,6 +50,7 @@ namespace hlx
 		inline void setSpecular(std::shared_ptr<Texture> specular) { m_specular = specular; }
 
 	private:
+		std::string m_name;
 		std::shared_ptr<Shader> m_shader;
 
 		glm::vec3 m_baseColor;

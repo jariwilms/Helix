@@ -18,7 +18,7 @@ namespace hlx
 		virtual ~Texture() = default;
 
 		static std::shared_ptr<Texture> create(const std::filesystem::path& path);
-		static std::shared_ptr<Texture> create(TextureBlueprint blueprint, unsigned char* data = nullptr);
+		static std::shared_ptr<Texture> create(TextureBlueprint blueprint, const unsigned char* data = nullptr);
 
 		virtual void bindUnit(unsigned int index) const = 0;
 

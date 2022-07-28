@@ -9,7 +9,7 @@ namespace hlx
 	{
 		return IO::load<Texture>(path);
 	}
-	std::shared_ptr<Texture> Texture::create(TextureBlueprint blueprint, unsigned char* data)
+	std::shared_ptr<Texture> Texture::create(TextureBlueprint blueprint, const unsigned char* data)
 	{
 		return std::make_shared<OpenGLTexture>(blueprint, data);
 	}
