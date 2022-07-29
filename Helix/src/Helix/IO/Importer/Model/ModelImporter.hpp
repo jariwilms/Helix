@@ -21,15 +21,11 @@ namespace hlx
 		std::shared_ptr<Model> loadModel(const std::filesystem::path& path, const int flags = 0);
 
 	private:
+		glm::mat4 getAbsoluteNodeTransform(const aiNode* node);
 		std::vector<MeshVertex> getVertices(const aiMesh* mesh, const glm::mat4& transform);
 		std::vector<unsigned int> getIndices(const aiMesh* mesh);
 		
 		std::shared_ptr<Material> createMaterial(const aiScene* scene, const aiMaterial* aiMaterial, const std::filesystem::path directory);
-		std::shared_ptr<Texture> loadTextureEmbedded(const aiTexture* texture);
-		std::shared_ptr<Texture> loadTextureFile(const std::filesystem::path& filePath);
-		
-		glm::mat4 getAbsoluteNodeTransform(const aiNode* node);
-		const unsigned char* convertToRGBA(const aiTexture* aiTexture);
 
 		std::unique_ptr<Assimp::Importer> m_importer = std::make_unique<Assimp::Importer>();
 	};

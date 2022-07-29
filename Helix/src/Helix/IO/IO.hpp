@@ -11,6 +11,8 @@
 #include "Helix/Rendering/Model/Model.hpp"
 #include "Helix/IO/Importer/Model/ModelImporter.hpp"
 
+#include "Helix/IO/Format/GUID.hpp"
+
 namespace hlx
 {
 	class IO
@@ -35,6 +37,7 @@ namespace hlx
 		static void init()
 		{
 			m_root = std::filesystem::current_path().parent_path().lexically_normal();
+
 			HLX_CORE_INFO("IO initalized");
 			HLX_CORE_INFO("CWD: \"{0}\"", m_root.string().c_str());
 		}
@@ -83,7 +86,7 @@ namespace hlx
 
 			return m_textFiles[fullPath];
 		}
-		template<> static inline std::shared_ptr<Shader> load(const std::filesystem::path& path)
+		template<> static inline std::shared_ptr<Shader> load<Shader>(const std::filesystem::path& path)
 		{
 			std::filesystem::path fullPath;
 
@@ -138,6 +141,10 @@ namespace hlx
 		}
 		template<> static inline std::shared_ptr<Texture> load<Texture>(const std::filesystem::path& path)
 		{
+			return load<Texture>(path, true);
+		}
+		template<> static inline std::shared_ptr<Texture> load<Texture>(const std::filesystem::path& path, bool flip)
+		{
 			std::filesystem::path fullPath;
 
 			if (path.is_absolute()) fullPath = path;
@@ -148,14 +155,16 @@ namespace hlx
 				logError(fullPath);
 				return load<Texture>("textures/missing.png");
 			}
-			if (m_textures.find(fullPath) != m_textures.end()) return m_textures[fullPath];
+			
+			auto it = m_textures.find(fullPath);
+			if (it != m_textures.end()) return it->second;
 
 
 
 			int width, height, channels;
 			unsigned char* data;
 
-			stbi_set_flip_vertically_on_load(true);
+			stbi_set_flip_vertically_on_load(flip);
 			data = stbi_load(fullPath.string().c_str(), &width, & height, &channels, 4);
 			
 			if (!data)
@@ -163,8 +172,9 @@ namespace hlx
 				logError(fullPath);
 				return load<Texture>("textures/missing.png");
 			}
-			
+
 			TextureBlueprint blueprint{ TextureType::Texture2D, glm::uvec2{width, height} };
+			blueprint.isFlipped = flip;
 			auto texture = Texture::create(blueprint, data);
 			stbi_image_free(data);
 
@@ -175,10 +185,17 @@ namespace hlx
 		}
 		template<> static inline std::shared_ptr<Model> load<Model>(const std::filesystem::path& path)
 		{
+			auto id = GUID::generate();
+
+
+
+			
+
+
 			std::filesystem::path fullPath{};
 			std::filesystem::path directory{};
 
-			if (path.is_absolute()) fullPath = path; //todo: fix brol
+			if (path.is_absolute()) fullPath = path;
 			else fullPath = getCoalescedPath(path);
 			if (fullPath.has_parent_path()) directory = fullPath.parent_path();
 
@@ -189,7 +206,7 @@ namespace hlx
 				return nullptr;
 			}
 
-			//TODO: api agnostic flags
+			//TODO: assimp flags => helix flags
 			constexpr auto importerFlags = aiProcess_Triangulate | aiProcess_GenUVCoords | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph;
 
 			auto model = m_modelImporter.loadModel(fullPath, importerFlags);
@@ -202,8 +219,8 @@ namespace hlx
 	private:
 		static void logError(std::filesystem::path path)
 		{
-			const std::string filename = path.filename().string();
-			const std::string parent = path.remove_filename().generic_string();
+			const auto filename = path.filename().string();
+			const auto parent = path.remove_filename().generic_string();
 			HLX_CORE_WARNING("File \"{0}\" was not found at location \"{1}\"", filename, parent);
 		}
 

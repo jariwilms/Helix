@@ -117,6 +117,7 @@
     <ClInclude Include="src\Helix\IO\Asset.hpp" />
     <ClInclude Include="src\Helix\IO\AssetManager.hpp" />
     <ClInclude Include="src\Helix\IO\Format\File.hpp" />
+    <ClInclude Include="src\Helix\IO\Format\GUID.hpp" />
     <ClInclude Include="src\Helix\IO\Importer\Model\ModelImporter.hpp" />
     <ClInclude Include="src\Helix\IO\IO.hpp" />
     <ClInclude Include="src\Helix\Input\Input.hpp" />

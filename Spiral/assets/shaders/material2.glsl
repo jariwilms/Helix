@@ -38,6 +38,10 @@ uniform vec3 u_baseColor;
 uniform sampler2D u_albedo;
 uniform sampler2D u_specular;
 
+uniform bool flipAlbedo;
+//uniform bool flipNormal;
+//uniform bool flipSpecular;
+
 layout (location = 0) in vec3				v_position;
 layout (location = 1) in vec3 				v_normal;
 layout (location = 2) in vec2 				v_texCoord;
@@ -50,6 +54,6 @@ void main()
 {
 	g_position = v_position;
 	g_normal = normalize(v_normal);
-	g_albedoSpec.rgb = u_baseColor * texture(u_albedo, v_texCoord).rgb;
+	g_albedoSpec.rgb = u_baseColor * texture(u_albedo, vec2(v_texCoord.x, int(flipAlbedo) * 1.0 - v_texCoord.y)).rgb;
 	g_albedoSpec.a = texture(u_specular, v_texCoord).r;
 }

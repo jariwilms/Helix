@@ -16,9 +16,12 @@ namespace hlx
 		m_dimensions = blueprint.dimensions;
 		m_channels = blueprint.channels;
 		m_mipmapLevels = blueprint.mipmapLevels;
-
+		
+		m_isFlipped = blueprint.isFlipped;
+		m_isMutable = blueprint.isMutable; //TODO: mutable texture option impl => glTexImage2D?
 		
 
+		
 		m_target = OpenGL::getTextureTarget(m_type);
 		m_internalFormat = OpenGL::getTextureLayout(m_layout);
 		m_format = OpenGL::getTextureBaseLayout(m_channels);

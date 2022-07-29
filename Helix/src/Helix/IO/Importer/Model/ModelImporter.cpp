@@ -82,6 +82,27 @@ namespace hlx
 		return std::make_shared<Model>(std::move(meshMap));
 	}
 
+	glm::mat4 ModelImporter::getAbsoluteNodeTransform(const aiNode* node)
+	{
+		std::vector<const aiNode*> nodes = { node };
+		glm::mat4 compoundTransform{ 1.0f };
+
+		while (nodes.back()->mParent)
+		{
+			auto node = nodes.back();
+			nodes.push_back(node->mParent);
+		}
+
+		for (auto it = nodes.rbegin(); it != nodes.rend(); ++it)
+		{
+			auto node = *it;
+
+			if (node->mTransformation.IsIdentity()) continue;
+			compoundTransform = compoundTransform * glm::transpose(glm::make_mat4(&node->mTransformation.a1));
+		}
+
+		return compoundTransform;
+	}
 	std::vector<MeshVertex> ModelImporter::getVertices(const aiMesh* mesh, const glm::mat4& transform)
 	{
 		std::vector<MeshVertex> vertices{};
@@ -161,7 +182,16 @@ namespace hlx
 			const aiTexture* embeddedTexture = scene->GetEmbeddedTexture(textureName.C_Str());
 			if (embeddedTexture) //Texture is embedded in file -> load from memory
 			{
-				//auto texture = stbi_load_from_memory()
+				//auto width = aiTexture->mWidth;
+				//auto height = aiTexture->mHeight;
+				//auto aiTexel = aiTexture->pcData;
+
+				//auto data = convertToRGBA(aiTexture);
+
+				//TextureBlueprint blueprint{ TextureType::Texture2D, glm::uvec2{width, height} };
+				//return Texture::create(blueprint, data);
+				
+				HLX_CORE_ERROR("Loading textures from memory is not yet supported");
 			}
 			else //Texture is not embedded -> load from disk
 			{
@@ -171,62 +201,5 @@ namespace hlx
 		}
 
 		return mat;
-	}
-	std::shared_ptr<Texture> ModelImporter::loadTextureEmbedded(const aiTexture* aiTexture)
-	{
-		auto width = aiTexture->mWidth;
-		auto height = aiTexture->mHeight;
-		auto aiTexel = aiTexture->pcData;
-
-		auto data = convertToRGBA(aiTexture);
-
-		TextureBlueprint blueprint{ TextureType::Texture2D, glm::uvec2{width, height} };
-		return Texture::create(blueprint, data);
-	}
-	std::shared_ptr<Texture> ModelImporter::loadTextureFile(const std::filesystem::path& filePath)
-	{
-		return IO::load<Texture>(filePath);
-	}
-	
-	glm::mat4 ModelImporter::getAbsoluteNodeTransform(const aiNode* node)
-	{
-		std::vector<const aiNode*> nodes = { node };
-		glm::mat4 compoundTransform{ 1.0f };
-
-		while (nodes.back()->mParent)
-		{
-			auto node = nodes.back();
-			nodes.push_back(node->mParent);
-		}
-
-		for (auto it = nodes.rbegin(); it != nodes.rend(); ++it)
-		{
-			auto node = *it;
-
-			if (node->mTransformation.IsIdentity()) continue;
-			compoundTransform = compoundTransform * glm::transpose(glm::make_mat4(&node->mTransformation.a1));
-		}
-
-		return compoundTransform;
-	}
-	const unsigned char* ModelImporter::convertToRGBA(const aiTexture* aiTexture)
-	{
-		auto totalBytes = 4 * aiTexture->mWidth * aiTexture->mHeight;
-
-		auto* iData = (unsigned char*)aiTexture->pcData;
-		auto* oData = new unsigned char[totalBytes];
-
-		unsigned int counter = 0;
-
-		//iterate width => height so cpu cache doesn't explode
-		for (unsigned int i{}; i < totalBytes - 4; i += 4)
-		{
-			oData[i + 0] = iData[i + 1];
-			oData[i + 1] = iData[i + 2];
-			oData[i + 2] = iData[i + 3];
-			oData[i + 3] = iData[i + 0];
-		}
-
-		return oData;
 	}
 }

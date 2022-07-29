@@ -26,6 +26,7 @@ namespace hlx
 		TextureMinFilter minFilter{ TextureMinFilter::Nearest };
 		TextureMagFilter magFilter{ TextureMagFilter::Nearest };
 
+		bool isFlipped{ false };
 		bool isMutable{ false };
 	};
 }

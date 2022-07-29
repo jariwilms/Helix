@@ -21,6 +21,8 @@ namespace hlx
 			m_shader->setInt("u_albedo", 0);
 			m_shader->setInt("u_specular", 1);
 
+			m_shader->setBool("flipAlbedo", m_albedo->isFlipped());
+
 			m_albedo->bindUnit(0);
 			m_specular->bindUnit(1);
 		}

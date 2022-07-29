@@ -1,15 +1,16 @@
 #pragma once
 
-#include <rpc.h>
+#include "Helix/IO/Format/GUID.hpp"
 
-template<class T>
-class Asset
+namespace hlx
 {
-public:
-	void a()
+	template<class T>
+	class Asset
 	{
-		CoCreateGuid(guid);
-	}
-private:
-	GUID guid;
-};
+	public:
+		Asset() = default;
+		
+	private:
+		GUID m_guid;
+	};
+}

@@ -22,7 +22,7 @@ namespace hlx
 		unsigned int meshIndexOffset{};
 		for (const auto& it : m_meshMap)
 		{
-			unsigned int materialMeshSize{};
+			unsigned int materialMeshCount{};
 
 			for (const auto& mesh : it.second)
 			{
@@ -35,12 +35,11 @@ namespace hlx
 				vertices.insert(vertices.end(), v.begin(), v.end());
 				indices.insert(indices.end(), i.begin(), i.end());
 
-				auto size = static_cast<unsigned int>(i.size());
-				materialMeshSize += size;
-				meshIndexOffset += v.size();
+				materialMeshCount += static_cast<unsigned int>(i.size());
+				meshIndexOffset += static_cast<unsigned int>(v.size());
 			}
 
-			m_materialMeshSizes.push_back(materialMeshSize);
+			m_materialMeshSizes.push_back(materialMeshCount);
 		}
 
 		BufferLayout layout{}; //TODO: zonder af naar RenderData ofzo

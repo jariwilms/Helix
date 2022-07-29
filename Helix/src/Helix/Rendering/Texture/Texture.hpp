@@ -30,8 +30,11 @@ namespace hlx
 
 		inline unsigned int getMipmapLevels() const { return m_mipmapLevels; }
 
+		inline bool isFlipped() const { return m_isFlipped; }
+		inline bool isMutable() const { return m_isMutable; }
+
 	protected:
-		Texture() : m_type{}, m_layout{}, m_dimensions{}, m_channels{}, m_mipmapLevels{} {}
+		Texture() : m_type{}, m_layout{}, m_dimensions{}, m_channels{}, m_mipmapLevels{}, m_isFlipped{}, m_isMutable{} {}
 
 		TextureType m_type;
 		TextureLayout m_layout;
@@ -40,5 +43,8 @@ namespace hlx
 		unsigned int m_channels;
 
 		unsigned int m_mipmapLevels;
+
+		bool m_isFlipped;
+		bool m_isMutable;
 	};
 }

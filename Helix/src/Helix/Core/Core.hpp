@@ -1,6 +1,7 @@
 #pragma once
 
-#define BIT(ls) 1 << ls
+#define BIT(shift) 1 << shift
+#define SET_BYTE(number, index, value) number = (number & ~(0xFF << (index * 8))) | (value << (index * 8))
 #define BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 
 #ifdef HLX_DEBUG
